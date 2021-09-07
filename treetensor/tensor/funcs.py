@@ -34,7 +34,7 @@ zeros = _size_based_treelize()(torch.zeros)
 randn = _size_based_treelize()(torch.randn)
 randint = _size_based_treelize(prefix=True, tuple_=True)(torch.randint)
 ones = _size_based_treelize()(torch.ones)
-full = _size_based_treelize()(torch.full)
+full = _size_based_treelize(tuple_=True)(torch.full)
 empty = _size_based_treelize()(torch.empty)
 
 # Tensor generation based on another tensor

@@ -1,4 +1,6 @@
-from treevalue import general_tree_value
+from treevalue import general_tree_value, method_treelize
+
+from ..common import TreeList
 
 
 class TreeNumpy(general_tree_value()):
@@ -6,6 +8,8 @@ class TreeNumpy(general_tree_value()):
     Overview:
         Real numpy tree.
     """
+
+    tolist = method_treelize(return_type=TreeList)(lambda d: d.tolist())
 
     @property
     def size(self) -> int:
