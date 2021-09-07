@@ -7,6 +7,7 @@ from treevalue import func_treelize, TreeValue
 from .treetensor import TreeTensor
 
 _treelize = partial(func_treelize, return_type=TreeTensor)
+_python_all = all
 
 
 def _size_based_treelize(*args_, prefix: bool = False, tuple_: bool = False, **kwargs_):
@@ -28,6 +29,7 @@ def _size_based_treelize(*args_, prefix: bool = False, tuple_: bool = False, **k
     return _decorator
 
 
+# Tensor generation based on shapes
 zeros = _size_based_treelize()(torch.zeros)
 randn = _size_based_treelize()(torch.randn)
 randint = _size_based_treelize(prefix=True, tuple_=True)(torch.randint)
@@ -35,9 +37,31 @@ ones = _size_based_treelize()(torch.ones)
 full = _size_based_treelize()(torch.full)
 empty = _size_based_treelize()(torch.empty)
 
+# Tensor generation based on another tensor
 zeros_like = _treelize()(torch.zeros_like)
 randn_like = _treelize()(torch.randn_like)
 randint_like = _treelize()(torch.randint_like)
 ones_like = _treelize()(torch.ones_like)
 full_like = _treelize()(torch.full_like)
 empty_like = _treelize()(torch.empty_like)
+
+# Tensor operators
+all = _treelize()(torch.all)
+eq = _treelize()(torch.eq)
+equal = _treelize()(torch.equal)
+
+
+def all_eq(tx, ty, *args, **kwargs) -> bool:
+    _result = eq(tx, ty, *args, **kwargs)
+    if isinstance(tx, TreeValue) and isinstance(ty, TreeValue):
+        return _result.reduce(lambda **kws: _python_all(kws.values()))
+    else:
+        return _result
+
+
+def all_equal(tx, ty, *args, **kwargs) -> bool:
+    _result = equal(tx, ty, *args, **kwargs)
+    if isinstance(tx, TreeValue) and isinstance(ty, TreeValue):
+        return _result.reduce(lambda **kws: _python_all(kws.values()))
+    else:
+        return _result

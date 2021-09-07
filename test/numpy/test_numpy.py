@@ -1,23 +1,11 @@
+import numpy as np
 import pytest
 
-from treetensor import TreeNumpy
-
-try:
-    import numpy as np
-except ImportError:
-    need_real = False
-else:
-    need_real = True
-    from treetensor.numpy.numpy import TreeNumpy as RealTreeNumpy
-
-unittest_mark = pytest.mark.unittest if need_real else pytest.mark.ignore
+from treetensor.numpy import TreeNumpy
 
 
-@unittest_mark
-class TestNumpyReal:
-    def test_base(self):
-        assert TreeNumpy is RealTreeNumpy
-
+@pytest.mark.unittest
+class TestNumpyNumpy:
     _DEMO_1 = TreeNumpy({
         'a': np.array([[1, 2, 3], [4, 5, 6]]),
         'b': np.array([1, 3, 5, 7]),
