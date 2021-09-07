@@ -1,1 +1,2 @@
-from .tensor import TreeTensor
+from .numpy import *
+from .tensor import *
