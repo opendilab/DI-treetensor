@@ -17,6 +17,14 @@ jobs:
           - '3.7'
           - '3.8'
           - '3.9'
+        torch-version:
+          - '1.5.0'
+          - '1.8.0'
+#          - 'latest'
+        exclude:
+          - os: 'ubuntu-18.04'
+            python-version: '3.9'
+            torch-version: '1.5.0'
 
     steps:
       - name: Checkout code
@@ -34,10 +42,20 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+      - name: Install basic dependencies
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade flake8 setuptools wheel twine
+      - name: Install latest pytorch
+        if: ${{ matrix.torch-version == 'latest' }}
+        run: |
+          pip install 'torch'
+      - name: Install pytorch v${{ matrix.torch-version }}
+        if: ${{ matrix.torch-version != 'latest' }}
+        run: |
+          pip install 'torch==${{ matrix.torch-version }}'
+      - name: Install dependencies
+        run: |
           pip install -r requirements.txt
           pip install -r requirements-test.txt
       - name: Test the basic environment
