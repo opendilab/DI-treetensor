@@ -4,7 +4,7 @@ from typing import Tuple
 import torch
 from treevalue import func_treelize, TreeValue
 
-from .treetensor import TreeTensor
+from .tensor import TreeTensor
 
 _treelize = partial(func_treelize, return_type=TreeTensor)
 _python_all = all
@@ -49,19 +49,3 @@ empty_like = _treelize()(torch.empty_like)
 all = _treelize()(torch.all)
 eq = _treelize()(torch.eq)
 equal = _treelize()(torch.equal)
-
-
-def all_eq(tx, ty, *args, **kwargs) -> bool:
-    _result = eq(tx, ty, *args, **kwargs)
-    if isinstance(tx, TreeValue) and isinstance(ty, TreeValue):
-        return _result.reduce(lambda **kws: _python_all(kws.values()))
-    else:
-        return _result
-
-
-def all_equal(tx, ty, *args, **kwargs) -> bool:
-    _result = equal(tx, ty, *args, **kwargs)
-    if isinstance(tx, TreeValue) and isinstance(ty, TreeValue):
-        return _result.reduce(lambda **kws: _python_all(kws.values()))
-    else:
-        return _result

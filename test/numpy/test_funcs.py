@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
 
-from treetensor.numpy import TreeNumpy, all_array_equal, equal, array_equal
+from treetensor.numpy import TreeNumpy, equal, array_equal
+from treetensor.numpy import all as _numpy_all
 
 
 # noinspection DuplicatedCode
@@ -34,16 +35,15 @@ class TestNumpyFuncs:
         }
     })
 
-    def test_all_array_equal(self):
-        assert not all_array_equal(self._DEMO_1, self._DEMO_2)
-        assert all_array_equal(self._DEMO_1, self._DEMO_3)
-        assert not all_array_equal(np.array([1, 2, 3]), np.array([1, 2, 4]))
-        assert all_array_equal(np.array([1, 2, 3]), np.array([1, 2, 3]))
+    def test__numpy_all(self):
+        assert not _numpy_all(self._DEMO_1 == self._DEMO_2).all()
+        assert _numpy_all(self._DEMO_1 == self._DEMO_3).all()
+        assert not _numpy_all(np.array([1, 2, 3]) == np.array([1, 2, 4])).all()
+        assert _numpy_all(np.array([1, 2, 3]) == np.array([1, 2, 3])).all()
 
     def test_equal(self):
-        assert all_array_equal(
-            equal(self._DEMO_1, self._DEMO_2),
-            TreeNumpy({
+        assert _numpy_all(
+            equal(self._DEMO_1, self._DEMO_2) == TreeNumpy({
                 'a': np.array([[True, True, True], [True, True, False]]),
                 'b': np.array([True, True, True, True]),
                 'x': {
@@ -51,10 +51,9 @@ class TestNumpyFuncs:
                     'd': np.array([[True, True]]),
                 }
             })
-        )
-        assert all_array_equal(
-            equal(self._DEMO_1, self._DEMO_3),
-            TreeNumpy({
+        ).all()
+        assert _numpy_all(
+            equal(self._DEMO_1, self._DEMO_3) == TreeNumpy({
                 'a': np.array([[True, True, True], [True, True, True]]),
                 'b': np.array([True, True, True, True]),
                 'x': {
@@ -62,7 +61,7 @@ class TestNumpyFuncs:
                     'd': np.array([[True, True]]),
                 }
             })
-        )
+        ).all()
 
     def test_array_equal(self):
         assert array_equal(self._DEMO_1, self._DEMO_2) == TreeNumpy({

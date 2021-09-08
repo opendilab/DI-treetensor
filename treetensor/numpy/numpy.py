@@ -1,15 +1,18 @@
-from treevalue import general_tree_value, method_treelize
+import numpy as np
+from treevalue import method_treelize
 
-from ..common import TreeList
+from ..common import TreeObject, TreeData
 
 
-class TreeNumpy(general_tree_value()):
+class TreeNumpy(TreeData):
     """
     Overview:
         Real numpy tree.
     """
 
-    tolist = method_treelize(return_type=TreeList)(lambda d: d.tolist())
+    @method_treelize(return_type=TreeObject)
+    def tolist(self: np.ndarray):
+        return self.tolist()
 
     @property
     def size(self) -> int:

@@ -1,2 +1,2 @@
-from .funcs import equal, array_equal, all_array_equal
+from .funcs import equal, array_equal, all
 from .numpy import TreeNumpy

@@ -1,60 +1,36 @@
 import pytest
 import torch
 
-from treetensor.tensor import TreeTensor, zeros, all_equal, zeros_like, ones, ones_like, randint, randint_like, randn, \
-    randn_like, full, full_like
+from treetensor.tensor import TreeTensor, zeros, zeros_like, ones, ones_like, randint, randint_like, randn, \
+    randn_like, full, full_like, TreeSize
 from treetensor.tensor import all as _tensor_all
 
 
 # noinspection DuplicatedCode
 @pytest.mark.unittest
 class TestTensorFuncs:
-    def test_all_equal(self):
-        assert all_equal(
-            torch.tensor([[1, 2, 3], [4, 5, 6]]),
-            torch.tensor([[1, 2, 3], [4, 5, 6]]),
-        )
-        assert all_equal(
-            TreeTensor({
-                'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
-                'b': torch.tensor([1, 2, 3, 4]),
-                'x': {
-                    'c': torch.tensor([5, 6, 7]),
-                    'd': torch.tensor([[[8, 9]]]),
-                }
-            }),
-            TreeTensor({
-                'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
-                'b': torch.tensor([1, 2, 3, 4]),
-                'x': {
-                    'c': torch.tensor([5, 6, 7]),
-                    'd': torch.tensor([[[8, 9]]]),
-                }
-            }),
-        )
-
     def test_zeros(self):
-        assert all_equal(zeros((2, 3)), torch.zeros(2, 3))
-        assert all_equal(zeros({
+        assert _tensor_all(zeros((2, 3)) == torch.zeros(2, 3)).all()
+        assert _tensor_all(zeros({
             'a': (2, 3),
             'b': (5, 6),
             'x': {
                 'c': (2, 3, 4),
             }
-        }), TreeTensor({
+        }) == TreeTensor({
             'a': torch.zeros(2, 3),
             'b': torch.zeros(5, 6),
             'x': {
                 'c': torch.zeros(2, 3, 4),
             }
-        }))
+        })).all()
 
     def test_zeros_like(self):
-        assert all_equal(
-            zeros_like(torch.tensor([[1, 2, 3], [4, 5, 6]])),
+        assert _tensor_all(
+            zeros_like(torch.tensor([[1, 2, 3], [4, 5, 6]])) ==
             torch.tensor([[0, 0, 0], [0, 0, 0]]),
         )
-        assert all_equal(
+        assert _tensor_all(
             zeros_like(TreeTensor({
                 'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
                 'b': torch.tensor([1, 2, 3, 4]),
@@ -62,8 +38,7 @@ class TestTensorFuncs:
                     'c': torch.tensor([5, 6, 7]),
                     'd': torch.tensor([[[8, 9]]]),
                 }
-            })),
-            TreeTensor({
+            })) == TreeTensor({
                 'a': torch.tensor([[0, 0, 0], [0, 0, 0]]),
                 'b': torch.tensor([0, 0, 0, 0]),
                 'x': {
@@ -71,30 +46,30 @@ class TestTensorFuncs:
                     'd': torch.tensor([[[0, 0]]]),
                 }
             })
-        )
+        ).all()
 
     def test_ones(self):
-        assert all_equal(ones((2, 3)), torch.ones(2, 3))
-        assert all_equal(ones({
+        assert _tensor_all(ones((2, 3)) == torch.ones(2, 3))
+        assert _tensor_all(ones({
             'a': (2, 3),
             'b': (5, 6),
             'x': {
                 'c': (2, 3, 4),
             }
-        }), TreeTensor({
+        }) == TreeTensor({
             'a': torch.ones(2, 3),
             'b': torch.ones(5, 6),
             'x': {
                 'c': torch.ones(2, 3, 4),
             }
-        }))
+        })).all()
 
     def test_ones_like(self):
-        assert all_equal(
-            ones_like(torch.tensor([[1, 2, 3], [4, 5, 6]])),
+        assert _tensor_all(
+            ones_like(torch.tensor([[1, 2, 3], [4, 5, 6]])) ==
             torch.tensor([[1, 1, 1], [1, 1, 1]])
         )
-        assert all_equal(
+        assert _tensor_all(
             ones_like(TreeTensor({
                 'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
                 'b': torch.tensor([1, 2, 3, 4]),
@@ -102,8 +77,7 @@ class TestTensorFuncs:
                     'c': torch.tensor([5, 6, 7]),
                     'd': torch.tensor([[[8, 9]]]),
                 }
-            })),
-            TreeTensor({
+            })) == TreeTensor({
                 'a': torch.tensor([[1, 1, 1], [1, 1, 1]]),
                 'b': torch.tensor([1, 1, 1, 1]),
                 'x': {
@@ -111,7 +85,7 @@ class TestTensorFuncs:
                     'd': torch.tensor([[[1, 1]]]),
                 }
             })
-        )
+        ).all()
 
     def test_randn(self):
         _target = randn((200, 300))
@@ -126,7 +100,7 @@ class TestTensorFuncs:
                 'c': (2, 3, 4),
             }
         })
-        assert _target.raw_shape == TreeTensor({
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
             'x': {
@@ -148,7 +122,7 @@ class TestTensorFuncs:
                 'd': torch.tensor([[[8, 9]]], dtype=torch.float32),
             }
         }))
-        assert _target.raw_shape == TreeTensor({
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),
             'x': {
@@ -167,7 +141,7 @@ class TestTensorFuncs:
         }, -10, 10)
         assert _tensor_all(_target < 10).all()
         assert _tensor_all(-10 <= _target).all()
-        assert _target.raw_shape == TreeTensor({
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
             'x': {
@@ -184,7 +158,7 @@ class TestTensorFuncs:
         }, 10)
         assert _tensor_all(_target < 10).all()
         assert _tensor_all(0 <= _target).all()
-        assert _target.raw_shape == TreeTensor({
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
             'x': {
@@ -203,7 +177,7 @@ class TestTensorFuncs:
         }), -10, 10)
         assert _tensor_all(_target < 10).all()
         assert _tensor_all(-10 <= _target).all()
-        assert _target.raw_shape == TreeTensor({
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),
             'x': {
@@ -222,7 +196,7 @@ class TestTensorFuncs:
         }), 10)
         assert _tensor_all(_target < 10).all()
         assert _tensor_all(0 <= _target).all()
-        assert _target.raw_shape == TreeTensor({
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),
             'x': {
@@ -239,8 +213,8 @@ class TestTensorFuncs:
                 'c': (2, 3, 4),
             }
         }, 233)
-        assert _tensor_all(_target.tensor_eq(233)).all()
-        assert _target.raw_shape == TreeTensor({
+        assert _tensor_all(_target == 233).all()
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
             'x': {
@@ -257,8 +231,8 @@ class TestTensorFuncs:
                 'd': torch.tensor([[[8, 9]]]),
             }
         }), 233)
-        assert _tensor_all(_target.tensor_eq(233)).all()
-        assert _target.raw_shape == TreeTensor({
+        assert _tensor_all(_target == 233).all()
+        assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),
             'x': {
