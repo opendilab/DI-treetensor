@@ -3,7 +3,7 @@ import torch
 from treevalue import method_treelize, TreeValue
 
 from .size import TreeSize
-from ..common import TreeObject, TreeData
+from ..common import TreeObject, TreeData, vreduce
 from ..numpy import TreeNumpy
 
 
@@ -29,7 +29,7 @@ def _same_merge(eq, hash_, **kwargs):
         return TreeTensor(kws)
 
 
-# noinspection PyTypeChecker,PyShadowingBuiltins
+# noinspection PyTypeChecker,PyShadowingBuiltins,PyArgumentList
 class TreeTensor(TreeData):
     @method_treelize(return_type=TreeNumpy)
     def numpy(self: torch.Tensor) -> np.ndarray:
@@ -51,6 +51,7 @@ class TreeTensor(TreeData):
     def to(self: torch.Tensor, *args, **kwargs):
         return self.to(*args, **kwargs)
 
+    @vreduce(sum)
     @method_treelize(return_type=TreeObject)
     def numel(self: torch.Tensor):
         return self.numel()
@@ -59,3 +60,8 @@ class TreeTensor(TreeData):
     @method_treelize(return_type=TreeSize)
     def shape(self: torch.Tensor):
         return self.shape
+
+    @vreduce(all)
+    @method_treelize(return_type=TreeObject)
+    def all(self: torch.Tensor, *args, **kwargs):
+        return self.all(*args, **kwargs)

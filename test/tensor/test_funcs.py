@@ -10,7 +10,7 @@ from treetensor.tensor import all as _tensor_all
 @pytest.mark.unittest
 class TestTensorFuncs:
     def test_zeros(self):
-        assert _tensor_all(zeros((2, 3)) == torch.zeros(2, 3)).all()
+        assert _tensor_all(zeros((2, 3)) == torch.zeros(2, 3))
         assert _tensor_all(zeros({
             'a': (2, 3),
             'b': (5, 6),
@@ -23,7 +23,7 @@ class TestTensorFuncs:
             'x': {
                 'c': torch.zeros(2, 3, 4),
             }
-        })).all()
+        }))
 
     def test_zeros_like(self):
         assert _tensor_all(
@@ -46,7 +46,7 @@ class TestTensorFuncs:
                     'd': torch.tensor([[[0, 0]]]),
                 }
             })
-        ).all()
+        )
 
     def test_ones(self):
         assert _tensor_all(ones((2, 3)) == torch.ones(2, 3))
@@ -62,7 +62,7 @@ class TestTensorFuncs:
             'x': {
                 'c': torch.ones(2, 3, 4),
             }
-        })).all()
+        }))
 
     def test_ones_like(self):
         assert _tensor_all(
@@ -85,7 +85,7 @@ class TestTensorFuncs:
                     'd': torch.tensor([[[1, 1]]]),
                 }
             })
-        ).all()
+        )
 
     def test_randn(self):
         _target = randn((200, 300))
@@ -139,8 +139,8 @@ class TestTensorFuncs:
                 'c': (2, 3, 4),
             }
         }, -10, 10)
-        assert _tensor_all(_target < 10).all()
-        assert _tensor_all(-10 <= _target).all()
+        assert _tensor_all(_target < 10)
+        assert _tensor_all(-10 <= _target)
         assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
@@ -156,8 +156,8 @@ class TestTensorFuncs:
                 'c': (2, 3, 4),
             }
         }, 10)
-        assert _tensor_all(_target < 10).all()
-        assert _tensor_all(0 <= _target).all()
+        assert _tensor_all(_target < 10)
+        assert _tensor_all(0 <= _target)
         assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
@@ -175,8 +175,8 @@ class TestTensorFuncs:
                 'd': torch.tensor([[[8, 9]]]),
             }
         }), -10, 10)
-        assert _tensor_all(_target < 10).all()
-        assert _tensor_all(-10 <= _target).all()
+        assert _tensor_all(_target < 10)
+        assert _tensor_all(-10 <= _target)
         assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),
@@ -194,8 +194,8 @@ class TestTensorFuncs:
                 'd': torch.tensor([[[8, 9]]]),
             }
         }), 10)
-        assert _tensor_all(_target < 10).all()
-        assert _tensor_all(0 <= _target).all()
+        assert _tensor_all(_target < 10)
+        assert _tensor_all(0 <= _target)
         assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),
@@ -213,7 +213,7 @@ class TestTensorFuncs:
                 'c': (2, 3, 4),
             }
         }, 233)
-        assert _tensor_all(_target == 233).all()
+        assert _tensor_all(_target == 233)
         assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([5, 6]),
@@ -231,7 +231,7 @@ class TestTensorFuncs:
                 'd': torch.tensor([[[8, 9]]]),
             }
         }), 233)
-        assert _tensor_all(_target == 233).all()
+        assert _tensor_all(_target == 233)
         assert _target.shape == TreeSize({
             'a': torch.Size([2, 3]),
             'b': torch.Size([4]),

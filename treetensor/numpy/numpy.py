@@ -1,7 +1,7 @@
 import numpy as np
 from treevalue import method_treelize
 
-from ..common import TreeObject, TreeData
+from ..common import TreeObject, TreeData, vreduce
 
 
 class TreeNumpy(TreeData):
@@ -15,18 +15,18 @@ class TreeNumpy(TreeData):
         return self.tolist()
 
     @property
-    def size(self) -> int:
-        return self \
-            .map(lambda d: d.size) \
-            .reduce(lambda **kwargs: sum(kwargs.values()))
+    @vreduce(sum)
+    @method_treelize(return_type=TreeObject)
+    def size(self: np.ndarray) -> int:
+        return self.size
 
     @property
-    def nbytes(self) -> int:
-        return self \
-            .map(lambda d: d.nbytes) \
-            .reduce(lambda **kwargs: sum(kwargs.values()))
+    @vreduce(sum)
+    @method_treelize(return_type=TreeObject)
+    def nbytes(self: np.ndarray) -> int:
+        return self.nbytes
 
-    def sum(self):
-        return self \
-            .map(lambda d: d.sum()) \
-            .reduce(lambda **kwargs: sum(kwargs.values()))
+    @vreduce(sum)
+    @method_treelize(return_type=TreeObject)
+    def sum(self: np.ndarray, *args, **kwargs):
+        return self.sum(*args, **kwargs)

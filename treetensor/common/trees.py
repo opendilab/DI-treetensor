@@ -1,8 +1,16 @@
 import operator
+from abc import ABCMeta
 
-from treevalue import func_treelize
+from treevalue import func_treelize, general_tree_value
 
-from .base import BaseTreeStruct
+
+class BaseTreeStruct(general_tree_value(), metaclass=ABCMeta):
+    """
+    Overview:
+        Base structure of all the trees in ``treetensor``.
+    """
+    pass
+
 
 _OPERATORS = {}
 for _op_name in getattr(operator, '__all__'):
@@ -27,3 +35,7 @@ class TreeData(BaseTreeStruct):
 
     def __ne__(self, other):
         return _OPERATORS['ne'](self, other)
+
+
+class TreeObject(BaseTreeStruct):
+    pass

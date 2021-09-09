@@ -1,3 +1,2 @@
-from .base import BaseTreeStruct
-from .data import TreeData
-from .obj import TreeObject
+from .trees import TreeData, TreeObject, BaseTreeStruct
+from .wrappers import kwreduce, vreduce

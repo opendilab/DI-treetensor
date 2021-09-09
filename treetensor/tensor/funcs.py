@@ -5,6 +5,7 @@ import torch
 from treevalue import func_treelize, TreeValue
 
 from .tensor import TreeTensor
+from ..common import vreduce
 
 _treelize = partial(func_treelize, return_type=TreeTensor)
 _python_all = all
@@ -46,6 +47,6 @@ full_like = _treelize()(torch.full_like)
 empty_like = _treelize()(torch.empty_like)
 
 # Tensor operators
-all = _treelize()(torch.all)
+all = vreduce(all)(_treelize()(torch.all))
 eq = _treelize()(torch.eq)
 equal = _treelize()(torch.equal)

@@ -3,7 +3,6 @@ import pytest
 import torch
 from treevalue import func_treelize
 
-from treetensor.common import TreeObject
 from treetensor.numpy import TreeNumpy
 from treetensor.numpy import all as _numpy_all
 from treetensor.tensor import TreeTensor
@@ -24,15 +23,7 @@ class TestTensorTreetensor:
     })
 
     def test_numel(self):
-        assert self._DEMO_1.numel() == TreeObject({
-            'a': 6,
-            'b': 4,
-            'x': {
-                'c': 4,
-                'd': 4,
-            }
-        })
-        assert self._DEMO_1.numel().sum() == 18
+        assert self._DEMO_1.numel() == 18
 
     def test_numpy(self):
         assert _numpy_all(self._DEMO_1.numpy() == TreeNumpy({
@@ -42,10 +33,10 @@ class TestTensorTreetensor:
                 'c': np.array([3, 5, 6, 7]),
                 'd': np.array([[[1, 2], [8, 9]]]),
             }
-        })).all()
+        }))
 
     def test_cpu(self):
-        assert _tensor_all(self._DEMO_1.cpu() == self._DEMO_1).all()
+        assert _tensor_all(self._DEMO_1.cpu() == self._DEMO_1)
         assert _all_is(self._DEMO_1.cpu(), self._DEMO_1).reduce(lambda **kws: all(kws.values()))
 
     def test_to(self):
@@ -56,4 +47,4 @@ class TestTensorTreetensor:
                 'c': torch.tensor([3, 5, 6, 7], dtype=torch.float32),
                 'd': torch.tensor([[[1, 2], [8, 9]]], dtype=torch.float32),
             }
-        })).all()
+        }))
