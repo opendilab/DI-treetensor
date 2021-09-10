@@ -1,32 +1,13 @@
 import numpy as np
 import torch
-from treevalue import method_treelize, TreeValue
+from treevalue import method_treelize
+from treevalue.utils import pre_process
 
 from .size import TreeSize
-from ..common import TreeObject, TreeData, vreduce
+from ..common import TreeObject, TreeData, ireduce
 from ..numpy import TreeNumpy
 
-
-def _same_merge(eq, hash_, **kwargs):
-    kws = {
-        key: value for key, value in kwargs.items()
-        if not (isinstance(value, TreeValue) and not value)
-    }
-
-    class _Wrapper:
-        def __init__(self, v):
-            self.v = v
-
-        def __hash__(self):
-            return hash_(self.v)
-
-        def __eq__(self, other):
-            return eq(self.v, other.v)
-
-    if len(set(_Wrapper(v) for v in kws.values())) == 1:
-        return list(kws.values())[0]
-    else:
-        return TreeTensor(kws)
+_reduce_tensor_wrap = pre_process(lambda it: ((torch.tensor([*it]),), {}))
 
 
 # noinspection PyTypeChecker,PyShadowingBuiltins,PyArgumentList
@@ -51,7 +32,7 @@ class TreeTensor(TreeData):
     def to(self: torch.Tensor, *args, **kwargs):
         return self.to(*args, **kwargs)
 
-    @vreduce(sum)
+    @ireduce(sum)
     @method_treelize(return_type=TreeObject)
     def numel(self: torch.Tensor):
         return self.numel()
@@ -61,7 +42,27 @@ class TreeTensor(TreeData):
     def shape(self: torch.Tensor):
         return self.shape
 
-    @vreduce(all)
+    @ireduce(_reduce_tensor_wrap(torch.all))
     @method_treelize(return_type=TreeObject)
-    def all(self: torch.Tensor, *args, **kwargs):
+    def all(self: torch.Tensor, *args, **kwargs) -> bool:
         return self.all(*args, **kwargs)
+
+    @ireduce(_reduce_tensor_wrap(torch.any))
+    @method_treelize(return_type=TreeObject)
+    def any(self: torch.Tensor, *args, **kwargs) -> bool:
+        return self.any(*args, **kwargs)
+
+    @ireduce(_reduce_tensor_wrap(torch.max))
+    @method_treelize(return_type=TreeObject)
+    def max(self: torch.Tensor, *args, **kwargs):
+        return self.max(*args, **kwargs)
+
+    @ireduce(_reduce_tensor_wrap(torch.min))
+    @method_treelize(return_type=TreeObject)
+    def min(self: torch.Tensor, *args, **kwargs):
+        return self.min(*args, **kwargs)
+
+    @ireduce(_reduce_tensor_wrap(torch.sum))
+    @method_treelize(return_type=TreeObject)
+    def sum(self: torch.Tensor, *args, **kwargs):
+        return self.sum(*args, **kwargs)

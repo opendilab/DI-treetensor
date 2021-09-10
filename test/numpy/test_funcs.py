@@ -35,13 +35,25 @@ class TestNumpyFuncs:
         }
     })
 
-    def test__numpy_all(self):
+    def test_all(self):
+        assert not _numpy_all(np.array([True, True, False]))
+        assert _numpy_all(np.array([True, True, True]))
+
         assert not _numpy_all(self._DEMO_1 == self._DEMO_2)
         assert _numpy_all(self._DEMO_1 == self._DEMO_3)
         assert not _numpy_all(np.array([1, 2, 3]) == np.array([1, 2, 4]))
         assert _numpy_all(np.array([1, 2, 3]) == np.array([1, 2, 3]))
 
     def test_equal(self):
+        assert _numpy_all(equal(
+            np.array([1, 2, 3]),
+            np.array([1, 2, 3]),
+        ))
+        assert not _numpy_all(equal(
+            np.array([1, 2, 3]),
+            np.array([1, 2, 4]),
+        ))
+
         assert _numpy_all(
             equal(self._DEMO_1, self._DEMO_2) == TreeNumpy({
                 'a': np.array([[True, True, True], [True, True, False]]),
@@ -64,6 +76,15 @@ class TestNumpyFuncs:
         )
 
     def test_array_equal(self):
+        assert _numpy_all(array_equal(
+            np.array([1, 2, 3]),
+            np.array([1, 2, 3]),
+        ))
+        assert not _numpy_all(array_equal(
+            np.array([1, 2, 3]),
+            np.array([1, 2, 4]),
+        ))
+
         assert array_equal(self._DEMO_1, self._DEMO_2) == TreeNumpy({
             'a': False,
             'b': True,

@@ -1,11 +1,14 @@
 import torch
-from treevalue import func_treelize
+from treevalue import func_treelize as original_func_treelize
 
-from ..common import BaseTreeStruct, TreeObject
+from ..common import TreeObject
+from ..utils import replaceable_partial
+
+func_treelize = replaceable_partial(original_func_treelize)
 
 
 # noinspection PyTypeChecker
-class TreeSize(BaseTreeStruct):
+class TreeSize(TreeObject):
     @func_treelize(return_type=TreeObject)
     def numel(self: torch.Size) -> TreeObject:
         return self.numel()

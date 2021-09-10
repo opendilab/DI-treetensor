@@ -1,7 +1,6 @@
-import operator
 from abc import ABCMeta
 
-from treevalue import func_treelize, general_tree_value
+from treevalue import general_tree_value, method_treelize
 
 
 class BaseTreeStruct(general_tree_value(), metaclass=ABCMeta):
@@ -12,29 +11,35 @@ class BaseTreeStruct(general_tree_value(), metaclass=ABCMeta):
     pass
 
 
-_OPERATORS = {}
-for _op_name in getattr(operator, '__all__'):
-    _OPERATORS[_op_name] = func_treelize()(getattr(operator, _op_name))
+class TreeData(BaseTreeStruct, metaclass=ABCMeta):
+    """
+    Overview:
+        In ``TreeData`` class, all the comparison operators will be override.
+    """
 
-
-class TreeData(BaseTreeStruct):
-    def __le__(self, other):
-        return _OPERATORS['le'](self, other)
-
-    def __lt__(self, other):
-        return _OPERATORS['lt'](self, other)
-
-    def __ge__(self, other):
-        return _OPERATORS['ge'](self, other)
-
-    def __gt__(self, other):
-        return _OPERATORS['gt'](self, other)
-
+    @method_treelize()
     def __eq__(self, other):
-        return _OPERATORS['eq'](self, other)
+        return self == other
 
+    @method_treelize()
     def __ne__(self, other):
-        return _OPERATORS['ne'](self, other)
+        return self != other
+
+    @method_treelize()
+    def __lt__(self, other):
+        return self < other
+
+    @method_treelize()
+    def __le__(self, other):
+        return self <= other
+
+    @method_treelize()
+    def __gt__(self, other):
+        return self > other
+
+    @method_treelize()
+    def __ge__(self, other):
+        return self >= other
 
 
 class TreeObject(BaseTreeStruct):

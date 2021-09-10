@@ -1,52 +1,84 @@
-from functools import partial, wraps
-from typing import Tuple
-
 import torch
-from treevalue import func_treelize, TreeValue
+from treevalue import func_treelize as original_func_treelize
 
-from .tensor import TreeTensor
-from ..common import vreduce
+from .tensor import TreeTensor, _reduce_tensor_wrap
+from ..common import TreeObject, ireduce
+from ..utils import replaceable_partial
 
-_treelize = partial(func_treelize, return_type=TreeTensor)
-_python_all = all
-
-
-def _size_based_treelize(*args_, prefix: bool = False, tuple_: bool = False, **kwargs_):
-    def _decorator(func):
-        @_treelize(*args_, **kwargs_)
-        def _sub_func(size: Tuple[int, ...], *args, **kwargs):
-            _size_args = (size,) if tuple_ else size
-            _args = (*args, *_size_args) if prefix else (*_size_args, *args)
-            return func(*_args, **kwargs)
-
-        @wraps(func)
-        def _new_func(size, *args, **kwargs):
-            if isinstance(size, (TreeValue, dict)):
-                size = TreeTensor(size)
-            return _sub_func(size, *args, **kwargs)
-
-        return _new_func
-
-    return _decorator
+func_treelize = replaceable_partial(original_func_treelize, return_type=TreeTensor)
 
 
-# Tensor generation based on shapes
-zeros = _size_based_treelize()(torch.zeros)
-randn = _size_based_treelize()(torch.randn)
-randint = _size_based_treelize(prefix=True, tuple_=True)(torch.randint)
-ones = _size_based_treelize()(torch.ones)
-full = _size_based_treelize(tuple_=True)(torch.full)
-empty = _size_based_treelize()(torch.empty)
+@func_treelize()
+def zeros(size, *args, **kwargs):
+    return torch.zeros(*size, *args, **kwargs)
 
-# Tensor generation based on another tensor
-zeros_like = _treelize()(torch.zeros_like)
-randn_like = _treelize()(torch.randn_like)
-randint_like = _treelize()(torch.randint_like)
-ones_like = _treelize()(torch.ones_like)
-full_like = _treelize()(torch.full_like)
-empty_like = _treelize()(torch.empty_like)
 
-# Tensor operators
-all = vreduce(all)(_treelize()(torch.all))
-eq = _treelize()(torch.eq)
-equal = _treelize()(torch.equal)
+@func_treelize()
+def zeros_like(input_, *args, **kwargs):
+    return torch.zeros_like(input_, *args, **kwargs)
+
+
+@func_treelize()
+def randn(size, *args, **kwargs):
+    return torch.randn(*size, *args, **kwargs)
+
+
+@func_treelize()
+def randn_like(input_, *args, **kwargs):
+    return torch.randn_like(input_, *args, **kwargs)
+
+
+@func_treelize()
+def randint(size, *args, **kwargs):
+    return torch.randint(*args, size, **kwargs)
+
+
+@func_treelize()
+def randint_like(input_, *args, **kwargs):
+    return torch.randint_like(input_, *args, **kwargs)
+
+
+@func_treelize()
+def ones(size, *args, **kwargs):
+    return torch.ones(*size, *args, **kwargs)
+
+
+@func_treelize()
+def ones_like(input_, *args, **kwargs):
+    return torch.ones_like(input_, *args, **kwargs)
+
+
+@func_treelize()
+def full(size, *args, **kwargs):
+    return torch.full(size, *args, **kwargs)
+
+
+@func_treelize()
+def full_like(input_, *args, **kwargs):
+    return torch.full_like(input_, *args, **kwargs)
+
+
+@func_treelize()
+def empty(size, *args, **kwargs):
+    return torch.empty(size, *args, **kwargs)
+
+
+@func_treelize()
+def empty_like(input_, *args, **kwargs):
+    return torch.empty_like(input_, *args, **kwargs)
+
+
+@ireduce(_reduce_tensor_wrap(torch.all))
+@func_treelize(return_type=TreeObject)
+def all(input_, *args, **kwargs):
+    return torch.all(input_, *args, **kwargs)
+
+
+@func_treelize()
+def eq(input_, other, *args, **kwargs):
+    return torch.eq(input_, other, *args, **kwargs)
+
+
+@func_treelize()
+def equal(input_, other, *args, **kwargs):
+    return torch.equal(input_, other, *args, **kwargs)

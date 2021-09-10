@@ -22,6 +22,15 @@ class TestTensorTreetensor:
         }
     })
 
+    _DEMO_2 = TreeTensor({
+        'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
+        'b': torch.tensor([[1, 2], [5, 60]]),
+        'x': {
+            'c': torch.tensor([3, 5, 6, 7]),
+            'd': torch.tensor([[[1, 2], [8, 9]]]),
+        }
+    })
+
     def test_numel(self):
         assert self._DEMO_1.numel() == 18
 
@@ -48,3 +57,7 @@ class TestTensorTreetensor:
                 'd': torch.tensor([[[1, 2], [8, 9]]], dtype=torch.float32),
             }
         }))
+
+    def test_all(self):
+        assert (self._DEMO_1 == self._DEMO_1).all()
+        assert not (self._DEMO_1 == self._DEMO_2).all()
