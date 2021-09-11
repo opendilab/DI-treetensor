@@ -6,6 +6,7 @@ from treevalue.utils import pre_process
 from .size import TreeSize
 from ..common import TreeObject, TreeData, ireduce
 from ..numpy import TreeNumpy
+from ..utils import inherit_names, current_names
 
 __all__ = [
     'TreeTensor'
@@ -16,6 +17,8 @@ tireduce = pre_process(lambda rfunc: ((_reduce_tensor_wrap(rfunc),), {}))(ireduc
 
 
 # noinspection PyTypeChecker,PyShadowingBuiltins,PyArgumentList
+@current_names()
+@inherit_names(TreeData)
 class TreeTensor(TreeData):
     @method_treelize(return_type=TreeNumpy)
     def numpy(self: torch.Tensor) -> np.ndarray:

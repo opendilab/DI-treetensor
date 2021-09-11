@@ -19,7 +19,9 @@ module.
     :maxdepth: 2
     :caption: API Documentation
 
+    api_doc/common/index
     api_doc/config/index
+    api_doc/tensor/index
 
 
 .. toctree::

@@ -13,6 +13,8 @@ GRAPHVIZ_MK := ${SOURCEDIR}/graphviz.mk
 GRAPHVIZ    := $(MAKE) -f "${GRAPHVIZ_MK}" SOURCE=${SOURCEDIR}
 DEMOS_MK    := ${SOURCEDIR}/demos.mk
 DEMOS       := $(MAKE) -f "${DEMOS_MK}" SOURCE=${SOURCEDIR}
+APIDOC_MK   := ${SOURCEDIR}/apidoc.mk
+APIDOC      := $(MAKE) -f "${APIDOC_MK}" SOURCE=${SOURCEDIR}
 
 _CURRENT_PATH := ${PATH}
 _PROJ_DIR     := $(shell readlink -f ${CURDIR}/..)
@@ -34,6 +36,7 @@ help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 contents:
+	@$(APIDOC) build
 	@$(DIAGRAMS) build
 	@$(GRAPHVIZ) build
 	@$(DEMOS) build
@@ -50,6 +53,7 @@ clean:
 	@$(DIAGRAMS) clean
 	@$(GRAPHVIZ) clean
 	@$(DEMOS) clean
+	@$(APIDOC) clean
 	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 sourcedir:

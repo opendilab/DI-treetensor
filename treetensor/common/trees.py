@@ -2,6 +2,8 @@ from abc import ABCMeta
 
 from treevalue import general_tree_value, method_treelize
 
+from ..utils import tag_names
+
 __all__ = [
     'BaseTreeStruct', "TreeData", 'TreeObject',
 ]
@@ -15,6 +17,7 @@ class BaseTreeStruct(general_tree_value(), metaclass=ABCMeta):
     pass
 
 
+@tag_names(['__eq__', '__ne__', '__lt__', '__le__', '__gt__', '__ge__'])
 class TreeData(BaseTreeStruct, metaclass=ABCMeta):
     """
     Overview:

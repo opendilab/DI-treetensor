@@ -58,6 +58,12 @@ if not os.environ.get("NO_CONTENTS_BUILD"):
     if pip_docs.wait() != 0:
         raise ChildProcessError("Pip docs install failed with %d." % (pip.returncode,))
 
+    apidoc_cmd = (where.first('make'), '-f', "apidoc.mk", "build")
+    print("Building apidoc {cmd} at {cp}...".format(cmd=repr(apidoc_cmd), cp=repr(_DOC_PATH)))
+    apidoc = Popen(apidoc_cmd, stdout=sys.stdout, stderr=sys.stderr, env=_env, cwd=_DOC_PATH)
+    if apidoc.wait() != 0:
+        raise ChildProcessError("Diagrams failed with %d." % (apidoc.returncode,))
+
     diagrams_cmd = (where.first('make'), '-f', "diagrams.mk", "build")
     print("Building diagrams {cmd} at {cp}...".format(cmd=repr(diagrams_cmd), cp=repr(_DOC_PATH)))
     diagrams = Popen(diagrams_cmd, stdout=sys.stdout, stderr=sys.stderr, env=_env, cwd=_DOC_PATH)

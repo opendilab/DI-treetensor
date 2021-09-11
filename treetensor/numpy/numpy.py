@@ -2,12 +2,15 @@ import numpy as np
 from treevalue import method_treelize
 
 from ..common import TreeObject, TreeData, ireduce
+from ..utils import inherit_names, current_names
 
 __all__ = [
     'TreeNumpy'
 ]
 
 
+@current_names()
+@inherit_names(TreeData)
 class TreeNumpy(TreeData):
     """
     Overview:

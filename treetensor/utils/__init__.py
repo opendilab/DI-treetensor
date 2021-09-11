@@ -1,1 +1,2 @@
-from .func import replaceable_partial
+from .clazz import *
+from .func import *
