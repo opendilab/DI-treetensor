@@ -2,11 +2,11 @@ import numpy as np
 from treevalue import func_treelize as original_func_treelize
 
 from .numpy import TreeNumpy
-from ..common import ireduce
+from ..common import ireduce, TreeObject
 from ..utils import replaceable_partial
 
 __all__ = [
-    'all',
+    'all', 'any',
     'equal', 'array_equal',
 ]
 
@@ -14,9 +14,15 @@ func_treelize = replaceable_partial(original_func_treelize, return_type=TreeNump
 
 
 @ireduce(all)
-@func_treelize()
+@func_treelize(return_type=TreeObject)
 def all(a, *args, **kwargs):
     return np.all(a, *args, **kwargs)
+
+
+@ireduce(any)
+@func_treelize()
+def any(a, *args, **kwargs):
+    return np.any(a, *args, **kwargs)
 
 
 @func_treelize()
