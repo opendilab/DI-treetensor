@@ -37,3 +37,13 @@ class TreeNumpy(TreeData):
     @method_treelize(return_type=TreeObject)
     def sum(self: np.ndarray, *args, **kwargs):
         return self.sum(*args, **kwargs)
+
+    @ireduce(all)
+    @method_treelize(return_type=TreeObject)
+    def all(self: np.ndarray, *args, **kwargs):
+        return self.all(*args, **kwargs)
+
+    @ireduce(any)
+    @method_treelize(return_type=TreeObject)
+    def any(self: np.ndarray, *args, **kwargs):
+        return self.any(*args, **kwargs)
