@@ -5,6 +5,11 @@ from .numpy import TreeNumpy
 from ..common import ireduce
 from ..utils import replaceable_partial
 
+__all__ = [
+    'all',
+    'equal', 'array_equal',
+]
+
 func_treelize = replaceable_partial(original_func_treelize, return_type=TreeNumpy)
 
 

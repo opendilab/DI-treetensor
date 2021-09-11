@@ -7,7 +7,12 @@ from .size import TreeSize
 from ..common import TreeObject, TreeData, ireduce
 from ..numpy import TreeNumpy
 
+__all__ = [
+    'TreeTensor'
+]
+
 _reduce_tensor_wrap = pre_process(lambda it: ((torch.tensor([*it]),), {}))
+tireduce = pre_process(lambda rfunc: ((_reduce_tensor_wrap(rfunc),), {}))(ireduce)
 
 
 # noinspection PyTypeChecker,PyShadowingBuiltins,PyArgumentList
@@ -42,27 +47,27 @@ class TreeTensor(TreeData):
     def shape(self: torch.Tensor):
         return self.shape
 
-    @ireduce(_reduce_tensor_wrap(torch.all))
+    @tireduce(torch.all)
     @method_treelize(return_type=TreeObject)
     def all(self: torch.Tensor, *args, **kwargs) -> bool:
         return self.all(*args, **kwargs)
 
-    @ireduce(_reduce_tensor_wrap(torch.any))
+    @tireduce(torch.any)
     @method_treelize(return_type=TreeObject)
     def any(self: torch.Tensor, *args, **kwargs) -> bool:
         return self.any(*args, **kwargs)
 
-    @ireduce(_reduce_tensor_wrap(torch.max))
+    @tireduce(torch.max)
     @method_treelize(return_type=TreeObject)
     def max(self: torch.Tensor, *args, **kwargs):
         return self.max(*args, **kwargs)
 
-    @ireduce(_reduce_tensor_wrap(torch.min))
+    @tireduce(torch.min)
     @method_treelize(return_type=TreeObject)
     def min(self: torch.Tensor, *args, **kwargs):
         return self.min(*args, **kwargs)
 
-    @ireduce(_reduce_tensor_wrap(torch.sum))
+    @tireduce(torch.sum)
     @method_treelize(return_type=TreeObject)
     def sum(self: torch.Tensor, *args, **kwargs):
         return self.sum(*args, **kwargs)

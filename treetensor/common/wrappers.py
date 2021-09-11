@@ -5,6 +5,10 @@ from itertools import chain
 from treevalue import TreeValue
 from treevalue import reduce_ as treevalue_reduce
 
+__all__ = [
+    'kwreduce', 'ireduce', 'vreduce',
+]
+
 
 def kwreduce(rfunc):
     def _decorator(func):

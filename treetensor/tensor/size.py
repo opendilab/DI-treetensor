@@ -6,6 +6,10 @@ from ..utils import replaceable_partial
 
 func_treelize = replaceable_partial(original_func_treelize)
 
+__all__ = [
+    'TreeSize'
+]
+
 
 # noinspection PyTypeChecker
 class TreeSize(TreeObject):

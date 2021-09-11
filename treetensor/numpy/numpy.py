@@ -3,6 +3,10 @@ from treevalue import method_treelize
 
 from ..common import TreeObject, TreeData, ireduce
 
+__all__ = [
+    'TreeNumpy'
+]
+
 
 class TreeNumpy(TreeData):
     """
