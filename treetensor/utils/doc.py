@@ -2,7 +2,7 @@ import os
 from typing import List, Optional, Callable, Any
 
 __all__ = [
-    'inherit_doc',
+    'inherit_doc', 'direct_doc',
 ]
 
 
@@ -37,3 +37,11 @@ def inherit_doc(src, stripper: Optional[Callable[[Any, Any, List[str]], List[str
         return obj
 
     return _decorator
+
+
+_DIRECT_DOC = '__direct_doc__'
+
+
+def direct_doc(obj):
+    setattr(obj, _DIRECT_DOC, True)
+    return obj

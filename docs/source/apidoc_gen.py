@@ -3,6 +3,7 @@ import types
 from typing import List
 
 _DOC_TAG = '__doc_names__'
+_DIRECT_DOC_TAG = '__direct_doc__'
 
 
 def _is_tagged_name(clazz, name):
@@ -38,14 +39,15 @@ if __name__ == '__main__':
         print()
 
         _item = getattr(_module, _name)
-        if isinstance(_item, types.FunctionType):
-            print(f'.. autofunction:: {package_name}.{_name}')
-            print()
-        elif isinstance(_item, type):
-            print(f'.. autoclass:: {package_name}.{_name}')
-            print(f'    :members: {", ".join(sorted(_find_class_members(_item)))}')
-            print()
+        if getattr(_item, _DIRECT_DOC_TAG, None):
+            print(_item.__doc__)
         else:
-            print(f'.. autodata:: {package_name}.{_name}')
-            print(f'    :annotation:')
-            print()
+            if isinstance(_item, types.FunctionType):
+                print(f'.. autofunction:: {package_name}.{_name}')
+            elif isinstance(_item, type):
+                print(f'.. autoclass:: {package_name}.{_name}')
+                print(f'    :members: {", ".join(sorted(_find_class_members(_item)))}')
+            else:
+                print(f'.. autodata:: {package_name}.{_name}')
+                print(f'    :annotation:')
+        print()
