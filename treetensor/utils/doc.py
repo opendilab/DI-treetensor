@@ -6,8 +6,8 @@ __all__ = [
 ]
 
 
-def _strip_lines(doc: str):
-    _lines = doc.strip().splitlines()
+def _strip_lines(doc: Optional[str]):
+    _lines = (doc or '').strip().splitlines()
     _exist_lines = list(filter(str.strip, _lines))
 
     if not _exist_lines:
