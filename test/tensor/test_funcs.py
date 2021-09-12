@@ -131,13 +131,13 @@ class TestTensorFuncs:
         })
 
     def test_randint(self):
-        _target = ttorch.randint(TreeValue({
+        _target = ttorch.randint(-10, 10, TreeValue({
             'a': (2, 3),
             'b': (5, 6),
             'x': {
                 'c': (2, 3, 4),
             }
-        }), -10, 10)
+        }))
         assert ttorch.all(_target < 10)
         assert ttorch.all(-10 <= _target)
         assert _target.shape == ttorch.TreeSize({
@@ -148,13 +148,13 @@ class TestTensorFuncs:
             }
         })
 
-        _target = ttorch.randint(TreeValue({
+        _target = ttorch.randint(10, TreeValue({
             'a': (2, 3),
             'b': (5, 6),
             'x': {
                 'c': (2, 3, 4),
             }
-        }), 10)
+        }))
         assert ttorch.all(_target < 10)
         assert ttorch.all(0 <= _target)
         assert _target.shape == ttorch.TreeSize({
