@@ -2,7 +2,7 @@ import pytest
 import torch
 from treevalue import TreeValue
 
-import treetensor.tensor as ttorch
+import treetensor.torch as ttorch
 
 
 # noinspection DuplicatedCode

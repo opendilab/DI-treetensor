@@ -4,7 +4,7 @@ import torch
 from treevalue import func_treelize
 
 import treetensor.numpy as tnp
-import treetensor.tensor as ttorch
+import treetensor.torch as ttorch
 
 _all_is = func_treelize(return_type=ttorch.TreeTensor)(lambda x, y: x is y)
 

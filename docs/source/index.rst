@@ -22,7 +22,7 @@ module.
     api_doc/common/index
     api_doc/config/index
     api_doc/numpy/index
-    api_doc/tensor/index
+    api_doc/torch/index
     api_doc/utils/index
 
 

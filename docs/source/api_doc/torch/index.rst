@@ -1,4 +1,4 @@
-treetensor.tensor
+treetensor.torch
 =====================
 
 .. toctree::
