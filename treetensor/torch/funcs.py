@@ -9,6 +9,17 @@ from .tensor import TreeTensor, tireduce
 from ..common import TreeObject, ireduce
 from ..utils import replaceable_partial, direct_doc, inherit_doc
 
+__all__ = [
+    'zeros', 'zeros_like',
+    'randn', 'randn_like',
+    'randint', 'randint_like',
+    'ones', 'ones_like',
+    'full', 'full_like',
+    'empty', 'empty_like',
+    'all', 'any',
+    'eq', 'equal',
+]
+
 
 def _doc_stripper(src, _, lines: List[str]):
     _name, _version = src.__name__, torch.__version__
@@ -29,17 +40,6 @@ def _doc_stripper(src, _, lines: List[str]):
 
 func_treelize = replaceable_partial(original_func_treelize, return_type=TreeTensor)
 docs = post_process(post_process(direct_doc))(replaceable_partial(inherit_doc, stripper=_doc_stripper))
-
-__all__ = [
-    'zeros', 'zeros_like',
-    'randn', 'randn_like',
-    'randint', 'randint_like',
-    'ones', 'ones_like',
-    'full', 'full_like',
-    'empty', 'empty_like',
-    'all', 'any',
-    'eq', 'equal',
-]
 
 
 @docs(torch.zeros)

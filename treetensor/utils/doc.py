@@ -7,7 +7,9 @@ __all__ = [
 
 
 def _strip_lines(doc: Optional[str]):
-    _lines = (doc or '').strip().splitlines()
+    _lines = (doc or '').splitlines()
+    _first_line_id, _ = sorted(filter(lambda t: t[1].strip(), enumerate(_lines)))[0]
+    _lines = _lines[_first_line_id:]
     _exist_lines = list(filter(str.strip, _lines))
 
     if not _exist_lines:

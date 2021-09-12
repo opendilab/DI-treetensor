@@ -103,6 +103,8 @@ release = __VERSION__
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
+    'sphinx.ext.coverage',
+    'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
