@@ -1,8 +1,10 @@
+import builtins
+
 import torch
 from treevalue import func_treelize as original_func_treelize
 
 from .tensor import TreeTensor, tireduce
-from ..common import TreeObject
+from ..common import TreeObject, ireduce
 from ..utils import replaceable_partial
 
 func_treelize = replaceable_partial(original_func_treelize, return_type=TreeTensor)
@@ -96,6 +98,7 @@ def eq(input_, other, *args, **kwargs):
     return torch.eq(input_, other, *args, **kwargs)
 
 
+@ireduce(builtins.all)
 @func_treelize()
 def equal(input_, other, *args, **kwargs):
     return torch.equal(input_, other, *args, **kwargs)

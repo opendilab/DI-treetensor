@@ -1,3 +1,5 @@
+import builtins
+
 import numpy as np
 from treevalue import func_treelize as original_func_treelize
 
@@ -13,13 +15,13 @@ __all__ = [
 func_treelize = replaceable_partial(original_func_treelize, return_type=TreeNumpy)
 
 
-@ireduce(all)
+@ireduce(builtins.all)
 @func_treelize(return_type=TreeObject)
 def all(a, *args, **kwargs):
     return np.all(a, *args, **kwargs)
 
 
-@ireduce(any)
+@ireduce(builtins.any)
 @func_treelize()
 def any(a, *args, **kwargs):
     return np.any(a, *args, **kwargs)
