@@ -3,13 +3,13 @@ import torch
 from treevalue import method_treelize
 from treevalue.utils import pre_process
 
-from .size import TreeSize
+from .size import Size
 from ..common import TreeObject, TreeData, ireduce
 from ..numpy import TreeNumpy
 from ..utils import inherit_names, current_names, doc_from
 
 __all__ = [
-    'TreeTensor'
+    'Tensor'
 ]
 
 _reduce_tensor_wrap = pre_process(lambda it: ((torch.tensor([*it]),), {}))
@@ -19,7 +19,7 @@ tireduce = pre_process(lambda rfunc: ((_reduce_tensor_wrap(rfunc),), {}))(ireduc
 # noinspection PyTypeChecker,PyShadowingBuiltins,PyArgumentList
 @current_names()
 @inherit_names(TreeData)
-class TreeTensor(TreeData):
+class Tensor(TreeData):
     @doc_from(torch.Tensor.numpy)
     @method_treelize(return_type=TreeNumpy)
     def numpy(self: torch.Tensor) -> np.ndarray:
@@ -53,7 +53,7 @@ class TreeTensor(TreeData):
 
     @property
     @doc_from(torch.Tensor.shape)
-    @method_treelize(return_type=TreeSize)
+    @method_treelize(return_type=Size)
     def shape(self: torch.Tensor):
         return self.shape
 

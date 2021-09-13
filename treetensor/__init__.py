@@ -1,3 +1,3 @@
 from .common import TreeObject
 from .numpy import TreeNumpy
-from .torch import TreeTensor
+from .torch import Tensor

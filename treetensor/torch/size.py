@@ -7,12 +7,12 @@ from ..utils import replaceable_partial
 func_treelize = replaceable_partial(original_func_treelize)
 
 __all__ = [
-    'TreeSize'
+    'Size'
 ]
 
 
 # noinspection PyTypeChecker
-class TreeSize(TreeObject):
+class Size(TreeObject):
     @func_treelize(return_type=TreeObject)
     def numel(self: torch.Size) -> TreeObject:
         return self.numel()

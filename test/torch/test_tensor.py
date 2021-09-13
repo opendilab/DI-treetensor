@@ -6,12 +6,12 @@ from treevalue import func_treelize
 import treetensor.numpy as tnp
 import treetensor.torch as ttorch
 
-_all_is = func_treelize(return_type=ttorch.TreeTensor)(lambda x, y: x is y)
+_all_is = func_treelize(return_type=ttorch.Tensor)(lambda x, y: x is y)
 
 
 @pytest.mark.unittest
-class TestTensorTreetensor:
-    _DEMO_1 = ttorch.TreeTensor({
+class TestTorchTensor:
+    _DEMO_1 = ttorch.Tensor({
         'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
         'b': torch.tensor([[1, 2], [5, 6]]),
         'x': {
@@ -20,7 +20,7 @@ class TestTensorTreetensor:
         }
     })
 
-    _DEMO_2 = ttorch.TreeTensor({
+    _DEMO_2 = ttorch.Tensor({
         'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
         'b': torch.tensor([[1, 2], [5, 60]]),
         'x': {
@@ -47,7 +47,7 @@ class TestTensorTreetensor:
         assert _all_is(self._DEMO_1.cpu(), self._DEMO_1).reduce(lambda **kws: all(kws.values()))
 
     def test_to(self):
-        assert ttorch.all(self._DEMO_1.to(torch.float32) == ttorch.TreeTensor({
+        assert ttorch.all(self._DEMO_1.to(torch.float32) == ttorch.Tensor({
             'a': torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32),
             'b': torch.tensor([[1, 2], [5, 6]], dtype=torch.float32),
             'x': {

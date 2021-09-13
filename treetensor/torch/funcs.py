@@ -1,11 +1,13 @@
 import builtins
 
 import torch
+from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
+from treevalue.utils import post_process
 
-from .tensor import TreeTensor, tireduce
+from .tensor import Tensor, tireduce
 from ..common import TreeObject, ireduce
-from ..utils import replaceable_partial, doc_from
+from ..utils import replaceable_partial, doc_from, args_mapping
 
 __all__ = [
     'zeros', 'zeros_like',
@@ -16,9 +18,13 @@ __all__ = [
     'empty', 'empty_like',
     'all', 'any',
     'eq', 'equal',
+    'tensor',
 ]
 
-func_treelize = replaceable_partial(original_func_treelize, return_type=TreeTensor)
+func_treelize = post_process(post_process(args_mapping(
+    lambda i, x: Tensor(x) if isinstance(x, (dict, TreeValue)) else x)))(
+    replaceable_partial(original_func_treelize, return_type=Tensor)
+)
 
 
 @doc_from(torch.zeros)
@@ -102,18 +108,20 @@ def all(input_, *args, **kwargs):
 
     Example::
 
+        >>> import torch
+        >>> import treetensor.torch as ttorch
         >>> all(torch.tensor([True, True]))  # the same as torch.all
         torch.tensor(True)
 
-        >>> all(TreeTensor({
-        >>>     'a': torch.tensor([True, True]),
-        >>>     'b': torch.tensor([True, True]),
+        >>> all(ttorch.tensor({
+        >>>     'a': [True, True],
+        >>>     'b': [True, True],
         >>> }))
         torch.tensor(True)
 
-        >>> all(TreeTensor({
-        >>>     'a': torch.tensor([True, True]),
-        >>>     'b': torch.tensor([True, False]),
+        >>> all(Tensor({
+        >>>     'a': [True, True],
+        >>>     'b': [True, False],
         >>> }))
         torch.tensor(False)
 
@@ -139,3 +147,30 @@ def eq(input_, other, *args, **kwargs):
 @func_treelize()
 def equal(input_, other, *args, **kwargs):
     return torch.equal(input_, other, *args, **kwargs)
+
+
+@doc_from(torch.tensor)
+@func_treelize()
+def tensor(*args, **kwargs):
+    """
+    In ``treetensor``, you can create a tree tensor with simple data structure.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.tensor(True)  # the same as torch.tensor(True)
+        torch.tensor(True)
+
+        >>> ttorch.tensor([1, 2, 3])  # the same as torch.tensor([1, 2, 3])
+        torch.tensor([1, 2, 3])
+
+        >>> ttorch.tensor({'a': 1, 'b': [1, 2, 3], 'c': [[True, False], [False, True]]})
+        ttorch.Tensor({
+            'a': torch.tensor(1),
+            'b': torch.tensor([1, 2, 3]),
+            'c': torch.tensor([[True, False], [False, True]]),
+        })
+
+    """
+    return torch.tensor(*args, **kwargs)

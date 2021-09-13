@@ -1,2 +1,2 @@
-from .test_funcs import TestTensorFuncs
-from .test_treetensor import TestTensorTreetensor
+from .test_funcs import TestTorchFuncs
+from .test_tensor import TestTorchTensor
