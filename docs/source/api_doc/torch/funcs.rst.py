@@ -8,7 +8,7 @@ _DOC_FROM_TAG = '__doc_from__'
 if __name__ == '__main__':
     _torch_version = torch.__version__
     print_title(ttorch.funcs.__name__, levelc='=')
-    current_module(ttorch.funcs.__name__)
+    current_module(ttorch.__name__)
 
     for _name in sorted(ttorch.funcs.__all__):
         _item = getattr(ttorch.funcs, _name)
