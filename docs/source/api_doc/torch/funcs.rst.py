@@ -34,7 +34,7 @@ with the following command and find its documentation.
 
 The arguments and keyword arguments supported in torch v{_torch_version} is listed below.
 
-            """, 'note')
+            """, 'tip')
             print_doc(f'.. function:: {_origin.__doc__.lstrip()}')
 
         print()
