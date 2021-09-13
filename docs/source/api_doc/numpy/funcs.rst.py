@@ -38,7 +38,7 @@ with the following command and find its documentation.
 
 The arguments and keyword arguments supported in numpy v{_numpy_version} is listed below.
 
-            """, 'tip')
+            """, 'admonition', value='Numpy Version Related', params={'class': 'tip'})
             print()
             print_doc(_H2_PATTERN.sub(lambda x: '~' * len(x.group(0)), _origin.__doc__ or ''))
 
