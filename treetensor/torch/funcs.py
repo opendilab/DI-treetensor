@@ -1,3 +1,8 @@
+"""
+Overview:
+    Common functions, based on ``torch`` module.
+"""
+
 import builtins
 
 import torch

@@ -47,10 +47,17 @@ class _TempClazz:
 PropertyType = type(_TempClazz.prop)
 
 
+def _is_property(clazz, name):
+    prop = getattr(clazz, name)
+    return isinstance(prop, PropertyType) and (
+            not hasattr(clazz.__base__, name) or getattr(clazz.__base__, name) is not prop
+    )
+
+
 # noinspection PyTypeChecker
-def _is_func_property(clazz, name):
+def _is_func(clazz, name):
     func = getattr(clazz, name)
-    return isinstance(func, (types.FunctionType, PropertyType)) and (
+    return isinstance(func, types.FunctionType) and (
             not hasattr(clazz.__base__, name) or getattr(clazz.__base__, name) is not func
     )
 
@@ -67,8 +74,8 @@ def current_names(keep: bool = True):
         members = set()
         for name in dir(cls):
             item = getattr(cls, name)
-            if (_is_func_property(cls, name) or _is_classmethod(cls, name)) and \
-                    getattr(item, '__name__', None) == name:  # should be public or protected
+            if ((_is_func(cls, name) or _is_classmethod(cls, name)) and getattr(item, '__name__', None) == name) or \
+                    (_is_property(cls, name)):
                 members.add(name)
 
         _old_names = _get_names(cls) if keep else set()

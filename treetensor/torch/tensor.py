@@ -1,3 +1,8 @@
+"""
+Overview:
+    ``Tensor`` class, based on ``torch`` module.
+"""
+
 import numpy as np
 import torch
 from treevalue import method_treelize

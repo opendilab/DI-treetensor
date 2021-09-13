@@ -1,3 +1,5 @@
+import io
+from contextlib import contextmanager
 from functools import partial
 from typing import Optional, Tuple, List
 
@@ -18,8 +20,8 @@ def strip_docs(doc: Optional[str]) -> Tuple[str, List[str]]:
         l, r = 0, min(map(len, _exist_lines))
         while l < r:
             m = (l + r + 1) // 2
-            _prefixes = set(map(lambda x: x[:m], _exist_lines))
-            l, r = (m, r) if len(_prefixes) <= 1 else (l, m - 1)
+            _prefixes = list(map(lambda x: x[:m], _exist_lines))
+            l, r = (m, r) if len(set(_prefixes)) <= 1 and not _prefixes[0].strip() else (l, m - 1)
         _indent = list(map(lambda x: x[:l], _exist_lines))[0]
 
     _stripped_lines = list(map(lambda x: x[len(_indent):] if x.strip() else '', _lines))
@@ -52,18 +54,33 @@ def print_doc(doc: str, strip: bool = True, indent: str = '', file=None):
     _print()
 
 
-def print_block(doc: str, name: str, value: Optional[str] = None,
+@contextmanager
+def print_block(name: str, value: Optional[str] = None,
                 params: Optional[dict] = None, file=None):
     _print = partial(print, file=file)
-    _print(f'.. {name}:: {str(value) if value is not None else ""}')
+    _print(f'.. {name + "::" if name else ""} {str(value) if value is not None else ""}')
     for k, v in (params or {}).items():
         _print(f'    :{k}: {str(v) if v is not None else ""}')
     _print()
 
-    print_doc(doc, strip=True, indent='    ', file=file)
+    with io.StringIO() as bf:
+        try:
+            yield bf
+        finally:
+            bf.flush()
+            print_doc(bf.getvalue(), strip=True, indent='    ', file=file)
 
 
 def current_module(module: str, file=None):
     _print = partial(print, file=file)
     _print(f'.. currentmodule:: {module}')
     _print()
+
+
+class _TempClazz:
+    @property
+    def prop(self):
+        return None
+
+
+PropertyType = type(_TempClazz.prop)
