@@ -1,17 +1,15 @@
-PYTHON        := $(shell which python)
+PYTHON := $(shell which python)
 
-SOURCE       ?= .
-RSTC_FILES   := $(shell find ${SOURCE} -name *.rstc)
-RST_RESULTS  := $(addsuffix .auto.rst, $(basename ${RSTC_FILES}))
+SOURCE         ?= .
+PYTHON_SCRIPTS := $(shell find ${SOURCE} -name *.rst.py)
+PYTHON_RESULTS := $(addsuffix .auto.rst, $(basename $(basename ${PYTHON_SCRIPTS})))
 
-APIDOC_GEN_PY := $(shell readlink -f ${SOURCE}/apidoc_gen.py)
-
-%.auto.rst: %.rstc ${APIDOC_GEN_PY}
+%.auto.rst: %.rst.py
 	cd "$(shell dirname $(shell readlink -f $<))" && \
 		PYTHONPATH="$(shell dirname $(shell readlink -f $<)):${PYTHONPATH}" \
-		cat "$(shell readlink -f $<)" | $(PYTHON) "${APIDOC_GEN_PY}" > "$(shell readlink -f $@)"
+		$(PYTHON) "$(shell readlink -f $<)" > "$(shell readlink -f $@)"
 
-build: ${RST_RESULTS}
+build: ${PYTHON_RESULTS}
 
 all: build
 
