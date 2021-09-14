@@ -5,4 +5,3 @@ treetensor.numpy
     :maxdepth: 2
 
     funcs.auto
-    numpy.auto

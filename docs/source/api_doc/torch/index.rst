@@ -5,5 +5,8 @@ treetensor.torch
     :maxdepth: 2
 
     funcs.auto
-    size.auto
-    tensor.auto
+
+.. toctree::
+    :maxdepth: 3
+
+    trees.auto
