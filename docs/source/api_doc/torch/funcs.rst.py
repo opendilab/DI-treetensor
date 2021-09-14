@@ -54,6 +54,9 @@ with the following command and find its documentation.
 
                     if _has_origin_doc:
                         print_title(f"Description From Torch v{_torch_version}", levelc='-', file=p_func)
-                        print_doc(f'.. function:: {_origin.__doc__.lstrip()}', file=p_func)
+                        current_module(torch.__name__, file=p_func)
+                        with print_block('autofunction', f'{torch.__name__}.{_origin.__name__}',
+                                         file=p_func):
+                            pass
 
                 print(file=p_func)

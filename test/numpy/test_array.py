@@ -7,8 +7,8 @@ from treetensor.common import TreeObject
 
 # noinspection DuplicatedCode
 @pytest.mark.unittest
-class TestNumpyNumpy:
-    _DEMO_1 = tnp.TreeNumpy({
+class TestNumpyArray:
+    _DEMO_1 = tnp.ndarray({
         'a': np.array([[1, 2, 3], [4, 5, 6]]),
         'b': np.array([1, 3, 5, 7]),
         'x': {
@@ -17,7 +17,7 @@ class TestNumpyNumpy:
         }
     })
 
-    _DEMO_2 = tnp.TreeNumpy({
+    _DEMO_2 = tnp.ndarray({
         'a': np.array([[1, 22, 3], [4, 5, 6]]),
         'b': np.array([1, 3, 5, 7]),
         'x': {
@@ -26,7 +26,7 @@ class TestNumpyNumpy:
         }
     })
 
-    _DEMO_3 = tnp.TreeNumpy({
+    _DEMO_3 = tnp.ndarray({
         'a': np.array([[0, 0, 0], [0, 0, 0]]),
         'b': np.array([0, 0, 0, 0]),
         'x': {
@@ -34,6 +34,16 @@ class TestNumpyNumpy:
             'd': np.array([0, 0, 0.0])
         }
     })
+
+    def test_array(self):
+        assert (self._DEMO_1 == tnp.array({
+            'a': [[1, 2, 3], [4, 5, 6]],
+            'b': [1, 3, 5, 7],
+            'x': {
+                'c': [[11], [23]],
+                'd': [3, 9, 11.0]
+            }
+        })).all()
 
     def test_size(self):
         assert self._DEMO_1.size == 15
@@ -54,7 +64,7 @@ class TestNumpyNumpy:
         assert self._DEMO_1.all()
         assert not self._DEMO_2.all()
         assert not self._DEMO_3.all()
-        assert tnp.TreeNumpy({
+        assert tnp.ndarray({
             'a': np.array([[True, True, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -62,7 +72,7 @@ class TestNumpyNumpy:
                 'd': np.array([True, True, True])
             }
         }).all()
-        assert not tnp.TreeNumpy({
+        assert not tnp.ndarray({
             'a': np.array([[True, True, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -70,7 +80,7 @@ class TestNumpyNumpy:
                 'd': np.array([True, True, False])
             }
         }).all()
-        assert not tnp.TreeNumpy({
+        assert not tnp.ndarray({
             'a': np.array([[False, False, False], [False, False, False]]),
             'b': np.array([False, False, False, False]),
             'x': {
@@ -83,7 +93,7 @@ class TestNumpyNumpy:
         assert self._DEMO_1.any()
         assert self._DEMO_2.any()
         assert not self._DEMO_3.any()
-        assert tnp.TreeNumpy({
+        assert tnp.ndarray({
             'a': np.array([[True, True, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -91,7 +101,7 @@ class TestNumpyNumpy:
                 'd': np.array([True, True, True])
             }
         }).any()
-        assert tnp.TreeNumpy({
+        assert tnp.ndarray({
             'a': np.array([[True, True, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -99,7 +109,7 @@ class TestNumpyNumpy:
                 'd': np.array([True, True, False])
             }
         }).any()
-        assert not tnp.TreeNumpy({
+        assert not tnp.ndarray({
             'a': np.array([[False, False, False], [False, False, False]]),
             'b': np.array([False, False, False, False]),
             'x': {
@@ -121,7 +131,7 @@ class TestNumpyNumpy:
     def test_gt(self):
         assert not (self._DEMO_1 > self._DEMO_1).any()
         assert not (self._DEMO_2 > self._DEMO_2).any()
-        assert ((self._DEMO_1 > self._DEMO_2) == tnp.TreeNumpy({
+        assert ((self._DEMO_1 > self._DEMO_2) == tnp.ndarray({
             'a': np.array([[False, False, False], [False, False, False]]),
             'b': np.array([False, False, False, False]),
             'x': {
@@ -129,7 +139,7 @@ class TestNumpyNumpy:
                 'd': np.array([False, False, False])
             }
         })).all()
-        assert ((self._DEMO_2 > self._DEMO_1) == tnp.TreeNumpy({
+        assert ((self._DEMO_2 > self._DEMO_1) == tnp.ndarray({
             'a': np.array([[False, True, False], [False, False, False]]),
             'b': np.array([False, False, False, False]),
             'x': {
@@ -141,7 +151,7 @@ class TestNumpyNumpy:
     def test_ge(self):
         assert (self._DEMO_1 >= self._DEMO_1).all()
         assert (self._DEMO_2 >= self._DEMO_2).all()
-        assert ((self._DEMO_1 >= self._DEMO_2) == tnp.TreeNumpy({
+        assert ((self._DEMO_1 >= self._DEMO_2) == tnp.ndarray({
             'a': np.array([[True, False, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -149,7 +159,7 @@ class TestNumpyNumpy:
                 'd': np.array([True, True, True])
             }
         })).all()
-        assert ((self._DEMO_2 >= self._DEMO_1) == tnp.TreeNumpy({
+        assert ((self._DEMO_2 >= self._DEMO_1) == tnp.ndarray({
             'a': np.array([[True, True, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -161,7 +171,7 @@ class TestNumpyNumpy:
     def test_lt(self):
         assert not (self._DEMO_1 < self._DEMO_1).any()
         assert not (self._DEMO_2 < self._DEMO_2).any()
-        assert ((self._DEMO_1 < self._DEMO_2) == tnp.TreeNumpy({
+        assert ((self._DEMO_1 < self._DEMO_2) == tnp.ndarray({
             'a': np.array([[False, True, False], [False, False, False]]),
             'b': np.array([False, False, False, False]),
             'x': {
@@ -169,7 +179,7 @@ class TestNumpyNumpy:
                 'd': np.array([False, False, False])
             }
         })).all()
-        assert ((self._DEMO_2 < self._DEMO_1) == tnp.TreeNumpy({
+        assert ((self._DEMO_2 < self._DEMO_1) == tnp.ndarray({
             'a': np.array([[False, False, False], [False, False, False]]),
             'b': np.array([False, False, False, False]),
             'x': {
@@ -181,7 +191,7 @@ class TestNumpyNumpy:
     def test_le(self):
         assert (self._DEMO_1 <= self._DEMO_1).all()
         assert (self._DEMO_2 <= self._DEMO_2).all()
-        assert ((self._DEMO_1 <= self._DEMO_2) == tnp.TreeNumpy({
+        assert ((self._DEMO_1 <= self._DEMO_2) == tnp.ndarray({
             'a': np.array([[True, True, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {
@@ -189,7 +199,7 @@ class TestNumpyNumpy:
                 'd': np.array([True, True, True])
             }
         })).all()
-        assert ((self._DEMO_2 <= self._DEMO_1) == tnp.TreeNumpy({
+        assert ((self._DEMO_2 <= self._DEMO_1) == tnp.ndarray({
             'a': np.array([[True, False, True], [True, True, True]]),
             'b': np.array([True, True, True, True]),
             'x': {

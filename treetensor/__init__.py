@@ -1,3 +1,3 @@
 from .common import TreeObject
-from .numpy import TreeNumpy
+from .numpy import ndarray
 from .torch import Tensor

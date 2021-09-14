@@ -1,6 +1,7 @@
 import torch
 from treevalue import func_treelize as original_func_treelize
 
+from .base import TreeTorch
 from ..common import TreeObject
 from ..utils import replaceable_partial, doc_from, current_names
 
@@ -13,7 +14,7 @@ __all__ = [
 
 # noinspection PyTypeChecker
 @current_names()
-class Size(TreeObject):
+class Size(TreeTorch):
     @doc_from(torch.Size.numel)
     @func_treelize(return_type=TreeObject)
     def numel(self: torch.Size) -> TreeObject:

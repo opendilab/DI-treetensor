@@ -1,2 +1,2 @@
 from .test_funcs import TestNumpyFuncs
-from .test_numpy import TestNumpyNumpy
+from .test_array import TestNumpyArray

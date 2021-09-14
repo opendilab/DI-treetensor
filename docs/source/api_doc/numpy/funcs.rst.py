@@ -1,4 +1,6 @@
 import codecs
+import inspect
+import os
 import re
 
 import numpy as np
@@ -12,14 +14,19 @@ _numpy_version = np.__version__
 _short_version = '.'.join(_numpy_version.split('.')[:2])
 
 
-def _raw_doc_process(doc: str) -> str:
-    _doc = _H2_PATTERN.sub(lambda x: '~' * len(x.group(0)), doc)
+def _doc_process(doc: str) -> str:
+    _doc = doc
+    _doc = re.sub(
+        '( *)([^\\n]+)\\n( *)(-{3,})\\n',
+        lambda x: x.group(2) + '\n' + '~' * len(x.group(4)) + '\n',
+        _doc
+    )
     _doc = _doc.replace(' : ', ' \\: ')
     return _doc
 
 
 if __name__ == '__main__':
-    print_title(tnp.funcs.__name__, levelc='=')
+    print_title(f'Common Functions', levelc='=')
     current_module(tnp.__name__)
 
     with print_block('toctree', params=dict(maxdepth=1)) as top_toctree:
@@ -64,6 +71,20 @@ with the following command and find its documentation.
 
                     if _has_origin_doc:
                         print_title(f"Description From Numpy v{_short_version}", levelc='-', file=p_func)
-                        print_doc(_raw_doc_process(_origin.__doc__ or ''), file=p_func)
+                        current_module(np.__name__, file=p_func)
+
+                        _origin_doc = _doc_process(_origin.__doc__ or "")
+                        _doc_lines = _origin_doc.splitlines()
+                        _first_line, _other_lines = _doc_lines[0], _doc_lines[1:]
+                        if _first_line.strip():
+                            _signature = _first_line
+                            _main_doc = os.linesep.join(_other_lines)
+                        else:
+                            _signature = f'{_origin.__name__}{inspect.signature(_origin)}'
+                            _main_doc = _origin_doc
+
+                        print_doc(f'.. function:: {_signature}{os.linesep}'
+                                  f'{os.linesep}'
+                                  f'{_main_doc}', file=p_func)
 
                 print(file=p_func)

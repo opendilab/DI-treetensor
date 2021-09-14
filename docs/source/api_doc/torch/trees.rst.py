@@ -5,7 +5,7 @@ import torch
 from treevalue import TreeValue
 
 import treetensor.torch as ttorch
-from docs import print_title, current_module, print_block, get_origin, PropertyType, print_doc
+from docs import print_title, current_module, print_block, get_origin, print_doc
 
 _DOC_FROM_TAG = '__doc_from__'
 _DOC_TAG = '__doc_names__'
@@ -42,7 +42,7 @@ if __name__ == '__main__':
                                 _origin = get_origin(_item)
 
                                 with print_block(
-                                        'autoproperty' if isinstance(_item, PropertyType) else 'automethod',
+                                        'autoproperty' if isinstance(_item, property) else 'automethod',
                                         value=_name, file=f_class):
                                     pass
 
@@ -73,7 +73,9 @@ with the following command and find its documentation.
                                 if _has_origin_doc:
                                     print_title(f"Description From Torch v{_torch_version}", levelc='-',
                                                 file=p_item)
-                                    with print_block('class', value=_tree.__name__, file=p_item) as f_class:
-                                        print_doc(f'.. function:: {_origin.__doc__.lstrip()}', file=f_class)
+                                    current_module(torch.__name__, file=p_item)
+                                    with print_block('autoclass', f'{torch.__name__}.{_tree.__name__}',
+                                                     dict(members=','.join([_name])), file=p_item):
+                                        pass
 
                             print(file=p_item)

@@ -72,15 +72,5 @@ def print_block(name: str, value: Optional[str] = None,
 
 
 def current_module(module: str, file=None):
-    _print = partial(print, file=file)
-    _print(f'.. currentmodule:: {module}')
-    _print()
-
-
-class _TempClazz:
-    @property
-    def prop(self):
-        return None
-
-
-PropertyType = type(_TempClazz.prop)
+    with print_block('currentmodule', module, file=file):
+        pass

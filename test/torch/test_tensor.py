@@ -33,7 +33,7 @@ class TestTorchTensor:
         assert self._DEMO_1.numel() == 18
 
     def test_numpy(self):
-        assert tnp.all(self._DEMO_1.numpy() == tnp.TreeNumpy({
+        assert tnp.all(self._DEMO_1.numpy() == tnp.ndarray({
             'a': np.array([[1, 2, 3], [4, 5, 6]]),
             'b': np.array([[1, 2], [5, 6]]),
             'x': {
