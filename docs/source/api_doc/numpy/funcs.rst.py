@@ -1,3 +1,4 @@
+import codecs
 import re
 
 import numpy as np
@@ -21,34 +22,44 @@ if __name__ == '__main__':
     print_title(tnp.funcs.__name__, levelc='=')
     current_module(tnp.funcs.__name__)
 
-    for _name in sorted(tnp.funcs.__all__):
-        _item = getattr(tnp.funcs, _name)
-        _origin = get_origin(_item)
-        print_title(_name, levelc='-')
+    with print_block('toctree', params=dict(maxdepth=1)) as tf:
+        for _name in sorted(tnp.funcs.__all__):
+            _file_tag = f'funcs.{_name}.auto'
+            _filename = f'{_file_tag}.rst'
+            print(_file_tag, file=tf)
 
-        with print_block('autofunction', value=_name):
-            pass
+            _item = getattr(tnp.funcs, _name)
+            _origin = get_origin(_item)
+            with codecs.open(_filename, 'w') as sf:
+                print_title(_name, levelc='=', file=sf)
+                current_module(tnp.funcs.__name__, file=sf)
 
-        if _origin and (_origin.__doc__ or '').strip():
-            with print_block('admonition', value='Numpy Version Related', params={'class': 'tip'}) as f:
-                print_doc(f"""
-This documentation is based on 
-`numpy.{_name} <https://numpy.org/doc/{_short_version}/reference/generated/numpy.{_name}.html>`_ 
-in `numpy v{_numpy_version} <https://numpy.org/doc/{_short_version}/>`_.
-**Its arguments\' arrangements depend on the version of numpy you installed**.
+                print_title("Documentation", levelc='-', file=sf)
+                with print_block('autofunction', value=_name, file=sf):
+                    pass
 
-If some arguments listed here are not working properly, please check your numpy's version 
-with the following command and find its documentation.
+                if _origin and (_origin.__doc__ or '').strip():
+                    with print_block('admonition', value='Numpy Version Related',
+                                     params={'class': 'tip'}, file=sf) as f:
+                        print_doc(f"""
+        This documentation is based on 
+        `numpy.{_name} <https://numpy.org/doc/{_short_version}/reference/generated/numpy.{_name}.html>`_ 
+        in `numpy v{_numpy_version} <https://numpy.org/doc/{_short_version}/>`_.
+        **Its arguments\' arrangements depend on the version of numpy you installed**.
+        
+        If some arguments listed here are not working properly, please check your numpy's version 
+        with the following command and find its documentation.
+        
+        .. code-block:: shell
+            :linenos:
+        
+            python -c 'import numpy as np;print(np.__version__)'
+        
+        The arguments and keyword arguments supported in numpy v{_numpy_version} is listed below.
+        
+                    """, file=f)
+                    print(file=sf)
 
-.. code-block:: shell
-    :linenos:
-
-    python -c 'import numpy as np;print(np.__version__)'
-
-The arguments and keyword arguments supported in numpy v{_numpy_version} is listed below.
-
-            """, file=f)
-            print()
-
-            print_doc(_raw_doc_process(_origin.__doc__ or ''))
-            print()
+                    print_title(f"Description For numpy v{_short_version}", levelc='-', file=sf)
+                    print_doc(_raw_doc_process(_origin.__doc__ or ''), file=sf)
+                    print(file=sf)

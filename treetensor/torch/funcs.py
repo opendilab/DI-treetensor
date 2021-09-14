@@ -27,7 +27,7 @@ __all__ = [
 ]
 
 func_treelize = post_process(post_process(args_mapping(
-    lambda i, x: Tensor(x) if isinstance(x, (dict, TreeValue)) else x)))(
+    lambda i, x: TreeValue(x) if isinstance(x, (dict, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize, return_type=Tensor)
 )
 

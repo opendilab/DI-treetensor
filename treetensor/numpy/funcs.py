@@ -1,35 +1,23 @@
 import builtins
-from typing import List
 
 import numpy as np
+from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
+from treevalue.utils import post_process
 
 from .numpy import TreeNumpy
 from ..common import ireduce, TreeObject
-from ..utils import replaceable_partial, doc_from
+from ..utils import replaceable_partial, doc_from, args_mapping
 
 __all__ = [
     'all', 'any',
     'equal', 'array_equal',
 ]
 
-
-def _doc_stripper(src, _, lines: List[str]):
-    _name, _version = src.__name__, np.__version__
-    _short_version = '.'.join(_version.split('.')[:2])
-    return [
-        f'.. note::',
-        f'',
-        f'    This documentation is based on '
-        f'    `numpy.{_name} <https://numpy.org/doc/{_short_version}/reference/generated/numpy.{_name}.html>`_ '
-        f'    in `numpy v{_version} <https://numpy.org/doc/{_short_version}/>`_.',
-        f'    **Its arguments\' arrangements depend on the version of numpy you installed**.',
-        f'',
-        *lines,
-    ]
-
-
-func_treelize = replaceable_partial(original_func_treelize, return_type=TreeNumpy)
+func_treelize = post_process(post_process(args_mapping(
+    lambda i, x: TreeValue(x) if isinstance(x, (dict, TreeValue)) else x)))(
+    replaceable_partial(original_func_treelize, return_type=TreeNumpy)
+)
 
 
 @doc_from(np.all)
