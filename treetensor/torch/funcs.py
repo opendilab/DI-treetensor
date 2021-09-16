@@ -23,8 +23,8 @@ __all__ = [
     'empty', 'empty_like',
     'all', 'any',
     'min', 'max', 'sum',
-    'eq', 'equal',
-    'tensor',
+    'eq', 'ne', 'lt', 'le', 'gt', 'ge',
+    'equal', 'tensor',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -446,15 +446,100 @@ def sum(input, *args, **kwargs):
 @doc_from(torch.eq)
 @func_treelize()
 def eq(input, other, *args, **kwargs):
+    """
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.eq(
+        >>>     torch.tensor([[1, 2], [3, 4]]),
+        >>>     torch.tensor([[1, 1], [4, 4]]),
+        >>> )
+        torch.tensor([[ True, False],
+                      [False,  True]])
+
+        >>> ttorch.eq(
+        >>>     ttorch.tensor({
+        >>>         'a': [[1, 2], [3, 4]],
+        >>>         'b': [1.0, 1.5, 2.0],
+        >>>     }),
+        >>>     ttorch.tensor({
+        >>>         'a': [[1, 1], [4, 4]],
+        >>>         'b': [1.3, 1.2, 2.0],
+        >>>     }),
+        >>> )
+    """
     return torch.eq(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.ne)
+@func_treelize()
+def ne(input, other, *args, **kwargs):
+    return torch.ne(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.lt)
+@func_treelize()
+def lt(input, other, *args, **kwargs):
+    return torch.lt(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.le)
+@func_treelize()
+def le(input, other, *args, **kwargs):
+    return torch.le(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.gt)
+@func_treelize()
+def gt(input, other, *args, **kwargs):
+    return torch.gt(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.ge)
+@func_treelize()
+def ge(input, other, *args, **kwargs):
+    return torch.ge(input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins,PyArgumentList
 @doc_from(torch.equal)
 @ireduce(builtins.all)
 @func_treelize()
-def equal(input, other, *args, **kwargs):
-    return torch.equal(input, other, *args, **kwargs)
+def equal(input, other):
+    """
+    In ``treetensor``, you can get the equality of the two tree tensors.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.equal(
+        >>>     torch.tensor([1, 2, 3]),
+        >>>     torch.tensor([1, 2, 3]),
+        >>> )  # the same as torch.equal
+        True
+
+        >>> ttorch.equal(
+        >>>     ttorch.tensor({
+        >>>         'a': torch.tensor([1, 2, 3]),
+        >>>         'b': torch.tensor([[4, 5], [6, 7]]),
+        >>>     }),
+        >>>     ttorch.tensor({
+        >>>         'a': torch.tensor([1, 2, 3]),
+        >>>         'b': torch.tensor([[4, 5], [6, 7]]),
+        >>>     }),
+        >>> )
+        True
+
+    """
+    return torch.equal(input, other)
 
 
 @doc_from(torch.tensor)
