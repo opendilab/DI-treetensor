@@ -1,17 +1,13 @@
-"""
-Overview:
-    Common functions, based on ``torch`` module.
-"""
-
 import builtins
 
 import torch
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
+from treevalue.tree.common import BaseTree
 from treevalue.utils import post_process
 
 from .tensor import Tensor, tireduce
-from ..common import TreeObject, ireduce
+from ..common import Object, ireduce
 from ..utils import replaceable_partial, doc_from, args_mapping
 
 __all__ = [
@@ -28,7 +24,7 @@ __all__ = [
 ]
 
 func_treelize = post_process(post_process(args_mapping(
-    lambda i, x: TreeValue(x) if isinstance(x, (dict, TreeValue)) else x)))(
+    lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize, return_type=Tensor)
 )
 
@@ -355,7 +351,7 @@ def empty_like(input, *args, **kwargs):
 # noinspection PyShadowingBuiltins
 @doc_from(torch.all)
 @tireduce(torch.all)
-@func_treelize(return_type=TreeObject)
+@func_treelize(return_type=Object)
 def all(input, *args, **kwargs):
     """
     In ``treetensor``, you can get the ``all`` result of a whole tree with this function.
@@ -394,7 +390,7 @@ def all(input, *args, **kwargs):
 # noinspection PyShadowingBuiltins
 @doc_from(torch.any)
 @tireduce(torch.any)
-@func_treelize(return_type=TreeObject)
+@func_treelize(return_type=Object)
 def any(input, *args, **kwargs):
     """
     In ``treetensor``, you can get the ``any`` result of a whole tree with this function.
@@ -433,7 +429,7 @@ def any(input, *args, **kwargs):
 # noinspection PyShadowingBuiltins
 @doc_from(torch.min)
 @tireduce(torch.min)
-@func_treelize(return_type=TreeObject)
+@func_treelize(return_type=Object)
 def min(input, *args, **kwargs):
     """
     In ``treetensor``, you can get the ``min`` result of a whole tree with this function.
@@ -472,7 +468,7 @@ def min(input, *args, **kwargs):
 # noinspection PyShadowingBuiltins
 @doc_from(torch.max)
 @tireduce(torch.max)
-@func_treelize(return_type=TreeObject)
+@func_treelize(return_type=Object)
 def max(input, *args, **kwargs):
     """
     In ``treetensor``, you can get the ``max`` result of a whole tree with this function.
@@ -511,7 +507,7 @@ def max(input, *args, **kwargs):
 # noinspection PyShadowingBuiltins
 @doc_from(torch.sum)
 @tireduce(torch.sum)
-@func_treelize(return_type=TreeObject)
+@func_treelize(return_type=Object)
 def sum(input, *args, **kwargs):
     """
     In ``treetensor``, you can get the ``sum`` result of a whole tree with this function.

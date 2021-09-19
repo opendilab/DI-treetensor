@@ -1,8 +1,3 @@
-"""
-Overview:
-    ``Tensor`` class, based on ``torch`` module.
-"""
-
 import numpy as np
 import torch
 from treevalue import method_treelize
@@ -10,7 +5,7 @@ from treevalue.utils import pre_process
 
 from .base import TreeTorch
 from .size import Size
-from ..common import TreeObject, ireduce
+from ..common import Object, ireduce, clsmeta
 from ..numpy import ndarray
 from ..utils import current_names, doc_from
 
@@ -22,9 +17,19 @@ _reduce_tensor_wrap = pre_process(lambda it: ((torch.tensor([*it]),), {}))
 tireduce = pre_process(lambda rfunc: ((_reduce_tensor_wrap(rfunc),), {}))(ireduce)
 
 
-# noinspection PyTypeChecker,PyShadowingBuiltins,PyArgumentList
+def _to_tensor(*args, **kwargs):
+    if (len(args) == 1 and not kwargs) or \
+            (not args and set(kwargs.keys()) == {'data'}):
+        data = args[0] if len(args) == 1 else kwargs['data']
+        if isinstance(data, torch.Tensor):
+            return data
+
+    return torch.tensor(*args, **kwargs)
+
+
+# noinspection PyTypeChecker
 @current_names()
-class Tensor(TreeTorch):
+class Tensor(TreeTorch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
     @doc_from(torch.Tensor.numpy)
     @method_treelize(return_type=ndarray)
     def numpy(self: torch.Tensor) -> np.ndarray:
@@ -36,7 +41,7 @@ class Tensor(TreeTorch):
         return self.numpy()
 
     @doc_from(torch.Tensor.tolist)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def tolist(self: torch.Tensor):
         """
         Get the dump result of tree tensor.
@@ -106,7 +111,7 @@ class Tensor(TreeTorch):
 
     @doc_from(torch.Tensor.numel)
     @ireduce(sum)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def numel(self: torch.Tensor):
         """
         See :func:`treetensor.torch.numel`
@@ -137,7 +142,7 @@ class Tensor(TreeTorch):
 
     @doc_from(torch.Tensor.all)
     @tireduce(torch.all)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def all(self: torch.Tensor, *args, **kwargs) -> bool:
         """
         See :func:`treetensor.torch.all`
@@ -146,7 +151,7 @@ class Tensor(TreeTorch):
 
     @doc_from(torch.Tensor.any)
     @tireduce(torch.any)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def any(self: torch.Tensor, *args, **kwargs) -> bool:
         """
         See :func:`treetensor.torch.any`
@@ -155,7 +160,7 @@ class Tensor(TreeTorch):
 
     @doc_from(torch.Tensor.max)
     @tireduce(torch.max)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def max(self: torch.Tensor, *args, **kwargs):
         """
         See :func:`treetensor.torch.max`
@@ -164,7 +169,7 @@ class Tensor(TreeTorch):
 
     @doc_from(torch.Tensor.min)
     @tireduce(torch.min)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def min(self: torch.Tensor, *args, **kwargs):
         """
         See :func:`treetensor.torch.min`
@@ -173,7 +178,7 @@ class Tensor(TreeTorch):
 
     @doc_from(torch.Tensor.sum)
     @tireduce(torch.sum)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def sum(self: torch.Tensor, *args, **kwargs):
         """
         See :func:`treetensor.torch.sum`

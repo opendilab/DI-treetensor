@@ -6,7 +6,7 @@ from treevalue import func_treelize as original_func_treelize
 from treevalue.utils import post_process
 
 from .array import ndarray
-from ..common import ireduce, TreeObject
+from ..common import ireduce, Object
 from ..utils import replaceable_partial, doc_from, args_mapping
 
 __all__ = [
@@ -22,7 +22,7 @@ func_treelize = post_process(post_process(args_mapping(
 
 @doc_from(np.all)
 @ireduce(builtins.all)
-@func_treelize(return_type=TreeObject)
+@func_treelize(return_type=Object)
 def all(a, *args, **kwargs):
     return np.all(a, *args, **kwargs)
 

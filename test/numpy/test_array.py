@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 import treetensor.numpy as tnp
-from treetensor.common import TreeObject
+from treetensor.common import Object
 
 
 # noinspection DuplicatedCode
@@ -209,7 +209,7 @@ class TestNumpyArray:
         })).all()
 
     def test_tolist(self):
-        assert self._DEMO_1.tolist() == TreeObject({
+        assert self._DEMO_1.tolist() == Object({
             'a': [[1, 2, 3], [4, 5, 6]],
             'b': [1, 3, 5, 7],
             'x': {
@@ -217,7 +217,7 @@ class TestNumpyArray:
                 'd': [3, 9, 11.0],
             }
         })
-        assert self._DEMO_2.tolist() == TreeObject({
+        assert self._DEMO_2.tolist() == Object({
             'a': [[1, 22, 3], [4, 5, 6]],
             'b': [1, 3, 5, 7],
             'x': {
@@ -225,7 +225,7 @@ class TestNumpyArray:
                 'd': [3, 9, 11.0],
             }
         })
-        assert self._DEMO_3.tolist() == TreeObject({
+        assert self._DEMO_3.tolist() == Object({
             'a': [[0, 0, 0], [0, 0, 0]],
             'b': [0, 0, 0, 0],
             'x': {

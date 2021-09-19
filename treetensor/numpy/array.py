@@ -2,7 +2,7 @@ import numpy as np
 from treevalue import method_treelize
 
 from .base import TreeNumpy
-from ..common import TreeObject, ireduce
+from ..common import Object, ireduce
 from ..utils import current_names
 
 __all__ = [
@@ -18,34 +18,34 @@ class ndarray(TreeNumpy):
         Real numpy tree.
     """
 
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def tolist(self: np.ndarray):
         return self.tolist()
 
     @property
     @ireduce(sum)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def size(self: np.ndarray) -> int:
         return self.size
 
     @property
     @ireduce(sum)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def nbytes(self: np.ndarray) -> int:
         return self.nbytes
 
     @ireduce(sum)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def sum(self: np.ndarray, *args, **kwargs):
         return self.sum(*args, **kwargs)
 
     @ireduce(all)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def all(self: np.ndarray, *args, **kwargs):
         return self.all(*args, **kwargs)
 
     @ireduce(any)
-    @method_treelize(return_type=TreeObject)
+    @method_treelize(return_type=Object)
     def any(self: np.ndarray, *args, **kwargs):
         return self.any(*args, **kwargs)
 

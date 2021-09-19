@@ -12,20 +12,20 @@ _all_is = func_treelize(return_type=ttorch.Tensor)(lambda x, y: x is y)
 @pytest.mark.unittest
 class TestTorchTensor:
     _DEMO_1 = ttorch.Tensor({
-        'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
-        'b': torch.tensor([[1, 2], [5, 6]]),
+        'a': [[1, 2, 3], [4, 5, 6]],
+        'b': [[1, 2], [5, 6]],
         'x': {
-            'c': torch.tensor([3, 5, 6, 7]),
-            'd': torch.tensor([[[1, 2], [8, 9]]]),
+            'c': [3, 5, 6, 7],
+            'd': [[[1, 2], [8, 9]]],
         }
     })
 
     _DEMO_2 = ttorch.Tensor({
-        'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
-        'b': torch.tensor([[1, 2], [5, 60]]),
+        'a': [[1, 2, 3], [4, 5, 6]],
+        'b': [[1, 2], [5, 60]],
         'x': {
-            'c': torch.tensor([3, 5, 6, 7]),
-            'd': torch.tensor([[[1, 2], [8, 9]]]),
+            'c': [3, 5, 6, 7],
+            'd': [[[1, 2], [8, 9]]],
         }
     })
 
@@ -48,11 +48,11 @@ class TestTorchTensor:
 
     def test_to(self):
         assert ttorch.all(self._DEMO_1.to(torch.float32) == ttorch.Tensor({
-            'a': torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32),
-            'b': torch.tensor([[1, 2], [5, 6]], dtype=torch.float32),
+            'a': torch.FloatTensor([[1, 2, 3], [4, 5, 6]]),
+            'b': torch.FloatTensor([[1, 2], [5, 6]]),
             'x': {
-                'c': torch.tensor([3, 5, 6, 7], dtype=torch.float32),
-                'd': torch.tensor([[[1, 2], [8, 9]]], dtype=torch.float32),
+                'c': torch.FloatTensor([3, 5, 6, 7]),
+                'd': torch.FloatTensor([[[1, 2], [8, 9]]]),
             }
         }))
 

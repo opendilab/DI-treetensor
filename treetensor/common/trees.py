@@ -1,15 +1,20 @@
 import builtins
 import io
 import os
-from abc import ABCMeta
 from functools import partial
 from typing import Optional, Tuple, Callable
 
+from treevalue import func_treelize as original_func_treelize
 from treevalue import general_tree_value, TreeValue
+from treevalue.tree.common import BaseTree
 from treevalue.tree.tree.tree import get_data_property
+from treevalue.utils import post_process
+
+from ..utils import replaceable_partial, args_mapping
 
 __all__ = [
-    'BaseTreeStruct', "TreeObject", 'print_tree',
+    'BaseTreeStruct', "Object",
+    'print_tree', 'clsmeta',
 ]
 
 
@@ -78,7 +83,7 @@ def print_tree(tree: TreeValue, repr_: Callable = str, ascii_: bool = False, fil
         print(repr_(tree), file=file)
 
 
-class BaseTreeStruct(general_tree_value(), metaclass=ABCMeta):
+class BaseTreeStruct(general_tree_value()):
     """
     Overview:
         Base structure of all the trees in ``treetensor``.
@@ -93,5 +98,32 @@ class BaseTreeStruct(general_tree_value(), metaclass=ABCMeta):
         return self.__repr__()
 
 
-class TreeObject(BaseTreeStruct):
+def clsmeta(cls: type, allow_dict: bool = False, allow_data: bool = True):
+    class _TempTreeValue(TreeValue):
+        pass
+
+    _types = (
+        TreeValue,
+        *((dict,) if allow_dict else ()),
+        *((BaseTree,) if allow_data else ()),
+    )
+    func_treelize = post_process(post_process(args_mapping(
+        lambda i, x: TreeValue(x) if isinstance(x, _types) else x)))(
+        replaceable_partial(original_func_treelize, return_type=_TempTreeValue)
+    )
+
+    _torch_size = func_treelize()(cls)
+
+    class _MetaClass(type):
+        def __call__(cls, *args, **kwargs):
+            _result = _torch_size(*args, **kwargs)
+            if isinstance(_result, _TempTreeValue):
+                return type.__call__(cls, _result)
+            else:
+                return _result
+
+    return _MetaClass
+
+
+class Object(BaseTreeStruct):
     pass
