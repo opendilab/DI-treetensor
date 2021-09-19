@@ -33,21 +33,38 @@ if __name__ == '__main__':
                         print(_item_file_tag, file=cls_toctree)
 
                         with codecs.open(f'{_item_file_tag}.rst', 'w') as p_item:
-                            print_title(_name, levelc='=', file=p_item)
+                            _item = getattr(_tree, _name)
+                            _origin = get_origin(_item)
+
+                            _has_own_doc = (_item.__doc__ or '').lstrip()
+                            _has_origin_doc = (_origin is not None) and (_origin.__doc__ or '').strip()
+                            print_title(
+                                _name + (
+                                    (' [Reprint Only]' if _has_origin_doc else ' [No Doc]')
+                                    if not _has_own_doc else ''
+                                ), levelc='=', file=p_item
+                            )
                             current_module(ttorch.__name__, file=p_item)
 
                             print_title(f"Documentation", levelc='-', file=p_item)
                             with print_block('autoclass', value=_tree.__name__, file=p_item) as f_class:
-                                _item = getattr(_tree, _name)
-                                _origin = get_origin(_item)
 
                                 with print_block(
                                         'autoproperty' if isinstance(_item, property) else 'automethod',
                                         value=_name, file=f_class):
                                     pass
 
+                            if not _has_own_doc:
+                                with print_block(
+                                        'admonition',
+                                        value=('Reprinted Documentation Only'
+                                        if _has_origin_doc else "No Documentation"),
+                                        params={'class': 'warning' if _has_origin_doc else "error"},
+                                        file=p_item
+                                ) as f_nodoc:
+                                    print_doc('No ``__doc__`` is provided yet, need to be completed.', file=f_nodoc)
+
                             if _origin:
-                                _has_origin_doc = (_origin.__doc__ or '').strip()
                                 with print_block('admonition', value='Torch Version Related',
                                                  params={'class': 'tip'}, file=p_item) as f_note:
                                     print_doc(f"""

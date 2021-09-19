@@ -21,15 +21,30 @@ if __name__ == '__main__':
             _item = getattr(ttorch.funcs, _name)
             _origin = get_origin(_item)
             with codecs.open(_filename, 'w') as p_func:
-                print_title(_name, levelc='=', file=p_func)
+                _has_own_doc = (_item.__doc__ or '').lstrip()
+                _has_origin_doc = (_origin is not None) and (_origin.__doc__ or '').lstrip()
+                print_title(
+                    _name + (
+                        (' [Reprint Only]' if _has_origin_doc else ' [No Doc]')
+                        if not _has_own_doc else ''
+                    ), levelc='=', file=p_func
+                )
                 current_module(ttorch.__name__, file=p_func)
 
                 print_title("Documentation", levelc='-', file=p_func)
                 with print_block('autofunction', value=_name, file=p_func):
                     pass
 
+                if not _has_own_doc:
+                    with print_block(
+                            'admonition',
+                            value=('Reprinted Documentation Only' if _has_origin_doc else "No Documentation"),
+                            params={'class': 'warning' if _has_origin_doc else "error"},
+                            file=p_func
+                    ) as f_nodoc:
+                        print_doc('No ``__doc__`` is provided yet, need to be completed.', file=f_nodoc)
+
                 if _origin:
-                    _has_origin_doc = (_origin.__doc__ or '').lstrip()
                     with print_block('admonition', value='Torch Version Related',
                                      params={'class': 'tip'}, file=p_func) as f_note:
                         print_doc(f"""
