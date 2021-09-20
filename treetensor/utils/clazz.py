@@ -1,3 +1,8 @@
+"""
+Class decorators.
+
+Mainly used for tagging the members of a class, will be used when auto generating the documentation.
+"""
 import types
 from functools import reduce
 from operator import __or__

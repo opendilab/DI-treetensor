@@ -1,3 +1,6 @@
+"""
+Documentation Decorators.
+"""
 __all__ = [
     'doc_from',
 ]
