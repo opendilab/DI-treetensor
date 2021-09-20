@@ -2,9 +2,9 @@ import io
 
 import pytest
 import torch
-from treevalue import typetrans, TreeValue, general_tree_value
+from treevalue import general_tree_value
 
-from treetensor.common import Object, print_tree
+from treetensor.common import print_tree
 
 
 def text_compares(expected, actual):
@@ -24,15 +24,6 @@ Expected: {e}
 
 @pytest.mark.unittest
 class TestCommonTrees:
-    def test_object(self):
-        t = Object(1)
-        assert isinstance(t, int)
-        assert t == 1
-
-        assert Object({'a': 1, 'b': 2}) == typetrans(TreeValue({
-            'a': 1, 'b': 2
-        }), Object)
-
     def test_print_tree(self):
         class _TempTree(general_tree_value()):
             def __repr__(self):

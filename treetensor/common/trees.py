@@ -13,7 +13,7 @@ from treevalue.utils import post_process
 from ..utils import replaceable_partial, args_mapping
 
 __all__ = [
-    'BaseTreeStruct', "Object",
+    'BaseTreeStruct',
     'print_tree', 'clsmeta',
 ]
 
@@ -118,11 +118,3 @@ def clsmeta(func, allow_dict: bool = False):
                 return _result
 
     return _MetaClass
-
-
-def _object(obj):
-    return obj
-
-
-class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
-    pass
