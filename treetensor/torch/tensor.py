@@ -3,7 +3,7 @@ import torch
 from treevalue import method_treelize
 from treevalue.utils import pre_process
 
-from .base import TreeTorch
+from .base import Torch
 from .size import Size
 from ..common import Object, ireduce, clsmeta
 from ..numpy import ndarray
@@ -29,7 +29,40 @@ def _to_tensor(*args, **kwargs):
 
 # noinspection PyTypeChecker
 @current_names()
-class Tensor(TreeTorch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
+class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
+    # noinspection PyUnusedLocal
+    def __init__(self, data, *args, **kwargs):
+        """
+        In :class:`treetensor.torch.Tensor`, it's similar but a little bit different with the
+        original :class:`torch.Tensor`.
+
+        Examples::
+
+            >>> import torch
+            >>> import treetensor.torch as ttorch
+            >>> torch.Tensor([1, 2, 3])  # in torch.Tensor, default type is float32
+            tensor([1., 2., 3.])
+
+            >>> ttorch.Tensor([1, 2, 3])  # a native Tensor object, its type is auto detected with torch.tensor
+            tensor([1, 2, 3])
+
+            >>> ttorch.Tensor([1, 2, 3], dtype=torch.float32)  # with float32 type
+            tensor([1., 2., 3.])
+
+            >>> ttorch.Tensor({
+            ...     'a': [1, 2, 3],
+            ...     'b': {'x': [4.0, 5, 6]},
+            ...     'c': [[True, ], [False, ]],
+            ... })  # a tree-based Tensor object
+            <Tensor 0x7f537bb9a880>
+            ├── a --> tensor([1, 2, 3])
+            ├── b --> <Tensor 0x7f537bb9a0d0>
+            │   └── x --> tensor([4., 5., 6.])
+            └── c --> tensor([[ True],
+                              [False]])
+        """
+        super(Torch, self).__init__(data)
+
     @doc_from(torch.Tensor.numpy)
     @method_treelize(return_type=ndarray)
     def numpy(self: torch.Tensor) -> np.ndarray:
@@ -140,6 +173,7 @@ class Tensor(TreeTorch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.shape
 
+    # noinspection PyArgumentList
     @doc_from(torch.Tensor.all)
     @tireduce(torch.all)
     @method_treelize(return_type=Object)
@@ -149,6 +183,7 @@ class Tensor(TreeTorch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.all(*args, **kwargs)
 
+    # noinspection PyArgumentList
     @doc_from(torch.Tensor.any)
     @tireduce(torch.any)
     @method_treelize(return_type=Object)

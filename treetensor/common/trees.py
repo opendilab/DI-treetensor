@@ -18,15 +18,8 @@ __all__ = [
 ]
 
 
-def _tree_title(node: TreeValue):
-    _tree = get_data_property(node)
-    return "<{cls} {id}>".format(
-        cls=node.__class__.__name__,
-        id=hex(id(_tree.actual())),
-    )
-
-
-def print_tree(tree: TreeValue, repr_: Callable = str, ascii_: bool = False, file=None):
+def print_tree(tree: TreeValue, repr_: Callable = str,
+               ascii_: bool = False, show_node_id: bool = True, file=None):
     print_to_file = partial(builtins.print, file=file)
     node_ids = {}
     if ascii_:
@@ -45,7 +38,10 @@ def print_tree(tree: TreeValue, repr_: Callable = str, ascii_: bool = False, fil
         _need_iter = True
         if isinstance(node, TreeValue):
             _node_id = id(get_data_property(node).actual())
-            _content = f'<{node.__class__.__name__} {hex(_node_id)}>'
+            if show_node_id:
+                _content = f'<{node.__class__.__name__} {hex(_node_id)}>'
+            else:
+                _content = f'<{node.__class__.__name__}>'
             if _node_id in node_ids.keys():
                 _str_old_path = '.'.join(('<root>', *node_ids[_node_id]))
                 _content = f'{_content}{os.linesep}(The same address as {_str_old_path})'
@@ -98,25 +94,24 @@ class BaseTreeStruct(general_tree_value()):
         return self.__repr__()
 
 
-def clsmeta(cls: type, allow_dict: bool = False, allow_data: bool = True):
+def clsmeta(func, allow_dict: bool = False):
     class _TempTreeValue(TreeValue):
         pass
 
     _types = (
-        TreeValue,
+        TreeValue, BaseTree,
         *((dict,) if allow_dict else ()),
-        *((BaseTree,) if allow_data else ()),
     )
     func_treelize = post_process(post_process(args_mapping(
         lambda i, x: TreeValue(x) if isinstance(x, _types) else x)))(
         replaceable_partial(original_func_treelize, return_type=_TempTreeValue)
     )
 
-    _torch_size = func_treelize()(cls)
+    _wrapped_func = func_treelize()(func)
 
     class _MetaClass(type):
         def __call__(cls, *args, **kwargs):
-            _result = _torch_size(*args, **kwargs)
+            _result = _wrapped_func(*args, **kwargs)
             if isinstance(_result, _TempTreeValue):
                 return type.__call__(cls, _result)
             else:
@@ -125,5 +120,9 @@ def clsmeta(cls: type, allow_dict: bool = False, allow_data: bool = True):
     return _MetaClass
 
 
-class Object(BaseTreeStruct):
+def _object(obj):
+    return obj
+
+
+class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
     pass

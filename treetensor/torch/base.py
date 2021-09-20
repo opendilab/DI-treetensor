@@ -1,7 +1,7 @@
 from ..common import BaseTreeStruct
 
-__all__ = ['TreeTorch']
+__all__ = ['Torch']
 
 
-class TreeTorch(BaseTreeStruct):
+class Torch(BaseTreeStruct):
     pass

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 import torch
-from treevalue import func_treelize
+from treevalue import func_treelize, typetrans, TreeValue
 
 import treetensor.numpy as tnp
 import treetensor.torch as ttorch
@@ -28,6 +28,18 @@ class TestTorchTensor:
             'd': [[[1, 2], [8, 9]]],
         }
     })
+
+    def test_init(self):
+        assert (ttorch.Tensor([1, 2, 3]) == torch.tensor([1, 2, 3])).all()
+        assert (ttorch.Tensor([1, 2, 3], dtype=torch.float32) == torch.FloatTensor([1, 2, 3])).all()
+        assert (self._DEMO_1 == typetrans(TreeValue({
+            'a': ttorch.tensor([[1, 2, 3], [4, 5, 6]]),
+            'b': ttorch.tensor([[1, 2], [5, 6]]),
+            'x': {
+                'c': ttorch.tensor([3, 5, 6, 7]),
+                'd': ttorch.tensor([[[1, 2], [8, 9]]]),
+            }
+        }), ttorch.Tensor)).all()
 
     def test_numel(self):
         assert self._DEMO_1.numel() == 18
@@ -59,3 +71,6 @@ class TestTorchTensor:
     def test_all(self):
         assert (self._DEMO_1 == self._DEMO_1).all()
         assert not (self._DEMO_1 == self._DEMO_2).all()
+
+    def test_tolist(self):
+        pass

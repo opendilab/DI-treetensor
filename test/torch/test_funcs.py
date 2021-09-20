@@ -401,6 +401,111 @@ class TestTorchFuncs:
             'b': torch.tensor([4, 5, 5]),
         })).all()
 
+    def test_ne(self):
+        assert (ttorch.ne(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[1, 1], [4, 4]]),
+        ) == torch.tensor([[False, True],
+                           [True, False]])).all()
+
+        assert (ttorch.ne(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': [1.0, 1.5, 2.0],
+            }),
+            ttorch.tensor({
+                'a': [[1, 1], [4, 4]],
+                'b': [1.3, 1.2, 2.0],
+            }),
+        ) == ttorch.tensor({
+            'a': [[False, True], [True, False]],
+            'b': [True, True, False],
+        })).all()
+
+    def test_lt(self):
+        assert (ttorch.lt(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[1, 1], [4, 4]]),
+        ) == torch.tensor([[False, False],
+                           [True, False]])).all()
+
+        assert (ttorch.lt(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': [1.0, 1.5, 2.0],
+            }),
+            ttorch.tensor({
+                'a': [[1, 1], [4, 4]],
+                'b': [1.3, 1.2, 2.0],
+            }),
+        ) == ttorch.tensor({
+            'a': [[False, False], [True, False]],
+            'b': [True, False, False],
+        })).all()
+
+    def test_le(self):
+        assert (ttorch.le(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[1, 1], [4, 4]]),
+        ) == torch.tensor([[True, False],
+                           [True, True]])).all()
+
+        assert (ttorch.le(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': [1.0, 1.5, 2.0],
+            }),
+            ttorch.tensor({
+                'a': [[1, 1], [4, 4]],
+                'b': [1.3, 1.2, 2.0],
+            }),
+        ) == ttorch.tensor({
+            'a': [[True, False], [True, True]],
+            'b': [True, False, True],
+        })).all()
+
+    def test_gt(self):
+        assert (ttorch.gt(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[1, 1], [4, 4]]),
+        ) == torch.tensor([[False, True],
+                           [False, False]])).all()
+
+        assert (ttorch.gt(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': [1.0, 1.5, 2.0],
+            }),
+            ttorch.tensor({
+                'a': [[1, 1], [4, 4]],
+                'b': [1.3, 1.2, 2.0],
+            }),
+        ) == ttorch.tensor({
+            'a': [[False, True], [False, False]],
+            'b': [False, True, False],
+        })).all()
+
+    def test_ge(self):
+        assert (ttorch.ge(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[1, 1], [4, 4]]),
+        ) == torch.tensor([[True, True],
+                           [False, True]])).all()
+
+        assert (ttorch.ge(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': [1.0, 1.5, 2.0],
+            }),
+            ttorch.tensor({
+                'a': [[1, 1], [4, 4]],
+                'b': [1.3, 1.2, 2.0],
+            }),
+        ) == ttorch.tensor({
+            'a': [[True, True], [False, True]],
+            'b': [False, True, True],
+        })).all()
+
     def test_equal(self):
         p1 = ttorch.equal(torch.tensor([1, 2, 3]), torch.tensor([1, 2, 3]))
         assert isinstance(p1, bool)
@@ -429,3 +534,36 @@ class TestTorchFuncs:
         }))
         assert isinstance(p4, bool)
         assert not p4
+
+    def test_min(self):
+        t1 = ttorch.min(torch.tensor([1.0, 2.0, 1.5]))
+        assert isinstance(t1, torch.Tensor)
+        assert t1 == torch.tensor(1.0)
+
+        assert ttorch.min(ttorch.tensor({
+            'a': [1.0, 2.0, 1.5],
+            'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        })) == ttorch.tensor({
+            'a': 1.0,
+            'b': {'x': 0.9},
+        })
+
+    def test_max(self):
+        t1 = ttorch.max(torch.tensor([1.0, 2.0, 1.5]))
+        assert isinstance(t1, torch.Tensor)
+        assert t1 == torch.tensor(2.0)
+
+        assert ttorch.max(ttorch.tensor({
+            'a': [1.0, 2.0, 1.5],
+            'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        })) == ttorch.tensor({
+            'a': 2.0,
+            'b': {'x': 2.5, }
+        })
+
+    def test_sum(self):
+        assert ttorch.sum(torch.tensor([1.0, 2.0, 1.5])) == torch.tensor(4.5)
+        assert ttorch.sum(ttorch.tensor({
+            'a': [1.0, 2.0, 1.5],
+            'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        })) == torch.tensor(11.0)

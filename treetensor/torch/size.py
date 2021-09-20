@@ -6,7 +6,7 @@ from treevalue import func_treelize as original_func_treelize
 from treevalue.tree.common import BaseTree
 from treevalue.utils import post_process
 
-from .base import TreeTorch
+from .base import Torch
 from ..common import Object, clsmeta, ireduce
 from ..utils import replaceable_partial, doc_from, current_names, args_mapping
 
@@ -44,7 +44,31 @@ def _post_index(func):
 
 # noinspection PyTypeChecker
 @current_names()
-class Size(TreeTorch, metaclass=clsmeta(torch.Size, allow_dict=True)):
+class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
+    def __init__(self, data):
+        """
+        In :class:`treetensor.torch.Size`, it's similar with the original :class:`torch.Size`.
+
+        Examples::
+
+            >>> import torch
+            >>> import treetensor.torch as ttorch
+            >>> ttorch.Size([1, 2, 3])
+            torch.Size([1, 2, 3])
+
+            >>> ttorch.Size({
+            ...     'a': [1, 2, 3],
+            ...     'b': {'x': [3, 4, ]},
+            ...     'c': [5],
+            ... })
+            <Size 0x7fe00b115970>
+            ├── a --> torch.Size([1, 2, 3])
+            ├── b --> <Size 0x7fe00b115250>
+            │   └── x --> torch.Size([3, 4])
+            └── c --> torch.Size([5])
+        """
+        super(Torch, self).__init__(data)
+
     @doc_from(torch.Size.numel)
     @ireduce(sum)
     @func_treelize(return_type=Object)
