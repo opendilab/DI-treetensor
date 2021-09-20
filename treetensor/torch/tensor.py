@@ -88,7 +88,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
             >>>     'b': [1, 2, 3],
             >>>     'c': True,
             >>> }).tolist()
-            TreeObject({
+            Object({
                 'a': [[1, 2], [3, 4]],
                 'b': [1, 2, 3],
                 'c': True,

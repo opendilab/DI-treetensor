@@ -27,8 +27,8 @@ def print_tree(tree: TreeValue, repr_: Callable = str,
 
     Arguments:
         - tree (:obj:`TreeValue`): Given tree object.
-        - repr\_ (:obj:`Callable`): Representation function, default is ``str``.
-        - ascii\_ (:obj:`bool`): Use ascii to print the tree, default is ``False``.
+        - repr\\_ (:obj:`Callable`): Representation function, default is ``str``.
+        - ascii\\_ (:obj:`bool`): Use ascii to print the tree, default is ``False``.
         - show_node_id (:obj:`bool`): Show node id of the tree, default is ``True``.
         - file: Output file of this print procedure, default is ``None`` which means to stdout. 
     """
