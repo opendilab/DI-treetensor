@@ -13,5 +13,12 @@ BaseTreeStruct
 -----------------------
 
 .. autoclass:: BaseTreeStruct
-    :members:
+    :members: __repr__, __str__
+
+
+clsmeta
+------------------------
+
+.. autofunction:: clsmeta
+
 

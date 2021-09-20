@@ -3,6 +3,7 @@ import io
 import os
 from functools import partial
 from typing import Optional, Tuple, Callable
+from typing import Type
 
 from treevalue import func_treelize as original_func_treelize
 from treevalue import general_tree_value, TreeValue
@@ -20,6 +21,17 @@ __all__ = [
 
 def print_tree(tree: TreeValue, repr_: Callable = str,
                ascii_: bool = False, show_node_id: bool = True, file=None):
+    """
+    Overview:
+        Print a tree structure to the given file.
+
+    Arguments:
+        - tree (:obj:`TreeValue`): Given tree object.
+        - repr\_ (:obj:`Callable`): Representation function, default is ``str``.
+        - ascii\_ (:obj:`bool`): Use ascii to print the tree, default is ``False``.
+        - show_node_id (:obj:`bool`): Show node id of the tree, default is ``True``.
+        - file: Output file of this print procedure, default is ``None`` which means to stdout. 
+    """
     print_to_file = partial(builtins.print, file=file)
     node_ids = {}
     if ascii_:
@@ -86,15 +98,54 @@ class BaseTreeStruct(general_tree_value()):
     """
 
     def __repr__(self):
+        """
+        Get the tree-based representation format of this object.
+
+        Examples::
+
+            >>> from treetensor.common import Object
+            >>> repr(Object(1))  # Object is subclass of BaseTreeStruct
+            '1'
+
+            >>> repr(Object({'a': 1, 'b': 2, 'x': {'c': 3, 'd': 4}}))
+            '<Object 0x7fe00b121220>\n├── a --> 1\n├── b --> 2\n└── x --> <Object 0x7fe00b121c10>\n    ├── c --> 3\n    └── d --> 4\n'
+
+            >>> Object({'a': 1, 'b': 2, 'x': {'c': 3, 'd': 4}})
+            <Object 0x7fe00b1271c0>
+            ├── a --> 1
+            ├── b --> 2
+            └── x --> <Object 0x7fe00b127910>
+                ├── c --> 3
+                └── d --> 4
+        """
         with io.StringIO() as sfile:
             print_tree(self, repr_=repr, ascii_=False, file=sfile)
             return sfile.getvalue()
 
     def __str__(self):
+        """
+        The same as :py:meth:`BaseTreeStruct.__repr__`.
+        """
         return self.__repr__()
 
 
-def clsmeta(func, allow_dict: bool = False):
+def clsmeta(func, allow_dict: bool = False) -> Type[type]:
+    """
+    Overview:
+        Create a metaclass based on generating function.
+
+        Used in :py:class:`treetensor.common.Object`,
+        :py:class:`treetensor.torch.Tensor` and :py:class:`treetensor.torch.Size`.
+        Can do modify onto the constructor function of the classes.
+
+    Arguments:
+        - func: Generating function.
+        - allow_dict (:obj:`bool`): Auto transform dictionary to :py:class:`treevalue.TreeValue` class, \
+                                    default is ``False``.
+    Returns:
+        - metaclass (:obj:`Type[type]`): Metaclass for creating a new class.
+    """
+
     class _TempTreeValue(TreeValue):
         pass
 

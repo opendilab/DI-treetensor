@@ -10,6 +10,11 @@ def _object(obj):
 
 
 class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
+    """
+    Overview:
+        Generic object tree class, used in :py:mod:`treetensor.numpy` and :py:mod:`treetensor.torch`.
+    """
+
     def __init__(self, data):
         """
         In :class:`treetensor.common.Object`, object or object tree can be initialized.

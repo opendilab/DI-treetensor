@@ -1,6 +1,10 @@
 treetensor.torch
 =====================
 
+.. py:currentmodule:: treetensor.torch
+
+.. automodule:: treetensor.torch
+
 .. toctree::
     :maxdepth: 2
 
