@@ -293,3 +293,27 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         See :func:`treetensor.torch.matmul`.
         """
         return self.matmul(tensor2, *args, **kwargs)
+
+    @doc_from(torch.Tensor.isfinite)
+    @method_treelize()
+    def isfinite(self):
+        """
+        See :func:`treetensor.torch.isfinite`.
+        """
+        return self.isfinite()
+
+    @doc_from(torch.Tensor.isinf)
+    @method_treelize()
+    def isinf(self):
+        """
+        See :func:`treetensor.torch.isinf`.
+        """
+        return self.isinf()
+
+    @doc_from(torch.Tensor.isnan)
+    @method_treelize()
+    def isnan(self):
+        """
+        See :func:`treetensor.torch.isnan`.
+        """
+        return self.isnan()

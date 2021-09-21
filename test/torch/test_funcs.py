@@ -644,3 +644,45 @@ class TestTorchFuncs:
             'a': [[19, 10], [43, 26]],
             'b': {'x': [[44, 32], [80, 59]]},
         })).all()
+
+    def test_isfinite(self):
+        t1 = ttorch.isfinite(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([True, False, True, False, False])).all()
+
+        t2 = ttorch.isfinite(ttorch.tensor({
+            'a': [1, float('inf'), 2, float('-inf'), float('nan')],
+            'b': {'x': [[1, float('inf'), -2], [float('-inf'), 3, float('nan')]]}
+        }))
+        assert (t2 == ttorch.tensor({
+            'a': [True, False, True, False, False],
+            'b': {'x': [[True, False, True], [False, True, False]]},
+        }))
+
+    def test_isinf(self):
+        t1 = ttorch.isinf(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([False, True, False, True, False])).all()
+
+        t2 = ttorch.isinf(ttorch.tensor({
+            'a': [1, float('inf'), 2, float('-inf'), float('nan')],
+            'b': {'x': [[1, float('inf'), -2], [float('-inf'), 3, float('nan')]]}
+        }))
+        assert (t2 == ttorch.tensor({
+            'a': [False, True, False, True, False],
+            'b': {'x': [[False, True, False], [True, False, False]]},
+        }))
+
+    def test_isnan(self):
+        t1 = ttorch.isnan(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([False, False, False, False, True])).all()
+
+        t2 = ttorch.isnan(ttorch.tensor({
+            'a': [1, float('inf'), 2, float('-inf'), float('nan')],
+            'b': {'x': [[1, float('inf'), -2], [float('-inf'), 3, float('nan')]]}
+        }))
+        assert (t2 == ttorch.tensor({
+            'a': [False, False, False, False, True],
+            'b': {'x': [[False, False, False], [False, False, True]]},
+        })).all()

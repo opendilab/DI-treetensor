@@ -22,6 +22,7 @@ __all__ = [
     'eq', 'ne', 'lt', 'le', 'gt', 'ge',
     'equal', 'tensor', 'clone',
     'dot', 'matmul', 'mm',
+    'isfinite', 'isinf', 'isnan',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -954,3 +955,87 @@ def mm(input, mat2, *args, **kwargs):
                               [80, 59]])
     """
     return torch.mm(input, mat2, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.isfinite)
+@func_treelize()
+def isfinite(input):
+    """
+    In ``treetensor``, you can get a tree of new tensors with boolean elements
+    representing if each element is `finite` or not.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.isfinite(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+        tensor([ True, False,  True, False, False])
+
+        >>> ttorch.isfinite(ttorch.tensor({
+        ...     'a': [1, float('inf'), 2, float('-inf'), float('nan')],
+        ...     'b': {'x': [[1, float('inf'), -2], [float('-inf'), 3, float('nan')]]}
+        ... }))
+        <Tensor 0x7fb782a15970>
+        ├── a --> tensor([ True, False,  True, False, False])
+        └── b --> <Tensor 0x7fb782a1e040>
+            └── x --> tensor([[ True, False,  True],
+                              [False,  True, False]])
+    """
+    return torch.isfinite(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.isinf)
+@func_treelize()
+def isinf(input):
+    """
+    In ``treetensor``, you can test if each element of ``input``
+    is infinite (positive or negative infinity) or not.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.isinf(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+        tensor([False,  True, False,  True, False])
+
+        >>> ttorch.isinf(ttorch.tensor({
+        ...     'a': [1, float('inf'), 2, float('-inf'), float('nan')],
+        ...     'b': {'x': [[1, float('inf'), -2], [float('-inf'), 3, float('nan')]]}
+        ... }))
+        <Tensor 0x7fb782a29b80>
+        ├── a --> tensor([False,  True, False,  True, False])
+        └── b --> <Tensor 0x7fb782a2d1f0>
+            └── x --> tensor([[False,  True, False],
+                              [ True, False, False]])
+    """
+    return torch.isinf(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.isnan)
+@func_treelize()
+def isnan(input):
+    """
+    In ``treetensor``, you get a tree of new tensors with boolean elements representing
+    if each element of ``input`` is NaN or not
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.isnan(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
+        tensor([False, False, False, False,  True])
+
+        >>> ttorch.isnan(ttorch.tensor({
+        ...     'a': [1, float('inf'), 2, float('-inf'), float('nan')],
+        ...     'b': {'x': [[1, float('inf'), -2], [float('-inf'), 3, float('nan')]]}
+        ... }))
+        <Tensor 0x7fb782a2d0a0>
+        ├── a --> tensor([False, False, False, False,  True])
+        └── b --> <Tensor 0x7fb782a29d90>
+            └── x --> tensor([[False, False, False],
+                              [False, False,  True]])
+    """
+    return torch.isnan(input)
