@@ -10,7 +10,7 @@ from treetensor.common import Object
 _all_is = func_treelize(return_type=ttorch.Tensor)(lambda x, y: x is y)
 
 
-# noinspection PyUnresolvedReferences
+# noinspection PyUnresolvedReferences,DuplicatedCode
 @pytest.mark.unittest
 class TestTorchTensor:
     _DEMO_1 = ttorch.Tensor({
@@ -323,3 +323,232 @@ class TestTorchTensor:
             'a': [False, False, False, False, True],
             'b': {'x': [[False, False, False], [False, False, True]]},
         })).all()
+
+    def test_abs(self):
+        t1 = ttorch.tensor([12, 0, -3]).abs()
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([12, 0, 3])).all()
+
+        t2 = ttorch.tensor({
+            'a': [12, 0, -3],
+            'b': {'x': [[-3, 1], [0, -2]]},
+        }).abs()
+        assert (t2 == ttorch.tensor({
+            'a': [12, 0, 3],
+            'b': {'x': [[3, 1], [0, 2]]},
+        })).all()
+
+    def test_abs_(self):
+        t1 = ttorch.tensor([12, 0, -3])
+        t1r = t1.abs_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([12, 0, 3])).all()
+
+        t2 = ttorch.tensor({
+            'a': [12, 0, -3],
+            'b': {'x': [[-3, 1], [0, -2]]},
+        })
+        t2r = t2.abs_()
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [12, 0, 3],
+            'b': {'x': [[3, 1], [0, 2]]},
+        })).all()
+
+    def test_clamp(self):
+        t1 = ttorch.tensor([-1.7120, 0.1734, -0.0478, 2.0922]).clamp(min=-0.5, max=0.5)
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([-0.5000, 0.1734, -0.0478, 0.5000])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [-1.7120, 0.1734, -0.0478, 2.0922],
+            'b': {'x': [[-0.9049, 1.7029, -0.3697], [0.0489, -1.3127, -1.0221]]},
+        }).clamp(min=-0.5, max=0.5)
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [-0.5000, 0.1734, -0.0478, 0.5000],
+            'b': {'x': [[-0.5000, 0.5000, -0.3697],
+                        [0.0489, -0.5000, -0.5000]]},
+        })) < 1e-6).all()
+
+    def test_clamp_(self):
+        t1 = ttorch.tensor([-1.7120, 0.1734, -0.0478, 2.0922])
+        t1r = t1.clamp_(min=-0.5, max=0.5)
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([-0.5000, 0.1734, -0.0478, 0.5000])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [-1.7120, 0.1734, -0.0478, 2.0922],
+            'b': {'x': [[-0.9049, 1.7029, -0.3697], [0.0489, -1.3127, -1.0221]]},
+        })
+        t2r = t2.clamp_(min=-0.5, max=0.5)
+        assert t2r is t2
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [-0.5000, 0.1734, -0.0478, 0.5000],
+            'b': {'x': [[-0.5000, 0.5000, -0.3697],
+                        [0.0489, -0.5000, -0.5000]]},
+        })) < 1e-6).all()
+
+    def test_sign(self):
+        t1 = ttorch.tensor([12, 0, -3]).sign()
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([1, 0, -1])).all()
+
+        t2 = ttorch.tensor({
+            'a': [12, 0, -3],
+            'b': {'x': [[-3, 1], [0, -2]]},
+        }).sign()
+        assert (t2 == ttorch.tensor({
+            'a': [1, 0, -1],
+            'b': {'x': [[-1, 1],
+                        [0, -1]]},
+        })).all()
+
+    def test_round(self):
+        t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]).round()
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([[1., -2.],
+                                               [-2., 3.]])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [[1.2, -1.8], [-2.3, 2.8]],
+            'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        }).round()
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [[1., -2.],
+                  [-2., 3.]],
+            'b': {'x': [[1., -4., 1.],
+                        [-5., -2., 3.]]},
+        })) < 1e-6).all()
+
+    def test_round_(self):
+        t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
+        t1r = t1.round_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([[1., -2.],
+                                               [-2., 3.]])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [[1.2, -1.8], [-2.3, 2.8]],
+            'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        })
+        t2r = t2.round_()
+        assert t2r is t2
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [[1., -2.],
+                  [-2., 3.]],
+            'b': {'x': [[1., -4., 1.],
+                        [-5., -2., 3.]]},
+        })) < 1e-6).all()
+
+    def test_floor(self):
+        t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]).floor()
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([[1., -2.],
+                                               [-3., 2.]])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [[1.2, -1.8], [-2.3, 2.8]],
+            'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        }).floor()
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [[1., -2.],
+                  [-3., 2.]],
+            'b': {'x': [[1., -4., 1.],
+                        [-5., -2., 2.]]},
+        })) < 1e-6).all()
+
+    def test_floor_(self):
+        t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
+        t1r = t1.floor_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([[1., -2.],
+                                               [-3., 2.]])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [[1.2, -1.8], [-2.3, 2.8]],
+            'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        })
+        t2r = t2.floor_()
+        assert t2r is t2
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [[1., -2.],
+                  [-3., 2.]],
+            'b': {'x': [[1., -4., 1.],
+                        [-5., -2., 2.]]},
+        })) < 1e-6).all()
+
+    def test_ceil(self):
+        t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]).ceil()
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([[2., -1.],
+                                               [-2., 3.]])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [[1.2, -1.8], [-2.3, 2.8]],
+            'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        }).ceil()
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [[2., -1.],
+                  [-2., 3.]],
+            'b': {'x': [[1., -3., 2.],
+                        [-4., -2., 3.]]},
+        })) < 1e-6).all()
+
+    def test_ceil_(self):
+        t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
+        t1r = t1.ceil_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([[2., -1.],
+                                               [-2., 3.]])) < 1e-6).all()
+
+        t2 = ttorch.tensor({
+            'a': [[1.2, -1.8], [-2.3, 2.8]],
+            'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        })
+        t2r = t2.ceil_()
+        assert t2r is t2
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [[2., -1.],
+                  [-2., 3.]],
+            'b': {'x': [[1., -3., 2.],
+                        [-4., -2., 3.]]},
+        })) < 1e-6).all()
+
+    def test_sigmoid(self):
+        t1 = ttorch.tensor([1.0, 2.0, -1.5]).sigmoid()
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([0.7311, 0.8808, 0.1824])) < 1e-4).all()
+
+        t2 = ttorch.tensor({
+            'a': [1.0, 2.0, -1.5],
+            'b': {'x': [[0.5, 1.2], [-2.5, 0.25]]},
+        }).sigmoid()
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [0.7311, 0.8808, 0.1824],
+            'b': {'x': [[0.6225, 0.7685],
+                        [0.0759, 0.5622]]},
+        })) < 1e-4).all()
+
+    def test_sigmoid_(self):
+        t1 = ttorch.tensor([1.0, 2.0, -1.5])
+        t1r = t1.sigmoid_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (ttorch.abs(t1 - ttorch.tensor([0.7311, 0.8808, 0.1824])) < 1e-4).all()
+
+        t2 = ttorch.tensor({
+            'a': [1.0, 2.0, -1.5],
+            'b': {'x': [[0.5, 1.2], [-2.5, 0.25]]},
+        })
+        t2r = t2.sigmoid_()
+        assert t2r is t2
+        assert (ttorch.abs(t2 - ttorch.tensor({
+            'a': [0.7311, 0.8808, 0.1824],
+            'b': {'x': [[0.6225, 0.7685],
+                        [0.0759, 0.5622]]},
+        })) < 1e-4).all()

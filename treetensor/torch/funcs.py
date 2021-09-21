@@ -1047,6 +1047,26 @@ def isnan(input):
 @doc_from(torch.abs)
 @func_treelize()
 def abs(input, *args, **kwargs):
+    """
+    Computes the absolute value of each element in ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.abs(ttorch.tensor([12, 0, -3]))
+        tensor([12,  0,  3])
+
+        >>> ttorch.abs(ttorch.tensor({
+        ...     'a': [12, 0, -3],
+        ...     'b': {'x': [[-3, 1], [0, -2]]},
+        ... }))
+        <Tensor 0x7f1c81d78ee0>
+        ├── a --> tensor([12,  0,  3])
+        └── b --> <Tensor 0x7f1c81d78d90>
+            └── x --> tensor([[3, 1],
+                              [0, 2]])
+    """
     return torch.abs(input, *args, **kwargs)
 
 
@@ -1055,6 +1075,30 @@ def abs(input, *args, **kwargs):
 @return_self
 @func_treelize()
 def abs_(input):
+    """
+    In-place version of :func:`treetensor.torch.abs`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([12, 0, -3])
+        >>> ttorch.abs_(t)
+        >>> t
+        tensor([12,  0,  3])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [12, 0, -3],
+        ...     'b': {'x': [[-3, 1], [0, -2]]},
+        ... })
+        >>> ttorch.abs_(t)
+        >>> t
+        <Tensor 0x7f1c81d07ca0>
+        ├── a --> tensor([12,  0,  3])
+        └── b --> <Tensor 0x7f1c81d07d30>
+            └── x --> tensor([[3, 1],
+                              [0, 2]])
+    """
     return torch.abs_(input)
 
 
@@ -1062,14 +1106,58 @@ def abs_(input):
 @doc_from(torch.clamp)
 @func_treelize()
 def clamp(input, *args, **kwargs):
+    """
+    Clamp all elements in ``input`` into the range `[` ``min``, ``max`` `]`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.clamp(ttorch.tensor([-1.7120,  0.1734, -0.0478, 2.0922]), min=-0.5, max=0.5)
+        tensor([-0.5000,  0.1734, -0.0478,  0.5000])
+
+        >>> ttorch.clamp(ttorch.tensor({
+        ...     'a': [-1.7120,  0.1734, -0.0478, 2.0922],
+        ...     'b': {'x': [[-0.9049, 1.7029, -0.3697], [0.0489, -1.3127, -1.0221]]},
+        ... }), min=-0.5, max=0.5)
+        <Tensor 0x7fbf5332a7c0>
+        ├── a --> tensor([-0.5000,  0.1734, -0.0478,  0.5000])
+        └── b --> <Tensor 0x7fbf5332a880>
+            └── x --> tensor([[-0.5000,  0.5000, -0.3697],
+                              [ 0.0489, -0.5000, -0.5000]])
+    """
     return torch.clamp(input, *args, **kwargs)
 
 
-# noinspection PyShadowingBuiltins
+# noinspection PyShadowingBuiltins,PyUnresolvedReferences
 @doc_from(torch.clamp_)
 @return_self
 @func_treelize()
 def clamp_(input, *args, **kwargs):
+    """
+    In-place version of :func:`treetensor.torch.clamp`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-1.7120,  0.1734, -0.0478, 2.0922])
+        >>> ttorch.clamp_(t, min=-0.5, max=0.5)
+        >>> t
+        tensor([-0.5000,  0.1734, -0.0478,  0.5000])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [-1.7120,  0.1734, -0.0478, 2.0922],
+        ...     'b': {'x': [[-0.9049, 1.7029, -0.3697], [0.0489, -1.3127, -1.0221]]},
+        ... })
+        >>> ttorch.clamp_(t, min=-0.5, max=0.5)
+        >>> t
+        <Tensor 0x7fbf53327730>
+        ├── a --> tensor([-0.5000,  0.1734, -0.0478,  0.5000])
+        └── b --> <Tensor 0x7fbf533277f0>
+            └── x --> tensor([[-0.5000,  0.5000, -0.3697],
+                              [ 0.0489, -0.5000, -0.5000]])
+    """
     return torch.clamp_(input, *args, **kwargs)
 
 
@@ -1077,6 +1165,26 @@ def clamp_(input, *args, **kwargs):
 @doc_from(torch.sign)
 @func_treelize()
 def sign(input, *args, **kwargs):
+    """
+    Returns a tree of new tensors with the signs of the elements of input.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.sign(ttorch.tensor([12, 0, -3]))
+        tensor([ 1,  0, -1])
+
+        >>> ttorch.sign(ttorch.tensor({
+        ...     'a': [12, 0, -3],
+        ...     'b': {'x': [[-3, 1], [0, -2]]},
+        ... }))
+        <Tensor 0x7f1c81d02d30>
+        ├── a --> tensor([ 1,  0, -1])
+        └── b --> <Tensor 0x7f1c81d02a60>
+            └── x --> tensor([[-1,  1],
+                              [ 0, -1]])
+    """
     return torch.sign(input, *args, **kwargs)
 
 
@@ -1084,6 +1192,29 @@ def sign(input, *args, **kwargs):
 @doc_from(torch.round)
 @func_treelize()
 def round(input, *args, **kwargs):
+    """
+    Returns a tree of new tensors with each of the elements of ``input``
+    rounded to the closest integer.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.round(ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]))
+        tensor([[ 1., -2.],
+                [-2.,  3.]])
+
+        >>> ttorch.round(ttorch.tensor({
+        ...     'a': [[1.2, -1.8], [-2.3, 2.8]],
+        ...     'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        ... }))
+        <Tensor 0x7fbf5333bc10>
+        ├── a --> tensor([[ 1., -2.],
+        │                 [-2.,  3.]])
+        └── b --> <Tensor 0x7fbf5333bcd0>
+            └── x --> tensor([[ 1., -4.,  1.],
+                              [-5., -2.,  3.]])
+    """
     return torch.round(input, *args, **kwargs)
 
 
@@ -1092,6 +1223,32 @@ def round(input, *args, **kwargs):
 @return_self
 @func_treelize()
 def round_(input):
+    """
+    In-place version of :func:`treetensor.torch.round`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
+        >>> ttorch.round_(t)
+        >>> t
+        tensor([[ 1., -2.],
+                [-2.,  3.]])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [[1.2, -1.8], [-2.3, 2.8]],
+        ...     'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        ... })
+        >>> ttorch.round_(t)
+        >>> t
+        <Tensor 0x7fbf5332a460>
+        ├── a --> tensor([[ 1., -2.],
+        │                 [-2.,  3.]])
+        └── b --> <Tensor 0x7fbf5332a1f0>
+            └── x --> tensor([[ 1., -4.,  1.],
+                              [-5., -2.,  3.]])
+    """
     return torch.round_(input)
 
 
@@ -1099,6 +1256,29 @@ def round_(input):
 @doc_from(torch.floor)
 @func_treelize()
 def floor(input, *args, **kwargs):
+    """
+    Returns a tree of new tensors with the floor of the elements of ``input``,
+    the largest integer less than or equal to each element.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.floor(ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]))
+        tensor([[ 1., -2.],
+                [-3.,  2.]])
+
+        >>> ttorch.floor(ttorch.tensor({
+        ...     'a': [[1.2, -1.8], [-2.3, 2.8]],
+        ...     'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        ... }))
+        <Tensor 0x7fbf53334250>
+        ├── a --> tensor([[ 1., -2.],
+        │                 [-3.,  2.]])
+        └── b --> <Tensor 0x7fbf53334f10>
+            └── x --> tensor([[ 1., -4.,  1.],
+                              [-5., -2.,  2.]])
+    """
     return torch.floor(input, *args, **kwargs)
 
 
@@ -1107,6 +1287,32 @@ def floor(input, *args, **kwargs):
 @return_self
 @func_treelize()
 def floor_(input):
+    """
+    In-place version of :func:`treetensor.torch.floor`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
+        >>> ttorch.floor_(t)
+        >>> t
+        tensor([[ 1., -2.],
+                [-3.,  2.]])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [[1.2, -1.8], [-2.3, 2.8]],
+        ...     'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        ... })
+        >>> ttorch.floor_(t)
+        >>> t
+        <Tensor 0x7fbf53396d90>
+        ├── a --> tensor([[ 1., -2.],
+        │                 [-3.,  2.]])
+        └── b --> <Tensor 0x7fbf533a0250>
+            └── x --> tensor([[ 1., -4.,  1.],
+                              [-5., -2.,  2.]])
+    """
     return torch.floor_(input)
 
 
@@ -1114,6 +1320,29 @@ def floor_(input):
 @doc_from(torch.ceil)
 @func_treelize()
 def ceil(input, *args, **kwargs):
+    """
+    Returns a tree of new tensors with the ceil of the elements of ``input``,
+    the smallest integer greater than or equal to each element.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.ceil(ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]))
+        tensor([[ 2., -1.],
+                [-2.,  3.]])
+
+        >>> ttorch.ceil(ttorch.tensor({
+        ...     'a': [[1.2, -1.8], [-2.3, 2.8]],
+        ...     'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        ... }))
+        <Tensor 0x7f1c81d021c0>
+        ├── a --> tensor([[ 2., -1.],
+        │                 [-2.,  3.]])
+        └── b --> <Tensor 0x7f1c81d02280>
+            └── x --> tensor([[ 1., -3.,  2.],
+                              [-4., -2.,  3.]])
+    """
     return torch.ceil(input, *args, **kwargs)
 
 
@@ -1122,6 +1351,32 @@ def ceil(input, *args, **kwargs):
 @return_self
 @func_treelize()
 def ceil_(input):
+    """
+    In-place version of :func:`treetensor.torch.ceil`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
+        >>> ttorch.ceil_(t)
+        >>> t
+        tensor([[ 2., -1.],
+                [-2.,  3.]])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [[1.2, -1.8], [-2.3, 2.8]],
+        ...     'b': {'x': [[1.0, -3.9, 1.3], [-4.8, -2.0, 2.8]]},
+        ... })
+        >>> ttorch.ceil_(t)
+        >>> t
+        <Tensor 0x7f1c81d78040>
+        ├── a --> tensor([[ 2., -1.],
+        │                 [-2.,  3.]])
+        └── b --> <Tensor 0x7f1c81d780d0>
+            └── x --> tensor([[ 1., -3.,  2.],
+                              [-4., -2.,  3.]])
+    """
     return torch.ceil_(input)
 
 
@@ -1130,19 +1385,19 @@ def ceil_(input):
 @func_treelize()
 def sigmoid(input, *args, **kwargs):
     """
-    Get a tree of new tensors with the sigmoid of the elements of ``input``.
+    Returns a tree of new tensors with the sigmoid of the elements of ``input``.
 
     Examples::
 
         >>> import torch
         >>> import treetensor.torch as ttorch
-        >>> ttorch.tensor([1.0, 2.0, -1.5]).sigmoid()
+        >>> ttorch.sigmoid(ttorch.tensor([1.0, 2.0, -1.5]))
         tensor([0.7311, 0.8808, 0.1824])
 
-        >>> ttorch.tensor({
+        >>> ttorch.sigmoid(ttorch.tensor({
         ...     'a': [1.0, 2.0, -1.5],
         ...     'b': {'x': [[0.5, 1.2], [-2.5, 0.25]]},
-        ... }).sigmoid()
+        ... }))
         <Tensor 0x7f973a312820>
         ├── a --> tensor([0.7311, 0.8808, 0.1824])
         └── b --> <Tensor 0x7f973a3128b0>
