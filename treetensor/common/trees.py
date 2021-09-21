@@ -149,20 +149,28 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
     class _TempTreeValue(TreeValue):
         pass
 
-    _types = (
-        TreeValue, BaseTree,
-        *((dict,) if allow_dict else ()),
-    )
-    func_treelize = post_process(post_process(args_mapping(
-        lambda i, x: TreeValue(x) if isinstance(x, _types) else x)))(
+    def _mapping_func(_, x):
+        if isinstance(x, TreeValue):
+            return x
+        elif isinstance(x, BaseTree):
+            return TreeValue(x)
+        elif allow_dict and isinstance(x, dict):
+            return TreeValue(x)
+        else:
+            return x
+
+    func_treelize = post_process(post_process(args_mapping(_mapping_func)))(
         replaceable_partial(original_func_treelize, return_type=_TempTreeValue)
     )
 
     _wrapped_func = func_treelize()(func)
 
     class _MetaClass(type):
-        def __call__(cls, *args, **kwargs):
-            _result = _wrapped_func(*args, **kwargs)
+        def __call__(cls, data, *args, **kwargs):
+            if isinstance(data, BaseTree):
+                return type.__call__(cls, data)
+
+            _result = _wrapped_func(data, *args, **kwargs)
             if isinstance(_result, _TempTreeValue):
                 return type.__call__(cls, _result)
             else:

@@ -5,7 +5,7 @@ from treevalue.utils import pre_process
 
 from .base import Torch
 from .size import Size
-from ..common import Object, ireduce, clsmeta
+from ..common import Object, ireduce, clsmeta, return_self
 from ..numpy import ndarray
 from ..utils import current_names, doc_from
 
@@ -317,3 +317,113 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         See :func:`treetensor.torch.isnan`.
         """
         return self.isnan()
+
+    @doc_from(torch.Tensor.abs)
+    @method_treelize()
+    def abs(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.abs`.
+        """
+        return self.abs(*args, **kwargs)
+
+    @doc_from(torch.Tensor.abs_)
+    @return_self
+    @method_treelize()
+    def abs_(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.abs_`.
+        """
+        return self.abs_(*args, **kwargs)
+
+    @doc_from(torch.Tensor.clamp)
+    @method_treelize()
+    def clamp(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.clamp`.
+        """
+        return self.clamp(*args, **kwargs)
+
+    @doc_from(torch.Tensor.clamp_)
+    @return_self
+    @method_treelize()
+    def clamp_(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.clamp_`.
+        """
+        return self.clamp_(*args, **kwargs)
+
+    @doc_from(torch.Tensor.sign)
+    @method_treelize()
+    def sign(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.sign`.
+        """
+        return self.sign(*args, **kwargs)
+
+    @doc_from(torch.Tensor.sigmoid)
+    @method_treelize()
+    def sigmoid(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.sigmoid`.
+        """
+        return self.sigmoid(*args, **kwargs)
+
+    @doc_from(torch.Tensor.sigmoid_)
+    @return_self
+    @method_treelize()
+    def sigmoid_(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.sigmoid_`.
+        """
+        return self.sigmoid_(*args, **kwargs)
+
+    @doc_from(torch.Tensor.floor)
+    @method_treelize()
+    def floor(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.floor`.
+        """
+        return self.floor(*args, **kwargs)
+
+    @doc_from(torch.Tensor.floor_)
+    @return_self
+    @method_treelize()
+    def floor_(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.floor_`.
+        """
+        return self.floor_(*args, **kwargs)
+
+    @doc_from(torch.Tensor.ceil)
+    @method_treelize()
+    def ceil(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.ceil`.
+        """
+        return self.ceil(*args, **kwargs)
+
+    @doc_from(torch.Tensor.ceil_)
+    @return_self
+    @method_treelize()
+    def ceil_(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.ceil_`.
+        """
+        return self.ceil_(*args, **kwargs)
+
+    @doc_from(torch.Tensor.round)
+    @method_treelize()
+    def round(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.round`.
+        """
+        return self.round(*args, **kwargs)
+
+    @doc_from(torch.Tensor.round_)
+    @return_self
+    @method_treelize()
+    def round_(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.round_`.
+        """
+        return self.round_(*args, **kwargs)

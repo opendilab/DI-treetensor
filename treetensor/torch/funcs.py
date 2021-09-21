@@ -7,7 +7,7 @@ from treevalue.tree.common import BaseTree
 from treevalue.utils import post_process
 
 from .tensor import Tensor, tireduce
-from ..common import Object, ireduce
+from ..common import Object, ireduce, return_self
 from ..utils import replaceable_partial, doc_from, args_mapping
 
 __all__ = [
@@ -23,6 +23,8 @@ __all__ = [
     'equal', 'tensor', 'clone',
     'dot', 'matmul', 'mm',
     'isfinite', 'isinf', 'isnan',
+    'abs', 'abs_', 'clamp', 'clamp_', 'sign', 'sigmoid', 'sigmoid_',
+    'round', 'round_', 'floor', 'floor_', 'ceil', 'ceil_',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -1039,3 +1041,144 @@ def isnan(input):
                               [False, False,  True]])
     """
     return torch.isnan(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.abs)
+@func_treelize()
+def abs(input, *args, **kwargs):
+    return torch.abs(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.abs_)
+@return_self
+@func_treelize()
+def abs_(input):
+    return torch.abs_(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.clamp)
+@func_treelize()
+def clamp(input, *args, **kwargs):
+    return torch.clamp(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.clamp_)
+@return_self
+@func_treelize()
+def clamp_(input, *args, **kwargs):
+    return torch.clamp_(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.sign)
+@func_treelize()
+def sign(input, *args, **kwargs):
+    return torch.sign(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.round)
+@func_treelize()
+def round(input, *args, **kwargs):
+    return torch.round(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.round_)
+@return_self
+@func_treelize()
+def round_(input):
+    return torch.round_(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.floor)
+@func_treelize()
+def floor(input, *args, **kwargs):
+    return torch.floor(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.floor_)
+@return_self
+@func_treelize()
+def floor_(input):
+    return torch.floor_(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.ceil)
+@func_treelize()
+def ceil(input, *args, **kwargs):
+    return torch.ceil(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.ceil_)
+@return_self
+@func_treelize()
+def ceil_(input):
+    return torch.ceil_(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.sigmoid)
+@func_treelize()
+def sigmoid(input, *args, **kwargs):
+    """
+    Get a tree of new tensors with the sigmoid of the elements of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.tensor([1.0, 2.0, -1.5]).sigmoid()
+        tensor([0.7311, 0.8808, 0.1824])
+
+        >>> ttorch.tensor({
+        ...     'a': [1.0, 2.0, -1.5],
+        ...     'b': {'x': [[0.5, 1.2], [-2.5, 0.25]]},
+        ... }).sigmoid()
+        <Tensor 0x7f973a312820>
+        ├── a --> tensor([0.7311, 0.8808, 0.1824])
+        └── b --> <Tensor 0x7f973a3128b0>
+            └── x --> tensor([[0.6225, 0.7685],
+                              [0.0759, 0.5622]])
+    """
+    return torch.sigmoid(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from(torch.sigmoid_)
+@return_self
+@func_treelize()
+def sigmoid_(input):
+    """
+    In-place version of :func:`treetensor.torch.sigmoid`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([1.0, 2.0, -1.5])
+        >>> ttorch.sigmoid_(t)
+        >>> t
+        tensor([0.7311, 0.8808, 0.1824])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [1.0, 2.0, -1.5],
+        ...     'b': {'x': [[0.5, 1.2], [-2.5, 0.25]]},
+        ... })
+        >>> ttorch.sigmoid_(t)
+        >>> t
+        <Tensor 0x7f68fea8d040>
+        ├── a --> tensor([0.7311, 0.8808, 0.1824])
+        └── b --> <Tensor 0x7f68fea8ee50>
+            └── x --> tensor([[0.6225, 0.7685],
+                              [0.0759, 0.5622]])
+    """
+    return torch.sigmoid_(input)

@@ -36,6 +36,7 @@ def get_origin(obj):
 
 
 def print_title(title: str, levelc='=', file=None):
+    title = title.replace('_', '\\_')
     _print = partial(print, file=file)
     _print(title)
     _print(levelc * (len(title) + 5))

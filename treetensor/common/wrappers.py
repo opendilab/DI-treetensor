@@ -7,6 +7,7 @@ from treevalue import reduce_ as treevalue_reduce
 
 __all__ = [
     'kwreduce', 'ireduce', 'vreduce',
+    'return_self',
 ]
 
 
@@ -55,3 +56,12 @@ def ireduce(rfunc):
         return _new_func
 
     return _decorator
+
+
+def return_self(func):
+    @wraps(func)
+    def _new_func(self, *args, **kwargs):
+        func(self, *args, **kwargs)
+        return self
+
+    return _new_func
