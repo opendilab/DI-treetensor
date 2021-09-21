@@ -261,3 +261,35 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         See :func:`treetensor.torch.ge`.
         """
         return self >= other
+
+    @doc_from(torch.Tensor.clone)
+    @method_treelize()
+    def clone(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.clone`.
+        """
+        return self.clone(*args, **kwargs)
+
+    @doc_from(torch.Tensor.dot)
+    @method_treelize()
+    def dot(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.dot`.
+        """
+        return self.dot(other, *args, **kwargs)
+
+    @doc_from(torch.Tensor.mm)
+    @method_treelize()
+    def mm(self, mat2, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.mm`.
+        """
+        return self.mm(mat2, *args, **kwargs)
+
+    @doc_from(torch.Tensor.matmul)
+    @method_treelize()
+    def matmul(self, tensor2, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.matmul`.
+        """
+        return self.matmul(tensor2, *args, **kwargs)

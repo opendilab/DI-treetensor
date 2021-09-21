@@ -4,7 +4,7 @@ import torch
 import treetensor.torch as ttorch
 
 
-# noinspection DuplicatedCode
+# noinspection DuplicatedCode,PyUnresolvedReferences
 @pytest.mark.unittest
 class TestTorchFuncs:
     def test_tensor(self):
@@ -567,3 +567,80 @@ class TestTorchFuncs:
             'a': [1.0, 2.0, 1.5],
             'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
         })) == torch.tensor(11.0)
+
+    def test_clone(self):
+        t1 = ttorch.clone(torch.tensor([1.0, 2.0, 1.5]))
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == torch.tensor([1.0, 2.0, 1.5])).all()
+
+        t2 = ttorch.clone(ttorch.tensor({
+            'a': [1.0, 2.0, 1.5],
+            'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        }))
+        assert (t2 == ttorch.tensor({
+            'a': [1.0, 2.0, 1.5],
+            'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        })).all()
+
+    def test_dot(self):
+        t1 = ttorch.dot(torch.tensor([1, 2]), torch.tensor([2, 3]))
+        assert isinstance(t1, torch.Tensor)
+        assert t1.tolist() == 8
+
+        t2 = ttorch.dot(
+            ttorch.tensor({
+                'a': [1, 2, 3],
+                'b': {'x': [3, 4]},
+            }),
+            ttorch.tensor({
+                'a': [5, 6, 7],
+                'b': {'x': [1, 2]},
+            })
+        )
+        assert (t2 == ttorch.tensor({'a': 38, 'b': {'x': 11}})).all()
+
+    def test_matmul(self):
+        t1 = ttorch.matmul(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[5, 6], [7, 2]]),
+        )
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == torch.tensor([[19, 10], [43, 26]])).all()
+
+        t2 = ttorch.matmul(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': {'x': [3, 4, 5, 6]},
+            }),
+            ttorch.tensor({
+                'a': [[5, 6], [7, 2]],
+                'b': {'x': [4, 3, 2, 1]},
+            }),
+        )
+        assert (t2 == ttorch.tensor({
+            'a': [[19, 10], [43, 26]],
+            'b': {'x': 40}
+        })).all()
+
+    def test_mm(self):
+        t1 = ttorch.mm(
+            torch.tensor([[1, 2], [3, 4]]),
+            torch.tensor([[5, 6], [7, 2]]),
+        )
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == torch.tensor([[19, 10], [43, 26]])).all()
+
+        t2 = ttorch.mm(
+            ttorch.tensor({
+                'a': [[1, 2], [3, 4]],
+                'b': {'x': [[3, 4, 5], [6, 7, 8]]},
+            }),
+            ttorch.tensor({
+                'a': [[5, 6], [7, 2]],
+                'b': {'x': [[6, 5], [4, 3], [2, 1]]},
+            }),
+        )
+        assert (t2 == ttorch.tensor({
+            'a': [[19, 10], [43, 26]],
+            'b': {'x': [[44, 32], [80, 59]]},
+        })).all()
