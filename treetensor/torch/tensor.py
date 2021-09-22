@@ -364,6 +364,15 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.sign(*args, **kwargs)
 
     @doc_from_base()
+    @return_self
+    @method_treelize()
+    def sign_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.sign`.
+        """
+        return self.sign_(*args, **kwargs)
+
+    @doc_from_base()
     @method_treelize()
     def sigmoid(self, *args, **kwargs):
         """

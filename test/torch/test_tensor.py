@@ -436,6 +436,26 @@ class TestTorchTensor:
         })).all()
 
     @choose_mark()
+    def test_sign_(self):
+        t1 = ttorch.tensor([12, 0, -3])
+        t1r = t1.sign_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([1, 0, -1])).all()
+
+        t2 = ttorch.tensor({
+            'a': [12, 0, -3],
+            'b': {'x': [[-3, 1], [0, -2]]},
+        })
+        t2r = t2.sign_()
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [1, 0, -1],
+            'b': {'x': [[-1, 1],
+                        [0, -1]]},
+        })).all()
+
+    @choose_mark()
     def test_round(self):
         t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]).round()
         assert isinstance(t1, torch.Tensor)
