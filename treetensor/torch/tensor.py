@@ -430,3 +430,105 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         See :func:`treetensor.torch.round_`.
         """
         return self.round_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def add(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.add`.
+        """
+        return self.add(other, *args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def add_(self, other, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.add`.
+        """
+        return self.add_(other, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def sub(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.sub`.
+        """
+        return self.sub(other, *args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def sub_(self, other, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.sub`.
+        """
+        return self.sub_(other, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def mul(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.mul`.
+        """
+        return self.mul(other, *args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def mul_(self, other, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.mul`.
+        """
+        return self.mul_(other, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def div(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.div`.
+        """
+        return self.div(other, *args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def div_(self, other, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.div`.
+        """
+        return self.div_(other, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def pow(self, exponent, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.pow`.
+        """
+        return self.pow(exponent, *args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def pow_(self, exponent, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.pow`.
+        """
+        return self.pow_(exponent, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def neg(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.neg`.
+        """
+        return self.neg(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def neg_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.neg`.
+        """
+        return self.neg_(*args, **kwargs)

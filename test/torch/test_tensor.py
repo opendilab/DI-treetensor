@@ -590,3 +590,383 @@ class TestTorchTensor:
             'b': {'x': [[0.6225, 0.7685],
                         [0.0759, 0.5622]]},
         })) < 1e-4).all()
+
+    @choose_mark()
+    def test_add(self):
+        t1 = ttorch.tensor([1, 2, 3]).add(
+            ttorch.tensor([3, 5, 11]),
+        )
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([4, 7, 14])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1, 2, 3],
+            'b': {'x': [[3, 5], [9, 12]]},
+        }).add(
+            ttorch.tensor({
+                'a': [3, 5, 11],
+                'b': {'x': [[31, -15], [13, 23]]},
+            })
+        )
+        assert (t2 == ttorch.tensor({
+            'a': [4, 7, 14],
+            'b': {'x': [[34, -10],
+                        [22, 35]]},
+        })).all()
+
+    @choose_mark()
+    def test_add_(self):
+        t1 = ttorch.tensor([1, 2, 3])
+        t1r = t1.add_(ttorch.tensor([3, 5, 11]))
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([4, 7, 14])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1, 2, 3],
+            'b': {'x': [[3, 5], [9, 12]]},
+        })
+        t2r = t2.add_(ttorch.tensor({
+            'a': [3, 5, 11],
+            'b': {'x': [[31, -15], [13, 23]]},
+        }))
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [4, 7, 14],
+            'b': {'x': [[34, -10],
+                        [22, 35]]},
+        })).all()
+
+    @choose_mark()
+    def test_sub(self):
+        t1 = ttorch.tensor([1, 2, 3]).sub(
+            ttorch.tensor([3, 5, 11]),
+        )
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([-2, -3, -8])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1, 2, 3],
+            'b': {'x': [[3, 5], [9, 12]]},
+        }).sub(
+            ttorch.tensor({
+                'a': [3, 5, 11],
+                'b': {'x': [[31, -15], [13, 23]]},
+            })
+        )
+        assert (t2 == ttorch.tensor({
+            'a': [-2, -3, -8],
+            'b': {'x': [[-28, 20],
+                        [-4, -11]]},
+        })).all()
+
+    @choose_mark()
+    def test_sub_(self):
+        t1 = ttorch.tensor([1, 2, 3])
+        t1r = t1.sub_(ttorch.tensor([3, 5, 11]))
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([-2, -3, -8])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1, 2, 3],
+            'b': {'x': [[3, 5], [9, 12]]},
+        })
+        t2r = t2.sub_(ttorch.tensor({
+            'a': [3, 5, 11],
+            'b': {'x': [[31, -15], [13, 23]]},
+        }))
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [-2, -3, -8],
+            'b': {'x': [[-28, 20],
+                        [-4, -11]]},
+        })).all()
+
+    @choose_mark()
+    def test_mul(self):
+        t1 = ttorch.tensor([1, 2, 3]).mul(
+            ttorch.tensor([3, 5, 11]),
+        )
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([3, 10, 33])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1, 2, 3],
+            'b': {'x': [[3, 5], [9, 12]]},
+        }).mul(
+            ttorch.tensor({
+                'a': [3, 5, 11],
+                'b': {'x': [[31, -15], [13, 23]]},
+            })
+        )
+        assert (t2 == ttorch.tensor({
+            'a': [3, 10, 33],
+            'b': {'x': [[93, -75],
+                        [117, 276]]},
+        })).all()
+
+    @choose_mark()
+    def test_mul_(self):
+        t1 = ttorch.tensor([1, 2, 3])
+        t1r = t1.mul_(ttorch.tensor([3, 5, 11]))
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([3, 10, 33])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1, 2, 3],
+            'b': {'x': [[3, 5], [9, 12]]},
+        })
+        t2r = t2.mul_(ttorch.tensor({
+            'a': [3, 5, 11],
+            'b': {'x': [[31, -15], [13, 23]]},
+        }))
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [3, 10, 33],
+            'b': {'x': [[93, -75],
+                        [117, 276]]},
+        })).all()
+
+    @choose_mark()
+    def test_div(self):
+        t1 = ttorch.tensor([0.3810, 1.2774, -0.2972, -0.3719, 0.4637]).div(0.5)
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([0.7620, 2.5548, -0.5944, -0.7438, 0.9274])).all()
+
+        t2 = ttorch.tensor([1.3119, 0.0928, 0.4158, 0.7494, 0.3870]).div(
+            ttorch.tensor([-1.7501, -1.4652, 0.1379, -1.1252, 0.0380]),
+        )
+        assert isinstance(t2, torch.Tensor)
+        assert (ttorch.abs(t2 - ttorch.tensor([-0.7496, -0.0633, 3.0152, -0.6660, 10.1842])) < 1e-4).all()
+
+        t3 = ttorch.tensor({
+            'a': [0.3810, 1.2774, -0.2972, -0.3719, 0.4637],
+            'b': {
+                'x': [1.3119, 0.0928, 0.4158, 0.7494, 0.3870],
+                'y': [[[1.9579, -0.0335, 0.1178],
+                       [0.8287, 1.4520, -0.4696]],
+                      [[-2.1659, -0.5831, 0.4080],
+                       [0.1400, 0.8122, 0.5380]]],
+            },
+        }).div(
+            ttorch.tensor({
+                'a': 0.5,
+                'b': {
+                    'x': [-1.7501, -1.4652, 0.1379, -1.1252, 0.0380],
+                    'y': [[[-1.3136, 0.7785, -0.7290],
+                           [0.6025, 0.4635, -1.1882]],
+                          [[0.2756, -0.4483, -0.2005],
+                           [0.9587, 1.4623, -2.8323]]],
+                },
+            }),
+        )
+        assert (ttorch.abs(t3 - ttorch.tensor({
+            'a': [0.7620, 2.5548, -0.5944, -0.7438, 0.9274],
+            'b': {
+                'x': [-0.7496, -0.0633, 3.0152, -0.6660, 10.1842],
+                'y': [[[-1.4905, -0.0430, -0.1616],
+                       [1.3754, 3.1327, 0.3952]],
+
+                      [[-7.8589, 1.3007, -2.0349],
+                       [0.1460, 0.5554, -0.1900]]],
+            }
+        })) < 1e-4).all()
+
+    @choose_mark()
+    def test_div_(self):
+        t1 = ttorch.tensor([0.3810, 1.2774, -0.2972, -0.3719, 0.4637])
+        t1r = t1.div_(0.5)
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([0.7620, 2.5548, -0.5944, -0.7438, 0.9274])).all()
+
+        t2 = ttorch.tensor([1.3119, 0.0928, 0.4158, 0.7494, 0.3870])
+        t2r = t2.div_(ttorch.tensor([-1.7501, -1.4652, 0.1379, -1.1252, 0.0380]))
+        assert t2r is t2
+        assert isinstance(t2, torch.Tensor)
+        assert (ttorch.abs(t2 - ttorch.tensor([-0.7496, -0.0633, 3.0152, -0.6660, 10.1842])) < 1e-4).all()
+
+        t3 = ttorch.tensor({
+            'a': [0.3810, 1.2774, -0.2972, -0.3719, 0.4637],
+            'b': {
+                'x': [1.3119, 0.0928, 0.4158, 0.7494, 0.3870],
+                'y': [[[1.9579, -0.0335, 0.1178],
+                       [0.8287, 1.4520, -0.4696]],
+                      [[-2.1659, -0.5831, 0.4080],
+                       [0.1400, 0.8122, 0.5380]]],
+            },
+        })
+        t3r = t3.div_(ttorch.tensor({
+            'a': 0.5,
+            'b': {
+                'x': [-1.7501, -1.4652, 0.1379, -1.1252, 0.0380],
+                'y': [[[-1.3136, 0.7785, -0.7290],
+                       [0.6025, 0.4635, -1.1882]],
+                      [[0.2756, -0.4483, -0.2005],
+                       [0.9587, 1.4623, -2.8323]]],
+            },
+        }))
+        assert t3r is t3
+        assert (ttorch.abs(t3 - ttorch.tensor({
+            'a': [0.7620, 2.5548, -0.5944, -0.7438, 0.9274],
+            'b': {
+                'x': [-0.7496, -0.0633, 3.0152, -0.6660, 10.1842],
+                'y': [[[-1.4905, -0.0430, -0.1616],
+                       [1.3754, 3.1327, 0.3952]],
+
+                      [[-7.8589, 1.3007, -2.0349],
+                       [0.1460, 0.5554, -0.1900]]],
+            }
+        })) < 1e-4).all()
+
+    @choose_mark()
+    def test_pow(self):
+        t1 = ttorch.tensor([4, 3, 2, 6, 2]).pow(
+            ttorch.tensor([4, 2, 6, 4, 3]),
+        )
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([256, 9, 64, 1296, 8])).all()
+
+        t2 = ttorch.tensor({
+            'a': [4, 3, 2, 6, 2],
+            'b': {
+                'x': [[3, 4, 6],
+                      [6, 3, 5]],
+                'y': [[[3, 5, 5],
+                       [5, 7, 6]],
+                      [[4, 6, 5],
+                       [7, 2, 7]]],
+            },
+        }).pow(
+            ttorch.tensor({
+                'a': [4, 2, 6, 4, 3],
+                'b': {
+                    'x': [[7, 4, 6],
+                          [5, 2, 6]],
+                    'y': [[[7, 2, 2],
+                           [2, 3, 2]],
+                          [[5, 2, 6],
+                           [7, 3, 4]]],
+                },
+            }),
+        )
+        assert (t2 == ttorch.tensor({
+            'a': [256, 9, 64, 1296, 8],
+            'b': {
+                'x': [[2187, 256, 46656],
+                      [7776, 9, 15625]],
+                'y': [[[2187, 25, 25],
+                       [25, 343, 36]],
+
+                      [[1024, 36, 15625],
+                       [823543, 8, 2401]]],
+            }
+        })).all()
+
+    @choose_mark()
+    def test_pow_(self):
+        t1 = ttorch.tensor([4, 3, 2, 6, 2])
+        t1r = t1.pow_(ttorch.tensor([4, 2, 6, 4, 3]))
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([256, 9, 64, 1296, 8])).all()
+
+        t2 = ttorch.tensor({
+            'a': [4, 3, 2, 6, 2],
+            'b': {
+                'x': [[3, 4, 6],
+                      [6, 3, 5]],
+                'y': [[[3, 5, 5],
+                       [5, 7, 6]],
+                      [[4, 6, 5],
+                       [7, 2, 7]]],
+            },
+        })
+        t2r = t2.pow_(ttorch.tensor({
+            'a': [4, 2, 6, 4, 3],
+            'b': {
+                'x': [[7, 4, 6],
+                      [5, 2, 6]],
+                'y': [[[7, 2, 2],
+                       [2, 3, 2]],
+                      [[5, 2, 6],
+                       [7, 3, 4]]],
+            },
+        }))
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [256, 9, 64, 1296, 8],
+            'b': {
+                'x': [[2187, 256, 46656],
+                      [7776, 9, 15625]],
+                'y': [[[2187, 25, 25],
+                       [25, 343, 36]],
+
+                      [[1024, 36, 15625],
+                       [823543, 8, 2401]]],
+            }
+        })).all()
+
+    @choose_mark()
+    def test_neg(self):
+        t1 = ttorch.tensor([4, 3, 2, 6, 2]).neg()
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([-4, -3, -2, -6, -2])).all()
+
+        t2 = ttorch.tensor({
+            'a': [4, 3, 2, 6, 2],
+            'b': {
+                'x': [[3, 4, 6],
+                      [6, 3, 5]],
+                'y': [[[3, 5, 5],
+                       [5, 7, 6]],
+                      [[4, 6, 5],
+                       [7, 2, 7]]],
+            },
+        }).neg()
+        assert (t2 == ttorch.tensor({
+            'a': [-4, -3, -2, -6, -2],
+            'b': {
+                'x': [[-3, -4, -6],
+                      [-6, -3, -5]],
+                'y': [[[-3, -5, -5],
+                       [-5, -7, -6]],
+                      [[-4, -6, -5],
+                       [-7, -2, -7]]],
+            }
+        }))
+
+    @choose_mark()
+    def test_neg_(self):
+        t1 = ttorch.tensor([4, 3, 2, 6, 2])
+        t1r = t1.neg_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([-4, -3, -2, -6, -2])).all()
+
+        t2 = ttorch.tensor({
+            'a': [4, 3, 2, 6, 2],
+            'b': {
+                'x': [[3, 4, 6],
+                      [6, 3, 5]],
+                'y': [[[3, 5, 5],
+                       [5, 7, 6]],
+                      [[4, 6, 5],
+                       [7, 2, 7]]],
+            },
+        })
+        t2r = t2.neg_()
+        assert t2r is t2
+        assert (t2 == ttorch.tensor({
+            'a': [-4, -3, -2, -6, -2],
+            'b': {
+                'x': [[-3, -4, -6],
+                      [-6, -3, -5]],
+                'y': [[[-3, -5, -5],
+                       [-5, -7, -6]],
+                      [[-4, -6, -5],
+                       [-7, -2, -7]]],
+            }
+        }))

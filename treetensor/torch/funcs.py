@@ -27,6 +27,7 @@ __all__ = [
     'isfinite', 'isinf', 'isnan',
     'abs', 'abs_', 'clamp', 'clamp_', 'sign', 'sigmoid', 'sigmoid_',
     'round', 'round_', 'floor', 'floor_', 'ceil', 'ceil_',
+    'add', 'sub', 'mul', 'div', 'pow', 'neg', 'neg_',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -1440,6 +1441,310 @@ def sigmoid_(input):
                               [0.0759, 0.5622]])
     """
     return torch.sigmoid_(input)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def add(input, other, *args, **kwargs):
+    """
+    Adds the scalar ``other`` to each element of the ``input`` input and
+    returns a new resulting tree tensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.add(
+        ...     ttorch.tensor([1, 2, 3]),
+        ...     ttorch.tensor([3, 5, 11]),
+        ... )
+        tensor([ 4,  7, 14])
+
+        >>> ttorch.add(
+        ...     ttorch.tensor({
+        ...         'a': [1, 2, 3],
+        ...         'b': {'x': [[3, 5], [9, 12]]},
+        ...     }),
+        ...     ttorch.tensor({
+        ...         'a': [3, 5, 11],
+        ...         'b': {'x': [[31, -15], [13, 23]]},
+        ...     })
+        ... )
+        <Tensor 0x7f11b139c710>
+        ├── a --> tensor([ 4,  7, 14])
+        └── b --> <Tensor 0x7f11b139c630>
+            └── x --> tensor([[ 34, -10],
+                              [ 22,  35]])
+    """
+    return torch.add(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def sub(input, other, *args, **kwargs):
+    """
+    Subtracts ``other``, scaled by ``alpha``, from ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.sub(
+        ...     ttorch.tensor([1, 2, 3]),
+        ...     ttorch.tensor([3, 5, 11]),
+        ... )
+        tensor([-2, -3, -8])
+
+        >>> ttorch.sub(
+        ...     ttorch.tensor({
+        ...         'a': [1, 2, 3],
+        ...         'b': {'x': [[3, 5], [9, 12]]},
+        ...     }),
+        ...     ttorch.tensor({
+        ...         'a': [3, 5, 11],
+        ...         'b': {'x': [[31, -15], [13, 23]]},
+        ...     })
+        ... )
+        <Tensor 0x7f11b139ccc0>
+        ├── a --> tensor([-2, -3, -8])
+        └── b --> <Tensor 0x7f11b139cc18>
+            └── x --> tensor([[-28,  20],
+                              [ -4, -11]])
+    """
+    return torch.sub(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def mul(input, other, *args, **kwargs):
+    """
+    Multiplies each element of the input ``input`` with the scalar ``other`` and
+    returns a new resulting tensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.mul(
+        ...     ttorch.tensor([1, 2, 3]),
+        ...     ttorch.tensor([3, 5, 11]),
+        ... )
+        tensor([ 3, 10, 33])
+
+        >>> ttorch.mul(
+        ...     ttorch.tensor({
+        ...         'a': [1, 2, 3],
+        ...         'b': {'x': [[3, 5], [9, 12]]},
+        ...     }),
+        ...     ttorch.tensor({
+        ...         'a': [3, 5, 11],
+        ...         'b': {'x': [[31, -15], [13, 23]]},
+        ...     })
+        ... )
+        <Tensor 0x7f11b139ca58>
+        ├── a --> tensor([ 3, 10, 33])
+        └── b --> <Tensor 0x7f11b139cb00>
+            └── x --> tensor([[ 93, -75],
+                              [117, 276]])
+    """
+    return torch.mul(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def div(input, other, *args, **kwargs):
+    """
+    Divides each element of the input ``input`` by the corresponding element of ``other``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.div(ttorch.tensor([ 0.3810,  1.2774, -0.2972, -0.3719,  0.4637]), 0.5)
+        tensor([ 0.7620,  2.5548, -0.5944, -0.7438,  0.9274])
+
+        >>> ttorch.div(
+        ...     ttorch.tensor([1.3119, 0.0928, 0.4158, 0.7494, 0.3870]),
+        ...     ttorch.tensor([-1.7501, -1.4652,  0.1379, -1.1252,  0.0380]),
+        ... )
+        tensor([-0.7496, -0.0633,  3.0152, -0.6660, 10.1842])
+
+        >>> ttorch.div(
+        ...     ttorch.tensor({
+        ...         'a': [ 0.3810,  1.2774, -0.2972, -0.3719,  0.4637],
+        ...         'b': {
+        ...             'x': [1.3119, 0.0928, 0.4158, 0.7494, 0.3870],
+        ...             'y': [[[ 1.9579, -0.0335,  0.1178],
+        ...                    [ 0.8287,  1.4520, -0.4696]],
+        ...                   [[-2.1659, -0.5831,  0.4080],
+        ...                    [ 0.1400,  0.8122,  0.5380]]],
+        ...         },
+        ...     }),
+        ...     ttorch.tensor({
+        ...         'a': 0.5,
+        ...         'b': {
+        ...             'x': [-1.7501, -1.4652,  0.1379, -1.1252,  0.0380],
+        ...             'y': [[[-1.3136,  0.7785, -0.7290],
+        ...                    [ 0.6025,  0.4635, -1.1882]],
+        ...                   [[ 0.2756, -0.4483, -0.2005],
+        ...                    [ 0.9587,  1.4623, -2.8323]]],
+        ...         },
+        ...     }),
+        ... )
+        <Tensor 0x7f11b139c198>
+        ├── a --> tensor([ 0.7620,  2.5548, -0.5944, -0.7438,  0.9274])
+        └── b --> <Tensor 0x7f11b139c320>
+            ├── x --> tensor([-0.7496, -0.0633,  3.0152, -0.6660, 10.1842])
+            └── y --> tensor([[[-1.4905, -0.0430, -0.1616],
+                               [ 1.3754,  3.1327,  0.3952]],
+
+                              [[-7.8589,  1.3007, -2.0349],
+                               [ 0.1460,  0.5554, -0.1900]]])
+    """
+    return torch.div(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def pow(input, exponent, *args, **kwargs):
+    """
+    Takes the power of each element in ``input`` with ``exponent`` and
+    returns a tensor with the result.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.pow(
+        ...     ttorch.tensor([4, 3, 2, 6, 2]),
+        ...     ttorch.tensor([4, 2, 6, 4, 3]),
+        ... )
+        tensor([ 256,    9,   64, 1296,    8])
+
+        >>> ttorch.pow(
+        ...     ttorch.tensor({
+        ...         'a': [4, 3, 2, 6, 2],
+        ...         'b': {
+        ...             'x': [[3, 4, 6],
+        ...                   [6, 3, 5]],
+        ...             'y': [[[3, 5, 5],
+        ...                    [5, 7, 6]],
+        ...                   [[4, 6, 5],
+        ...                    [7, 2, 7]]],
+        ...         },
+        ...     }),
+        ...     ttorch.tensor({
+        ...         'a': [4, 2, 6, 4, 3],
+        ...         'b': {
+        ...             'x': [[7, 4, 6],
+        ...                   [5, 2, 6]],
+        ...             'y': [[[7, 2, 2],
+        ...                    [2, 3, 2]],
+        ...                   [[5, 2, 6],
+        ...                    [7, 3, 4]]],
+        ...         },
+        ...     }),
+        ... )
+        <Tensor 0x7f11b13b6e48>
+        ├── a --> tensor([ 256,    9,   64, 1296,    8])
+        └── b --> <Tensor 0x7f11b13b6d68>
+            ├── x --> tensor([[ 2187,   256, 46656],
+            │                 [ 7776,     9, 15625]])
+            └── y --> tensor([[[  2187,     25,     25],
+                               [    25,    343,     36]],
+
+                              [[  1024,     36,  15625],
+                               [823543,      8,   2401]]])
+    """
+    return torch.pow(input, exponent, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def neg(input, *args, **kwargs):
+    """
+    Returns a new tensor with the negative of the elements of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.neg(ttorch.tensor([4, 3, 2, 6, 2]))
+        tensor([-4, -3, -2, -6, -2])
+
+        >>> ttorch.neg(ttorch.tensor({
+        ...     'a': [4, 3, 2, 6, 2],
+        ...     'b': {
+        ...         'x': [[3, 4, 6],
+        ...               [6, 3, 5]],
+        ...         'y': [[[3, 5, 5],
+        ...                [5, 7, 6]],
+        ...               [[4, 6, 5],
+        ...                [7, 2, 7]]],
+        ...     },
+        ... }))
+        <Tensor 0x7f11b13b5860>
+        ├── a --> tensor([-4, -3, -2, -6, -2])
+        └── b --> <Tensor 0x7f11b13b5828>
+            ├── x --> tensor([[-3, -4, -6],
+            │                 [-6, -3, -5]])
+            └── y --> tensor([[[-3, -5, -5],
+                               [-5, -7, -6]],
+
+                              [[-4, -6, -5],
+                               [-7, -2, -7]]])
+    """
+    return torch.neg(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@return_self
+@func_treelize()
+def neg_(input):
+    """
+    In-place version of :func:`treetensor.torch.neg`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([4, 3, 2, 6, 2])
+        >>> ttorch.neg_(t)
+        >>> t
+        tensor([-4, -3, -2, -6, -2])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [4, 3, 2, 6, 2],
+        ...     'b': {
+        ...         'x': [[3, 4, 6],
+        ...               [6, 3, 5]],
+        ...         'y': [[[3, 5, 5],
+        ...                [5, 7, 6]],
+        ...               [[4, 6, 5],
+        ...                [7, 2, 7]]],
+        ...     },
+        ... })
+        >>> ttorch.neg_(t)
+        >>> t
+        <Tensor 0x7f11b13b6fd0>
+        ├── a --> tensor([-4, -3, -2, -6, -2])
+        └── b --> <Tensor 0x7f11b13b60f0>
+            ├── x --> tensor([[-3, -4, -6],
+            │                 [-6, -3, -5]])
+            └── y --> tensor([[[-3, -5, -5],
+                               [-5, -7, -6]],
+
+                              [[-4, -6, -5],
+                               [-7, -2, -7]]])
+    """
+    return torch.neg_(input)
 
 
 sys.modules[__name__] = module_autoremove(sys.modules[__name__])
