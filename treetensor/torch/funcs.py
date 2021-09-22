@@ -28,6 +28,8 @@ __all__ = [
     'abs', 'abs_', 'clamp', 'clamp_', 'sign', 'sigmoid', 'sigmoid_',
     'round', 'round_', 'floor', 'floor_', 'ceil', 'ceil_',
     'add', 'sub', 'mul', 'div', 'pow', 'neg', 'neg_',
+    'exp', 'exp_', 'exp2', 'exp2_', 'sqrt', 'sqrt_',
+    'log', 'log_', 'log2', 'log2_', 'log10', 'log10_',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -1745,6 +1747,78 @@ def neg_(input):
                                [-7, -2, -7]]])
     """
     return torch.neg_(input)
+
+
+@doc_from_base()
+@func_treelize()
+def exp():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def exp_():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def exp2():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def exp2_():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def sqrt():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def sqrt_():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def log():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def log_():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def log2():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def log2_():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def log10():
+    pass
+
+
+@doc_from_base()
+@func_treelize()
+def log10_():
+    pass
 
 
 sys.modules[__name__] = module_autoremove(sys.modules[__name__])
