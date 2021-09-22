@@ -323,6 +323,14 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
 
     @doc_from_base()
     @method_treelize()
+    def isclose(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.isclose`.
+        """
+        return self.isclose(other, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
     def abs(self, *args, **kwargs):
         """
         See :func:`treetensor.torch.abs`.
@@ -541,3 +549,105 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         In-place version of :meth:`Tensor.neg`.
         """
         return self.neg_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def exp(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.exp`.
+        """
+        return self.exp(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def exp_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.exp`.
+        """
+        return self.exp_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def exp2(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.exp2`.
+        """
+        return self.exp2(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def exp2_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.exp2`.
+        """
+        return self.exp2_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def sqrt(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.sqrt`.
+        """
+        return self.sqrt(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def sqrt_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.sqrt`.
+        """
+        return self.sqrt_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def log(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.log`.
+        """
+        return self.log(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def log_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.log`.
+        """
+        return self.log_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def log2(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.log2`.
+        """
+        return self.log2(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def log2_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.log2`.
+        """
+        return self.log2_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def log10(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.log10`.
+        """
+        return self.log10(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def log10_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.log10`.
+        """
+        return self.log10_(*args, **kwargs)

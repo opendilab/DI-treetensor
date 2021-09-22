@@ -24,7 +24,7 @@ __all__ = [
     'eq', 'ne', 'lt', 'le', 'gt', 'ge',
     'equal', 'tensor', 'clone',
     'dot', 'matmul', 'mm',
-    'isfinite', 'isinf', 'isnan',
+    'isfinite', 'isinf', 'isnan', 'isclose',
     'abs', 'abs_', 'clamp', 'clamp_', 'sign', 'sigmoid', 'sigmoid_',
     'round', 'round_', 'floor', 'floor_', 'ceil', 'ceil_',
     'add', 'sub', 'mul', 'div', 'pow', 'neg', 'neg_',
@@ -1052,6 +1052,46 @@ def isnan(input):
 # noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
+def isclose(input, other, *args, **kwargs):
+    """
+    Returns a new tensor with boolean elements representing
+    if each element of ``input`` is “close” to the corresponding element of ``other``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> import math
+        >>> ttorch.isclose(
+        ...     ttorch.tensor((1., 2, 3)),
+        ...     ttorch.tensor((1 + 1e-10, 3, 4))
+        ... )
+        tensor([ True, False, False])
+
+        >>> ttorch.isclose(
+        ...     ttorch.tensor({
+        ...         'a': [1., 2, 3],
+        ...         'b': {'x': [[float('inf'), 4, 1e20],
+        ...                     [-math.inf, 2.2943, 9483.32]]},
+        ...     }),
+        ...     ttorch.tensor({
+        ...         'a': [1 + 1e-10, 3, 4],
+        ...         'b': {'x': [[math.inf, 6, 1e20+1],
+        ...                     [-float('inf'), 2.294300000001, 9484.32]]},
+        ...     }),
+        ... )
+        <Tensor 0x7f5b3219f370>
+        ├── a --> tensor([ True, False, False])
+        └── b --> <Tensor 0x7f5b3219f550>
+            └── x --> tensor([[ True, False,  True],
+                              [ True,  True, False]])
+    """
+    return torch.isclose(input, other, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
 def abs(input, *args, **kwargs):
     """
     Computes the absolute value of each element in ``input``.
@@ -1749,76 +1789,370 @@ def neg_(input):
     return torch.neg_(input)
 
 
+# noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
-def exp():
-    pass
+def exp(input, *args, **kwargs):
+    """
+    Returns a new tensor with the exponential of the elements of the input tensor ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.exp(ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]))
+        tensor([1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03])
+
+        >>> ttorch.exp(ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... }))
+        <Tensor 0x7ff90a4b0a30>
+        ├── a --> tensor([1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03])
+        └── b --> <Tensor 0x7ff90a4b0af0>
+            └── x --> tensor([[1.3534e-01, 3.3201e+00, 1.2840e+00],
+                              [8.8861e+06, 4.2521e+01, 9.6328e-02]])
+    """
+    return torch.exp(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@return_self
+@func_treelize()
+def exp_(input):
+    """
+    In-place version of :func:`exp`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        >>> ttorch.exp_(t)
+        >>> t
+        tensor([1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... })
+        >>> ttorch.exp_(t)
+        >>> t
+        <Tensor 0x7ff90a4bdb80>
+        ├── a --> tensor([1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03])
+        └── b --> <Tensor 0x7ff90a4bdc40>
+            └── x --> tensor([[1.3534e-01, 3.3201e+00, 1.2840e+00],
+                              [8.8861e+06, 4.2521e+01, 9.6328e-02]])
+    """
+    return torch.exp_(input)
+
+
+# noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
-def exp_():
-    pass
+def exp2(input, *args, **kwargs):
+    """
+    Computes the base two exponential function of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.exp2(ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]))
+        tensor([6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02])
+
+        >>> ttorch.exp2(ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... }))
+        <Tensor 0x7ff90a4c3af0>
+        ├── a --> tensor([6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02])
+        └── b --> <Tensor 0x7ff90a4c3be0>
+            └── x --> tensor([[2.5000e-01, 2.2974e+00, 1.1892e+00],
+                              [6.5536e+04, 1.3454e+01, 1.9751e-01]])
+    """
+    return torch.exp2(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@return_self
+@func_treelize()
+def exp2_(input):
+    """
+    In-place version of :func:`exp2`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        >>> ttorch.exp2_(t)
+        >>> t
+        tensor([6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... })
+        >>> ttorch.exp2_(t)
+        >>> t
+        <Tensor 0x7ff90a4bd250>
+        ├── a --> tensor([6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02])
+        └── b --> <Tensor 0x7ff90a4bd130>
+            └── x --> tensor([[2.5000e-01, 2.2974e+00, 1.1892e+00],
+                              [6.5536e+04, 1.3454e+01, 1.9751e-01]])
+    """
+    return torch.exp2_(input)
+
+
+# noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
-def exp2():
-    pass
+def sqrt(input, *args, **kwargs):
+    """
+    Returns a new tensor with the square-root of the elements of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.sqrt(ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]))
+        tensor([   nan,    nan, 0.0000, 1.4142, 2.1909, 2.8284])
+
+        >>> ttorch.sqrt(ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... }))
+        <Tensor 0x7ff90a4cb760>
+        ├── a --> tensor([   nan,    nan, 0.0000, 1.4142, 2.1909, 2.8284])
+        └── b --> <Tensor 0x7ff90a4cb5b0>
+            └── x --> tensor([[   nan, 1.0954, 0.5000],
+                              [4.0000, 1.9365,    nan]])
+    """
+    return torch.sqrt(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@return_self
+@func_treelize()
+def sqrt_(input):
+    """
+    In-place version of :func:`sqrt`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        >>> ttorch.sqrt_(t)
+        >>> t
+        tensor([   nan,    nan, 0.0000, 1.4142, 2.1909, 2.8284])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... })
+        >>> ttorch.sqrt_(t)
+        >>> t
+        <Tensor 0x7ff90a4b0af0>
+        ├── a --> tensor([   nan,    nan, 0.0000, 1.4142, 2.1909, 2.8284])
+        └── b --> <Tensor 0x7ff90a4b04f0>
+            └── x --> tensor([[   nan, 1.0954, 0.5000],
+                              [4.0000, 1.9365,    nan]])
+    """
+    return torch.sqrt_(input)
+
+
+# noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
-def exp2_():
-    pass
+def log(input, *args, **kwargs):
+    """
+    Returns a new tensor with the natural logarithm of the elements of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.log(ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]))
+        tensor([   nan,    nan,   -inf, 0.6931, 1.5686, 2.0794])
+
+        >>> ttorch.log(ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... }))
+        <Tensor 0x7ff90a4c9ca0>
+        ├── a --> tensor([   nan,    nan,   -inf, 0.6931, 1.5686, 2.0794])
+        └── b --> <Tensor 0x7ff90a4c9e50>
+            └── x --> tensor([[    nan,  0.1823, -1.3863],
+                              [ 2.7726,  1.3218,     nan]])
+    """
+    return torch.log(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@return_self
+@func_treelize()
+def log_(input):
+    """
+    In-place version of :func:`log`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        >>> ttorch.log_(t)
+        >>> t
+        tensor([   nan,    nan,   -inf, 0.6931, 1.5686, 2.0794])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... })
+        >>> ttorch.log_(t)
+        >>> t
+        <Tensor 0x7ff90a4bdf70>
+        ├── a --> tensor([   nan,    nan,   -inf, 0.6931, 1.5686, 2.0794])
+        └── b --> <Tensor 0x7ff90a4bdcd0>
+            └── x --> tensor([[    nan,  0.1823, -1.3863],
+                              [ 2.7726,  1.3218,     nan]])
+    """
+    return torch.log_(input)
+
+
+# noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
-def sqrt():
-    pass
+def log2(input, *args, **kwargs):
+    """
+    Returns a new tensor with the logarithm to the base 2 of the elements of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.log2(ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]))
+        tensor([   nan,    nan,   -inf, 1.0000, 2.2630, 3.0000])
+
+        >>> ttorch.log2(ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... }))
+        <Tensor 0x7ff90a4cff70>
+        ├── a --> tensor([   nan,    nan,   -inf, 1.0000, 2.2630, 3.0000])
+        └── b --> <Tensor 0x7ff90a4bc070>
+            └── x --> tensor([[    nan,  0.2630, -2.0000],
+                              [ 4.0000,  1.9069,     nan]])
+    """
+    return torch.log2(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@return_self
+@func_treelize()
+def log2_(input):
+    """
+    In-place version of :func:`log2`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        >>> ttorch.log2_(t)
+        >>> t
+        tensor([   nan,    nan,   -inf, 1.0000, 2.2630, 3.0000])
+
+        >>> t = ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... })
+        >>> ttorch.log2_(t)
+        >>> t
+        <Tensor 0x7ff90a4cbbe0>
+        ├── a --> tensor([   nan,    nan,   -inf, 1.0000, 2.2630, 3.0000])
+        └── b --> <Tensor 0x7ff90a4cb940>
+            └── x --> tensor([[    nan,  0.2630, -2.0000],
+                              [ 4.0000,  1.9069,     nan]])
+    """
+    return torch.log2_(input)
+
+
+# noinspection PyShadowingBuiltins
 @doc_from_base()
 @func_treelize()
-def sqrt_():
-    pass
+def log10(input, *args, **kwargs):
+    """
+    Returns a new tensor with the logarithm to the base 10 of the elements of ``input``.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.log10(ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]))
+        tensor([   nan,    nan,   -inf, 0.3010, 0.6812, 0.9031])
+
+        >>> ttorch.log10(ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... }))
+        <Tensor 0x7ff90a4bc4f0>
+        ├── a --> tensor([   nan,    nan,   -inf, 0.3010, 0.6812, 0.9031])
+        └── b --> <Tensor 0x7ff90a4bc5b0>
+            └── x --> tensor([[    nan,  0.0792, -0.6021],
+                              [ 1.2041,  0.5740,     nan]])
+    """
+    return torch.log10(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins
 @doc_from_base()
+@return_self
 @func_treelize()
-def log():
-    pass
+def log10_(input):
+    """
+    In-place version of :func:`log10`.
 
+    Examples::
 
-@doc_from_base()
-@func_treelize()
-def log_():
-    pass
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        >>> ttorch.log10_(t)
+        >>> t
+        tensor([   nan,    nan,   -inf, 0.3010, 0.6812, 0.9031])
 
-
-@doc_from_base()
-@func_treelize()
-def log2():
-    pass
-
-
-@doc_from_base()
-@func_treelize()
-def log2_():
-    pass
-
-
-@doc_from_base()
-@func_treelize()
-def log10():
-    pass
-
-
-@doc_from_base()
-@func_treelize()
-def log10_():
-    pass
+        >>> t = ttorch.tensor({
+        ...     'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+        ...     'b': {'x': [[-2.0, 1.2, 0.25],
+        ...                 [16.0, 3.75, -2.34]]},
+        ... })
+        >>> ttorch.log10_(t)
+        >>> t
+        <Tensor 0x7ff90a4acdc0>
+        ├── a --> tensor([   nan,    nan,   -inf, 0.3010, 0.6812, 0.9031])
+        └── b --> <Tensor 0x7ff90a4acf40>
+            └── x --> tensor([[    nan,  0.0792, -0.6021],
+                              [ 1.2041,  0.5740,     nan]])
+    """
+    return torch.log10_(input)
 
 
 sys.modules[__name__] = module_autoremove(sys.modules[__name__])

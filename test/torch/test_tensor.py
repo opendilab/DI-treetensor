@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import torch
 from treevalue import func_treelize, typetrans, TreeValue
@@ -347,6 +349,27 @@ class TestTorchTensor:
         assert (t2 == ttorch.tensor({
             'a': [False, False, False, False, True],
             'b': {'x': [[False, False, False], [False, False, True]]},
+        })).all()
+
+    @choose_mark()
+    def test_isclose(self):
+        t1 = ttorch.tensor((1., 2, 3)).isclose(ttorch.tensor((1 + 1e-10, 3, 4)))
+        assert isinstance(t1, torch.Tensor)
+        assert (t1 == ttorch.tensor([True, False, False])).all()
+
+        t2 = ttorch.tensor({
+            'a': [1., 2, 3],
+            'b': {'x': [[float('inf'), 4, 1e20],
+                        [-math.inf, 2.2943, 9483.32]]},
+        }).isclose(ttorch.tensor({
+            'a': [1 + 1e-10, 3, 4],
+            'b': {'x': [[math.inf, 6, 1e20 + 1],
+                        [-float('inf'), 2.294300000001, 9484.32]]},
+        }))
+        assert (t2 == ttorch.tensor({
+            'a': [True, False, False],
+            'b': {'x': [[True, False, True],
+                        [True, True, False]]},
         })).all()
 
     @choose_mark()
@@ -990,3 +1013,243 @@ class TestTorchTensor:
                        [-7, -2, -7]]],
             }
         }))
+
+    @choose_mark()
+    def test_exp(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]).exp()
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03]), rtol=1e-4).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        }).exp()
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03],
+            'b': {'x': [[1.3534e-01, 3.3201e+00, 1.2840e+00],
+                        [8.8861e+06, 4.2521e+01, 9.6328e-02]]},
+        }), rtol=1e-4).all()
+
+    @choose_mark()
+    def test_exp_(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        t1r = t1.exp_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03]), rtol=1e-4).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        })
+        t2r = t2.exp_()
+        assert t2r is t2
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [1.8316e-02, 3.6788e-01, 1.0000e+00, 7.3891e+00, 1.2151e+02, 2.9810e+03],
+            'b': {'x': [[1.3534e-01, 3.3201e+00, 1.2840e+00],
+                        [8.8861e+06, 4.2521e+01, 9.6328e-02]]},
+        }), rtol=1e-4).all()
+
+    @choose_mark()
+    def test_exp2(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]).exp2()
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02]), rtol=1e-4).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        }).exp2()
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02],
+            'b': {'x': [[2.5000e-01, 2.2974e+00, 1.1892e+00],
+                        [6.5536e+04, 1.3454e+01, 1.9751e-01]]},
+        }), rtol=1e-4).all()
+
+    @choose_mark()
+    def test_exp2_(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        t1r = t1.exp2_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02]), rtol=1e-4).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        })
+        t2r = t2.exp2_()
+        assert t2r is t2
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [6.2500e-02, 5.0000e-01, 1.0000e+00, 4.0000e+00, 2.7858e+01, 2.5600e+02],
+            'b': {'x': [[2.5000e-01, 2.2974e+00, 1.1892e+00],
+                        [6.5536e+04, 1.3454e+01, 1.9751e-01]]},
+        }), rtol=1e-4).all()
+
+    @choose_mark()
+    def test_sqrt(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]).sqrt()
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, 0.0000, 1.4142, 2.1909, 2.8284]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        }).sqrt()
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, 0.0000, 1.4142, 2.1909, 2.8284],
+            'b': {'x': [[math.nan, 1.0954, 0.5000],
+                        [4.0000, 1.9365, math.nan]]},
+        }), rtol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_sqrt_(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        t1r = t1.sqrt_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, 0.0000, 1.4142, 2.1909, 2.8284]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        })
+        t2r = t2.sqrt_()
+        assert t2r is t2
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, 0.0000, 1.4142, 2.1909, 2.8284],
+            'b': {'x': [[math.nan, 1.0954, 0.5000],
+                        [4.0000, 1.9365, math.nan]]},
+        }), rtol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_log(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]).log()
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, -math.inf, 0.6931, 1.5686, 2.0794]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        }).log()
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, -math.inf, 0.6931, 1.5686, 2.0794],
+            'b': {'x': [[math.nan, 0.1823, -1.3863],
+                        [2.7726, 1.3218, math.nan]]},
+        }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_log_(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        t1r = t1.log_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, -math.inf, 0.6931, 1.5686, 2.0794]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        })
+        t2r = t2.log_()
+        assert t2r is t2
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, -math.inf, 0.6931, 1.5686, 2.0794],
+            'b': {'x': [[math.nan, 0.1823, -1.3863],
+                        [2.7726, 1.3218, math.nan]]},
+        }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_log2(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]).log2()
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, -math.inf, 1.0000, 2.2630, 3.0000]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        }).log2()
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, -math.inf, 1.0000, 2.2630, 3.0000],
+            'b': {'x': [[math.nan, 0.2630, -2.0000],
+                        [4.0000, 1.9069, math.nan]]},
+        }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_log2_(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        t1r = t1.log2_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, -math.inf, 1.0000, 2.2630, 3.0000]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        })
+        t2r = t2.log2_()
+        assert t2r is t2
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, -math.inf, 1.0000, 2.2630, 3.0000],
+            'b': {'x': [[math.nan, 0.2630, -2.0000],
+                        [4.0000, 1.9069, math.nan]]},
+        }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_log10(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0]).log10()
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, -math.inf, 0.3010, 0.6812, 0.9031]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        }).log10()
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, -math.inf, 0.3010, 0.6812, 0.9031],
+            'b': {'x': [[math.nan, 0.0792, -0.6021],
+                        [1.2041, 0.5740, math.nan]]},
+        }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
+
+    @choose_mark()
+    def test_log10_(self):
+        t1 = ttorch.tensor([-4.0, -1.0, 0, 2.0, 4.8, 8.0])
+        t1r = t1.log10_()
+        assert t1r is t1
+        assert isinstance(t1, torch.Tensor)
+        assert ttorch.isclose(t1, ttorch.tensor(
+            [math.nan, math.nan, -math.inf, 0.3010, 0.6812, 0.9031]), rtol=1e-4, equal_nan=True).all()
+
+        t2 = ttorch.tensor({
+            'a': [-4.0, -1.0, 0, 2.0, 4.8, 8.0],
+            'b': {'x': [[-2.0, 1.2, 0.25],
+                        [16.0, 3.75, -2.34]]},
+        })
+        t2r = t2.log10_()
+        assert t2r is t2
+        assert ttorch.isclose(t2, ttorch.tensor({
+            'a': [math.nan, math.nan, -math.inf, 0.3010, 0.6812, 0.9031],
+            'b': {'x': [[math.nan, 0.0792, -0.6021],
+                        [1.2041, 0.5740, math.nan]]},
+        }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
