@@ -1,16 +1,18 @@
 import pytest
 import torch
-from treevalue import func_treelize, typetrans, TreeValue
+from treevalue import typetrans, TreeValue
 
 import treetensor.torch as ttorch
 from treetensor.common import Object
+from treetensor.utils import replaceable_partial
+from ..tests import choose_mark_with_existence_check
 
-_all_is = func_treelize(return_type=ttorch.Tensor)(lambda x, y: x is y)
+choose_mark = replaceable_partial(choose_mark_with_existence_check, base=ttorch.Size)
 
 
-@pytest.mark.unittest
 class TestTorchSize:
-    def test_init(self):
+    @choose_mark()
+    def test___init__(self):
         t1 = ttorch.Size([1, 2, 3])
         assert isinstance(t1, torch.Size)
         assert t1 == torch.Size([1, 2, 3])
@@ -27,6 +29,7 @@ class TestTorchSize:
             'c': torch.Size([5]),
         })
 
+    @choose_mark()
     def test_numel(self):
         assert ttorch.Size({
             'a': [1, 2, 3],
@@ -34,6 +37,7 @@ class TestTorchSize:
             'c': [5],
         }).numel() == 23
 
+    @choose_mark()
     def test_index(self):
         assert ttorch.Size({
             'a': [1, 2, 3],
@@ -52,6 +56,7 @@ class TestTorchSize:
                 'c': [5],
             }).index(100)
 
+    @choose_mark()
     def test_count(self):
         assert ttorch.Size({
             'a': [1, 2, 3],

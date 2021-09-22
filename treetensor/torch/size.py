@@ -8,12 +8,14 @@ from treevalue.utils import post_process
 
 from .base import Torch
 from ..common import Object, clsmeta, ireduce
-from ..utils import replaceable_partial, doc_from, current_names, args_mapping
+from ..utils import doc_from_base as original_doc_from_base
+from ..utils import replaceable_partial, current_names, args_mapping
 
 func_treelize = post_process(post_process(args_mapping(
     lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize)
 )
+doc_from_base = replaceable_partial(original_doc_from_base, base=torch.Size)
 
 __all__ = [
     'Size'
@@ -69,7 +71,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         """
         super(Torch, self).__init__(data)
 
-    @doc_from(torch.Size.numel)
+    @doc_from_base()
     @ireduce(sum)
     @func_treelize(return_type=Object)
     def numel(self: torch.Size) -> Object:
@@ -88,7 +90,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         """
         return self.numel()
 
-    @doc_from(torch.Size.index)
+    @doc_from_base()
     @_post_index
     @func_treelize(return_type=Object)
     def index(self: torch.Size, value, *args, **kwargs) -> Object:
@@ -120,7 +122,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         except ValueError:
             return None
 
-    @doc_from(torch.Size.count)
+    @doc_from_base()
     @ireduce(sum)
     @func_treelize(return_type=Object)
     def count(self: torch.Size, *args, **kwargs) -> Object:

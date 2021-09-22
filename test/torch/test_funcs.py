@@ -1,12 +1,15 @@
-import pytest
 import torch
 
 import treetensor.torch as ttorch
+from treetensor.utils import replaceable_partial
+from ..tests import choose_mark_with_existence_check
+
+choose_mark = replaceable_partial(choose_mark_with_existence_check, base=ttorch)
 
 
 # noinspection DuplicatedCode,PyUnresolvedReferences
-@pytest.mark.unittest
 class TestTorchFuncs:
+    @choose_mark()
     def test_tensor(self):
         t1 = ttorch.tensor(True)
         assert isinstance(t1, torch.Tensor)
@@ -34,6 +37,7 @@ class TestTorchFuncs:
             }
         })).all()
 
+    @choose_mark()
     def test_zeros(self):
         assert ttorch.all(ttorch.zeros(2, 3) == torch.zeros(2, 3))
         assert ttorch.all(ttorch.zeros({
@@ -50,6 +54,7 @@ class TestTorchFuncs:
             }
         }))
 
+    @choose_mark()
     def test_zeros_like(self):
         assert ttorch.all(
             ttorch.zeros_like(torch.tensor([[1, 2, 3], [4, 5, 6]])) ==
@@ -73,6 +78,7 @@ class TestTorchFuncs:
             })
         )
 
+    @choose_mark()
     def test_ones(self):
         assert ttorch.all(ttorch.ones(2, 3) == torch.ones(2, 3))
         assert ttorch.all(ttorch.ones({
@@ -89,6 +95,7 @@ class TestTorchFuncs:
             }
         }))
 
+    @choose_mark()
     def test_ones_like(self):
         assert ttorch.all(
             ttorch.ones_like(torch.tensor([[1, 2, 3], [4, 5, 6]])) ==
@@ -112,6 +119,7 @@ class TestTorchFuncs:
             })
         )
 
+    @choose_mark()
     def test_randn(self):
         _target = ttorch.randn(200, 300)
         assert -0.02 <= _target.view(60000).mean().tolist() <= 0.02
@@ -133,6 +141,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_randn_like(self):
         _target = ttorch.randn_like(torch.ones(200, 300))
         assert -0.02 <= _target.view(60000).mean().tolist() <= 0.02
@@ -156,6 +165,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_randint(self):
         _target = ttorch.randint(-10, 10, {
             'a': (2, 3),
@@ -191,6 +201,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_randint_like(self):
         _target = ttorch.randint_like({
             'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
@@ -230,6 +241,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_full(self):
         _target = ttorch.full({
             'a': (2, 3),
@@ -247,6 +259,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_full_like(self):
         _target = ttorch.full_like({
             'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
@@ -266,6 +279,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_empty(self):
         _target = ttorch.empty({
             'a': (2, 3),
@@ -282,6 +296,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_empty_like(self):
         _target = ttorch.empty_like({
             'a': torch.tensor([[1, 2, 3], [4, 5, 6]]),
@@ -300,6 +315,7 @@ class TestTorchFuncs:
             }
         })
 
+    @choose_mark()
     def test_all(self):
         r1 = ttorch.all(torch.tensor([True, True, True]))
         assert torch.is_tensor(r1)
@@ -340,6 +356,7 @@ class TestTorchFuncs:
         assert r6 == torch.tensor(False)
         assert not r6
 
+    @choose_mark()
     def test_any(self):
         r1 = ttorch.any(torch.tensor([True, True, True]))
         assert torch.is_tensor(r1)
@@ -380,6 +397,7 @@ class TestTorchFuncs:
         assert r6 == torch.tensor(False)
         assert not r6
 
+    @choose_mark()
     def test_eq(self):
         assert ttorch.eq(torch.tensor([1, 2, 3]), torch.tensor([1, 2, 3])).all()
         assert not ttorch.eq(torch.tensor([1, 2, 3]), torch.tensor([1, 2, 2])).all()
@@ -401,6 +419,7 @@ class TestTorchFuncs:
             'b': torch.tensor([4, 5, 5]),
         })).all()
 
+    @choose_mark()
     def test_ne(self):
         assert (ttorch.ne(
             torch.tensor([[1, 2], [3, 4]]),
@@ -422,6 +441,7 @@ class TestTorchFuncs:
             'b': [True, True, False],
         })).all()
 
+    @choose_mark()
     def test_lt(self):
         assert (ttorch.lt(
             torch.tensor([[1, 2], [3, 4]]),
@@ -443,6 +463,7 @@ class TestTorchFuncs:
             'b': [True, False, False],
         })).all()
 
+    @choose_mark()
     def test_le(self):
         assert (ttorch.le(
             torch.tensor([[1, 2], [3, 4]]),
@@ -464,6 +485,7 @@ class TestTorchFuncs:
             'b': [True, False, True],
         })).all()
 
+    @choose_mark()
     def test_gt(self):
         assert (ttorch.gt(
             torch.tensor([[1, 2], [3, 4]]),
@@ -485,6 +507,7 @@ class TestTorchFuncs:
             'b': [False, True, False],
         })).all()
 
+    @choose_mark()
     def test_ge(self):
         assert (ttorch.ge(
             torch.tensor([[1, 2], [3, 4]]),
@@ -506,6 +529,7 @@ class TestTorchFuncs:
             'b': [False, True, True],
         })).all()
 
+    @choose_mark()
     def test_equal(self):
         p1 = ttorch.equal(torch.tensor([1, 2, 3]), torch.tensor([1, 2, 3]))
         assert isinstance(p1, bool)
@@ -535,6 +559,7 @@ class TestTorchFuncs:
         assert isinstance(p4, bool)
         assert not p4
 
+    @choose_mark()
     def test_min(self):
         t1 = ttorch.min(torch.tensor([1.0, 2.0, 1.5]))
         assert isinstance(t1, torch.Tensor)
@@ -548,6 +573,7 @@ class TestTorchFuncs:
             'b': {'x': 0.9},
         })
 
+    @choose_mark()
     def test_max(self):
         t1 = ttorch.max(torch.tensor([1.0, 2.0, 1.5]))
         assert isinstance(t1, torch.Tensor)
@@ -561,6 +587,7 @@ class TestTorchFuncs:
             'b': {'x': 2.5, }
         })
 
+    @choose_mark()
     def test_sum(self):
         assert ttorch.sum(torch.tensor([1.0, 2.0, 1.5])) == torch.tensor(4.5)
         assert ttorch.sum(ttorch.tensor({
@@ -568,6 +595,7 @@ class TestTorchFuncs:
             'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
         })) == torch.tensor(11.0)
 
+    @choose_mark()
     def test_clone(self):
         t1 = ttorch.clone(torch.tensor([1.0, 2.0, 1.5]))
         assert isinstance(t1, torch.Tensor)
@@ -582,6 +610,7 @@ class TestTorchFuncs:
             'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
         })).all()
 
+    @choose_mark()
     def test_dot(self):
         t1 = ttorch.dot(torch.tensor([1, 2]), torch.tensor([2, 3]))
         assert isinstance(t1, torch.Tensor)
@@ -599,6 +628,7 @@ class TestTorchFuncs:
         )
         assert (t2 == ttorch.tensor({'a': 38, 'b': {'x': 11}})).all()
 
+    @choose_mark()
     def test_matmul(self):
         t1 = ttorch.matmul(
             torch.tensor([[1, 2], [3, 4]]),
@@ -622,6 +652,7 @@ class TestTorchFuncs:
             'b': {'x': 40}
         })).all()
 
+    @choose_mark()
     def test_mm(self):
         t1 = ttorch.mm(
             torch.tensor([[1, 2], [3, 4]]),
@@ -645,6 +676,7 @@ class TestTorchFuncs:
             'b': {'x': [[44, 32], [80, 59]]},
         })).all()
 
+    @choose_mark()
     def test_isfinite(self):
         t1 = ttorch.isfinite(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
         assert isinstance(t1, torch.Tensor)
@@ -659,6 +691,7 @@ class TestTorchFuncs:
             'b': {'x': [[True, False, True], [False, True, False]]},
         }))
 
+    @choose_mark()
     def test_isinf(self):
         t1 = ttorch.isinf(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
         assert isinstance(t1, torch.Tensor)
@@ -673,6 +706,7 @@ class TestTorchFuncs:
             'b': {'x': [[False, True, False], [True, False, False]]},
         }))
 
+    @choose_mark()
     def test_isnan(self):
         t1 = ttorch.isnan(torch.tensor([1, float('inf'), 2, float('-inf'), float('nan')]))
         assert isinstance(t1, torch.Tensor)
@@ -687,6 +721,7 @@ class TestTorchFuncs:
             'b': {'x': [[False, False, False], [False, False, True]]},
         })).all()
 
+    @choose_mark()
     def test_abs(self):
         t1 = ttorch.abs(ttorch.tensor([12, 0, -3]))
         assert isinstance(t1, torch.Tensor)
@@ -701,6 +736,7 @@ class TestTorchFuncs:
             'b': {'x': [[3, 1], [0, 2]]},
         })).all()
 
+    @choose_mark()
     def test_abs_(self):
         t1 = ttorch.tensor([12, 0, -3])
         assert isinstance(t1, torch.Tensor)
@@ -721,6 +757,7 @@ class TestTorchFuncs:
             'b': {'x': [[3, 1], [0, 2]]},
         })).all()
 
+    @choose_mark()
     def test_clamp(self):
         t1 = ttorch.clamp(ttorch.tensor([-1.7120, 0.1734, -0.0478, 2.0922]), min=-0.5, max=0.5)
         assert isinstance(t1, torch.Tensor)
@@ -736,6 +773,7 @@ class TestTorchFuncs:
                         [0.0489, -0.5000, -0.5000]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_clamp_(self):
         t1 = ttorch.tensor([-1.7120, 0.1734, -0.0478, 2.0922])
         t1r = ttorch.clamp_(t1, min=-0.5, max=0.5)
@@ -755,6 +793,7 @@ class TestTorchFuncs:
                         [0.0489, -0.5000, -0.5000]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_sign(self):
         t1 = ttorch.sign(ttorch.tensor([12, 0, -3]))
         assert isinstance(t1, torch.Tensor)
@@ -770,6 +809,7 @@ class TestTorchFuncs:
                         [0, -1]]},
         })).all()
 
+    @choose_mark()
     def test_round(self):
         t1 = ttorch.round(ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]))
         assert isinstance(t1, torch.Tensor)
@@ -787,6 +827,7 @@ class TestTorchFuncs:
                         [-5., -2., 3.]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_round_(self):
         t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
         t1r = ttorch.round_(t1)
@@ -808,6 +849,7 @@ class TestTorchFuncs:
                         [-5., -2., 3.]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_floor(self):
         t1 = ttorch.floor(ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]))
         assert isinstance(t1, torch.Tensor)
@@ -825,6 +867,7 @@ class TestTorchFuncs:
                         [-5., -2., 2.]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_floor_(self):
         t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
         t1r = ttorch.floor_(t1)
@@ -846,6 +889,7 @@ class TestTorchFuncs:
                         [-5., -2., 2.]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_ceil(self):
         t1 = ttorch.ceil(ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]]))
         assert isinstance(t1, torch.Tensor)
@@ -863,6 +907,7 @@ class TestTorchFuncs:
                         [-4., -2., 3.]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_ceil_(self):
         t1 = ttorch.tensor([[1.2, -1.8], [-2.3, 2.8]])
         t1r = ttorch.ceil_(t1)
@@ -884,6 +929,7 @@ class TestTorchFuncs:
                         [-4., -2., 3.]]},
         })) < 1e-6).all()
 
+    @choose_mark()
     def test_sigmoid(self):
         t1 = ttorch.sigmoid(ttorch.tensor([1.0, 2.0, -1.5]))
         assert isinstance(t1, torch.Tensor)
@@ -899,6 +945,7 @@ class TestTorchFuncs:
                         [0.0759, 0.5622]]},
         })) < 1e-4).all()
 
+    @choose_mark()
     def test_sigmoid_(self):
         t1 = ttorch.tensor([1.0, 2.0, -1.5])
         t1r = ttorch.sigmoid_(t1)

@@ -7,7 +7,8 @@ from .base import Torch
 from .size import Size
 from ..common import Object, ireduce, clsmeta, return_self
 from ..numpy import ndarray
-from ..utils import current_names, doc_from
+from ..utils import current_names, class_autoremove, replaceable_partial
+from ..utils import doc_from_base as original_doc_from_base
 
 __all__ = [
     'Tensor'
@@ -15,6 +16,7 @@ __all__ = [
 
 _reduce_tensor_wrap = pre_process(lambda it: ((torch.tensor([*it]),), {}))
 tireduce = pre_process(lambda rfunc: ((_reduce_tensor_wrap(rfunc),), {}))(ireduce)
+doc_from_base = replaceable_partial(original_doc_from_base, base=torch.Tensor)
 
 
 def _to_tensor(*args, **kwargs):
@@ -29,6 +31,7 @@ def _to_tensor(*args, **kwargs):
 
 # noinspection PyTypeChecker
 @current_names()
+@class_autoremove
 class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
     # noinspection PyUnusedLocal
     def __init__(self, data, *args, **kwargs):
@@ -63,7 +66,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         super(Torch, self).__init__(data)
 
-    @doc_from(torch.Tensor.numpy)
+    @doc_from_base()
     @method_treelize(return_type=ndarray)
     def numpy(self: torch.Tensor) -> np.ndarray:
         """
@@ -73,7 +76,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.numpy()
 
-    @doc_from(torch.Tensor.tolist)
+    @doc_from_base()
     @method_treelize(return_type=Object)
     def tolist(self: torch.Tensor):
         """
@@ -96,7 +99,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.tolist()
 
-    @doc_from(torch.Tensor.cpu)
+    @doc_from_base()
     @method_treelize()
     def cpu(self: torch.Tensor, *args, **kwargs):
         """
@@ -107,7 +110,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.cpu(*args, **kwargs)
 
-    @doc_from(torch.Tensor.cuda)
+    @doc_from_base()
     @method_treelize()
     def cuda(self: torch.Tensor, *args, **kwargs):
         """
@@ -118,7 +121,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.cuda(*args, **kwargs)
 
-    @doc_from(torch.Tensor.to)
+    @doc_from_base()
     @method_treelize()
     def to(self: torch.Tensor, *args, **kwargs):
         """
@@ -142,7 +145,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.to(*args, **kwargs)
 
-    @doc_from(torch.Tensor.numel)
+    @doc_from_base()
     @ireduce(sum)
     @method_treelize(return_type=Object)
     def numel(self: torch.Tensor):
@@ -152,7 +155,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.numel()
 
     @property
-    @doc_from(torch.Tensor.shape)
+    @doc_from_base()
     @method_treelize(return_type=Size)
     def shape(self: torch.Tensor):
         """
@@ -174,7 +177,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.shape
 
     # noinspection PyArgumentList
-    @doc_from(torch.Tensor.all)
+    @doc_from_base()
     @tireduce(torch.all)
     @method_treelize(return_type=Object)
     def all(self: torch.Tensor, *args, **kwargs) -> bool:
@@ -184,7 +187,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.all(*args, **kwargs)
 
     # noinspection PyArgumentList
-    @doc_from(torch.Tensor.any)
+    @doc_from_base()
     @tireduce(torch.any)
     @method_treelize(return_type=Object)
     def any(self: torch.Tensor, *args, **kwargs) -> bool:
@@ -193,7 +196,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.any(*args, **kwargs)
 
-    @doc_from(torch.Tensor.max)
+    @doc_from_base()
     @tireduce(torch.max)
     @method_treelize(return_type=Object)
     def max(self: torch.Tensor, *args, **kwargs):
@@ -202,7 +205,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.max(*args, **kwargs)
 
-    @doc_from(torch.Tensor.min)
+    @doc_from_base()
     @tireduce(torch.min)
     @method_treelize(return_type=Object)
     def min(self: torch.Tensor, *args, **kwargs):
@@ -211,7 +214,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.min(*args, **kwargs)
 
-    @doc_from(torch.Tensor.sum)
+    @doc_from_base()
     @tireduce(torch.sum)
     @method_treelize(return_type=Object)
     def sum(self: torch.Tensor, *args, **kwargs):
@@ -262,7 +265,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self >= other
 
-    @doc_from(torch.Tensor.clone)
+    @doc_from_base()
     @method_treelize()
     def clone(self, *args, **kwargs):
         """
@@ -270,7 +273,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.clone(*args, **kwargs)
 
-    @doc_from(torch.Tensor.dot)
+    @doc_from_base()
     @method_treelize()
     def dot(self, other, *args, **kwargs):
         """
@@ -278,7 +281,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.dot(other, *args, **kwargs)
 
-    @doc_from(torch.Tensor.mm)
+    @doc_from_base()
     @method_treelize()
     def mm(self, mat2, *args, **kwargs):
         """
@@ -286,7 +289,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.mm(mat2, *args, **kwargs)
 
-    @doc_from(torch.Tensor.matmul)
+    @doc_from_base()
     @method_treelize()
     def matmul(self, tensor2, *args, **kwargs):
         """
@@ -294,7 +297,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.matmul(tensor2, *args, **kwargs)
 
-    @doc_from(torch.Tensor.isfinite)
+    @doc_from_base()
     @method_treelize()
     def isfinite(self):
         """
@@ -302,7 +305,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.isfinite()
 
-    @doc_from(torch.Tensor.isinf)
+    @doc_from_base()
     @method_treelize()
     def isinf(self):
         """
@@ -310,7 +313,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.isinf()
 
-    @doc_from(torch.Tensor.isnan)
+    @doc_from_base()
     @method_treelize()
     def isnan(self):
         """
@@ -318,7 +321,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.isnan()
 
-    @doc_from(torch.Tensor.abs)
+    @doc_from_base()
     @method_treelize()
     def abs(self, *args, **kwargs):
         """
@@ -326,7 +329,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.abs(*args, **kwargs)
 
-    @doc_from(torch.Tensor.abs_)
+    @doc_from_base()
     @return_self
     @method_treelize()
     def abs_(self, *args, **kwargs):
@@ -335,7 +338,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.abs_(*args, **kwargs)
 
-    @doc_from(torch.Tensor.clamp)
+    @doc_from_base()
     @method_treelize()
     def clamp(self, *args, **kwargs):
         """
@@ -343,7 +346,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.clamp(*args, **kwargs)
 
-    @doc_from(torch.Tensor.clamp_)
+    @doc_from_base()
     @return_self
     @method_treelize()
     def clamp_(self, *args, **kwargs):
@@ -352,7 +355,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.clamp_(*args, **kwargs)
 
-    @doc_from(torch.Tensor.sign)
+    @doc_from_base()
     @method_treelize()
     def sign(self, *args, **kwargs):
         """
@@ -360,7 +363,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.sign(*args, **kwargs)
 
-    @doc_from(torch.Tensor.sigmoid)
+    @doc_from_base()
     @method_treelize()
     def sigmoid(self, *args, **kwargs):
         """
@@ -368,7 +371,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.sigmoid(*args, **kwargs)
 
-    @doc_from(torch.Tensor.sigmoid_)
+    @doc_from_base()
     @return_self
     @method_treelize()
     def sigmoid_(self, *args, **kwargs):
@@ -377,7 +380,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.sigmoid_(*args, **kwargs)
 
-    @doc_from(torch.Tensor.floor)
+    @doc_from_base()
     @method_treelize()
     def floor(self, *args, **kwargs):
         """
@@ -385,7 +388,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.floor(*args, **kwargs)
 
-    @doc_from(torch.Tensor.floor_)
+    @doc_from_base()
     @return_self
     @method_treelize()
     def floor_(self, *args, **kwargs):
@@ -394,7 +397,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.floor_(*args, **kwargs)
 
-    @doc_from(torch.Tensor.ceil)
+    @doc_from_base()
     @method_treelize()
     def ceil(self, *args, **kwargs):
         """
@@ -402,7 +405,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.ceil(*args, **kwargs)
 
-    @doc_from(torch.Tensor.ceil_)
+    @doc_from_base()
     @return_self
     @method_treelize()
     def ceil_(self, *args, **kwargs):
@@ -411,7 +414,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.ceil_(*args, **kwargs)
 
-    @doc_from(torch.Tensor.round)
+    @doc_from_base()
     @method_treelize()
     def round(self, *args, **kwargs):
         """
@@ -419,7 +422,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.round(*args, **kwargs)
 
-    @doc_from(torch.Tensor.round_)
+    @doc_from_base()
     @return_self
     @method_treelize()
     def round_(self, *args, **kwargs):

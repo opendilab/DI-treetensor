@@ -23,4 +23,3 @@ current_names
 
 .. autofunction:: current_names
 
-

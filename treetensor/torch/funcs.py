@@ -1,4 +1,5 @@
 import builtins
+import sys
 
 import torch
 from treevalue import TreeValue
@@ -8,7 +9,8 @@ from treevalue.utils import post_process
 
 from .tensor import Tensor, tireduce
 from ..common import Object, ireduce, return_self
-from ..utils import replaceable_partial, doc_from, args_mapping
+from ..utils import doc_from_base as original_doc_from_base
+from ..utils import replaceable_partial, args_mapping, module_autoremove
 
 __all__ = [
     'zeros', 'zeros_like',
@@ -31,9 +33,10 @@ func_treelize = post_process(post_process(args_mapping(
     lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize, return_type=Tensor)
 )
+doc_from_base = replaceable_partial(original_doc_from_base, base=torch)
 
 
-@doc_from(torch.zeros)
+@doc_from_base()
 @func_treelize()
 def zeros(*args, **kwargs):
     """
@@ -58,7 +61,7 @@ def zeros(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.zeros_like)
+@doc_from_base()
 @func_treelize()
 def zeros_like(input, *args, **kwargs):
     """
@@ -85,7 +88,7 @@ def zeros_like(input, *args, **kwargs):
     return torch.zeros_like(input, *args, **kwargs)
 
 
-@doc_from(torch.randn)
+@doc_from_base()
 @func_treelize()
 def randn(*args, **kwargs):
     """
@@ -111,7 +114,7 @@ def randn(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.randn_like)
+@doc_from_base()
 @func_treelize()
 def randn_like(input, *args, **kwargs):
     """
@@ -139,7 +142,7 @@ def randn_like(input, *args, **kwargs):
     return torch.randn_like(input, *args, **kwargs)
 
 
-@doc_from(torch.randint)
+@doc_from_base()
 @func_treelize()
 def randint(*args, **kwargs):
     """
@@ -165,7 +168,7 @@ def randint(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.randint_like)
+@doc_from_base()
 @func_treelize()
 def randint_like(input, *args, **kwargs):
     """
@@ -193,7 +196,7 @@ def randint_like(input, *args, **kwargs):
     return torch.randint_like(input, *args, **kwargs)
 
 
-@doc_from(torch.ones)
+@doc_from_base()
 @func_treelize()
 def ones(*args, **kwargs):
     """
@@ -218,7 +221,7 @@ def ones(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.ones_like)
+@doc_from_base()
 @func_treelize()
 def ones_like(input, *args, **kwargs):
     """
@@ -245,7 +248,7 @@ def ones_like(input, *args, **kwargs):
     return torch.ones_like(input, *args, **kwargs)
 
 
-@doc_from(torch.full)
+@doc_from_base()
 @func_treelize()
 def full(*args, **kwargs):
     """
@@ -270,7 +273,7 @@ def full(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.full_like)
+@doc_from_base()
 @func_treelize()
 def full_like(input, *args, **kwargs):
     """
@@ -298,7 +301,7 @@ def full_like(input, *args, **kwargs):
     return torch.full_like(input, *args, **kwargs)
 
 
-@doc_from(torch.empty)
+@doc_from_base()
 @func_treelize()
 def empty(*args, **kwargs):
     """
@@ -324,7 +327,7 @@ def empty(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.empty_like)
+@doc_from_base()
 @func_treelize()
 def empty_like(input, *args, **kwargs):
     """
@@ -353,7 +356,7 @@ def empty_like(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.all)
+@doc_from_base()
 @tireduce(torch.all)
 @func_treelize(return_type=Object)
 def all(input, *args, **kwargs):
@@ -392,7 +395,7 @@ def all(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.any)
+@doc_from_base()
 @tireduce(torch.any)
 @func_treelize(return_type=Object)
 def any(input, *args, **kwargs):
@@ -431,7 +434,7 @@ def any(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.min)
+@doc_from_base()
 @tireduce(torch.min)
 @func_treelize(return_type=Object)
 def min(input, *args, **kwargs):
@@ -470,7 +473,7 @@ def min(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.max)
+@doc_from_base()
 @tireduce(torch.max)
 @func_treelize(return_type=Object)
 def max(input, *args, **kwargs):
@@ -509,7 +512,7 @@ def max(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.sum)
+@doc_from_base()
 @tireduce(torch.sum)
 @func_treelize(return_type=Object)
 def sum(input, *args, **kwargs):
@@ -548,7 +551,7 @@ def sum(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.eq)
+@doc_from_base()
 @func_treelize()
 def eq(input, other, *args, **kwargs):
     """
@@ -584,7 +587,7 @@ def eq(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.ne)
+@doc_from_base()
 @func_treelize()
 def ne(input, other, *args, **kwargs):
     """
@@ -620,7 +623,7 @@ def ne(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.lt)
+@doc_from_base()
 @func_treelize()
 def lt(input, other, *args, **kwargs):
     """
@@ -656,7 +659,7 @@ def lt(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.le)
+@doc_from_base()
 @func_treelize()
 def le(input, other, *args, **kwargs):
     """
@@ -692,7 +695,7 @@ def le(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.gt)
+@doc_from_base()
 @func_treelize()
 def gt(input, other, *args, **kwargs):
     """
@@ -728,7 +731,7 @@ def gt(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.ge)
+@doc_from_base()
 @func_treelize()
 def ge(input, other, *args, **kwargs):
     """
@@ -764,7 +767,7 @@ def ge(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins,PyArgumentList
-@doc_from(torch.equal)
+@doc_from_base()
 @ireduce(builtins.all)
 @func_treelize()
 def equal(input, other):
@@ -796,7 +799,7 @@ def equal(input, other):
     return torch.equal(input, other)
 
 
-@doc_from(torch.tensor)
+@doc_from_base()
 @func_treelize()
 def tensor(*args, **kwargs):
     """
@@ -823,7 +826,7 @@ def tensor(*args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.clone)
+@doc_from_base()
 @func_treelize()
 def clone(input, *args, **kwargs):
     """
@@ -853,7 +856,7 @@ def clone(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.dot)
+@doc_from_base()
 @func_treelize()
 def dot(input, other, *args, **kwargs):
     """
@@ -885,7 +888,7 @@ def dot(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.matmul)
+@doc_from_base()
 @func_treelize()
 def matmul(input, other, *args, **kwargs):
     """
@@ -922,7 +925,7 @@ def matmul(input, other, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.mm)
+@doc_from_base()
 @func_treelize()
 def mm(input, mat2, *args, **kwargs):
     """
@@ -960,7 +963,7 @@ def mm(input, mat2, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.isfinite)
+@doc_from_base()
 @func_treelize()
 def isfinite(input):
     """
@@ -988,7 +991,7 @@ def isfinite(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.isinf)
+@doc_from_base()
 @func_treelize()
 def isinf(input):
     """
@@ -1016,7 +1019,7 @@ def isinf(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.isnan)
+@doc_from_base()
 @func_treelize()
 def isnan(input):
     """
@@ -1044,7 +1047,7 @@ def isnan(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.abs)
+@doc_from_base()
 @func_treelize()
 def abs(input, *args, **kwargs):
     """
@@ -1071,7 +1074,7 @@ def abs(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.abs_)
+@doc_from_base()
 @return_self
 @func_treelize()
 def abs_(input):
@@ -1103,7 +1106,7 @@ def abs_(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.clamp)
+@doc_from_base()
 @func_treelize()
 def clamp(input, *args, **kwargs):
     """
@@ -1130,7 +1133,7 @@ def clamp(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins,PyUnresolvedReferences
-@doc_from(torch.clamp_)
+@doc_from_base()
 @return_self
 @func_treelize()
 def clamp_(input, *args, **kwargs):
@@ -1162,7 +1165,7 @@ def clamp_(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.sign)
+@doc_from_base()
 @func_treelize()
 def sign(input, *args, **kwargs):
     """
@@ -1189,7 +1192,7 @@ def sign(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.round)
+@doc_from_base()
 @func_treelize()
 def round(input, *args, **kwargs):
     """
@@ -1219,7 +1222,7 @@ def round(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.round_)
+@doc_from_base()
 @return_self
 @func_treelize()
 def round_(input):
@@ -1253,7 +1256,7 @@ def round_(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.floor)
+@doc_from_base()
 @func_treelize()
 def floor(input, *args, **kwargs):
     """
@@ -1283,7 +1286,7 @@ def floor(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.floor_)
+@doc_from_base()
 @return_self
 @func_treelize()
 def floor_(input):
@@ -1317,7 +1320,7 @@ def floor_(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.ceil)
+@doc_from_base()
 @func_treelize()
 def ceil(input, *args, **kwargs):
     """
@@ -1347,7 +1350,7 @@ def ceil(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.ceil_)
+@doc_from_base()
 @return_self
 @func_treelize()
 def ceil_(input):
@@ -1381,7 +1384,7 @@ def ceil_(input):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.sigmoid)
+@doc_from_base()
 @func_treelize()
 def sigmoid(input, *args, **kwargs):
     """
@@ -1408,7 +1411,7 @@ def sigmoid(input, *args, **kwargs):
 
 
 # noinspection PyShadowingBuiltins
-@doc_from(torch.sigmoid_)
+@doc_from_base()
 @return_self
 @func_treelize()
 def sigmoid_(input):
@@ -1437,3 +1440,6 @@ def sigmoid_(input):
                               [0.0759, 0.5622]])
     """
     return torch.sigmoid_(input)
+
+
+sys.modules[__name__] = module_autoremove(sys.modules[__name__])
