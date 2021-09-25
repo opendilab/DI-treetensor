@@ -1,9 +1,9 @@
 import numpy as np
 import torch
-from treevalue import method_treelize
-from treevalue.utils import pre_process
+from treevalue import method_treelize, TreeValue
+from treevalue.utils import pre_process, post_process
 
-from .base import Torch
+from .base import Torch, _auto_torch
 from .size import Size
 from ..common import Object, ireduce, clsmeta, return_self
 from ..numpy import ndarray
@@ -651,3 +651,13 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         In-place version of :meth:`Tensor.log10`.
         """
         return self.log10_(*args, **kwargs)
+
+    @doc_from_base()
+    @post_process(lambda r: tuple(map(replaceable_partial(_auto_torch, cls=Tensor), r)))
+    @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
+    @post_process(lambda r: list(r))
+    def split(self, split_size, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.split`.
+        """
+        return self.split(split_size, *args, **kwargs)

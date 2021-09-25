@@ -7,6 +7,7 @@ from treevalue import func_treelize as original_func_treelize
 from treevalue.tree.common import BaseTree
 from treevalue.utils import post_process
 
+from .base import _auto_torch
 from .tensor import Tensor, tireduce
 from ..common import Object, ireduce, return_self
 from ..utils import doc_from_base as original_doc_from_base
@@ -30,6 +31,7 @@ __all__ = [
     'add', 'sub', 'mul', 'div', 'pow', 'neg', 'neg_',
     'exp', 'exp_', 'exp2', 'exp2_', 'sqrt', 'sqrt_',
     'log', 'log_', 'log2', 'log2_', 'log10', 'log10_',
+    'cat', 'split', 'stack',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -37,6 +39,7 @@ func_treelize = post_process(post_process(args_mapping(
     replaceable_partial(original_func_treelize, return_type=Tensor)
 )
 doc_from_base = replaceable_partial(original_doc_from_base, base=torch)
+auto_tensor = replaceable_partial(_auto_torch, cls=Tensor)
 
 
 @doc_from_base()
@@ -2153,6 +2156,291 @@ def log10_(input):
                               [ 1.2041,  0.5740,     nan]])
     """
     return torch.log10_(input)
+
+
+@doc_from_base()
+@func_treelize(subside=dict(return_type=TreeValue))
+def cat(tensors, *args, **kwargs):
+    """
+    Concatenates the given sequence of ``seq`` tensors in the given dimension.
+    All tensors must either have the same shape (except in the concatenating dimension) or be empty.
+
+    Examples:
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t1 = torch.randint(10, 30, (2, 3))
+        >>> t1
+        tensor([[21, 29, 17],
+                [16, 11, 16]])
+        >>> t2 = torch.randint(30, 50, (2, 3))
+        tensor([[46, 46, 46],
+                [30, 47, 36]])
+        >>> t2
+        >>> t3 = torch.randint(50, 70, (2, 3))
+        tensor([[51, 65, 65],
+                [54, 67, 57]])
+        >>> t3
+        >>> ttorch.cat((t1, t2, t3))
+        tensor([[21, 29, 17],
+                [16, 11, 16],
+                [46, 46, 46],
+                [30, 47, 36],
+                [51, 65, 65],
+                [54, 67, 57]])
+
+        >>> tt1 = ttorch.Tensor({
+        ...    'a': t1,
+        ...    'b': {'x': t2, 'y': t3},
+        ... })
+        >>> tt1
+        <Tensor 0x7fed579acf60>
+        ├── a --> tensor([[21, 29, 17],
+        │                 [16, 11, 16]])
+        └── b --> <Tensor 0x7fed579acf28>
+            ├── x --> tensor([[46, 46, 46],
+            │                 [30, 47, 36]])
+            └── y --> tensor([[51, 65, 65],
+                              [54, 67, 57]])
+        >>> tt2 = ttorch.Tensor({
+        ...    'a': t2,
+        ...    'b': {'x': t3, 'y': t1},
+        ... })
+        >>> tt2
+        <Tensor 0x7fed579d62e8>
+        ├── a --> tensor([[46, 46, 46],
+        │                 [30, 47, 36]])
+        └── b --> <Tensor 0x7fed579d62b0>
+            ├── x --> tensor([[51, 65, 65],
+            │                 [54, 67, 57]])
+            └── y --> tensor([[21, 29, 17],
+                              [16, 11, 16]])
+        >>> tt3 = ttorch.Tensor({
+        ...    'a': t3,
+        ...    'b': {'x': t1, 'y': t2},
+        ... })
+        >>> tt3
+        <Tensor 0x7fed579d66a0>
+        ├── a --> tensor([[51, 65, 65],
+        │                 [54, 67, 57]])
+        └── b --> <Tensor 0x7fed579d65f8>
+            ├── x --> tensor([[21, 29, 17],
+            │                 [16, 11, 16]])
+            └── y --> tensor([[46, 46, 46],
+                              [30, 47, 36]]
+        >>> ttorch.cat((tt1, tt2, tt3))
+        <Tensor 0x7fed579d6ac8>
+        ├── a --> tensor([[21, 29, 17],
+        │                 [16, 11, 16],
+        │                 [46, 46, 46],
+        │                 [30, 47, 36],
+        │                 [51, 65, 65],
+        │                 [54, 67, 57]])
+        └── b --> <Tensor 0x7fed579d6a90>
+            ├── x --> tensor([[46, 46, 46],
+            │                 [30, 47, 36],
+            │                 [51, 65, 65],
+            │                 [54, 67, 57],
+            │                 [21, 29, 17],
+            │                 [16, 11, 16]])
+            └── y --> tensor([[51, 65, 65],
+                              [54, 67, 57],
+                              [21, 29, 17],
+                              [16, 11, 16],
+                              [46, 46, 46],
+                              [30, 47, 36]])
+        >>> ttorch.cat((tt1, tt2, tt3), dim=1)
+        <Tensor 0x7fed579644a8>
+        ├── a --> tensor([[21, 29, 17, 46, 46, 46, 51, 65, 65],
+        │                 [16, 11, 16, 30, 47, 36, 54, 67, 57]])
+        └── b --> <Tensor 0x7fed57964438>
+            ├── x --> tensor([[46, 46, 46, 51, 65, 65, 21, 29, 17],
+            │                 [30, 47, 36, 54, 67, 57, 16, 11, 16]])
+            └── y --> tensor([[51, 65, 65, 21, 29, 17, 46, 46, 46],
+                              [54, 67, 57, 16, 11, 16, 30, 47, 36]])
+    """
+    return torch.cat(tensors, *args, **kwargs)
+
+
+# noinspection PyShadowingNames
+@doc_from_base()
+@post_process(lambda r: tuple(map(auto_tensor, r)))
+@func_treelize(return_type=TreeValue, rise=dict(template=[None]))
+@post_process(lambda r: list(r))
+def split(tensor, split_size_or_sections, *args, **kwargs):
+    """
+    Splits the tensor into chunks. Each chunk is a view of the original tensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t1 = torch.randint(100, (6, 2))
+        >>> t1
+        tensor([[59, 82],
+                [86, 42],
+                [71, 84],
+                [61, 58],
+                [82, 37],
+                [14, 31]])
+        >>> ttorch.split(t1, (1, 2, 3))
+        (tensor([[59, 82]]), tensor([[86, 42],
+                [71, 84]]), tensor([[61, 58],
+                [82, 37],
+                [14, 31]]))
+
+        >>> tt1 = ttorch.randint(100, {
+        ...     'a': (6, 2),
+        ...     'b': {'x': (6, 2, 3)},
+        ... })
+        >>> tt1
+        <Tensor 0x7f4c8d786400>
+        ├── a --> tensor([[ 1, 65],
+        │                 [68, 31],
+        │                 [76, 73],
+        │                 [74, 76],
+        │                 [90,  0],
+        │                 [95, 89]])
+        └── b --> <Tensor 0x7f4c8d786320>
+            └── x --> tensor([[[11, 20, 74],
+                               [17, 85, 44]],
+
+                              [[67, 37, 89],
+                               [76, 28,  0]],
+
+                              [[56, 12,  7],
+                               [17, 63, 32]],
+
+                              [[81, 75, 19],
+                               [89, 21, 55]],
+
+                              [[71, 53,  0],
+                               [66, 82, 57]],
+
+                              [[73, 81, 11],
+                               [58, 54, 78]]])
+        >>> ttorch.split(tt1, (1, 2, 3))
+        (<Tensor 0x7f4c8d7861d0>
+        ├── a --> tensor([[ 1, 65]])
+        └── b --> <Tensor 0x7f4c8d786128>
+            └── x --> tensor([[[11, 20, 74],
+                               [17, 85, 44]]])
+        , <Tensor 0x7f4c8d7860f0>
+        ├── a --> tensor([[68, 31],
+        │                 [76, 73]])
+        └── b --> <Tensor 0x7f4c8d7860b8>
+            └── x --> tensor([[[67, 37, 89],
+                               [76, 28,  0]],
+
+                              [[56, 12,  7],
+                               [17, 63, 32]]])
+        , <Tensor 0x7f4c8d7866d8>
+        ├── a --> tensor([[74, 76],
+        │                 [90,  0],
+        │                 [95, 89]])
+        └── b --> <Tensor 0x7f4c8d786668>
+            └── x --> tensor([[[81, 75, 19],
+                               [89, 21, 55]],
+
+                              [[71, 53,  0],
+                               [66, 82, 57]],
+
+                              [[73, 81, 11],
+                               [58, 54, 78]]])
+        )
+    """
+    return torch.split(tensor, split_size_or_sections, *args, **kwargs)
+
+
+@doc_from_base()
+@func_treelize(subside=dict(return_type=TreeValue))
+def stack(tensors, *args, **kwargs):
+    """
+    Concatenates a sequence of tensors along a new dimension.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t1 = torch.randint(10, 30, (2, 3))
+        >>> t1
+        tensor([[17, 15, 27],
+                [12, 17, 29]])
+        >>> t2 = torch.randint(30, 50, (2, 3))
+        >>> t2
+        tensor([[45, 41, 47],
+                [37, 37, 36]])
+        >>> t3 = torch.randint(50, 70, (2, 3))
+        >>> t3
+        tensor([[60, 50, 55],
+                [69, 54, 58]])
+        >>> ttorch.stack((t1, t2, t3))
+        tensor([[[17, 15, 27],
+                 [12, 17, 29]],
+
+                [[45, 41, 47],
+                 [37, 37, 36]],
+
+                [[60, 50, 55],
+                 [69, 54, 58]]])
+
+        >>> tt1 = ttorch.randint(10, 30, {
+        ...     'a': (2,  3),
+        ...     'b': {'x': (3, 4)},
+        ... })
+        >>> tt1
+        <Tensor 0x7f4c8eba9630>
+        ├── a --> tensor([[25, 22, 29],
+        │                 [19, 21, 27]])
+        └── b --> <Tensor 0x7f4c8eba9550>
+            └── x --> tensor([[20, 17, 28, 10],
+                              [28, 16, 27, 27],
+                              [18, 21, 17, 12]])
+        >>> tt2 = ttorch.randint(30, 50, {
+        ...     'a': (2,  3),
+        ...     'b': {'x': (3, 4)},
+        ... })
+        >>> tt2
+        <Tensor 0x7f4c8eba97b8>
+        ├── a --> tensor([[40, 44, 41],
+        │                 [39, 44, 40]])
+        └── b --> <Tensor 0x7f4c8eba9710>
+            └── x --> tensor([[44, 42, 38, 44],
+                              [30, 44, 42, 31],
+                              [36, 30, 33, 31]])
+        >>> ttorch.stack((tt1, tt2))
+        <Tensor 0x7f4c8eb411d0>
+        ├── a --> tensor([[[25, 22, 29],
+        │                  [19, 21, 27]],
+        │
+        │                 [[40, 44, 41],
+        │                  [39, 44, 40]]])
+        └── b --> <Tensor 0x7f4c8eb410b8>
+            └── x --> tensor([[[20, 17, 28, 10],
+                               [28, 16, 27, 27],
+                               [18, 21, 17, 12]],
+
+                              [[44, 42, 38, 44],
+                               [30, 44, 42, 31],
+                               [36, 30, 33, 31]]])
+        >>> ttorch.stack((tt1, tt2), dim=1)
+        <Tensor 0x7f4c8eba9da0>
+        ├── a --> tensor([[[25, 22, 29],
+        │                  [40, 44, 41]],
+        │
+        │                 [[19, 21, 27],
+        │                  [39, 44, 40]]])
+        └── b --> <Tensor 0x7f4d01fb4898>
+            └── x --> tensor([[[20, 17, 28, 10],
+                               [44, 42, 38, 44]],
+
+                              [[28, 16, 27, 27],
+                               [30, 44, 42, 31]],
+
+                              [[18, 21, 17, 12],
+                               [36, 30, 33, 31]]])
+    """
+    return torch.stack(tensors, *args, **kwargs)
 
 
 sys.modules[__name__] = module_autoremove(sys.modules[__name__])
