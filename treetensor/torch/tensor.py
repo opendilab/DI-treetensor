@@ -661,3 +661,55 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         See :func:`treetensor.torch.split`.
         """
         return self.split(split_size, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def reshape(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.reshape`.
+        """
+        return self.reshape(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def squeeze(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.squeeze`.
+        """
+        return self.squeeze(*args, **kwargs)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def squeeze_(self, *args, **kwargs):
+        """
+        In-place version of :meth:`Tensor.squeeze'.
+        """
+        return self.squeeze_(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def unsqueeze(self, dim):
+        """
+        See :func:`treetensor.torch.unsqueeze`.
+        """
+        return self.unsqueeze(dim)
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def unsqueeze_(self, dim):
+        """
+        In-place version of :meth:`Tensor.unsqueeze'.
+        """
+        return self.unsqueeze_(dim)
+
+    @doc_from_base()
+    @method_treelize()
+    def where(self, condition, y, *args, **kwargs):
+        """
+        ``self.where(condition, y)`` is equivalent to
+        ``treetensor.torch.where(condition, self, y)``.
+        See :func:`treetensor.torch.where`.
+        """
+        return self.where(condition, y, *args, **kwargs)
