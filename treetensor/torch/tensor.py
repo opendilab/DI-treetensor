@@ -726,6 +726,23 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
 
     @doc_from_base()
     @method_treelize()
+    def index_select(self, dim, index):
+        """
+        See :func:`treetensor.torch.index_select`.
+        """
+        return self.index_select(dim, index)
+
+    @doc_from_base()
+    @ireduce(torch.cat, piter=tuple)
+    @method_treelize()
+    def masked_select(self, mask):
+        """
+        See :func:`treetensor.torch.masked_select`.
+        """
+        return self.masked_select(mask)
+
+    @doc_from_base()
+    @method_treelize()
     def std(self, *args, **kwargs):
         """
         See :func:`treetensor.torch.std`.

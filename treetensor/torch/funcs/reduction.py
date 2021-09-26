@@ -2,11 +2,12 @@ import torch
 
 from .base import doc_from_base, func_treelize
 from ..tensor import tireduce
-from ...common import Object
+from ...common import Object, ireduce
 
 __all__ = [
     'all', 'any',
     'min', 'max', 'sum',
+    'masked_select',
 ]
 
 
@@ -203,3 +204,42 @@ def sum(input, *args, **kwargs):
                 └── x --> tensor(6.5000)
     """
     return torch.sum(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@ireduce(torch.cat, piter=tuple)
+@func_treelize(return_type=Object)
+def masked_select(input, mask, *args, **kwargs):
+    """
+    Returns a new 1-D tensor which indexes the ``input`` tensor
+    according to the boolean mask ``mask`` which is a BoolTensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = torch.randn(3, 4)
+        >>> t
+        tensor([[ 0.0481,  0.1741,  0.9820, -0.6354],
+                [ 0.8108, -0.7126,  0.1329,  1.0868],
+                [-1.8267,  1.3676, -1.4490, -2.0224]])
+        >>> ttorch.masked_select(t, t > 0.3)
+        tensor([0.9820, 0.8108, 1.0868, 1.3676])
+
+        >>> tt = ttorch.randn({
+        ...     'a': (2, 3),
+        ...     'b': {'x': (3, 4)},
+        ... })
+        >>> tt
+        <Tensor 0x7f0be77bbc88>
+        ├── a --> tensor([[ 1.1799,  0.4652, -1.7895],
+        │                 [ 0.0423,  1.0866,  1.3533]])
+        └── b --> <Tensor 0x7f0be77bbb70>
+            └── x --> tensor([[ 0.8139, -0.6732,  0.0065,  0.9073],
+                              [ 0.0596, -2.0621, -0.1598, -1.0793],
+                              [-0.0496,  2.1392,  0.6403,  0.4041]])
+        >>> ttorch.masked_select(tt, tt > 0.3)
+        tensor([1.1799, 0.4652, 1.0866, 1.3533, 0.8139, 0.9073, 2.1392, 0.6403, 0.4041])
+    """
+    return torch.masked_select(input, mask, *args, **kwargs)

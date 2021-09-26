@@ -30,8 +30,9 @@ def vreduce(rfunc):
     return kwreduce(lambda **kws: rfunc(kws.values()))
 
 
-def ireduce(rfunc):
+def ireduce(rfunc, piter=None):
     _IterReduceWrapper = namedtuple("_IterReduceWrapper", ['v'])
+    piter = piter or (lambda x: x)
 
     def _reduce_func(values):
         _list = []
@@ -49,7 +50,7 @@ def ireduce(rfunc):
         def _new_func(*args, **kwargs):
             _iw = rifunc(*args, **kwargs)
             if isinstance(_iw, _IterReduceWrapper):
-                return rfunc(_iw.v)
+                return rfunc(piter(_iw.v))
             else:
                 return _iw
 

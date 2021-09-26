@@ -7,6 +7,7 @@ from .base import doc_from_base, func_treelize, auto_tensor
 __all__ = [
     'cat', 'split', 'chunk', 'stack',
     'reshape', 'where', 'squeeze', 'unsqueeze',
+    'index_select',
 ]
 
 
@@ -520,3 +521,71 @@ def where(condition, x, y):
                                [ 0, 89, 85,  0]]])
     """
     return torch.where(condition, x, y)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@func_treelize()
+def index_select(input, dim, index, *args, **kwargs):
+    """
+    Returns a new tensor which indexes the ``input`` tensor
+    along dimension ``dim`` using the entries in ``index`` which is a LongTensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = torch.randn(3, 4)
+        >>> t
+        tensor([[ 0.2247, -0.1441, -1.2249, -0.2738],
+                [-0.1496, -0.4883, -1.2442,  0.6374],
+                [ 0.8017,  1.1220, -2.1013, -0.5951]])
+        >>> ttorch.index_select(t, 1, torch.tensor([1, 2]))
+        tensor([[-0.1441, -1.2249],
+                [-0.4883, -1.2442],
+                [ 1.1220, -2.1013]])
+
+        >>> tt = ttorch.randn({
+        ...     'a': (3, 4),
+        ...     'b': {'x': (5, 6)},
+        ... })
+        >>> tt
+        <Tensor 0x7f6b636c1cf8>
+        ├── a --> tensor([[ 3.9724e-05, -3.3134e-01, -1.0441e+00,  7.9233e-01],
+        │                 [-1.0035e-01,  2.3422e+00,  1.9307e+00, -1.7215e-01],
+        │                 [ 1.9069e+00,  1.1852e+00, -1.0672e+00,  1.3463e+00]])
+        └── b --> <Tensor 0x7f6b636c1be0>
+            └── x --> tensor([[ 0.5200, -0.3595, -1.4235, -0.2655,  0.9504, -1.7564],
+                              [-1.6577, -0.5516,  0.1660, -2.3273, -0.9811, -0.4677],
+                              [ 0.7047, -1.6920,  0.3139,  0.6220,  0.4758, -1.2637],
+                              [-0.3945, -2.1694,  0.8404, -0.4224, -1.4819,  0.3998],
+                              [-0.0308,  0.9777, -0.7776, -0.0101, -1.0446, -1.1500]])
+        >>> ttorch.index_select(tt, 1, torch.tensor([1, 2]))
+        <Tensor 0x7f6b636c1f28>
+        ├── a --> tensor([[-0.3313, -1.0441],
+        │                 [ 2.3422,  1.9307],
+        │                 [ 1.1852, -1.0672]])
+        └── b --> <Tensor 0x7f6b636c1e80>
+            └── x --> tensor([[-0.3595, -1.4235],
+                              [-0.5516,  0.1660],
+                              [-1.6920,  0.3139],
+                              [-2.1694,  0.8404],
+                              [ 0.9777, -0.7776]])
+
+    .. note::
+
+        If you need to select different indices in the tensors, just do like this.
+
+        >>> ttorch.index_select(tt, 1, ttorch.tensor({'a': [1, 2], 'b': {'x': [1, 3, 5]}}))
+        <Tensor 0x7f6b636dbf60>
+        ├── a --> tensor([[-0.3313, -1.0441],
+        │                 [ 2.3422,  1.9307],
+        │                 [ 1.1852, -1.0672]])
+        └── b --> <Tensor 0x7f6b636dbe80>
+            └── x --> tensor([[-0.3595, -0.2655, -1.7564],
+                              [-0.5516, -2.3273, -0.4677],
+                              [-1.6920,  0.6220, -1.2637],
+                              [-2.1694, -0.4224,  0.3998],
+                              [ 0.9777, -0.0101, -1.1500]])
+    """
+    return torch.index_select(input, dim, index, *args, **kwargs)
