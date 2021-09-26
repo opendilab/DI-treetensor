@@ -1,3 +1,3 @@
-from .test_funcs import TestTorchFuncs
+from .funcs import *
+from .tensor import *
 from .test_size import TestTorchSize
-from .test_tensor import TestTorchTensor
