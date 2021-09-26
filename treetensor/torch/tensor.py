@@ -663,6 +663,16 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.split(split_size, *args, **kwargs)
 
     @doc_from_base()
+    @post_process(lambda r: tuple(map(replaceable_partial(_auto_torch, cls=Tensor), r)))
+    @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
+    @post_process(lambda r: list(r))
+    def chunk(self, chunks, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.chunk`.
+        """
+        return self.chunk(chunks, *args, **kwargs)
+
+    @doc_from_base()
     @method_treelize()
     def reshape(self, *args, **kwargs):
         """
@@ -713,3 +723,35 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         See :func:`treetensor.torch.where`.
         """
         return self.where(condition, y, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def std(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.std`.
+        """
+        return self.std(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def mean(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.mean`.
+        """
+        return self.mean(*args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def dist(self, other, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.dist`.
+        """
+        return self.dist(other, *args, **kwargs)
+
+    @doc_from_base()
+    @method_treelize()
+    def norm(self, *args, **kwargs):
+        """
+        See :func:`treetensor.torch.norm`.
+        """
+        return self.norm(*args, **kwargs)

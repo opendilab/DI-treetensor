@@ -5,7 +5,8 @@ from treevalue.utils import post_process
 from .base import doc_from_base, func_treelize, auto_tensor
 
 __all__ = [
-    'cat', 'split', 'stack', 'reshape', 'where', 'squeeze', 'unsqueeze',
+    'cat', 'split', 'chunk', 'stack',
+    'reshape', 'where', 'squeeze', 'unsqueeze',
 ]
 
 
@@ -201,6 +202,67 @@ def split(tensor, split_size_or_sections, *args, **kwargs):
         )
     """
     return torch.split(tensor, split_size_or_sections, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@post_process(lambda r: tuple(map(auto_tensor, r)))
+@func_treelize(return_type=TreeValue, rise=dict(template=[None]))
+@post_process(lambda r: list(r))
+def chunk(input, chunks, *args, **kwargs):
+    """
+    Splits a tensor into a specific number of chunks. Each chunk is a view of the input tensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = torch.randint(100, (4, 5))
+        >>> t
+        tensor([[54, 97, 12, 48, 62],
+                [92, 87, 28, 53, 54],
+                [65, 82, 40, 26, 61],
+                [75, 43, 86, 99,  7]])
+        >>> ttorch.chunk(t, 2)
+        (tensor([[54, 97, 12, 48, 62],
+                [92, 87, 28, 53, 54]]), tensor([[65, 82, 40, 26, 61],
+                [75, 43, 86, 99,  7]]))
+
+        >>> tt = ttorch.randint(100, {
+        ...     'a': (4, 5),
+        ...     'b': {'x': (2, 3, 4)},
+        ... })
+        >>> tt
+        <Tensor 0x7f667e2fb358>
+        ├── a --> tensor([[80,  2, 15, 45, 48],
+        │                 [38, 89, 34, 10, 34],
+        │                 [18, 99, 33, 38, 20],
+        │                 [43, 21, 35, 43, 37]])
+        └── b --> <Tensor 0x7f667e2fb278>
+            └── x --> tensor([[[19, 17, 39, 68],
+                               [41, 69, 33, 89],
+                               [31, 88, 39, 14]],
+
+                              [[27, 81, 84, 35],
+                               [29, 65, 17, 72],
+                               [53, 50, 75,  0]]])
+        >>> ttorch.chunk(tt, 2)
+        (<Tensor 0x7f667e9b7eb8>
+        ├── a --> tensor([[80,  2, 15, 45, 48],
+        │                 [38, 89, 34, 10, 34]])
+        └── b --> <Tensor 0x7f667e2e7cf8>
+            └── x --> tensor([[[19, 17, 39, 68],
+                               [41, 69, 33, 89],
+                               [31, 88, 39, 14]]])
+        , <Tensor 0x7f66f176dac8>
+        ├── a --> tensor([[18, 99, 33, 38, 20],
+        │                 [43, 21, 35, 43, 37]])
+        └── b --> <Tensor 0x7f668030ba58>
+            └── x --> tensor([[[27, 81, 84, 35],
+                               [29, 65, 17, 72],
+                               [53, 50, 75,  0]]])
+    """
+    return torch.chunk(input, chunks, *args, **kwargs)
 
 
 @doc_from_base()

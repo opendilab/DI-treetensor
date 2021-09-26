@@ -139,6 +139,49 @@ class TestTorchFuncsOperation:
         })).all()
 
     @choose_mark()
+    def test_chunk(self):
+        t = torch.tensor([[54, 97, 12, 48, 62],
+                          [92, 87, 28, 53, 54],
+                          [65, 82, 40, 26, 61],
+                          [75, 43, 86, 99, 7]])
+        t_a, t_b = ttorch.chunk(t, 2)
+        assert isinstance(t_a, torch.Tensor)
+        assert isinstance(t_b, torch.Tensor)
+        assert (t_a == torch.tensor([[54, 97, 12, 48, 62],
+                                     [92, 87, 28, 53, 54]])).all()
+        assert (t_b == torch.tensor([[65, 82, 40, 26, 61],
+                                     [75, 43, 86, 99, 7]])).all()
+
+        tt = ttorch.tensor({
+            'a': [[80, 2, 15, 45, 48],
+                  [38, 89, 34, 10, 34],
+                  [18, 99, 33, 38, 20],
+                  [43, 21, 35, 43, 37]],
+            'b': {'x': [[[19, 17, 39, 68],
+                         [41, 69, 33, 89],
+                         [31, 88, 39, 14]],
+
+                        [[27, 81, 84, 35],
+                         [29, 65, 17, 72],
+                         [53, 50, 75, 0]]]},
+        })
+        tt_a, tt_b = ttorch.chunk(tt, 2)
+        assert (tt_a == ttorch.tensor({
+            'a': [[80, 2, 15, 45, 48],
+                  [38, 89, 34, 10, 34]],
+            'b': {'x': [[[19, 17, 39, 68],
+                         [41, 69, 33, 89],
+                         [31, 88, 39, 14]]]},
+        })).all()
+        assert (tt_b == ttorch.tensor({
+            'a': [[18, 99, 33, 38, 20],
+                  [43, 21, 35, 43, 37]],
+            'b': {'x': [[[27, 81, 84, 35],
+                         [29, 65, 17, 72],
+                         [53, 50, 75, 0]]]},
+        })).all()
+
+    @choose_mark()
     def test_stack(self):
         t1 = torch.tensor([[17, 15, 27],
                            [12, 17, 29]])
