@@ -9,7 +9,7 @@ __all__ = [
     'add', 'sub', 'mul', 'div', 'pow', 'neg', 'neg_',
     'exp', 'exp_', 'exp2', 'exp2_', 'sqrt', 'sqrt_',
     'log', 'log_', 'log2', 'log2_', 'log10', 'log10_',
-    'mean', 'std', 'dist', 'norm',
+    'dist', 'norm',
 ]
 
 
@@ -1077,95 +1077,6 @@ def log10_(input):
                               [ 1.2041,  0.5740,     nan]])
     """
     return torch.log10_(input)
-
-
-# noinspection PyShadowingBuiltins
-@doc_from_base()
-@func_treelize()
-def std(input, *args, **kwargs):
-    """
-    Returns the standard-deviation of all elements in the ``input`` tensor.
-
-    Examples::
-
-        >>> import torch
-        >>> import treetensor.torch as ttorch
-        >>> t = torch.randn((2, 3)) * 30
-        >>> t
-        tensor([[ 25.5133,  24.2050,   8.1067],
-                [ 22.7316, -17.8863, -37.9171]])
-        >>> ttorch.std(t)
-        tensor(26.3619)
-
-        >>> tt = ttorch.randn({
-        ...     'a': (2, 3),
-        ...     'b': {'x': (3, 4)},
-        ... }) * 30
-        >>> tt
-        <Tensor 0x7f7c7288ca58>
-        ├── a --> tensor([[-48.6580,  30.9506, -16.1800],
-        │                 [ 37.6667,  10.3850,  -5.7679]])
-        └── b --> <Tensor 0x7f7c7288c978>
-            └── x --> tensor([[-17.9371,   8.4873, -49.0445,   4.7368],
-                              [ 21.3990, -11.2385, -15.9331, -41.6838],
-                              [ -7.1814, -38.1301,  -2.2320,  10.1392]])
-        >>> ttorch.std(tt)
-        <Tensor 0x7f7c7288c470>
-        ├── a --> tensor(32.0483)
-        └── b --> <Tensor 0x7f7c7288c3c8>
-            └── x --> tensor(22.1754)
-
-    .. note::
-
-        Reduction will not be processed in :func:`treetensor.torch.std`.
-        It means the result should be a tree of tensors instead of one tensor.
-
-    """
-    return torch.std(input, *args, **kwargs)
-
-
-# noinspection PyShadowingBuiltins
-@doc_from_base()
-@func_treelize()
-def mean(input, *args, **kwargs):
-    """
-
-    Examples::
-
-        >>> import torch
-        >>> import treetensor.torch as ttorch
-        >>> t = torch.randn((2, 3)) * 30
-        >>> t
-        tensor([[ 11.8069,  16.7822, -11.8583],
-                [-10.0426,  38.7326,  30.0298]])
-        >>> ttorch.mean(t)
-        tensor(12.5751)
-
-        >>> tt = ttorch.randn({
-        ...     'a': (2, 3),
-        ...     'b': {'x': (3, 4)},
-        ... }) * 30
-        >>> tt
-        <Tensor 0x7f95f684f6a0>
-        ├── a --> tensor([[-29.3862,  10.3668, -19.8407],
-        │                 [ 11.3299,  -0.7511, -13.8404]])
-        └── b --> <Tensor 0x7f95f684f828>
-            └── x --> tensor([[-25.1722,  22.6307,  -9.3588,  -6.8217],
-                              [-31.4652,   6.6465,  36.9483,  -4.0487],
-                              [-17.2146,  24.0029,  35.4574, -29.2970]])
-        >>> ttorch.mean(tt)
-        <Tensor 0x7f95f6849e80>
-        ├── a --> tensor(-7.0203)
-        └── b --> <Tensor 0x7f95f6849470>
-            └── x --> tensor(0.1923)
-
-    .. note::
-
-        Reduction will not be processed in :func:`treetensor.torch.std`.
-        It means the result should be a tree of tensors instead of one tensor.
-
-    """
-    return torch.mean(input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins

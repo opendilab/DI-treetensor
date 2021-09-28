@@ -1,19 +1,19 @@
 import torch
 
 from .base import doc_from_base, func_treelize
-from ..tensor import tireduce
-from ...common import Object, ireduce
+from ..base import rmreduce, post_reduce, auto_reduce
+from ...common import Object
 
 __all__ = [
     'all', 'any',
-    'min', 'max', 'sum',
+    'min', 'max', 'sum', 'mean', 'std',
     'masked_select',
 ]
 
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@tireduce(torch.all)
+@rmreduce(torch.all)
 @func_treelize(return_type=Object)
 def all(input, *args, **kwargs):
     """
@@ -52,7 +52,7 @@ def all(input, *args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@tireduce(torch.any)
+@rmreduce(torch.any)
 @func_treelize(return_type=Object)
 def any(input, *args, **kwargs):
     """
@@ -91,7 +91,7 @@ def any(input, *args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@tireduce(torch.min)
+@rmreduce(torch.min)
 @func_treelize(return_type=Object)
 def min(input, *args, **kwargs):
     """
@@ -130,7 +130,7 @@ def min(input, *args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@tireduce(torch.max)
+@rmreduce(torch.max)
 @func_treelize(return_type=Object)
 def max(input, *args, **kwargs):
     """
@@ -169,7 +169,7 @@ def max(input, *args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@tireduce(torch.sum)
+@rmreduce(torch.sum)
 @func_treelize(return_type=Object)
 def sum(input, *args, **kwargs):
     """
@@ -206,9 +206,129 @@ def sum(input, *args, **kwargs):
     return torch.sum(input, *args, **kwargs)
 
 
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.mean)
+@func_treelize(return_type=Object)
+def _mean_r(input, *args, **kwargs):
+    return input
+
+
+# noinspection PyShadowingBuiltins
+@func_treelize()
+def _mean_nr(input, *args, **kwargs):
+    return torch.mean(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@doc_from_base()
+@auto_reduce(_mean_r, _mean_nr)
+def mean(input, *args, reduce=None, **kwargs):
+    """
+    Returns the mean value of all elements in the ``input`` tensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = torch.randn((2, 3)) * 30
+        >>> t
+        tensor([[ 26.6598,  27.8008, -59.4753],
+                [-79.1833,   3.3349,  20.1665]])
+        >>> ttorch.mean(t)
+        tensor(-10.1161)
+
+        >>> tt = ttorch.randn({
+        ...     'a': (2, 3),
+        ...     'b': {'x': (3, 4)},
+        ... }) * 30
+        >>> tt
+        <Tensor 0x7f2f5b9f6cf8>
+        ├── a --> tensor([[ 25.2702,  37.4206, -37.1401],
+        │                 [ -7.7245, -91.3234, -27.9402]])
+        └── b --> <Tensor 0x7f2f5b9f6c18>
+            └── x --> tensor([[  3.2028, -14.0720,  18.1739,   8.5944],
+                              [ 41.7761,  36.9908, -20.5495,   5.6480],
+                              [ -9.3438,  -0.7416,  47.2113,   6.9325]])
+        >>> ttorch.mean(tt)
+        tensor(1.2436)
+        >>> ttorch.mean(tt, reduce=False)
+        <Tensor 0x7f1321caf080>
+        ├── a --> tensor(-16.9062)
+        └── b --> <Tensor 0x7f1321caf048>
+            └── x --> tensor(10.3186)
+        >>> ttorch.mean(tt, dim=1)
+        <Tensor 0x7f63dbbc9828>
+        ├── a --> tensor([  8.5169, -42.3294])
+        └── b --> <Tensor 0x7f63dbbc9780>
+            └── x --> tensor([ 3.9748, 15.9663, 11.0146])
+
+    """
+    pass  # pragma: no cover
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.std)
+@func_treelize(return_type=Object)
+def _std_r(input, *args, **kwargs):
+    return input
+
+
+# noinspection PyShadowingBuiltins
+@func_treelize()
+def _std_nr(input, *args, **kwargs):
+    return torch.std(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@doc_from_base()
+@auto_reduce(_std_r, _std_nr)
+def std(input, *args, reduce=None, **kwargs):
+    """
+    Returns the standard-deviation of all elements in the ``input`` tensor.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> t = torch.randn((2, 3)) * 30
+        >>> t
+        tensor([[ 25.5133,  24.2050,   8.1067],
+                [ 22.7316, -17.8863, -37.9171]])
+        >>> ttorch.std(t)
+        tensor(26.3619)
+
+        >>> tt = ttorch.randn({
+        ...     'a': (2, 3),
+        ...     'b': {'x': (3, 4)},
+        ... }) * 30
+        >>> tt
+        <Tensor 0x7f7c7288ca58>
+        ├── a --> tensor([[-48.6580,  30.9506, -16.1800],
+        │                 [ 37.6667,  10.3850,  -5.7679]])
+        └── b --> <Tensor 0x7f7c7288c978>
+            └── x --> tensor([[-17.9371,   8.4873, -49.0445,   4.7368],
+                              [ 21.3990, -11.2385, -15.9331, -41.6838],
+                              [ -7.1814, -38.1301,  -2.2320,  10.1392]])
+        >>> ttorch.std()
+        tensor(25.6854)
+        >>> ttorch.std(tt, reduce=False)
+        <Tensor 0x7f7c7288c470>
+        ├── a --> tensor(32.0483)
+        └── b --> <Tensor 0x7f7c7288c3c8>
+            └── x --> tensor(22.1754)
+        >>> ttorch.std(tt, dim=1)
+        <Tensor 0x7f1321ca1c50>
+        ├── a --> tensor([40.0284, 21.9536])
+        └── b --> <Tensor 0x7f1321ca1fd0>
+            └── x --> tensor([26.4519, 25.9011, 20.5223])
+
+    """
+    pass  # pragma: no cover
+
+
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@ireduce(torch.cat, piter=tuple)
+@rmreduce()
 @func_treelize(return_type=Object)
 def masked_select(input, mask, *args, **kwargs):
     """

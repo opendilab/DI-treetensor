@@ -722,59 +722,25 @@ class TestTorchFuncsMath:
                         [1.2041, 0.5740, math.nan]]},
         }), rtol=1e-4, atol=1e-4, equal_nan=True).all()
 
-    @choose_mark()
-    def test_std(self):
-        t1 = torch.tensor([[25.5133, 24.2050, 8.1067],
-                           [22.7316, -17.8863, -37.9171]]).std()
-        assert isinstance(t1, torch.Tensor)
-        assert ttorch.isclose(t1, torch.tensor(26.3619), atol=1e-4).all()
-
-        tt1 = ttorch.tensor({
-            'a': [[-48.6580, 30.9506, -16.1800],
-                  [37.6667, 10.3850, -5.7679]],
-            'b': {'x': [[-17.9371, 8.4873, -49.0445, 4.7368],
-                        [21.3990, -11.2385, -15.9331, -41.6838],
-                        [-7.1814, -38.1301, -2.2320, 10.1392]]},
-        }).std()
-        assert ttorch.isclose(tt1, ttorch.tensor({
-            'a': 32.0483,
-            'b': {'x': 22.1754},
-        }), atol=1e-4).all()
-
-    @choose_mark()
-    def test_mean(self):
-        t1 = torch.tensor([[11.8069, 16.7822, -11.8583],
-                           [-10.0426, 38.7326, 30.0298]]).mean()
-        assert isinstance(t1, torch.Tensor)
-        assert ttorch.isclose(t1, torch.tensor(12.5751), atol=1e-4).all()
-
-        tt1 = ttorch.tensor({
-            'a': [[-29.3862, 10.3668, -19.8407],
-                  [11.3299, -0.7511, -13.8404]],
-            'b': {'x': [[-25.1722, 22.6307, -9.3588, -6.8217],
-                        [-31.4652, 6.6465, 36.9483, -4.0487],
-                        [-17.2146, 24.0029, 35.4574, -29.2970]]},
-        }).mean()
-        assert ttorch.isclose(tt1, ttorch.tensor({
-            'a': -7.0203,
-            'b': {'x': 0.1923},
-        }), atol=1e-4).all()
 
     @choose_mark()
     def test_dist(self):
-        t1 = torch.tensor([-0.6566, 1.2243, 1.5018, -0.1492, 0.8947]).dist(
+        t1 = ttorch.dist(
+            torch.tensor([-0.6566, 1.2243, 1.5018, -0.1492, 0.8947]),
             torch.tensor([0.5898, 0.6839, 0.0388, 0.4649, 0.7964]),
         )
         assert isinstance(t1, torch.Tensor)
         assert ttorch.isclose(t1, torch.tensor(2.0911), atol=1e-4).all()
 
-        tt1 = ttorch.tensor({
-            'a': [-0.5491, 1.5006, -0.0483, 1.2282, -1.4837],
-            'b': {'x': [-1.8414, 1.2913, 0.0943, 0.3473, 1.2717, 0.6013]},
-        }).dist(ttorch.tensor({
-            'a': [0.1389, -0.7804, -1.3048, -1.1066, 1.3225],
-            'b': {'x': [1.4873, 0.2218, -0.1063, -0.8726, -0.6756, 0.4805]},
-        }))
+        tt1 = ttorch.dist(
+            ttorch.tensor({
+                'a': [-0.5491, 1.5006, -0.0483, 1.2282, -1.4837],
+                'b': {'x': [-1.8414, 1.2913, 0.0943, 0.3473, 1.2717, 0.6013]},
+            }), ttorch.tensor({
+                'a': [0.1389, -0.7804, -1.3048, -1.1066, 1.3225],
+                'b': {'x': [1.4873, 0.2218, -0.1063, -0.8726, -0.6756, 0.4805]},
+            })
+        )
         assert ttorch.isclose(tt1, ttorch.tensor({
             'a': 4.5366,
             'b': {'x': 4.1904}
@@ -782,19 +748,19 @@ class TestTorchFuncsMath:
 
     @choose_mark()
     def test_norm(self):
-        t1 = torch.tensor([[0.0363, -1.7385, 1.0669, 2.6967],
-                           [0.0848, 0.2735, 0.3538, 0.2271],
-                           [-0.1014, 1.1351, -0.5761, -1.2671]]).norm()
+        t1 = ttorch.norm(torch.tensor([[0.0363, -1.7385, 1.0669, 2.6967],
+                                       [0.0848, 0.2735, 0.3538, 0.2271],
+                                       [-0.1014, 1.1351, -0.5761, -1.2671]]))
         assert isinstance(t1, torch.Tensor)
         assert ttorch.isclose(t1, torch.tensor(3.8638), atol=1e-4).all()
 
-        tt1 = ttorch.tensor({
+        tt1 = ttorch.norm(ttorch.tensor({
             'a': [[-0.5012, 2.0900, 0.0151],
                   [-0.5035, 0.2144, 0.8370]],
             'b': {'x': [[0.3911, 0.3557, -2.2156, 0.3653],
                         [-0.3503, 1.2182, -0.2364, -0.2854],
                         [-1.5770, -0.7349, 0.8391, -0.2845]]},
-        }).norm()
+        }))
         assert ttorch.isclose(tt1, ttorch.tensor({
             'a': 2.3706,
             'b': {'x': 3.2982},

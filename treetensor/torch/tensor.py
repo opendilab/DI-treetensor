@@ -1,9 +1,9 @@
 import numpy as np
 import torch
 from treevalue import method_treelize, TreeValue
-from treevalue.utils import pre_process, post_process
+from treevalue.utils import post_process
 
-from .base import Torch, _auto_torch
+from .base import Torch, auto_torch, rmreduce, post_reduce, auto_reduce
 from .size import Size
 from ..common import Object, ireduce, clsmeta, return_self
 from ..numpy import ndarray
@@ -14,8 +14,6 @@ __all__ = [
     'Tensor'
 ]
 
-_reduce_tensor_wrap = pre_process(lambda it: ((torch.tensor([*it]),), {}))
-tireduce = pre_process(lambda rfunc: ((_reduce_tensor_wrap(rfunc),), {}))(ireduce)
 doc_from_base = replaceable_partial(original_doc_from_base, base=torch.Tensor)
 
 
@@ -176,9 +174,19 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.shape
 
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def requires_grad_(self, requires_grad=True):
+        """
+        Change if autograd should record operations on this tensor:
+        sets this tensor’s ``requires_grad`` attribute in-place. Returns this tensor.
+        """
+        return self.requires_grad_(requires_grad)
+
     # noinspection PyArgumentList
     @doc_from_base()
-    @tireduce(torch.all)
+    @rmreduce(torch.all)
     @method_treelize(return_type=Object)
     def all(self: torch.Tensor, *args, **kwargs) -> bool:
         """
@@ -188,7 +196,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
 
     # noinspection PyArgumentList
     @doc_from_base()
-    @tireduce(torch.any)
+    @rmreduce(torch.any)
     @method_treelize(return_type=Object)
     def any(self: torch.Tensor, *args, **kwargs) -> bool:
         """
@@ -197,7 +205,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.any(*args, **kwargs)
 
     @doc_from_base()
-    @tireduce(torch.max)
+    @rmreduce(torch.max)
     @method_treelize(return_type=Object)
     def max(self: torch.Tensor, *args, **kwargs):
         """
@@ -206,7 +214,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.max(*args, **kwargs)
 
     @doc_from_base()
-    @tireduce(torch.min)
+    @rmreduce(torch.min)
     @method_treelize(return_type=Object)
     def min(self: torch.Tensor, *args, **kwargs):
         """
@@ -215,7 +223,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.min(*args, **kwargs)
 
     @doc_from_base()
-    @tireduce(torch.sum)
+    @rmreduce(torch.sum)
     @method_treelize(return_type=Object)
     def sum(self: torch.Tensor, *args, **kwargs):
         """
@@ -653,7 +661,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.log10_(*args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: tuple(map(replaceable_partial(_auto_torch, cls=Tensor), r)))
+    @post_process(lambda r: tuple(map(replaceable_partial(auto_torch, cls=Tensor), r)))
     @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
     @post_process(lambda r: list(r))
     def split(self, split_size, *args, **kwargs):
@@ -663,7 +671,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.split(split_size, *args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: tuple(map(replaceable_partial(_auto_torch, cls=Tensor), r)))
+    @post_process(lambda r: tuple(map(replaceable_partial(auto_torch, cls=Tensor), r)))
     @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
     @post_process(lambda r: list(r))
     def chunk(self, chunks, *args, **kwargs):
@@ -733,7 +741,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.index_select(dim, index)
 
     @doc_from_base()
-    @ireduce(torch.cat, piter=tuple)
+    @rmreduce()
     @method_treelize()
     def masked_select(self, mask):
         """
@@ -741,21 +749,43 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.masked_select(mask)
 
+    # noinspection PyUnusedLocal
+    @post_reduce(torch.std)
+    @method_treelize(return_type=Object)
+    def __std_r(self, *args, **kwargs):
+        return self
+
+    @method_treelize()
+    def __std_nr(self, *args, **kwargs):
+        return torch.std(self, *args, **kwargs)
+
     @doc_from_base()
+    @auto_reduce(__std_r, __std_nr)
     @method_treelize()
     def std(self, *args, **kwargs):
         """
         See :func:`treetensor.torch.std`.
         """
-        return self.std(*args, **kwargs)
+        pass  # pragma: no cover
+
+    # noinspection PyUnusedLocal
+    @post_reduce(torch.mean)
+    @method_treelize(return_type=Object)
+    def __mean_r(self, *args, **kwargs):
+        return self
+
+    @method_treelize()
+    def __mean_nr(self, *args, **kwargs):
+        return torch.mean(self, *args, **kwargs)
 
     @doc_from_base()
+    @auto_reduce(__mean_r, __mean_nr)
     @method_treelize()
     def mean(self, *args, **kwargs):
         """
         See :func:`treetensor.torch.mean`.
         """
-        return self.mean(*args, **kwargs)
+        pass  # pragma: no cover
 
     @doc_from_base()
     @method_treelize()
