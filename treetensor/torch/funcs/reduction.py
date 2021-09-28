@@ -11,11 +11,23 @@ __all__ = [
 ]
 
 
-# noinspection PyShadowingBuiltins
-@doc_from_base()
-@rmreduce(torch.all)
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.all)
 @func_treelize(return_type=Object)
-def all(input, *args, **kwargs):
+def _all_r(input, *args, **kwargs):
+    return input
+
+
+# noinspection PyShadowingBuiltins
+@func_treelize()
+def _all_nr(input, *args, **kwargs):
+    return torch.all(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@doc_from_base()
+@auto_reduce(_all_r, _all_nr)
+def all(input, *args, reduce=None, **kwargs):
     """
     In ``treetensor``, you can get the ``all`` result of a whole tree with this function.
 
@@ -32,29 +44,39 @@ def all(input, *args, **kwargs):
         >>> ttorch.all(ttorch.tensor({'a': [True, True], 'b': {'x': [True, False]}}))
         tensor(False)
 
-    .. note::
+        >>> ttorch.all(ttorch.tensor({'a': [True, True], 'b': {'x': [True, False]}}), reduce=False)
+        <Tensor 0x7fcda55652b0>
+        ├── a --> tensor(True)
+        └── b --> <Tensor 0x7fcda5565208>
+            └── x --> tensor(False)
 
-        In this ``all`` function, the return value should be a tensor with single boolean value.
+        >>> ttorch.all(ttorch.tensor({'a': [True, True], 'b': {'x': [True, False]}}), dim=0)
+        <Tensor 0x7fcda5565780>
+        ├── a --> tensor(True)
+        └── b --> <Tensor 0x7fcda55656d8>
+            └── x --> tensor(False)
 
-        If what you need is a tree of boolean tensors, you should do like this
-
-            >>> ttorch.tensor({
-            ...     'a': [True, True],
-            ...     'b': {'x': [True, False]},
-            ... }).map(lambda x: torch.all(x))
-            <Tensor 0x7ff363bbc588>
-            ├── a --> tensor(True)
-            └── b --> <Tensor 0x7ff363bb6438>
-                └── x --> tensor(False)
     """
-    return torch.all(input, *args, **kwargs)
+    pass  # pragma: no cover
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.any)
+@func_treelize(return_type=Object)
+def _any_r(input, *args, **kwargs):
+    return input
 
 
 # noinspection PyShadowingBuiltins
+@func_treelize()
+def _any_nr(input, *args, **kwargs):
+    return torch.any(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
 @doc_from_base()
-@rmreduce(torch.any)
-@func_treelize(return_type=Object)
-def any(input, *args, **kwargs):
+@auto_reduce(_any_r, _any_nr)
+def any(input, *args, reduce=None, **kwargs):
     """
     In ``treetensor``, you can get the ``any`` result of a whole tree with this function.
 
@@ -86,7 +108,7 @@ def any(input, *args, **kwargs):
             └── b --> <Tensor 0x7ff363bc67f0>
                 └── x --> tensor(False)
     """
-    return torch.any(input, *args, **kwargs)
+    pass  # pragma: no cover
 
 
 # noinspection PyShadowingBuiltins

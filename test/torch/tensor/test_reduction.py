@@ -1,3 +1,4 @@
+import pytest
 import torch
 
 import treetensor.torch as ttorch
@@ -24,6 +25,22 @@ class TestTorchTensorReduction:
         assert t2.dtype == torch.bool
         assert not t2
 
+        t3 = ttorch.tensor({
+            'a': [True, False],
+            'b': {'x': [[True, True, ], [True, True, ]]}
+        }).all(reduce=False)
+        assert (t3 == ttorch.tensor({
+            'a': False, 'b': {'x': True},
+        })).all()
+
+        t4 = ttorch.tensor({
+            'a': [True, False],
+            'b': {'x': [[True, True, ], [True, True, ]]}
+        }).all(dim=0)
+        assert (t4 == ttorch.tensor({
+            'a': False, 'b': {'x': [True, True]},
+        })).all()
+
     @choose_mark()
     def test_any(self):
         t1 = ttorch.Tensor({
@@ -41,6 +58,31 @@ class TestTorchTensorReduction:
         assert isinstance(t2, torch.Tensor)
         assert t2.dtype == torch.bool
         assert not t2
+
+        t3 = ttorch.Tensor({
+            'a': [True, False],
+            'b': {'x': [[False, False, ], [False, False, ]]}
+        }).any(reduce=False)
+        assert (t3 == ttorch.tensor({
+            'a': True, 'b': False,
+        }))
+
+        t4 = ttorch.Tensor({
+            'a': [True, False],
+            'b': {'x': [[False, False, ], [False, False, ]]}
+        }).any(dim=0)
+        assert (t4 == ttorch.tensor({
+            'a': True, 'b': [False, False],
+        }))
+
+        with pytest.warns(UserWarning):
+            t5 = ttorch.Tensor({
+                'a': [True, False],
+                'b': {'x': [[False, False, ], [False, False, ]]}
+            }).any(dim=0, reduce=True)
+        assert (t5 == ttorch.tensor({
+            'a': True, 'b': [False, False],
+        }))
 
     @choose_mark()
     def test_max(self):

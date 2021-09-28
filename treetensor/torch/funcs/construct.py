@@ -15,7 +15,7 @@ __all__ = [
 
 @doc_from_base()
 @func_treelize()
-def tensor(*args, **kwargs):
+def tensor(data, *args, **kwargs):
     """
     In ``treetensor``, you can create a tree tensor with simple data structure.
 
@@ -36,7 +36,10 @@ def tensor(*args, **kwargs):
         └── c --> tensor([[ True, False],
                           [False,  True]])
     """
-    return torch.tensor(*args, **kwargs)
+    if torch.is_tensor(data):
+        return data
+    else:
+        return torch.tensor(data, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins

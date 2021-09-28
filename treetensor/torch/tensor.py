@@ -184,25 +184,45 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.requires_grad_(requires_grad)
 
-    # noinspection PyArgumentList
-    @doc_from_base()
-    @rmreduce(torch.all)
+    # noinspection PyShadowingBuiltins,PyUnusedLocal
+    @post_reduce(torch.all)
     @method_treelize(return_type=Object)
-    def all(self: torch.Tensor, *args, **kwargs) -> bool:
-        """
-        See :func:`treetensor.torch.all`
-        """
-        return self.all(*args, **kwargs)
+    def __all_r(self, *args, **kwargs):
+        return self
+
+    # noinspection PyShadowingBuiltins
+    @method_treelize()
+    def __all_nr(self, *args, **kwargs):
+        return torch.all(self, *args, **kwargs)
 
     # noinspection PyArgumentList
     @doc_from_base()
-    @rmreduce(torch.any)
+    @auto_reduce(__all_r, __all_nr)
+    def all(self: torch.Tensor, *args, reduce=None, **kwargs) -> bool:
+        """
+        See :func:`treetensor.torch.all`
+        """
+        pass  # pragma: no cover
+
+    # noinspection PyShadowingBuiltins,PyUnusedLocal
+    @post_reduce(torch.any)
     @method_treelize(return_type=Object)
-    def any(self: torch.Tensor, *args, **kwargs) -> bool:
+    def __any_r(self, *args, **kwargs):
+        return self
+
+    # noinspection PyShadowingBuiltins
+    @method_treelize()
+    def __any_nr(self, *args, **kwargs):
+        return torch.any(self, *args, **kwargs)
+
+    # noinspection PyArgumentList
+    @doc_from_base()
+    @auto_reduce(__any_r, __any_nr)
+    def any(self: torch.Tensor, *args, reduce=None, **kwargs) -> bool:
         """
         See :func:`treetensor.torch.any`
         """
-        return self.any(*args, **kwargs)
+        pass  # pragma: no cover
 
     @doc_from_base()
     @rmreduce(torch.max)
@@ -762,7 +782,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
     @doc_from_base()
     @auto_reduce(__std_r, __std_nr)
     @method_treelize()
-    def std(self, *args, **kwargs):
+    def std(self, *args, reduce=None, **kwargs):
         """
         See :func:`treetensor.torch.std`.
         """
@@ -781,7 +801,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
     @doc_from_base()
     @auto_reduce(__mean_r, __mean_nr)
     @method_treelize()
-    def mean(self, *args, **kwargs):
+    def mean(self, *args, reduce=None, **kwargs):
         """
         See :func:`treetensor.torch.mean`.
         """
