@@ -1,6 +1,8 @@
 import torch
+from treevalue import TreeValue
+from treevalue.utils import post_process
 
-from .base import doc_from_base, func_treelize
+from .base import doc_from_base, func_treelize, auto_tensor
 from ..base import rmreduce, post_reduce, auto_reduce
 from ...common import Object
 
@@ -93,29 +95,39 @@ def any(input, *args, reduce=None, **kwargs):
         >>> ttorch.any(ttorch.tensor({'a': [False, False], 'b': {'x': [False, False]}}))
         tensor(False)
 
-    .. note::
+        >>> ttorch.any(ttorch.tensor({'a': [True, False], 'b': {'x': [False, False]}}), reduce=False)
+        <Tensor 0x7fd45b52d518>
+        ├── a --> tensor(True)
+        └── b --> <Tensor 0x7fd45b52d470>
+            └── x --> tensor(False)
 
-        In this ``any`` function, the return value should be a tensor with single boolean value.
-
-        If what you need is a tree of boolean tensors, you should do like this
-
-            >>> ttorch.tensor({
-            >>>     'a': [True, False],
-            >>>     'b': {'x': [False, False]},
-            >>> }).map(lambda x: torch.any(x))
-            <Tensor 0x7ff363bc6898>
-            ├── a --> tensor(True)
-            └── b --> <Tensor 0x7ff363bc67f0>
-                └── x --> tensor(False)
+        >>> ttorch.any(ttorch.tensor({'a': [False, False], 'b': {'x': [False, False]}}), dim=0)
+        <Tensor 0x7fd45b534128>
+        ├── a --> tensor(False)
+        └── b --> <Tensor 0x7fd45b534080>
+            └── x --> tensor(False)
     """
     pass  # pragma: no cover
 
 
-# noinspection PyShadowingBuiltins
-@doc_from_base()
-@rmreduce(torch.min)
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.min)
 @func_treelize(return_type=Object)
-def min(input, *args, **kwargs):
+def _min_r(input, *args, **kwargs):
+    return input
+
+
+# noinspection PyShadowingBuiltins
+@post_process(auto_tensor)
+@func_treelize(return_type=TreeValue, rise=True)
+def _min_nr(input, *args, **kwargs):
+    return torch.min(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@doc_from_base()
+@auto_reduce(_min_r, _min_nr)
+def min(input, *args, reduce=None, **kwargs):
     """
     In ``treetensor``, you can get the ``min`` result of a whole tree with this function.
 
@@ -132,29 +144,52 @@ def min(input, *args, **kwargs):
         ... }))
         tensor(0.9000)
 
-    .. note::
+        >>> ttorch.min(ttorch.tensor({
+        ...     'a': [1.0, 2.0, 1.5],
+        ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        ... }), reduce=False)
+        <Tensor 0x7fd45b5913c8>
+        ├── a --> tensor(1.)
+        └── b --> <Tensor 0x7fd45b5912e8>
+            └── x --> tensor(0.9000)
 
-        In this ``min`` function, the return value should be a tensor with single value.
-
-        If what you need is a tree of tensors, you should do like this
-
-            >>> ttorch.tensor({
-            ...     'a': [1.0, 2.0, 1.5],
-            ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
-            ... }).map(lambda x: torch.min(x))
-            <Tensor 0x7ff363bbb2b0>
-            ├── a --> tensor(1.)
-            └── b --> <Tensor 0x7ff363bbb0b8>
-                └── x --> tensor(0.9000)
+        >>> ttorch.min(ttorch.tensor({
+        ...     'a': [1.0, 2.0, 1.5],
+        ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        ... }), dim=0)
+        torch.return_types.min(
+        values=<Tensor 0x7fd45b52d2e8>
+        ├── a --> tensor(1.)
+        └── b --> <Tensor 0x7fd45b52d208>
+            └── x --> tensor([1.3000, 0.9000])
+        ,
+        indices=<Tensor 0x7fd45b591cc0>
+        ├── a --> tensor(0)
+        └── b --> <Tensor 0x7fd45b52d3c8>
+            └── x --> tensor([1, 0])
+        )
     """
-    return torch.min(input, *args, **kwargs)
+    pass  # pragma: no cover
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.max)
+@func_treelize(return_type=Object)
+def _max_r(input, *args, **kwargs):
+    return input
 
 
 # noinspection PyShadowingBuiltins
+@post_process(auto_tensor)
+@func_treelize(return_type=TreeValue, rise=True)
+def _max_nr(input, *args, **kwargs):
+    return torch.max(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
 @doc_from_base()
-@rmreduce(torch.max)
-@func_treelize(return_type=Object)
-def max(input, *args, **kwargs):
+@auto_reduce(_max_r, _max_nr)
+def max(input, *args, reduce=None, **kwargs):
     """
     In ``treetensor``, you can get the ``max`` result of a whole tree with this function.
 
@@ -171,29 +206,51 @@ def max(input, *args, **kwargs):
         ... }))
         tensor(2.5000)
 
-    .. note::
+        >>> ttorch.max(ttorch.tensor({
+        ...     'a': [1.0, 2.0, 1.5],
+        ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        ... }), reduce=False)
+        <Tensor 0x7fd45b52d940>
+        ├── a --> tensor(2.)
+        └── b --> <Tensor 0x7fd45b52d908>
+            └── x --> tensor(2.5000)
 
-        In this ``max`` function, the return value should be a tensor with single value.
-
-        If what you need is a tree of tensors, you should do like this
-
-            >>> ttorch.tensor({
-            ...     'a': [1.0, 2.0, 1.5],
-            ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
-            ... }).map(lambda x: torch.max(x))
-            <Tensor 0x7ff363bc6b00>
-            ├── a --> tensor(2.)
-            └── b --> <Tensor 0x7ff363bc6c18>
-                └── x --> tensor(2.5000)
+        >>> ttorch.max(ttorch.tensor({
+        ...     'a': [1.0, 2.0, 1.5],
+        ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        ... }), dim=0)
+        torch.return_types.max(
+        values=<Tensor 0x7fd45b5345f8>
+        ├── a --> tensor(2.)
+        └── b --> <Tensor 0x7fd45b5345c0>
+            └── x --> tensor([1.8000, 2.5000])
+        ,
+        indices=<Tensor 0x7fd45b5346d8>
+        ├── a --> tensor(1)
+        └── b --> <Tensor 0x7fd45b5346a0>
+            └── x --> tensor([0, 1])
+        )
     """
-    return torch.max(input, *args, **kwargs)
+    pass  # pragma: no cover
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@post_reduce(torch.sum)
+@func_treelize(return_type=Object)
+def _sum_r(input, *args, **kwargs):
+    return input
 
 
 # noinspection PyShadowingBuiltins
+@func_treelize()
+def _sum_nr(input, *args, **kwargs):
+    return torch.sum(input, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
 @doc_from_base()
-@rmreduce(torch.sum)
-@func_treelize(return_type=Object)
-def sum(input, *args, **kwargs):
+@auto_reduce(_sum_r, _sum_nr)
+def sum(input, *args, reduce=None, **kwargs):
     """
     In ``treetensor``, you can get the ``sum`` result of a whole tree with this function.
 
@@ -210,22 +267,25 @@ def sum(input, *args, **kwargs):
         ... }))
         tensor(11.)
 
-    .. note::
+        >>> ttorch.sum(ttorch.tensor({
+        ...     'a': [1.0, 2.0, 1.5],
+        ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        ... }), reduce=False)
+        <Tensor 0x7fd45b534898>
+        ├── a --> tensor(4.5000)
+        └── b --> <Tensor 0x7fd45b5344e0>
+            └── x --> tensor(6.5000)
 
-        In this ``sum`` function, the return value should be a tensor with single value.
-
-        If what you need is a tree of tensors, you should do like this
-
-            >>> ttorch.tensor({
-            ...     'a': [1.0, 2.0, 1.5],
-            ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
-            ... }).map(lambda x: torch.sum(x))
-            <Tensor 0x7ff363bbbda0>
-            ├── a --> tensor(4.5000)
-            └── b --> <Tensor 0x7ff363bbbcf8>
-                └── x --> tensor(6.5000)
+        >>> ttorch.sum(ttorch.tensor({
+        ...     'a': [1.0, 2.0, 1.5],
+        ...     'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
+        ... }), dim=0)
+        <Tensor 0x7f3640703128>
+        ├── a --> tensor(4.5000)
+        └── b --> <Tensor 0x7f3640703080>
+            └── x --> tensor([3.1000, 3.4000])
     """
-    return torch.sum(input, *args, **kwargs)
+    pass  # pragma: no cover
 
 
 # noinspection PyShadowingBuiltins,PyUnusedLocal

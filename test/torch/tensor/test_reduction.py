@@ -86,30 +86,63 @@ class TestTorchTensorReduction:
 
     @choose_mark()
     def test_max(self):
-        t1 = ttorch.Tensor({
+        t0 = ttorch.Tensor({
             'a': [1, 2],
             'b': {'x': [[0, 3], [2, -1]]}
-        }).max()
+        })
+        t1 = t0.max()
         assert isinstance(t1, torch.Tensor)
-        assert t1.tolist() == 3
+        assert (t1 == torch.tensor(3)).all()
+
+        t2 = t0.max(reduce=False)
+        assert (t2 == ttorch.tensor({'a': 2, 'b': {'x': 3}})).all()
+
+        t3_a, t3_b = t0.max(dim=0)
+        assert (t3_a == ttorch.tensor({
+            'a': 2, 'b': {'x': [2, 3]},
+        })).all()
+        assert (t3_b == ttorch.tensor({
+            'a': 1, 'b': {'x': [1, 0]},
+        })).all()
 
     @choose_mark()
     def test_min(self):
-        t1 = ttorch.Tensor({
+        t0 = ttorch.Tensor({
             'a': [1, 2],
             'b': {'x': [[0, 3], [2, -1]]}
-        }).min()
+        })
+        t1 = t0.min()
         assert isinstance(t1, torch.Tensor)
-        assert t1.tolist() == -1
+        assert (t1 == torch.tensor(-1)).all()
+
+        t2 = t0.min(reduce=False)
+        assert (t2 == ttorch.tensor({'a': 1, 'b': {'x': -1}})).all()
+
+        t3_a, t3_b = t0.min(dim=0)
+        assert (t3_a == ttorch.tensor({
+            'a': 1, 'b': {'x': [0, -1]},
+        })).all()
+        assert (t3_b == ttorch.tensor({
+            'a': 0, 'b': {'x': [0, 1]},
+        })).all()
 
     @choose_mark()
     def test_sum(self):
-        t1 = ttorch.Tensor({
+        t0 = ttorch.Tensor({
             'a': [1, 2],
             'b': {'x': [[0, 3], [2, -1]]}
-        }).sum()
+        })
+        t1 = t0.sum()
         assert isinstance(t1, torch.Tensor)
-        assert t1.tolist() == 7
+        assert (t1 == ttorch.tensor(7)).all()
+
+        t2 = t0.sum(reduce=False)
+        assert (t2 == ttorch.tensor({'a': 3, 'b': {'x': 4}})).all()
+
+        t3 = t0.sum(dim=0)
+        assert (t3 == ttorch.tensor({
+            'a': 3, 'b': {'x': [2, 2]},
+        })).all()
 
     @choose_mark()
     def test_mean(self):

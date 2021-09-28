@@ -224,32 +224,65 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         pass  # pragma: no cover
 
-    @doc_from_base()
-    @rmreduce(torch.max)
+    # noinspection PyShadowingBuiltins,PyUnusedLocal
+    @post_reduce(torch.max)
     @method_treelize(return_type=Object)
-    def max(self: torch.Tensor, *args, **kwargs):
+    def __max_r(self, *args, **kwargs):
+        return self
+
+    # noinspection PyShadowingBuiltins
+    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @method_treelize(return_type=TreeValue, rise=True)
+    def __max_nr(self, *args, **kwargs):
+        return torch.max(self, *args, **kwargs)
+
+    @doc_from_base()
+    @auto_reduce(__max_r, __max_nr)
+    def max(self: torch.Tensor, *args, reduce=None, **kwargs):
         """
         See :func:`treetensor.torch.max`
         """
-        return self.max(*args, **kwargs)
+        pass  # pragma: no cover
+
+    # noinspection PyShadowingBuiltins,PyUnusedLocal
+    @post_reduce(torch.min)
+    @method_treelize(return_type=Object)
+    def __min_r(self, *args, **kwargs):
+        return self
+
+    # noinspection PyShadowingBuiltins
+    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @method_treelize(return_type=TreeValue, rise=True)
+    def __min_nr(self, *args, **kwargs):
+        return torch.min(self, *args, **kwargs)
 
     @doc_from_base()
-    @rmreduce(torch.min)
-    @method_treelize(return_type=Object)
-    def min(self: torch.Tensor, *args, **kwargs):
+    @auto_reduce(__min_r, __min_nr)
+    def min(self: torch.Tensor, *args, reduce=None, **kwargs):
         """
         See :func:`treetensor.torch.min`
         """
-        return self.min(*args, **kwargs)
+        pass  # pragma: no cover
+
+    # noinspection PyShadowingBuiltins,PyUnusedLocal
+    @post_reduce(torch.sum)
+    @method_treelize(return_type=Object)
+    def __sum_r(self, *args, **kwargs):
+        return self
+
+    # noinspection PyShadowingBuiltins
+    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @method_treelize(return_type=TreeValue, rise=True)
+    def __sum_nr(self, *args, **kwargs):
+        return torch.sum(self, *args, **kwargs)
 
     @doc_from_base()
-    @rmreduce(torch.sum)
-    @method_treelize(return_type=Object)
-    def sum(self: torch.Tensor, *args, **kwargs):
+    @auto_reduce(__sum_r, __sum_nr)
+    def sum(self: torch.Tensor, *args, reduce=None, **kwargs):
         """
         See :func:`treetensor.torch.sum`
         """
-        return self.sum(*args, **kwargs)
+        pass  # pragma: no cover
 
     @method_treelize()
     def __eq__(self, other):
@@ -681,7 +714,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.log10_(*args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: tuple(map(replaceable_partial(auto_torch, cls=Tensor), r)))
+    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
     @post_process(lambda r: list(r))
     def split(self, split_size, *args, **kwargs):
@@ -691,7 +724,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         return self.split(split_size, *args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: tuple(map(replaceable_partial(auto_torch, cls=Tensor), r)))
+    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
     @post_process(lambda r: list(r))
     def chunk(self, chunks, *args, **kwargs):

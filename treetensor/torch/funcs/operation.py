@@ -117,7 +117,8 @@ def cat(tensors, *args, **kwargs):
 
 # noinspection PyShadowingNames
 @doc_from_base()
-@post_process(lambda r: tuple(map(auto_tensor, r)))
+@post_process(lambda r: tuple(r))
+@post_process(auto_tensor)
 @func_treelize(return_type=TreeValue, rise=dict(template=[None]))
 @post_process(lambda r: list(r))
 def split(tensor, split_size_or_sections, *args, **kwargs):
@@ -207,7 +208,8 @@ def split(tensor, split_size_or_sections, *args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@post_process(lambda r: tuple(map(auto_tensor, r)))
+@post_process(lambda r: tuple(r))
+@post_process(auto_tensor)
 @func_treelize(return_type=TreeValue, rise=dict(template=[None]))
 @post_process(lambda r: list(r))
 def chunk(input, chunks, *args, **kwargs):

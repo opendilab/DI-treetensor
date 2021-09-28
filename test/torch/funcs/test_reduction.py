@@ -145,10 +145,24 @@ class TestTorchFuncsReduction:
         assert isinstance(t1, torch.Tensor)
         assert t1 == torch.tensor(1.0)
 
-        assert ttorch.isclose(ttorch.min(ttorch.tensor({
+        tt0 = ttorch.tensor({
             'a': [1.0, 2.0, 1.5],
             'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
-        })), ttorch.tensor(0.9), atol=1e-4)
+        })
+        assert ttorch.isclose(ttorch.min(tt0), ttorch.tensor(0.9), atol=1e-4).all()
+
+        tt1 = ttorch.min(tt0, reduce=False)
+        assert ttorch.isclose(tt1, ttorch.tensor({
+            'a': 1.0, 'b': 0.9,
+        }), atol=1e-4).all()
+
+        tt2_a, tt2_b = ttorch.min(tt0, dim=0)
+        assert ttorch.isclose(tt2_a, ttorch.tensor({
+            'a': 1.0, 'b': [1.3, 0.9],
+        }), atol=1e-4).all()
+        assert (tt2_b == ttorch.tensor({
+            'a': 0, 'b': [1, 0],
+        })).all()
 
     @choose_mark()
     def test_max(self):
@@ -156,18 +170,40 @@ class TestTorchFuncsReduction:
         assert isinstance(t1, torch.Tensor)
         assert t1 == torch.tensor(2.0)
 
-        assert ttorch.isclose(ttorch.max(ttorch.tensor({
+        tt0 = ttorch.tensor({
             'a': [1.0, 2.0, 1.5],
             'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
-        })), ttorch.tensor(2.5), atol=1e-4)
+        })
+        assert ttorch.isclose(ttorch.max(tt0), ttorch.tensor(2.5), atol=1e-4)
+
+        tt1 = ttorch.max(tt0, reduce=False)
+        assert ttorch.isclose(tt1, ttorch.tensor({
+            'a': 2.0, 'b': 2.5,
+        }), atol=1e-4).all()
+
+        tt2_a, tt2_b = ttorch.max(tt0, dim=0)
+        assert ttorch.isclose(tt2_a, ttorch.tensor({
+            'a': 2.0, 'b': [1.8, 2.5],
+        }), atol=1e-4).all()
+        assert (tt2_b == ttorch.tensor({
+            'a': 1, 'b': [0, 1],
+        })).all()
 
     @choose_mark()
     def test_sum(self):
         assert ttorch.sum(torch.tensor([1.0, 2.0, 1.5])) == torch.tensor(4.5)
-        assert (ttorch.sum(ttorch.tensor({
+
+        tt0 = ttorch.tensor({
             'a': [1.0, 2.0, 1.5],
             'b': {'x': [[1.8, 0.9], [1.3, 2.5]]},
-        })) == torch.tensor(11.0)).all()
+        })
+        assert ttorch.isclose(ttorch.sum(tt0), torch.tensor(11.0), atol=1e-4).all()
+        assert ttorch.isclose(ttorch.sum(tt0, reduce=False), ttorch.tensor({
+            'a': 4.5, 'b': {'x': 6.5},
+        }), atol=1e-4).all()
+        assert ttorch.isclose(ttorch.sum(tt0, dim=0), ttorch.tensor({
+            'a': 4.5, 'b': {'x': [3.1, 3.4]},
+        }), atol=1e-4).all()
 
     @choose_mark()
     def test_mean(self):
