@@ -39,11 +39,13 @@ def post_reduce(rfunc=None, prefunc=None):
     return _decorator
 
 
-def _default_auto_determine(*args, **kwargs):
+# noinspection PyUnusedLocal
+def _default_auto_determine(*args, out=None, **kwargs):
     return False if args or kwargs else None
 
 
-def _default_auto_condition(*args, **kwargs):
+# noinspection PyUnusedLocal
+def _default_auto_condition(*args, out=None, **kwargs):
     return not args and not kwargs
 
 
