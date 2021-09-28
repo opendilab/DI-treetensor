@@ -793,14 +793,33 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.index_select(dim, index)
 
-    @doc_from_base()
+    # noinspection PyShadowingBuiltins,PyUnusedLocal
     @rmreduce()
+    @method_treelize(return_type=Object)
+    def __masked_select_r(self, mask, *args, **kwargs):
+        return torch.masked_select(self, mask, *args, **kwargs)
+
+    # noinspection PyShadowingBuiltins
     @method_treelize()
+    def __masked_select_nr(self, mask, *args, **kwargs):
+        return torch.masked_select(self, mask, *args, **kwargs)
+
+    # noinspection PyUnusedLocal,PyMethodParameters,PyMethodMayBeStatic
+    def __ms_determine(mask, *args, out=None, **kwargs):
+        return False if args or kwargs else None
+
+    # noinspection PyUnusedLocal,PyMethodParameters,PyMethodMayBeStatic
+    def __ms_condition(mask, *args, out=None, **kwargs):
+        return not args and not kwargs
+
+    @doc_from_base()
+    @auto_reduce(__masked_select_r, __masked_select_nr,
+                 __ms_determine, __ms_condition)
     def masked_select(self, mask):
         """
         See :func:`treetensor.torch.masked_select`.
         """
-        return self.masked_select(mask)
+        pass  # pragma: no cover
 
     # noinspection PyUnusedLocal
     @post_reduce(torch.std)

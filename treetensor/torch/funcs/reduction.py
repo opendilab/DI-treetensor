@@ -408,11 +408,34 @@ def std(input, *args, reduce=None, **kwargs):
     pass  # pragma: no cover
 
 
-# noinspection PyShadowingBuiltins
-@doc_from_base()
+# noinspection PyShadowingBuiltins,PyUnusedLocal
 @rmreduce()
 @func_treelize(return_type=Object)
-def masked_select(input, mask, *args, **kwargs):
+def _masked_select_r(input, mask, *args, **kwargs):
+    return torch.masked_select(input, mask, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@func_treelize()
+def _masked_select_nr(input, mask, *args, **kwargs):
+    return torch.masked_select(input, mask, *args, **kwargs)
+
+
+# noinspection PyUnusedLocal
+def _ms_determine(mask, *args, out=None, **kwargs):
+    return False if args or kwargs else None
+
+
+# noinspection PyUnusedLocal
+def _ms_condition(mask, *args, out=None, **kwargs):
+    return not args and not kwargs
+
+
+# noinspection PyShadowingBuiltins,PyUnusedLocal
+@doc_from_base()
+@auto_reduce(_masked_select_r, _masked_select_nr,
+             _ms_determine, _ms_condition)
+def masked_select(input, mask, *args, reduce=None, **kwargs):
     """
     Returns a new 1-D tensor which indexes the ``input`` tensor
     according to the boolean mask ``mask`` which is a BoolTensor.
@@ -443,5 +466,10 @@ def masked_select(input, mask, *args, **kwargs):
                               [-0.0496,  2.1392,  0.6403,  0.4041]])
         >>> ttorch.masked_select(tt, tt > 0.3)
         tensor([1.1799, 0.4652, 1.0866, 1.3533, 0.8139, 0.9073, 2.1392, 0.6403, 0.4041])
+        >>> ttorch.masked_select(tt, tt > 0.3, reduce=False)
+        <Tensor 0x7fcb64456b38>
+        ├── a --> tensor([1.1799, 0.4652, 1.0866, 1.3533])
+        └── b --> <Tensor 0x7fcb64456a58>
+            └── x --> tensor([0.8139, 0.9073, 2.1392, 0.6403, 0.4041])
     """
-    return torch.masked_select(input, mask, *args, **kwargs)
+    pass  # pragma: no cover
