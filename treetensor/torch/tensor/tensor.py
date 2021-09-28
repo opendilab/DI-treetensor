@@ -3,16 +3,12 @@ import torch
 from treevalue import method_treelize, TreeValue
 from treevalue.utils import post_process
 
-from .base import Torch, auto_torch, rmreduce, post_reduce, auto_reduce
-from .size import Size
-from ..common import Object, ireduce, clsmeta, return_self
-from ..numpy import ndarray
-from ..utils import current_names, class_autoremove, replaceable_partial
-from ..utils import doc_from_base as original_doc_from_base
-
-__all__ = [
-    'Tensor'
-]
+from ..base import Torch, auto_torch, rmreduce, post_reduce, auto_reduce
+from ..size import Size
+from ...common import Object, ireduce, clsmeta, return_self
+from ...numpy import ndarray
+from ...utils import current_names, class_autoremove, replaceable_partial
+from ...utils import doc_from_base as original_doc_from_base
 
 doc_from_base = replaceable_partial(original_doc_from_base, base=torch.Tensor)
 
@@ -63,6 +59,22 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
                               [False]])
         """
         super(Torch, self).__init__(data)
+
+    @method_treelize(return_type=Object)
+    def __get_attr(self, key):
+        return getattr(self, key)
+
+    def _attr_extern(self, key):
+        tree = self.__get_attr(key)
+        if tree.map(lambda x: torch.is_tensor(x)).all():
+            type_ = Tensor
+        elif tree.map(lambda x: callable(x)).all():
+            from .attr import TensorMethod
+            type_ = TensorMethod
+        else:
+            type_ = Object
+
+        return tree.type(type_)
 
     @doc_from_base()
     @method_treelize(return_type=ndarray)
