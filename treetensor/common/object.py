@@ -1,4 +1,9 @@
+import builtins
+
+from treevalue import method_treelize
+
 from .trees import BaseTreeStruct, clsmeta
+from .wrappers import ireduce
 
 __all__ = [
     "Object",
@@ -33,3 +38,41 @@ class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
                 └── c --> 233
         """
         super(BaseTreeStruct, self).__init__(data)
+
+    @ireduce(builtins.all, piter=list)
+    @method_treelize()
+    def all(self):
+        """
+        The values in this tree is all true or not.
+
+        Examples::
+
+            >>> from treetensor.common import Object
+            >>> Object({'a': False, 'b': {'x': False}}).all()
+            False
+            >>> Object({'a': True, 'b': {'x': False}}).all()
+            False
+            >>> Object({'a': True, 'b': {'x': True}}).all()
+            True
+
+        """
+        return not not self
+
+    @ireduce(builtins.any, piter=list)
+    @method_treelize()
+    def any(self):
+        """
+        The values in this tree is not all False or yes.
+
+        Examples::
+
+            >>> from treetensor.common import Object
+            >>> Object({'a': False, 'b': {'x': False}}).any()
+            False
+            >>> Object({'a': True, 'b': {'x': False}}).any()
+            True
+            >>> Object({'a': True, 'b': {'x': True}}).any()
+            True
+
+        """
+        return not not self

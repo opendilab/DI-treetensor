@@ -174,6 +174,72 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         return self.shape
 
+    @property
+    @method_treelize()
+    def grad(self):
+        """
+        Return the grad data of the whole tree.
+
+        Examples::
+
+            >>> import torch
+            >>> import treetensor.torch as ttorch
+            >>> tt = ttorch.randn({
+            ...     'a': (2, 3),
+            ...     'b': {'x': (3, 4)},
+            ... })
+            >>> tt.requires_grad_(True)
+            >>> tt
+            <Tensor 0x7feec3bcce80>
+            ├── a --> tensor([[-1.4375,  0.0988,  1.2198],
+            │                 [-0.7627, -0.8797, -0.9299]], requires_grad=True)
+            └── b --> <Tensor 0x7feec3bccdd8>
+                └── x --> tensor([[ 0.2149, -0.5839, -0.6049, -0.9151],
+                                  [ 1.5381, -1.4386,  0.1831,  0.2018],
+                                  [-0.0725, -0.9062, -2.6212,  0.5929]], requires_grad=True)
+            >>> mq = tt.mean() ** 2
+            >>> mq.backward()
+            >>> tt.grad
+            <Tensor 0x7feec3c0fa90>
+            ├── a --> tensor([[-0.0438, -0.0438, -0.0438],
+            │                 [-0.0438, -0.0438, -0.0438]])
+            └── b --> <Tensor 0x7feec3c0f9e8>
+                └── x --> tensor([[-0.0438, -0.0438, -0.0438, -0.0438],
+                                  [-0.0438, -0.0438, -0.0438, -0.0438],
+                                  [-0.0438, -0.0438, -0.0438, -0.0438]])
+        """
+        return self.grad
+
+    @property
+    @method_treelize(return_type=Object)
+    def requires_grad(self):
+        """
+        Return the grad situation of current tree.
+
+        Examples::
+
+            >>> import torch
+            >>> import treetensor.torch as ttorch
+            >>> tt = ttorch.randn({
+            ...     'a': (2, 3),
+            ...     'b': {'x': (3, 4)},
+            ... })
+            >>> tt.requires_grad_(True)
+            >>> tt.requires_grad
+            <Object 0x7feec3c229e8>
+            ├── a --> True
+            └── b --> <Object 0x7feec3c22940>
+                └── x --> True
+
+            >>> tt.a.requires_grad_(False)
+            >>> tt.requires_grad
+            <Object 0x7feec3c0fa58>
+            ├── a --> False
+            └── b --> <Object 0x7feec3c0f5f8>
+                └── x --> True
+        """
+        return self.requires_grad
+
     @doc_from_base()
     @return_self
     @method_treelize()
@@ -181,8 +247,43 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
         """
         Change if autograd should record operations on this tensor:
         sets this tensor’s ``requires_grad`` attribute in-place. Returns this tensor.
+
+        Examples::
+
+            >>> import torch
+            >>> import treetensor.torch as ttorch
+            >>> tt = ttorch.randn({
+            ...     'a': (2, 3),
+            ...     'b': {'x': (3, 4)},
+            ... })
+            >>> tt.requires_grad_(True)
+            >>> tt
+            <Tensor 0x7feec3c22240>
+            ├── a --> tensor([[ 1.4754,  1.1167,  1.5431],
+            │                 [-0.5816,  0.4746,  0.8392]], requires_grad=True)
+            └── b --> <Tensor 0x7feec3c22128>
+                └── x --> tensor([[ 0.3361,  0.8194,  0.1297, -0.5547],
+                                  [ 0.2531, -0.0637,  0.9822,  2.1618],
+                                  [ 2.0140, -0.0929,  0.9304,  1.5430]], requires_grad=True)
         """
         return self.requires_grad_(requires_grad)
+
+    @doc_from_base()
+    @method_treelize()
+    def detach(self):
+        """
+        See :func:`treetensor.torch.detach`.
+        """
+        return self.detach()
+
+    @doc_from_base()
+    @return_self
+    @method_treelize()
+    def detach_(self):
+        """
+        In-place version of :meth:`Tensor.detach`.
+        """
+        return self.detach_()
 
     # noinspection PyShadowingBuiltins,PyUnusedLocal
     @post_reduce(torch.all)
@@ -715,8 +816,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
 
     @doc_from_base()
     @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
-    @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
-    @post_process(lambda r: list(r))
+    @method_treelize(return_type=TreeValue, rise=True)
     def split(self, split_size, *args, **kwargs):
         """
         See :func:`treetensor.torch.split`.
@@ -725,8 +825,7 @@ class Tensor(Torch, metaclass=clsmeta(_to_tensor, allow_dict=True)):
 
     @doc_from_base()
     @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
-    @method_treelize(return_type=TreeValue, rise=dict(template=[None]))
-    @post_process(lambda r: list(r))
+    @method_treelize(return_type=TreeValue, rise=True)
     def chunk(self, chunks, *args, **kwargs):
         """
         See :func:`treetensor.torch.chunk`.

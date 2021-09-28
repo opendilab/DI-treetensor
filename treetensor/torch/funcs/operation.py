@@ -117,10 +117,8 @@ def cat(tensors, *args, **kwargs):
 
 # noinspection PyShadowingNames
 @doc_from_base()
-@post_process(lambda r: tuple(r))
 @post_process(auto_tensor)
-@func_treelize(return_type=TreeValue, rise=dict(template=[None]))
-@post_process(lambda r: list(r))
+@func_treelize(return_type=TreeValue, rise=True)
 def split(tensor, split_size_or_sections, *args, **kwargs):
     """
     Splits the tensor into chunks. Each chunk is a view of the original tensor.
@@ -208,10 +206,8 @@ def split(tensor, split_size_or_sections, *args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
-@post_process(lambda r: tuple(r))
 @post_process(auto_tensor)
-@func_treelize(return_type=TreeValue, rise=dict(template=[None]))
-@post_process(lambda r: list(r))
+@func_treelize(return_type=TreeValue, rise=True)
 def chunk(input, chunks, *args, **kwargs):
     """
     Splits a tensor into a specific number of chunks. Each chunk is a view of the input tensor.

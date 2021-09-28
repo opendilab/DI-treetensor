@@ -7,5 +7,5 @@ Object
 -----------------
 
 .. autoclass:: Object
-    :members: __init__
+    :members: __init__, all, any
 

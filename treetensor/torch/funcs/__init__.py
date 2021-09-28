@@ -1,5 +1,7 @@
 import sys
 
+from .autograd import *
+from .autograd import __all__ as _autograd_all
 from .comparison import *
 from .comparison import __all__ as _comparison_all
 from .construct import *
@@ -15,6 +17,7 @@ from .reduction import __all__ as _reduction_all
 from ...utils import module_autoremove
 
 __all__ = [
+    *_autograd_all,
     *_comparison_all,
     *_construct_all,
     *_math_all,
