@@ -1,3 +1,4 @@
+from .test_auto import TestTorchTensorAuto
 from .test_autograd import TestTorchTensorAutograd
 from .test_clazz import TestTorchTensorClass
 from .test_comparison import TestTorchTensorComparison

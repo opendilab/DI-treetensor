@@ -51,9 +51,6 @@ class _Module(ModuleType):
             else:
                 raise AttributeError(f'Attribute {repr(name)} not found in {repr(__name__)}.')
 
-    def __hasattr__(self, name):
-        return name in self.__all__
-
     def __dir__(self) -> Iterable[str]:
         return self.__all__
 

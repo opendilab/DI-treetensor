@@ -1,3 +1,4 @@
+from .test_auto import TestTorchFuncsAuto
 from .test_autograd import TestTorchFuncsAutograd
 from .test_comparison import TestTorchFuncsComparison
 from .test_construct import TestTorchFuncsConstruct
