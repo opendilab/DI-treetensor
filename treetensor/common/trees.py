@@ -6,7 +6,7 @@ from typing import Optional, Tuple, Callable
 from typing import Type
 
 from treevalue import func_treelize as original_func_treelize
-from treevalue import general_tree_value, TreeValue
+from treevalue import general_tree_value, TreeValue, typetrans
 from treevalue.tree.common import BaseTree
 from treevalue.tree.tree.tree import get_data_property
 from treevalue.utils import post_process
@@ -15,7 +15,7 @@ from ..utils import replaceable_partial, args_mapping
 
 __all__ = [
     'BaseTreeStruct',
-    'print_tree', 'clsmeta',
+    'print_tree', 'clsmeta', 'auto_tree',
 ]
 
 
@@ -177,3 +177,18 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
                 return _result
 
     return _MetaClass
+
+
+# noinspection PyArgumentList
+def auto_tree(v, cls):
+    if isinstance(cls, type) and issubclass(cls, TreeValue):
+        cls = partial(typetrans, return_type=cls)
+
+    if isinstance(v, TreeValue):
+        return cls(v)
+    elif isinstance(v, (tuple, list, set)):
+        return type(v)((auto_tree(item, cls) for item in v))
+    elif isinstance(v, dict):
+        return type(v)({key: auto_tree(value, cls) for key, value in v.items()})
+    else:
+        return v

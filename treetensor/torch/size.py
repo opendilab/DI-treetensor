@@ -54,7 +54,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         Examples::
 
             >>> import torch
-            >>> import treetensor.torch as ttorch
+            >>> import treetensor.numpy as ttorch
             >>> ttorch.Size([1, 2, 3])
             torch.Size([1, 2, 3])
 
@@ -81,7 +81,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         Example::
 
             >>> import torch
-            >>> import treetensor.torch as ttorch
+            >>> import treetensor.numpy as ttorch
             >>> ttorch.Size({
             ...     'a': [1, 2],
             ...     'b': {'x': [3, 2, 4]},
@@ -99,7 +99,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         Example::
 
             >>> import torch
-            >>> import treetensor.torch as ttorch
+            >>> import treetensor.numpy as ttorch
             >>> ttorch.Size({
             ...     'a': [1, 2],
             ...     'b': {'x': [3, 2, 4]},
@@ -132,7 +132,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
         Example::
 
             >>> import torch
-            >>> import treetensor.torch as ttorch
+            >>> import treetensor.numpy as ttorch
             >>> ttorch.Size({
             ...     'a': [1, 2],
             ...     'b': {'x': [3, 2, 4]},

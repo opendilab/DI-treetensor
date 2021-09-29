@@ -1,14 +1,11 @@
-from functools import wraps
-from types import MethodType
-
 import numpy as np
 import torch as pytorch
 from treevalue import method_treelize, TreeValue
 from treevalue.utils import post_process
 
-from .base import Torch, auto_torch, rmreduce, post_reduce, auto_reduce
+from .base import Torch, rmreduce, post_reduce, auto_reduce
 from .size import Size
-from ..common import Object, ireduce, clsmeta, return_self
+from ..common import Object, ireduce, clsmeta, return_self, auto_tree, get_tree_proxy
 from ..numpy import ndarray
 from ..utils import current_names, class_autoremove, replaceable_partial
 from ..utils import doc_from_base as original_doc_from_base
@@ -18,6 +15,7 @@ __all__ = [
 ]
 
 doc_from_base = replaceable_partial(original_doc_from_base, base=pytorch.Tensor)
+_TorchProxy, _InstanceTorchProxy = get_tree_proxy(pytorch.Tensor)
 
 
 def _to_tensor(*args, **kwargs):
@@ -30,44 +28,6 @@ def _to_tensor(*args, **kwargs):
     return pytorch.tensor(*args, **kwargs)
 
 
-class _TorchProxy:
-    def __init__(self, cls):
-        self.__torch_funcs = {}
-        self.__cls = cls
-
-    def __getattr__(self, name):
-        if name in self.__torch_funcs.keys():
-            return self.__torch_funcs[name]
-        elif hasattr(pytorch.Tensor, name) and not name.startswith('_') \
-                and callable(getattr(pytorch.Tensor, name)):
-            _origin_func = getattr(pytorch.Tensor, name)
-            return_self_deco = return_self if name.endswith('_') else (lambda x: x)
-
-            @doc_from_base()
-            @return_self_deco
-            @post_process(lambda r: replaceable_partial(auto_torch, cls=self.__cls)(r))
-            @method_treelize(return_type=TreeValue, rise=True)
-            @wraps(_origin_func, assigned=('__name__',), updated=())
-            def _new_func(*args, **kwargs):
-                return _origin_func(*args, **kwargs)
-
-            _new_func.__qualname__ = f'{self.__cls.__name__}.{name}'
-            _new_func.__module__ = self.__cls.__module__
-            self.__torch_funcs[name] = _new_func
-            return _new_func
-        else:
-            raise AttributeError(f'Function {repr(name)} not found in {repr(pytorch)}')
-
-
-class _InstanceTorchProxy:
-    def __init__(self, proxy, s):
-        self.__proxy = proxy
-        self.__self = s
-
-    def __getattr__(self, name):
-        return MethodType(getattr(self.__proxy, name), self.__self)
-
-
 class _BaseTensorMeta(clsmeta(_to_tensor, allow_dict=True)):
     pass
 
@@ -76,13 +36,13 @@ class _BaseTensorMeta(clsmeta(_to_tensor, allow_dict=True)):
 class _TensorMeta(_BaseTensorMeta):
     def __init__(cls, *args, **kwargs):
         _BaseTensorMeta.__init__(cls, *args, **kwargs)
-        cls.__torch_proxy = None
+        cls.__proxy = None
 
     @property
     def torch(cls):
-        if not cls.__torch_proxy:
-            cls.__torch_proxy = _TorchProxy(cls)
-        return cls.__torch_proxy
+        if not cls.__proxy:
+            cls.__proxy = _TorchProxy(cls)
+        return cls.__proxy
 
     def __getattr__(cls, name):
         try:
@@ -439,7 +399,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self
 
     # noinspection PyShadowingBuiltins
-    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=True)
     def __max_nr(self, *args, **kwargs):
         return pytorch.max(self, *args, **kwargs)
@@ -459,7 +419,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self
 
     # noinspection PyShadowingBuiltins
-    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=True)
     def __min_nr(self, *args, **kwargs):
         return pytorch.min(self, *args, **kwargs)
@@ -479,7 +439,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self
 
     # noinspection PyShadowingBuiltins
-    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=True)
     def __sum_nr(self, *args, **kwargs):
         return pytorch.sum(self, *args, **kwargs)
@@ -922,7 +882,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self.log10_(*args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=True)
     def split(self, split_size, *args, **kwargs):
         """
@@ -931,7 +891,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self.split(split_size, *args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: replaceable_partial(auto_torch, cls=Tensor)(r))
+    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
     @method_treelize(return_type=TreeValue, rise=True)
     def chunk(self, chunks, *args, **kwargs):
         """

@@ -3,10 +3,11 @@ import builtins
 import numpy as np
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
+from treevalue.tree.common import BaseTree
 from treevalue.utils import post_process
 
 from .array import ndarray
-from ..common import ireduce, Object
+from ..common import ireduce, Object, module_func_loader
 from ..utils import replaceable_partial, doc_from, args_mapping
 
 __all__ = [
@@ -15,9 +16,10 @@ __all__ = [
 ]
 
 func_treelize = post_process(post_process(args_mapping(
-    lambda i, x: TreeValue(x) if isinstance(x, (dict, TreeValue)) else x)))(
+    lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize, return_type=ndarray)
 )
+get_func_from_numpy = module_func_loader(np, ndarray, __name__)
 
 
 @doc_from(np.all)
