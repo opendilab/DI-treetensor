@@ -19,17 +19,21 @@ func_treelize = post_process(post_process(args_mapping(
 doc_from_base = replaceable_partial(original_doc_from_base, base=torch)
 auto_tensor = replaceable_partial(auto_torch, cls=Tensor)
 
+_funcs_module = '.'.join(__name__.split('.')[:-1])
+
 
 def get_func_from_torch(name):
     func = getattr(torch, name)
+    return_self_dec = return_self if func.__name__.endswith("_") else (lambda x: x)
 
-    @func_treelize()
-    @wraps(func)
+    @doc_from_base()
+    @return_self_dec
+    @post_process(auto_tensor)
+    @func_treelize(return_type=TreeValue, rise=True)
+    @wraps(func, assigned=('__name__',), updated=())
     def _new_func(*args, **kwargs):
         return func(*args, **kwargs)
 
-    if func.__name__.endswith("_"):
-        _new_func = return_self(_new_func)
-    _new_func = doc_from_base()(_new_func)
-
+    _new_func.__qualname__ = _new_func.__name__
+    _new_func.__module__ = _funcs_module
     return _new_func
