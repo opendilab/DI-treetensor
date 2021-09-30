@@ -44,61 +44,115 @@ Only english version is provided now, the chinese documentation is still under d
 You can easily create a tree value object based on `FastTreeValue`.
 
 ```python
+import builtins
 import os
+from functools import partial
 
 import treetensor.torch as torch
 
+print = partial(builtins.print, sep=os.linesep)
+
 if __name__ == '__main__':
+    # create a tree tensor
     t = torch.randn({'a': (2, 3), 'b': {'x': (3, 4)}})
-    print(t)  # tree based tensors
+    print(t)
+    print(torch.randn(4, 5))  # create a normal tensor
+    print()
 
-    # some calculations
-    print('t ** 2:', t ** 2, sep=os.linesep)
-    print('torch.sin(t).cos()', torch.sin(t).cos(), sep=os.linesep)
+    # structure of tree
+    print('Structure of tree')
+    print('t.a:', t.a)  # t.a is a native tensor
+    print('t.b:', t.b)  # t.b is a tree tensor
+    print('t.b.x', t.b.x)  # t.b.x is a native tensor
+    print()
 
+    # math calculations
+    print('Math calculation')
+    print('t ** 2:', t ** 2)
+    print('torch.sin(t).cos()', torch.sin(t).cos())
+    print()
+
+    # backward calculation
+    print('Backward calculation')
     t.requires_grad_(True)
     t.std().arctan().backward()
-    print('grad of t:', t.grad, sep=os.linesep)  # backward
+    print('grad of t:', t.grad)
+    print()
+
+    # native operation
+    # all the ops can be used as the original usage of `torch`
+    print('Native operation')
+    print('torch.sin(t.a)', torch.sin(t.a))  # sin of native tensor
 
 ```
 
 The result should be
 
 ```text
-<Tensor 0x7fcb33e922b0>
-├── a --> tensor([[-0.1105, -1.0873, -1.8016],
-│                 [-1.2290,  0.1401, -2.5237]])
-└── b --> <Tensor 0x7fcb33e92370>
-    └── x --> tensor([[ 0.1579,  0.9740,  0.3076,  0.2183],
-                      [ 0.5574,  0.4028, -2.2795,  1.5523],
-                      [-0.3870, -1.1649,  0.0314, -0.2728]])
+<Tensor 0x7f0dae602760>
+├── a --> tensor([[-1.2672, -1.5817, -0.3141],
+│                 [ 1.8107, -0.1023,  0.0940]])
+└── b --> <Tensor 0x7f0dae602820>
+    └── x --> tensor([[ 1.2224, -0.3445, -0.9980, -0.4085],
+                      [ 1.5956,  0.8825, -0.5702, -0.2247],
+                      [ 0.9235,  0.4538,  0.8775, -0.2642]])
 
+tensor([[-0.9559,  0.7684,  0.2682, -0.6419,  0.8637],
+        [ 0.9526,  0.2927, -0.0591,  1.2804, -0.2455],
+        [ 0.4699, -0.9998,  0.6324, -0.6885,  1.1488],
+        [ 0.8920,  0.4401, -0.7785,  0.5931,  0.0435]])
+
+Structure of tree
+t.a:
+tensor([[-1.2672, -1.5817, -0.3141],
+        [ 1.8107, -0.1023,  0.0940]])
+t.b:
+<Tensor 0x7f0dae602820>
+└── x --> tensor([[ 1.2224, -0.3445, -0.9980, -0.4085],
+                  [ 1.5956,  0.8825, -0.5702, -0.2247],
+                  [ 0.9235,  0.4538,  0.8775, -0.2642]])
+
+t.b.x
+tensor([[ 1.2224, -0.3445, -0.9980, -0.4085],
+        [ 1.5956,  0.8825, -0.5702, -0.2247],
+        [ 0.9235,  0.4538,  0.8775, -0.2642]])
+
+Math calculation
 t ** 2:
-<Tensor 0x7fcb33e92730>
-├── a --> tensor([[0.0122, 1.1822, 3.2456],
-│                 [1.5105, 0.0196, 6.3691]])
-└── b --> <Tensor 0x7fcb33e92610>
-    └── x --> tensor([[2.4920e-02, 9.4863e-01, 9.4633e-02, 4.7653e-02],
-                      [3.1067e-01, 1.6226e-01, 5.1961e+00, 2.4097e+00],
-                      [1.4976e-01, 1.3571e+00, 9.8400e-04, 7.4414e-02]])
+<Tensor 0x7f0dae602eb0>
+├── a --> tensor([[1.6057, 2.5018, 0.0986],
+│                 [3.2786, 0.0105, 0.0088]])
+└── b --> <Tensor 0x7f0dae60c040>
+    └── x --> tensor([[1.4943, 0.1187, 0.9960, 0.1669],
+                      [2.5458, 0.7789, 0.3252, 0.0505],
+                      [0.8528, 0.2059, 0.7699, 0.0698]])
 
 torch.sin(t).cos()
-<Tensor 0x7fcb33ead1c0>
-├── a --> tensor([[0.9939, 0.6330, 0.5624],
-│                 [0.5880, 0.9903, 0.8368]])
-└── b --> <Tensor 0x7fcb33ead040>
-    └── x --> tensor([[0.9877, 0.6770, 0.9545, 0.9766],
-                      [0.8633, 0.9241, 0.7254, 0.5404],
-                      [0.9296, 0.6068, 0.9995, 0.9639]])
+<Tensor 0x7f0dae621910>
+├── a --> tensor([[0.5782, 0.5404, 0.9527],
+│                 [0.5642, 0.9948, 0.9956]])
+└── b --> <Tensor 0x7f0dae6216a0>
+    └── x --> tensor([[0.5898, 0.9435, 0.6672, 0.9221],
+                      [0.5406, 0.7163, 0.8578, 0.9753],
+                      [0.6983, 0.9054, 0.7185, 0.9661]])
 
+
+Backward calculation
 grad of t:
-<Tensor 0x7fcb33f08d60>
-├── a --> tensor([[ 0.0060, -0.0174, -0.0345],
-│                 [-0.0208,  0.0120, -0.0518]])
-└── b --> <Tensor 0x7fcb33f08dc0>
-    └── x --> tensor([[ 0.0125,  0.0320,  0.0160,  0.0139],
-                      [ 0.0220,  0.0183, -0.0460,  0.0459],
-                      [-0.0006, -0.0192,  0.0094,  0.0021]])
+<Tensor 0x7f0dae60c400>
+├── a --> tensor([[-0.0435, -0.0535, -0.0131],
+│                 [ 0.0545, -0.0064, -0.0002]])
+└── b --> <Tensor 0x7f0dae60cbe0>
+    └── x --> tensor([[ 0.0357, -0.0141, -0.0349, -0.0162],
+                      [ 0.0476,  0.0249, -0.0213, -0.0103],
+                      [ 0.0262,  0.0113,  0.0248, -0.0116]])
+
+
+Native operation
+torch.sin(t.a)
+tensor([[-0.9543, -0.9999, -0.3089],
+        [ 0.9714, -0.1021,  0.0939]], grad_fn=<SinBackward>)
+
 ```
 
 For more quick start explanation and further usage, take a look at:
