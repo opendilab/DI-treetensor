@@ -14,5 +14,6 @@ func_treelize = post_process(post_process(args_mapping(
     replaceable_partial(original_func_treelize, return_type=Tensor)
 )
 doc_from_base = replaceable_partial(original_doc_from_base, base=torch)
-auto_tensor = replaceable_partial(auto_tree, cls=Tensor)
-get_func_from_torch = module_func_loader(torch, Tensor, '.'.join(__name__.split('.')[:-1]))
+auto_tensor = replaceable_partial(auto_tree, cls=[(torch.is_tensor, Tensor)])
+get_func_from_torch = module_func_loader(torch, Tensor,
+                                         [(torch.is_tensor, Tensor)])

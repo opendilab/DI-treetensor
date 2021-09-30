@@ -1,3 +1,4 @@
+import inspect
 from functools import wraps
 from typing import Type
 
@@ -16,13 +17,15 @@ __all__ = [
 ]
 
 
-def module_func_loader(base, cls: Type[TreeValue], module_name: str):
+def module_func_loader(base, cls: Type[TreeValue], cls_mapper=None):
     func_treelize = post_process(post_process(args_mapping(
         lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
         replaceable_partial(original_func_treelize, return_type=cls)
     )
     doc_from_base = replaceable_partial(original_doc_from_base, base=base)
-    auto_tree_cls = replaceable_partial(auto_tree, cls=cls)
+    outer_frame = inspect.currentframe().f_back
+    outer_module = outer_frame.f_globals.get('__name__', None)
+    auto_tree_cls = replaceable_partial(auto_tree, cls=cls_mapper or cls)
 
     def _load_func(name):
         func = getattr(base, name)
@@ -37,7 +40,7 @@ def module_func_loader(base, cls: Type[TreeValue], module_name: str):
             return func(*args, **kwargs)
 
         _new_func.__qualname__ = _new_func.__name__
-        _new_func.__module__ = module_name
+        _new_func.__module__ = outer_module
         return _new_func
 
     return _load_func

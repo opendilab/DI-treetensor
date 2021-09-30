@@ -19,7 +19,8 @@ func_treelize = post_process(post_process(args_mapping(
     lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize, return_type=ndarray)
 )
-get_func_from_numpy = module_func_loader(np, ndarray, __name__)
+get_func_from_numpy = module_func_loader(np, ndarray,
+                                         [(np.ndarray, ndarray)])
 
 
 @doc_from(np.all)

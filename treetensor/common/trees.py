@@ -179,10 +179,32 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
     return _MetaClass
 
 
+def _auto_tree_func(t, cls):
+    from .object import Object
+    t = typetrans(t, return_type=Object)
+    for key, value in cls:
+        if isinstance(key, type):
+            predict = lambda x: isinstance(x, key)
+        elif callable(key):
+            predict = lambda x: key(x)
+        else:
+            raise TypeError(f'Unknown type of prediction - {repr(key)}.')
+
+        if t.map(predict).all():
+            return typetrans(t, return_type=value)
+    return t
+
+
 # noinspection PyArgumentList
 def auto_tree(v, cls):
     if isinstance(cls, type) and issubclass(cls, TreeValue):
         cls = partial(typetrans, return_type=cls)
+    elif isinstance(cls, (list, tuple)):
+        cls = partial(_auto_tree_func, cls=cls)
+    elif callable(cls):
+        pass
+    else:
+        raise TypeError(f'Unknown type of cls - {repr(cls)}.')
 
     if isinstance(v, TreeValue):
         return cls(v)

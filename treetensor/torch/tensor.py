@@ -55,6 +55,11 @@ class _TensorMeta(_BaseTensorMeta):
 @current_names()
 @class_autoremove
 class Tensor(Torch, metaclass=_TensorMeta):
+    __auto_tensor = lambda x: replaceable_partial(
+        auto_tree,
+        cls=[(pytorch.is_tensor, Tensor)]
+    )(x)
+
     # noinspection PyUnusedLocal
     def __init__(self, data, *args, **kwargs):
         """
@@ -399,7 +404,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self
 
     # noinspection PyShadowingBuiltins
-    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
+    @post_process(__auto_tensor)
     @method_treelize(return_type=TreeValue, rise=True)
     def __max_nr(self, *args, **kwargs):
         return pytorch.max(self, *args, **kwargs)
@@ -419,7 +424,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self
 
     # noinspection PyShadowingBuiltins
-    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
+    @post_process(__auto_tensor)
     @method_treelize(return_type=TreeValue, rise=True)
     def __min_nr(self, *args, **kwargs):
         return pytorch.min(self, *args, **kwargs)
@@ -439,7 +444,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self
 
     # noinspection PyShadowingBuiltins
-    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
+    @post_process(__auto_tensor)
     @method_treelize(return_type=TreeValue, rise=True)
     def __sum_nr(self, *args, **kwargs):
         return pytorch.sum(self, *args, **kwargs)
@@ -882,7 +887,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self.log10_(*args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
+    @post_process(__auto_tensor)
     @method_treelize(return_type=TreeValue, rise=True)
     def split(self, split_size, *args, **kwargs):
         """
@@ -891,7 +896,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         return self.split(split_size, *args, **kwargs)
 
     @doc_from_base()
-    @post_process(lambda r: replaceable_partial(auto_tree, cls=Tensor)(r))
+    @post_process(__auto_tensor)
     @method_treelize(return_type=TreeValue, rise=True)
     def chunk(self, chunks, *args, **kwargs):
         """
