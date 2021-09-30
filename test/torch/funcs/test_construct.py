@@ -261,7 +261,7 @@ class TestTorchFuncsConstruct:
             'x': {
                 'c': (2, 3, 4),
             }
-        }, 233)
+        }, 233, dtype=torch.int)  # in torch 1.6.0, missing of dtype will raise RuntimeError
         assert ttorch.all(_target == 233)
         assert _target.shape == ttorch.Size({
             'a': torch.Size([2, 3]),
