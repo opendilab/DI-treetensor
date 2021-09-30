@@ -15,6 +15,11 @@ module.
     tutorials/installation/index
     quick_start/installation/index
 
+.. toctree::
+    :maxdepth: 2
+    :caption: Best Practice
+
+    best_practice/stack/index
 
 .. toctree::
     :maxdepth: 2
