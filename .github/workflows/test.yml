@@ -28,7 +28,16 @@ jobs:
         exclude:
           - os: 'ubuntu-18.04'
             python-version: '3.9'
+            torch-version: '1.4.0'
+          - os: 'ubuntu-18.04'
+            python-version: '3.9'
             torch-version: '1.5.0'
+          - os: 'ubuntu-18.04'
+            python-version: '3.9'
+            torch-version: '1.6.0'
+          - os: 'ubuntu-18.04'
+            python-version: '3.9'
+            torch-version: '1.7.0'
 
     steps:
       - name: Checkout code
