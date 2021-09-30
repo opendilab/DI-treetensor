@@ -13,7 +13,6 @@ module.
     :caption: Tutorials
 
     tutorials/installation/index
-    quick_start/installation/index
 
 .. toctree::
     :maxdepth: 2
