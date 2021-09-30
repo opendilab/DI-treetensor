@@ -20,6 +20,7 @@ module.
     :caption: Best Practice
 
     best_practice/stack/index
+    best_practice/operation/index
 
 .. toctree::
     :maxdepth: 2
