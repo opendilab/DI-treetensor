@@ -35,6 +35,19 @@ class TestTorchFuncsConstruct:
         })).all()
 
     @choose_mark()
+    def test_tensor(self):
+        assert ttorch.as_tensor(True) == torch.tensor(True)
+        assert (ttorch.as_tensor([1, 2, 3], dtype=torch.float32) == torch.tensor([1.0, 2.0, 3.0])).all()
+
+        assert (ttorch.as_tensor({
+            'a': torch.tensor([1, 2, 3]),
+            'b': {'x': [[4, 5], [6, 7]]}
+        }, dtype=torch.float32) == ttorch.tensor({
+            'a': [1.0, 2.0, 3.0],
+            'b': {'x': [[4.0, 5.0], [6.0, 7.0]]},
+        })).all()
+
+    @choose_mark()
     def test_clone(self):
         t1 = ttorch.clone(torch.tensor([1.0, 2.0, 1.5]))
         assert isinstance(t1, torch.Tensor)

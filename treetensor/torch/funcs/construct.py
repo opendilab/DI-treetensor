@@ -3,7 +3,7 @@ import torch
 from .base import doc_from_base, func_treelize
 
 __all__ = [
-    'tensor', 'clone',
+    'tensor', 'as_tensor', 'clone',
     'zeros', 'zeros_like',
     'randn', 'randn_like',
     'randint', 'randint_like',
@@ -36,10 +36,36 @@ def tensor(data, *args, **kwargs):
         └── c --> tensor([[ True, False],
                           [False,  True]])
     """
-    if torch.is_tensor(data):
-        return data
-    else:
-        return torch.tensor(data, *args, **kwargs)
+    return torch.tensor(data, *args, **kwargs)
+
+
+@doc_from_base()
+@func_treelize()
+def as_tensor(data, *args, **kwargs):
+    """
+    Convert the data into a :class:`treetensor.torch.Tensor` or :class:`torch.Tensor`.
+
+    Examples::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.as_tensor(True)
+        tensor(True)
+
+        >>> ttorch.as_tensor([1, 2, 3], dtype=torch.float32)
+        tensor([1., 2., 3.])
+
+        >>> ttorch.as_tensor({
+        ...     'a': torch.tensor([1, 2, 3]),
+        ...     'b': {'x': [[4, 5], [6, 7]]}
+        ... }, dtype=torch.float32)
+        <Tensor 0x7fc2b80c25c0>
+        ├── a --> tensor([1., 2., 3.])
+        └── b --> <Tensor 0x7fc2b80c24e0>
+            └── x --> tensor([[4., 5.],
+                              [6., 7.]])
+    """
+    return torch.as_tensor(data, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins

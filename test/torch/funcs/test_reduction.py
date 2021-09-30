@@ -49,16 +49,16 @@ class TestTorchFuncsReduction:
         assert not r6
 
         r7 = ttorch.all(ttorch.tensor({
-            'a': torch.tensor([True, True, True]),
-            'b': torch.tensor([True, True, False]),
+            'a': [True, True, True],
+            'b': [True, True, False],
         }), reduce=False)
         assert (r7 == ttorch.tensor({
             'a': True, 'b': False
         })).all()
 
         r8 = ttorch.all(ttorch.tensor({
-            'a': torch.tensor([True, True, True]),
-            'b': torch.tensor([True, True, False]),
+            'a': [True, True, True],
+            'b': [True, True, False],
         }), dim=0)
         assert (r8 == ttorch.tensor({
             'a': True, 'b': False
@@ -66,8 +66,8 @@ class TestTorchFuncsReduction:
 
         with pytest.warns(UserWarning):
             r9 = ttorch.all(ttorch.tensor({
-                'a': torch.tensor([True, True, True]),
-                'b': torch.tensor([True, True, False]),
+                'a': [True, True, True],
+                'b': [True, True, False],
             }), dim=0, reduce=True)
         assert (r9 == ttorch.tensor({
             'a': True, 'b': False
@@ -90,41 +90,41 @@ class TestTorchFuncsReduction:
         assert r3 == torch.tensor(False)
         assert not r3
 
-        r4 = ttorch.any({
-            'a': torch.tensor([True, True, True]),
-            'b': torch.tensor([True, True, True]),
-        })
+        r4 = ttorch.any(ttorch.tensor({
+            'a': [True, True, True],
+            'b': [True, True, True],
+        }))
         assert torch.is_tensor(r4)
         assert r4 == torch.tensor(True)
         assert r4
 
-        r5 = ttorch.any({
-            'a': torch.tensor([True, True, True]),
-            'b': torch.tensor([True, True, False]),
-        })
+        r5 = ttorch.any(ttorch.tensor({
+            'a': [True, True, True],
+            'b': [True, True, False],
+        }))
         assert torch.is_tensor(r5)
         assert r5 == torch.tensor(True)
         assert r5
 
-        r6 = ttorch.any({
-            'a': torch.tensor([False, False, False]),
-            'b': torch.tensor([False, False, False]),
-        })
+        r6 = ttorch.any(ttorch.tensor({
+            'a': [False, False, False],
+            'b': [False, False, False],
+        }))
         assert torch.is_tensor(r6)
         assert r6 == torch.tensor(False)
         assert not r6
 
         r7 = ttorch.any(ttorch.tensor({
-            'a': torch.tensor([True, True, False]),
-            'b': torch.tensor([False, False, False]),
+            'a': [True, True, False],
+            'b': [False, False, False],
         }), reduce=False)
         assert (r7 == ttorch.tensor({
             'a': True, 'b': False
         })).all()
 
         r8 = ttorch.any(ttorch.tensor({
-            'a': torch.tensor([True, True, False]),
-            'b': torch.tensor([False, False, False]),
+            'a': [True, True, False],
+            'b': [False, False, False],
         }), dim=0)
         assert (r8 == ttorch.tensor({
             'a': True, 'b': False
@@ -132,8 +132,8 @@ class TestTorchFuncsReduction:
 
         with pytest.warns(UserWarning):
             r9 = ttorch.any(ttorch.tensor({
-                'a': torch.tensor([True, True, False]),
-                'b': torch.tensor([False, False, False]),
+                'a': [True, True, False],
+                'b': [False, False, False],
             }), dim=0, reduce=True)
         assert (r9 == ttorch.tensor({
             'a': True, 'b': False
