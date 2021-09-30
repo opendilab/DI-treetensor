@@ -13,6 +13,7 @@ module.
     :caption: Tutorials
 
     tutorials/installation/index
+    tutorials/quick_start/index
 
 
 .. toctree::
