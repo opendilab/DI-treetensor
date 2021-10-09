@@ -18,20 +18,20 @@ class TestTorchFuncsComparison:
         assert isinstance(p2, bool)
         assert not p2
 
-        p3 = ttorch.equal({
+        p3 = ttorch.equal(ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 6]),
-        }, ({
+        }), ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 6]),
         }))
         assert isinstance(p3, bool)
         assert p3
 
-        p4 = ttorch.equal({
+        p4 = ttorch.equal(ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 6]),
-        }, ({
+        }), ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 5]),
         }))
@@ -45,17 +45,17 @@ class TestTorchFuncsComparison:
         assert ttorch.eq(torch.tensor([1, 1, 1]), 1).all()
         assert not ttorch.eq(torch.tensor([1, 1, 2]), 1).all()
 
-        assert ttorch.eq({
+        assert ttorch.eq(ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 6]),
-        }, ({
+        }), ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 6]),
         })).all()
-        assert not ttorch.eq({
+        assert not ttorch.eq(ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 6]),
-        }, ({
+        }), ttorch.Tensor({
             'a': torch.tensor([1, 2, 3]),
             'b': torch.tensor([4, 5, 5]),
         })).all()

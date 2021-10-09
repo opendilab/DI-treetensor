@@ -1,6 +1,9 @@
 import torch
+from treevalue import TreeValue
+from treevalue.tree.common import BaseTree
 
 from .base import doc_from_base, func_treelize
+from ...utils import args_mapping
 
 __all__ = [
     'tensor', 'as_tensor', 'clone',
@@ -12,8 +15,11 @@ __all__ = [
     'empty', 'empty_like',
 ]
 
+args_treelize = args_mapping(lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)
+
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def tensor(data, *args, **kwargs):
     """
@@ -40,6 +46,7 @@ def tensor(data, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def as_tensor(data, *args, **kwargs):
     """
@@ -99,6 +106,7 @@ def clone(input, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def zeros(*args, **kwargs):
     """
@@ -124,6 +132,7 @@ def zeros(*args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def zeros_like(input, *args, **kwargs):
     """
@@ -151,6 +160,7 @@ def zeros_like(input, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def randn(*args, **kwargs):
     """
@@ -177,6 +187,7 @@ def randn(*args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def randn_like(input, *args, **kwargs):
     """
@@ -205,6 +216,7 @@ def randn_like(input, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def randint(*args, **kwargs):
     """
@@ -231,6 +243,7 @@ def randint(*args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def randint_like(input, *args, **kwargs):
     """
@@ -259,6 +272,7 @@ def randint_like(input, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def ones(*args, **kwargs):
     """
@@ -284,6 +298,7 @@ def ones(*args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def ones_like(input, *args, **kwargs):
     """
@@ -311,6 +326,7 @@ def ones_like(input, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def full(*args, **kwargs):
     """
@@ -336,6 +352,7 @@ def full(*args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def full_like(input, *args, **kwargs):
     """
@@ -364,6 +381,7 @@ def full_like(input, *args, **kwargs):
 
 
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def empty(*args, **kwargs):
     """
@@ -390,6 +408,7 @@ def empty(*args, **kwargs):
 
 # noinspection PyShadowingBuiltins
 @doc_from_base()
+@args_treelize
 @func_treelize()
 def empty_like(input, *args, **kwargs):
     """

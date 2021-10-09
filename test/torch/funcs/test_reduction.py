@@ -24,26 +24,26 @@ class TestTorchFuncsReduction:
         assert r3 == torch.tensor(False)
         assert not r3
 
-        r4 = ttorch.all({
+        r4 = ttorch.all(ttorch.Tensor({
             'a': torch.tensor([True, True, True]),
             'b': torch.tensor([True, True, True]),
-        })
+        }))
         assert torch.is_tensor(r4)
         assert r4 == torch.tensor(True)
         assert r4
 
-        r5 = ttorch.all({
+        r5 = ttorch.all(ttorch.Tensor({
             'a': torch.tensor([True, True, True]),
             'b': torch.tensor([True, True, False]),
-        })
+        }))
         assert torch.is_tensor(r5)
         assert r5 == torch.tensor(False)
         assert not r5
 
-        r6 = ttorch.all({
+        r6 = ttorch.all(ttorch.Tensor({
             'a': torch.tensor([False, False, False]),
             'b': torch.tensor([False, False, False]),
-        })
+        }))
         assert torch.is_tensor(r6)
         assert r6 == torch.tensor(False)
         assert not r6
