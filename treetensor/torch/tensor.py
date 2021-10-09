@@ -18,7 +18,14 @@ doc_from_base = replaceable_partial(original_doc_from_base, base=pytorch.Tensor)
 _TorchProxy, _InstanceTorchProxy = get_tree_proxy(pytorch.Tensor)
 
 
-class _BaseTensorMeta(clsmeta(pytorch.as_tensor, allow_dict=True)):
+def _to_tensor(data, *args, **kwargs):
+    if not args and not kwargs and pytorch.is_tensor(data):
+        return data
+    else:
+        return pytorch.as_tensor(data, *args, **kwargs)
+
+
+class _BaseTensorMeta(clsmeta(_to_tensor, allow_dict=True)):
     pass
 
 

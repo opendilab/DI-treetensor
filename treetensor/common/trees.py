@@ -169,6 +169,8 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
         def __call__(cls, data, *args, **kwargs):
             if isinstance(data, BaseTree):
                 return type.__call__(cls, data)
+            elif isinstance(data, cls) and not args and not kwargs:
+                return data
 
             _result = _wrapped_func(data, *args, **kwargs)
             if isinstance(_result, _TempTreeValue):
