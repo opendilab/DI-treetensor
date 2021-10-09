@@ -4,13 +4,12 @@ from typing import Type
 
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
-from treevalue.tree.common import BaseTree
 from treevalue.utils import post_process
 
 from .trees import auto_tree
 from .wrappers import return_self
 from ..utils import doc_from_base as original_doc_from_base
-from ..utils import replaceable_partial, args_mapping
+from ..utils import replaceable_partial
 
 __all__ = [
     'module_func_loader',
@@ -18,10 +17,7 @@ __all__ = [
 
 
 def module_func_loader(base, cls: Type[TreeValue], cls_mapper=None):
-    func_treelize = post_process(post_process(args_mapping(
-        lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
-        replaceable_partial(original_func_treelize, return_type=cls)
-    )
+    func_treelize = replaceable_partial(original_func_treelize, return_type=cls)
     doc_from_base = replaceable_partial(original_doc_from_base, base=base)
     outer_frame = inspect.currentframe().f_back
     outer_module = outer_frame.f_globals.get('__name__', None)
