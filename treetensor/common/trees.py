@@ -8,7 +8,6 @@ from typing import Type
 from treevalue import func_treelize as original_func_treelize
 from treevalue import general_tree_value, TreeValue, typetrans
 from treevalue.tree.common import TreeStorage
-from treevalue.tree.tree.tree import get_data_property
 from treevalue.utils import post_process
 
 from ..utils import replaceable_partial, args_mapping
@@ -49,7 +48,7 @@ def print_tree(tree: TreeValue, repr_: Callable = str,
 
         _need_iter = True
         if isinstance(node, TreeValue):
-            _node_id = id(get_data_property(node))
+            _node_id = id(node._detach())
             if show_node_id:
                 _content = f'<{node.__class__.__name__} {hex(_node_id)}>'
             else:

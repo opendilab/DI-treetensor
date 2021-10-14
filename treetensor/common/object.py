@@ -37,7 +37,7 @@ class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
             └── x --> <Object 0x7fe00b115ee0>
                 └── c --> 233
         """
-        super(BaseTreeStruct, self).__init__(data)
+        BaseTreeStruct.__init__(self, data)
 
     @ireduce(builtins.all, piter=list)
     @method_treelize()
