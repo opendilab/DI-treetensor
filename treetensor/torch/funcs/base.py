@@ -1,7 +1,7 @@
 import torch
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
-from treevalue.tree.common import BaseTree
+from treevalue.tree.common import TreeStorage
 
 from ..tensor import Tensor
 from ...common import auto_tree, module_func_loader

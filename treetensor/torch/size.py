@@ -3,7 +3,7 @@ from functools import wraps
 import torch
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
-from treevalue.tree.common import BaseTree
+from treevalue.tree.common import TreeStorage
 from treevalue.utils import post_process
 
 from .base import Torch
@@ -12,7 +12,7 @@ from ..utils import doc_from_base as original_doc_from_base
 from ..utils import replaceable_partial, current_names, args_mapping
 
 func_treelize = post_process(post_process(args_mapping(
-    lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)))(
+    lambda i, x: TreeValue(x) if isinstance(x, (dict, TreeStorage, TreeValue)) else x)))(
     replaceable_partial(original_func_treelize)
 )
 doc_from_base = replaceable_partial(original_doc_from_base, base=torch.Size)

@@ -1,6 +1,6 @@
 import torch
 from treevalue import TreeValue
-from treevalue.tree.common import BaseTree
+from treevalue.tree.common import TreeStorage
 
 from .base import doc_from_base, func_treelize
 from ...utils import args_mapping
@@ -15,7 +15,7 @@ __all__ = [
     'empty', 'empty_like',
 ]
 
-args_treelize = args_mapping(lambda i, x: TreeValue(x) if isinstance(x, (dict, BaseTree, TreeValue)) else x)
+args_treelize = args_mapping(lambda i, x: TreeValue(x) if isinstance(x, (dict, TreeStorage, TreeValue)) else x)
 
 
 @doc_from_base()

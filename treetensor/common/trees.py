@@ -7,7 +7,7 @@ from typing import Type
 
 from treevalue import func_treelize as original_func_treelize
 from treevalue import general_tree_value, TreeValue, typetrans
-from treevalue.tree.common import BaseTree
+from treevalue.tree.common import TreeStorage
 from treevalue.tree.tree.tree import get_data_property
 from treevalue.utils import post_process
 
@@ -49,7 +49,7 @@ def print_tree(tree: TreeValue, repr_: Callable = str,
 
         _need_iter = True
         if isinstance(node, TreeValue):
-            _node_id = id(get_data_property(node).actual())
+            _node_id = id(get_data_property(node))
             if show_node_id:
                 _content = f'<{node.__class__.__name__} {hex(_node_id)}>'
             else:
@@ -152,7 +152,7 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
     def _mapping_func(_, x):
         if isinstance(x, TreeValue):
             return x
-        elif isinstance(x, BaseTree):
+        elif isinstance(x, TreeStorage):
             return TreeValue(x)
         elif allow_dict and isinstance(x, dict):
             return TreeValue(x)
@@ -167,7 +167,7 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
 
     class _MetaClass(type):
         def __call__(cls, data, *args, **kwargs):
-            if isinstance(data, BaseTree):
+            if isinstance(data, TreeStorage):
                 return type.__call__(cls, data)
             elif isinstance(data, cls) and not args and not kwargs:
                 return data
