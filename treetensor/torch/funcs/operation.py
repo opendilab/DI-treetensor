@@ -12,7 +12,7 @@ __all__ = [
 
 
 @doc_from_base()
-@func_treelize(subside=dict(return_type=TreeValue))
+@func_treelize(subside=True)
 def cat(tensors, *args, **kwargs):
     """
     Concatenates the given sequence of ``seq`` tensors in the given dimension.
@@ -265,7 +265,7 @@ def chunk(input, chunks, *args, **kwargs):
 
 
 @doc_from_base()
-@func_treelize(subside=dict(return_type=TreeValue))
+@func_treelize(subside=True)
 def stack(tensors, *args, **kwargs):
     """
     Concatenates a sequence of tensors along a new dimension.

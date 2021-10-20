@@ -227,8 +227,11 @@ class TestTorchTensorReduction:
             }
         })
         tt1 = ttx.masked_select(ttx > 0.3)
-        assert ttorch.isclose(tt1, torch.tensor([1.1799, 0.4652, 1.0866, 1.3533, 0.8139,
-                                                 0.9073, 2.1392, 0.6403, 0.4041]), atol=1e-4).all()
+        st0, _ = ttorch.sort(torch.tensor([1.1799, 0.4652, 1.0866, 1.3533, 0.8139,
+                                           0.9073, 2.1392, 0.6403, 0.4041]))
+        st1, _ = ttorch.sort(tt1)
+        assert ttorch.isclose(st1, st0, atol=1e-4).all()
+
         tt2 = ttx.masked_select(ttx > 0.3, reduce=False)
         assert ttorch.isclose(tt2, ttorch.tensor({
             'a': [1.1799, 0.4652, 1.0866, 1.3533],
