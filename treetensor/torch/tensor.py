@@ -1,7 +1,7 @@
 import numpy as np
 import torch as pytorch
+from hbutils.reflection import post_process
 from treevalue import method_treelize, TreeValue
-from treevalue.utils import post_process
 
 from .base import Torch, rmreduce, post_reduce, auto_reduce
 from .size import Size

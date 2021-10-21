@@ -2,9 +2,9 @@ import inspect
 from functools import wraps
 from typing import Type
 
+from hbutils.reflection import post_process
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
-from treevalue.utils import post_process
 
 from .trees import auto_tree
 from .wrappers import return_self

@@ -1,10 +1,10 @@
 import builtins
 
 import numpy as np
+from hbutils.reflection import post_process
 from treevalue import TreeValue
 from treevalue import func_treelize as original_func_treelize
 from treevalue.tree.common import TreeStorage
-from treevalue.utils import post_process
 
 from .array import ndarray
 from ..common import ireduce, Object, module_func_loader

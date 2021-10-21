@@ -1,6 +1,6 @@
 import torch
+from hbutils.reflection import post_process
 from treevalue import TreeValue
-from treevalue.utils import post_process
 
 from .base import doc_from_base, func_treelize, auto_tensor
 

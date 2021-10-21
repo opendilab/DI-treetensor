@@ -5,10 +5,10 @@ from functools import partial
 from typing import Optional, Tuple, Callable
 from typing import Type
 
+from hbutils.reflection import post_process
 from treevalue import func_treelize as original_func_treelize
 from treevalue import general_tree_value, TreeValue, typetrans
 from treevalue.tree.common import TreeStorage
-from treevalue.utils import post_process
 
 from ..utils import replaceable_partial, args_mapping
 

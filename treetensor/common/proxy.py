@@ -2,8 +2,8 @@ import inspect
 from functools import wraps
 from types import MethodType
 
+from hbutils.reflection import post_process
 from treevalue import method_treelize, TreeValue
-from treevalue.utils import post_process
 
 from .trees import auto_tree
 from .wrappers import return_self
