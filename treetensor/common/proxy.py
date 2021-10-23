@@ -1,5 +1,5 @@
 import inspect
-from functools import wraps
+from functools import wraps, lru_cache
 from types import MethodType
 
 from hbutils.reflection import post_process
@@ -22,13 +22,11 @@ def get_tree_proxy(base, cls_mapper=None):
 
     class _TreeClassProxy:
         def __init__(self, cls):
-            self.__torch_funcs = {}
             self.__cls = cls
 
+        @lru_cache()
         def __getattr__(self, name):
-            if name in self.__torch_funcs.keys():
-                return self.__torch_funcs[name]
-            elif hasattr(base, name) and not name.startswith('_') \
+            if hasattr(base, name) and not name.startswith('_') \
                     and callable(getattr(base, name)):
                 _origin_func = getattr(base, name)
                 return_self_deco = return_self if name.endswith('_') else (lambda x: x)
@@ -44,7 +42,6 @@ def get_tree_proxy(base, cls_mapper=None):
 
                 _new_func.__qualname__ = f'{self.__cls.__name__}.{name}'
                 _new_func.__module__ = outer_module
-                self.__torch_funcs[name] = _new_func
                 return _new_func
             else:
                 raise AttributeError(f'Function {repr(name)} not found in {repr(base)}')
@@ -54,6 +51,7 @@ def get_tree_proxy(base, cls_mapper=None):
             self.__proxy = proxy
             self.__self = s
 
+        @lru_cache()
         def __getattr__(self, name):
             return MethodType(getattr(self.__proxy, name), self.__self)
 

@@ -1,4 +1,5 @@
 import builtins
+from functools import lru_cache
 from types import ModuleType, FunctionType, BuiltinFunctionType
 from typing import Iterable
 
@@ -37,6 +38,7 @@ class _Module(ModuleType):
         self.__torch_version__ = torch.__version__
         self.__version__ = __VERSION__
 
+    @lru_cache()
     def __getattr__(self, name):
         if (name in self.__all__) or \
                 (hasattr(self.__origin__, name) and isinstance(getattr(self.__origin__, name), ModuleType)):
