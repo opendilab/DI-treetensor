@@ -1,7 +1,7 @@
 import numpy as np
 import torch as pytorch
 from hbutils.reflection import post_process
-from treevalue import method_treelize, TreeValue
+from treevalue import method_treelize, TreeValue, typetrans
 
 from .base import Torch, rmreduce, post_reduce, auto_reduce
 from .size import Size
@@ -15,7 +15,18 @@ __all__ = [
 ]
 
 doc_from_base = replaceable_partial(original_doc_from_base, base=pytorch.Tensor)
-_TorchProxy, _InstanceTorchProxy = get_tree_proxy(pytorch.Tensor)
+
+
+def _auto_tensor(t):
+    if isinstance(t, TreeValue):
+        t = typetrans(t, Object)
+        if t.map(lambda x, _: pytorch.is_tensor(x)).all():
+            return typetrans(t, Tensor)
+
+    return t
+
+
+_TorchProxy, _InstanceTorchProxy = get_tree_proxy(pytorch.Tensor, _auto_tensor)
 
 
 def _to_tensor(data, *args, **kwargs):
