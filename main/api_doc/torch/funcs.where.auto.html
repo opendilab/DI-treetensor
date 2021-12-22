@@ -1,0 +1,469 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>where &mdash; DI-treetensor 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="zeros" href="funcs.zeros.auto.html" />
+    <link rel="prev" title="unsqueeze" href="funcs.unsqueeze.auto.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">treetensor.torch</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="funcs.auto.html">Common Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="funcs.abs.auto.html">abs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.abs_.auto.html">abs_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.add.auto.html">add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.all.auto.html">all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.any.auto.html">any</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.as_tensor.auto.html">as_tensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.cat.auto.html">cat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ceil.auto.html">ceil</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ceil_.auto.html">ceil_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.chunk.auto.html">chunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.clamp.auto.html">clamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.clamp_.auto.html">clamp_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.clone.auto.html">clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.detach.auto.html">detach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.detach_.auto.html">detach_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.dist.auto.html">dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.div.auto.html">div</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.dot.auto.html">dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.empty.auto.html">empty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.empty_like.auto.html">empty_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.eq.auto.html">eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.equal.auto.html">equal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp.auto.html">exp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp2.auto.html">exp2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp2_.auto.html">exp2_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp_.auto.html">exp_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.floor.auto.html">floor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.floor_.auto.html">floor_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.full.auto.html">full</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.full_like.auto.html">full_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ge.auto.html">ge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.gt.auto.html">gt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.index_select.auto.html">index_select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isclose.auto.html">isclose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isfinite.auto.html">isfinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isinf.auto.html">isinf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isnan.auto.html">isnan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.le.auto.html">le</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log.auto.html">log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log10.auto.html">log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log10_.auto.html">log10_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log2.auto.html">log2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log2_.auto.html">log2_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log_.auto.html">log_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.lt.auto.html">lt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.masked_select.auto.html">masked_select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.matmul.auto.html">matmul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.max.auto.html">max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.mean.auto.html">mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.min.auto.html">min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.mm.auto.html">mm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.mul.auto.html">mul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ne.auto.html">ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.neg.auto.html">neg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.neg_.auto.html">neg_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.norm.auto.html">norm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ones.auto.html">ones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ones_like.auto.html">ones_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.pow.auto.html">pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randint.auto.html">randint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randint_like.auto.html">randint_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randn.auto.html">randn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randn_like.auto.html">randn_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.reshape.auto.html">reshape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.round.auto.html">round</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.round_.auto.html">round_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sigmoid.auto.html">sigmoid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sigmoid_.auto.html">sigmoid_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sign.auto.html">sign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.split.auto.html">split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sqrt.auto.html">sqrt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sqrt_.auto.html">sqrt_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.squeeze.auto.html">squeeze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.stack.auto.html">stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.std.auto.html">std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sub.auto.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sum.auto.html">sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.tensor.auto.html">tensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.unsqueeze.auto.html">unsqueeze</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">where</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v1-9-0-cu102">Description From Torch v1.9.0+cu102</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.zeros.auto.html">zeros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.zeros_like.auto.html">zeros_like</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="trees.auto.html">Tree Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">treetensor.torch</a> &raquo;</li>
+        
+          <li><a href="funcs.auto.html">Common Functions</a> &raquo;</li>
+        
+      <li>where</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/torch/funcs.where.auto.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="where">
+<h1>where<a class="headerlink" href="#where" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="treetensor.torch.where">
+<code class="sig-prename descclassname">treetensor.torch.</code><code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/treetensor/torch/funcs/operation.html#where"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#treetensor.torch.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tree of tensors of elements selected from either <code class="docutils literal notranslate"><span class="pre">x</span></code> or <code class="docutils literal notranslate"><span class="pre">y</span></code>, depending on <code class="docutils literal notranslate"><span class="pre">condition</span></code>.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">treetensor.torch</span> <span class="k">as</span> <span class="nn">ttorch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ttorch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]]),</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span>
+<span class="gp">... </span>    <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]),</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">tensor([[ 2, 11],</span>
+<span class="go">        [ 5,  4]])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt1</span> <span class="o">=</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt1</span>
+<span class="go">&lt;Tensor 0x7f6760ad9908&gt;</span>
+<span class="go">├── a --&gt; tensor([[27, 90, 80],</span>
+<span class="go">│                 [12, 59,  5]])</span>
+<span class="go">└── b --&gt; &lt;Tensor 0x7f6760ad9860&gt;</span>
+<span class="go">    └── x --&gt; tensor([[[71, 52, 92, 79],</span>
+<span class="go">                       [48,  4, 13, 96]],</span>
+
+<span class="go">                      [[72, 89, 44, 62],</span>
+<span class="go">                       [32,  4, 29, 76]],</span>
+
+<span class="go">                      [[ 6,  3, 93, 89],</span>
+<span class="go">                       [44, 89, 85, 90]]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ttorch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tt1</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tt1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">&lt;Tensor 0x7f6760ad9d30&gt;</span>
+<span class="go">├── a --&gt; tensor([[27,  0,  0],</span>
+<span class="go">│                 [ 0, 59,  5]])</span>
+<span class="go">└── b --&gt; &lt;Tensor 0x7f6760ad9f98&gt;</span>
+<span class="go">    └── x --&gt; tensor([[[71,  0,  0, 79],</span>
+<span class="go">                       [ 0,  0, 13,  0]],</span>
+
+<span class="go">                      [[ 0, 89,  0,  0],</span>
+<span class="go">                       [ 0,  0, 29,  0]],</span>
+
+<span class="go">                      [[ 0,  3, 93, 89],</span>
+<span class="go">                       [ 0, 89, 85,  0]]])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="tip admonition">
+<p class="admonition-title">Torch Version Related</p>
+<p>This documentation is based on
+<a class="reference external" href="https://pytorch.org/docs/1.9.0+cu102/generated/torch.where.html">torch.where</a>
+in <a class="reference external" href="https://pytorch.org/docs/1.9.0+cu102/">torch v1.9.0+cu102</a>.
+<strong>Its arguments’ arrangements depend on the version of pytorch you installed</strong>.</p>
+<p>If some arguments listed here are not working properly, please check your pytorch’s version
+with the following command and find its documentation.</p>
+<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>python -c <span class="s1">&#39;import torch;print(torch.__version__)&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The arguments and keyword arguments supported in torch v1.9.0+cu102 is listed below.</p>
+</div>
+</div>
+<div class="section" id="description-from-torch-v1-9-0-cu102">
+<h2>Description From Torch v1.9.0+cu102<a class="headerlink" href="#description-from-torch-v1-9-0-cu102" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="torch.where">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tensor of elements selected from either <code class="xref py py-attr docutils literal notranslate"><span class="pre">x</span></code> or <code class="xref py py-attr docutils literal notranslate"><span class="pre">y</span></code>, depending on <code class="xref py py-attr docutils literal notranslate"><span class="pre">condition</span></code>.</p>
+<p>The operation is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\text{out}_i = \begin{cases}
+    \text{x}_i &amp; \text{if } \text{condition}_i \\
+    \text{y}_i &amp; \text{otherwise} \\
+\end{cases}\end{split}\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The tensors <code class="xref py py-attr docutils literal notranslate"><span class="pre">condition</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">x</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">y</span></code> must be <span class="xref std std-ref">broadcastable</span>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently valid scalar and tensor combination are
+1. Scalar of floating dtype and torch.double
+2. Scalar of integral dtype and torch.long
+3. Scalar of complex dtype and torch.complex128</p>
+</div>
+<dl>
+<dt>Arguments:</dt><dd><p>condition (BoolTensor): When True (nonzero), yield x, otherwise yield y
+x (Tensor or Scalar): value (if :attr:x is a scalar) or values selected at indices</p>
+<blockquote>
+<div><p>where <code class="xref py py-attr docutils literal notranslate"><span class="pre">condition</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code></p>
+</div></blockquote>
+<dl class="simple">
+<dt>y (Tensor or Scalar): value (if :attr:x is a scalar) or values selected at indices</dt><dd><p>where <code class="xref py py-attr docutils literal notranslate"><span class="pre">condition</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>Tensor: A tensor of shape equal to the broadcasted shape of <code class="xref py py-attr docutils literal notranslate"><span class="pre">condition</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">x</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">y</span></code></p>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">tensor([[-0.4620,  0.3139],</span>
+<span class="go">        [ 0.3898, -0.7197],</span>
+<span class="go">        [ 0.0478, -0.1657]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="go">tensor([[ 1.0000,  0.3139],</span>
+<span class="go">        [ 0.3898,  1.0000],</span>
+<span class="go">        [ 0.0478,  1.0000]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">tensor([[ 1.0779,  0.0383],</span>
+<span class="go">        [-0.8785, -1.1089]], dtype=torch.float64)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mf">0.</span><span class="p">)</span>
+<span class="go">tensor([[1.0779, 0.0383],</span>
+<span class="go">        [0.0000, 0.0000]], dtype=torch.float64)</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt id="id0">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span></em><span class="sig-paren">)</span> &#x2192; tuple of LongTensor<a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">torch.where(condition)</span></code> is identical to
+<code class="docutils literal notranslate"><span class="pre">torch.nonzero(condition,</span> <span class="pre">as_tuple=True)</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See also <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nonzero()</span></code>.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="funcs.zeros.auto.html" class="btn btn-neutral float-right" title="zeros" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="funcs.unsqueeze.auto.html" class="btn btn-neutral float-left" title="unsqueeze" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="funcs.where.auto.html">main</a></dd>
+                        <dd><a href="../../../dev-unet-demo/api_doc/torch/funcs.where.auto.html">dev-unet-demo</a></dd>
+                        <dd><a href="../../../dev/binary/api_doc/torch/funcs.where.auto.html">dev/binary</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

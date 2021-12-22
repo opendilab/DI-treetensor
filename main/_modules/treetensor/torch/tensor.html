@@ -1,0 +1,1280 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>treetensor.torch.tensor &mdash; DI-treetensor 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/quick_start/index.html">Quick Start</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>treetensor.torch.tensor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for treetensor.torch.tensor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span> <span class="k">as</span> <span class="nn">pytorch</span>
+<span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">post_process</span>
+<span class="kn">from</span> <span class="nn">treevalue</span> <span class="kn">import</span> <span class="n">method_treelize</span><span class="p">,</span> <span class="n">TreeValue</span><span class="p">,</span> <span class="n">typetrans</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Torch</span><span class="p">,</span> <span class="n">rmreduce</span><span class="p">,</span> <span class="n">post_reduce</span><span class="p">,</span> <span class="n">auto_reduce</span>
+<span class="kn">from</span> <span class="nn">.size</span> <span class="kn">import</span> <span class="n">Size</span>
+<span class="kn">from</span> <span class="nn">..common</span> <span class="kn">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">ireduce</span><span class="p">,</span> <span class="n">clsmeta</span><span class="p">,</span> <span class="n">return_self</span><span class="p">,</span> <span class="n">auto_tree</span><span class="p">,</span> <span class="n">get_tree_proxy</span>
+<span class="kn">from</span> <span class="nn">..numpy</span> <span class="kn">import</span> <span class="n">ndarray</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">current_names</span><span class="p">,</span> <span class="n">class_autoremove</span><span class="p">,</span> <span class="n">replaceable_partial</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">doc_from_base</span> <span class="k">as</span> <span class="n">original_doc_from_base</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Tensor&#39;</span>
+<span class="p">]</span>
+
+<span class="n">doc_from_base</span> <span class="o">=</span> <span class="n">replaceable_partial</span><span class="p">(</span><span class="n">original_doc_from_base</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_auto_tensor</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">TreeValue</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">typetrans</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Object</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">typetrans</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">t</span>
+
+
+<span class="n">_TorchProxy</span><span class="p">,</span> <span class="n">_InstanceTorchProxy</span> <span class="o">=</span> <span class="n">get_tree_proxy</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">_auto_tensor</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_to_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_BaseTensorMeta</span><span class="p">(</span><span class="n">clsmeta</span><span class="p">(</span><span class="n">_to_tensor</span><span class="p">,</span> <span class="n">allow_dict</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+    <span class="k">pass</span>
+
+
+<span class="c1"># noinspection PyMethodParameters</span>
+<span class="k">class</span> <span class="nc">_TensorMeta</span><span class="p">(</span><span class="n">_BaseTensorMeta</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">_BaseTensorMeta</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__proxy</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">torch</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__proxy</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">__proxy</span> <span class="o">=</span> <span class="n">_TorchProxy</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__proxy</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;type object </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="si">}</span><span class="s2"> has no attribute </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># noinspection PyTypeChecker</span>
+<div class="viewcode-block" id="Tensor"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.where.auto.html#treetensor.torch.Tensor">[docs]</a><span class="nd">@current_names</span><span class="p">()</span>
+<span class="nd">@class_autoremove</span>
+<span class="k">class</span> <span class="nc">Tensor</span><span class="p">(</span><span class="n">Torch</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_TensorMeta</span><span class="p">):</span>
+    <span class="n">__auto_tensor</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">replaceable_partial</span><span class="p">(</span>
+        <span class="n">auto_tree</span><span class="p">,</span>
+        <span class="bp">cls</span><span class="o">=</span><span class="p">[(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)]</span>
+    <span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># noinspection PyUnusedLocal</span>
+<div class="viewcode-block" id="Tensor.__init__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__init__.auto.html#treetensor.torch.Tensor.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In :class:`treetensor.torch.Tensor`, it&#39;s similar but a little bit different with the</span>
+<span class="sd">        original :class:`torch.Tensor`.</span>
+
+<span class="sd">        Examples::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; pytorch.Tensor([1, 2, 3])  # in torch.Tensor, default type is float32</span>
+<span class="sd">            tensor([1., 2., 3.])</span>
+
+<span class="sd">            &gt;&gt;&gt; ttorch.Tensor([1, 2, 3])  # a native Tensor object, its type is auto detected with torch.tensor</span>
+<span class="sd">            tensor([1, 2, 3])</span>
+
+<span class="sd">            &gt;&gt;&gt; ttorch.Tensor([1, 2, 3], dtype=pytorch.float32)  # with float32 type</span>
+<span class="sd">            tensor([1., 2., 3.])</span>
+
+<span class="sd">            &gt;&gt;&gt; ttorch.Tensor({</span>
+<span class="sd">            ...     &#39;a&#39;: [1, 2, 3],</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: [4.0, 5, 6]},</span>
+<span class="sd">            ...     &#39;c&#39;: [[True, ], [False, ]],</span>
+<span class="sd">            ... })  # a tree-based Tensor object</span>
+<span class="sd">            &lt;Tensor 0x7f537bb9a880&gt;</span>
+<span class="sd">            ├── a --&gt; tensor([1, 2, 3])</span>
+<span class="sd">            ├── b --&gt; &lt;Tensor 0x7f537bb9a0d0&gt;</span>
+<span class="sd">            │   └── x --&gt; tensor([4., 5., 6.])</span>
+<span class="sd">            └── c --&gt; tensor([[ True],</span>
+<span class="sd">                              [False]])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Torch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__get_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor._attr_extern"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor._attr_extern.auto.html#treetensor.torch.Tensor._attr_extern">[docs]</a>    <span class="k">def</span> <span class="nf">_attr_extern</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">torch</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_attr</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">is_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">Tensor</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">tree</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">torch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a proxy to get the auto generated function from ``torch``.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            This is useful when some of the method of ``TreeValue`` and ``Tensor``</span>
+<span class="sd">            have the same name, such as ``view``, you can use :meth:`torch.Tensor.view`</span>
+<span class="sd">            in this way.</span>
+
+<span class="sd">                &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">                &gt;&gt;&gt; t = ttorch.randn({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (3, 4)}})</span>
+<span class="sd">                &lt;Tensor 0x7ff1b4720340&gt;</span>
+<span class="sd">                ├── a --&gt; tensor([[-0.8067, -0.7860,  2.1065],</span>
+<span class="sd">                │                 [ 1.8428, -0.0960,  0.9911]])</span>
+<span class="sd">                └── b --&gt; &lt;Tensor 0x7ff1b4720400&gt;</span>
+<span class="sd">                    └── x --&gt; tensor([[ 1.5568, -0.8541, -0.1199,  1.1190],</span>
+<span class="sd">                                      [-0.7324,  2.7439,  1.0143, -0.0680],</span>
+<span class="sd">                                      [ 0.0344,  1.2085, -1.3644,  2.9778]])</span>
+<span class="sd">                &gt;&gt;&gt; t.torch.view((-1, ))  # t.view is a method of treevalue</span>
+<span class="sd">                &lt;Tensor 0x7ff1b4725610&gt;</span>
+<span class="sd">                ├── a --&gt; tensor([-0.8067, -0.7860,  2.1065,  1.8428, -0.0960,  0.9911])</span>
+<span class="sd">                └── b --&gt; &lt;Tensor 0x7ff1b4725400&gt;</span>
+<span class="sd">                    └── x --&gt; tensor([ 1.5568, -0.8541, -0.1199,  1.1190, -0.7324,  2.7439,  1.0143, -0.0680,</span>
+<span class="sd">                                       0.0344,  1.2085, -1.3644,  2.9778])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_InstanceTorchProxy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">torch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor.numpy"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.numpy.auto.html#treetensor.torch.Tensor.numpy">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">ndarray</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns ``self`` tree tensor as a NumPy ``ndarray``.</span>
+<span class="sd">        This tensor and the returned :class:`treetensor.numpy.ndarray` share the same underlying storage.</span>
+<span class="sd">        Changes to self tensor will be reflected in the ``ndarray`` and vice versa.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tensor.tolist"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.tolist.auto.html#treetensor.torch.Tensor.tolist">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">tolist</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the dump result of tree tensor.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; ttorch.tensor({</span>
+<span class="sd">            &gt;&gt;&gt;     &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">            &gt;&gt;&gt;     &#39;b&#39;: [1, 2, 3],</span>
+<span class="sd">            &gt;&gt;&gt;     &#39;c&#39;: True,</span>
+<span class="sd">            &gt;&gt;&gt; }).tolist()</span>
+<span class="sd">            Object({</span>
+<span class="sd">                &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">                &#39;b&#39;: [1, 2, 3],</span>
+<span class="sd">                &#39;c&#39;: True,</span>
+<span class="sd">            })</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tensor.cpu"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.cpu.auto.html#treetensor.torch.Tensor.cpu">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">cpu</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a copy of this tree tensor in CPU memory.</span>
+
+<span class="sd">        If this tree tensor is already in CPU memory and on the correct device,</span>
+<span class="sd">        then no copy is performed and the original object is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpu</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.cuda"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.cuda.auto.html#treetensor.torch.Tensor.cuda">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">cuda</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a copy of this tree tensor in CUDA memory.</span>
+
+<span class="sd">        If this tree tensor is already in CUDA memory and on the correct device,</span>
+<span class="sd">        then no copy is performed and the original object is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cuda</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.to"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.to.auto.html#treetensor.torch.Tensor.to">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Turn the original tree tensor to another format.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; ttorch.tensor({</span>
+<span class="sd">            ...     &#39;a&#39;: [[1, 11], [2, 22], [3, 33]],</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: [[4, 5], [6, 7]]},</span>
+<span class="sd">            ... }).to(pytorch.float64)</span>
+<span class="sd">            &lt;Tensor 0x7ff363bb6518&gt;</span>
+<span class="sd">            ├── a --&gt; tensor([[ 1., 11.],</span>
+<span class="sd">            │                 [ 2., 22.],</span>
+<span class="sd">            │                 [ 3., 33.]], dtype=torch.float64)</span>
+<span class="sd">            └── b --&gt; &lt;Tensor 0x7ff363bb6ef0&gt;</span>
+<span class="sd">                └── x --&gt; tensor([[4., 5.],</span>
+<span class="sd">                                  [6., 7.]], dtype=torch.float64)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.numel"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.numel.auto.html#treetensor.torch.Tensor.numel">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@ireduce</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">numel</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.numel`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Size</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the size of the tensors in the tree.</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; ttorch.tensor({</span>
+<span class="sd">            ...     &#39;a&#39;: [[1, 11], [2, 22], [3, 33]],</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: [[4, 5], [6, 7]]},</span>
+<span class="sd">            ... }).shape</span>
+<span class="sd">            &lt;Size 0x7ff363bbbd68&gt;</span>
+<span class="sd">            ├── a --&gt; torch.Size([3, 2])</span>
+<span class="sd">            └── b --&gt; &lt;Size 0x7ff363bbbcf8&gt;</span>
+<span class="sd">                └── x --&gt; torch.Size([2, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">grad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the grad data of the whole tree.</span>
+
+<span class="sd">        Examples::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; tt = ttorch.randn({</span>
+<span class="sd">            ...     &#39;a&#39;: (2, 3),</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: (3, 4)},</span>
+<span class="sd">            ... })</span>
+<span class="sd">            &gt;&gt;&gt; tt.requires_grad_(True)</span>
+<span class="sd">            &gt;&gt;&gt; tt</span>
+<span class="sd">            &lt;Tensor 0x7feec3bcce80&gt;</span>
+<span class="sd">            ├── a --&gt; tensor([[-1.4375,  0.0988,  1.2198],</span>
+<span class="sd">            │                 [-0.7627, -0.8797, -0.9299]], requires_grad=True)</span>
+<span class="sd">            └── b --&gt; &lt;Tensor 0x7feec3bccdd8&gt;</span>
+<span class="sd">                └── x --&gt; tensor([[ 0.2149, -0.5839, -0.6049, -0.9151],</span>
+<span class="sd">                                  [ 1.5381, -1.4386,  0.1831,  0.2018],</span>
+<span class="sd">                                  [-0.0725, -0.9062, -2.6212,  0.5929]], requires_grad=True)</span>
+<span class="sd">            &gt;&gt;&gt; mq = tt.mean() ** 2</span>
+<span class="sd">            &gt;&gt;&gt; mq.backward()</span>
+<span class="sd">            &gt;&gt;&gt; tt.grad</span>
+<span class="sd">            &lt;Tensor 0x7feec3c0fa90&gt;</span>
+<span class="sd">            ├── a --&gt; tensor([[-0.0438, -0.0438, -0.0438],</span>
+<span class="sd">            │                 [-0.0438, -0.0438, -0.0438]])</span>
+<span class="sd">            └── b --&gt; &lt;Tensor 0x7feec3c0f9e8&gt;</span>
+<span class="sd">                └── x --&gt; tensor([[-0.0438, -0.0438, -0.0438, -0.0438],</span>
+<span class="sd">                                  [-0.0438, -0.0438, -0.0438, -0.0438],</span>
+<span class="sd">                                  [-0.0438, -0.0438, -0.0438, -0.0438]])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">requires_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the grad situation of current tree.</span>
+
+<span class="sd">        Examples::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; tt = ttorch.randn({</span>
+<span class="sd">            ...     &#39;a&#39;: (2, 3),</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: (3, 4)},</span>
+<span class="sd">            ... })</span>
+<span class="sd">            &gt;&gt;&gt; tt.requires_grad_(True)</span>
+<span class="sd">            &gt;&gt;&gt; tt.requires_grad</span>
+<span class="sd">            &lt;Object 0x7feec3c229e8&gt;</span>
+<span class="sd">            ├── a --&gt; True</span>
+<span class="sd">            └── b --&gt; &lt;Object 0x7feec3c22940&gt;</span>
+<span class="sd">                └── x --&gt; True</span>
+
+<span class="sd">            &gt;&gt;&gt; tt.a.requires_grad_(False)</span>
+<span class="sd">            &gt;&gt;&gt; tt.requires_grad</span>
+<span class="sd">            &lt;Object 0x7feec3c0fa58&gt;</span>
+<span class="sd">            ├── a --&gt; False</span>
+<span class="sd">            └── b --&gt; &lt;Object 0x7feec3c0f5f8&gt;</span>
+<span class="sd">                └── x --&gt; True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requires_grad</span>
+
+<div class="viewcode-block" id="Tensor.requires_grad_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.requires_grad_.auto.html#treetensor.torch.Tensor.requires_grad_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">requires_grad_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change if autograd should record operations on this tensor:</span>
+<span class="sd">        sets this tensor’s ``requires_grad`` attribute in-place. Returns this tensor.</span>
+
+<span class="sd">        Examples::</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; tt = ttorch.randn({</span>
+<span class="sd">            ...     &#39;a&#39;: (2, 3),</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: (3, 4)},</span>
+<span class="sd">            ... })</span>
+<span class="sd">            &gt;&gt;&gt; tt.requires_grad_(True)</span>
+<span class="sd">            &gt;&gt;&gt; tt</span>
+<span class="sd">            &lt;Tensor 0x7feec3c22240&gt;</span>
+<span class="sd">            ├── a --&gt; tensor([[ 1.4754,  1.1167,  1.5431],</span>
+<span class="sd">            │                 [-0.5816,  0.4746,  0.8392]], requires_grad=True)</span>
+<span class="sd">            └── b --&gt; &lt;Tensor 0x7feec3c22128&gt;</span>
+<span class="sd">                └── x --&gt; tensor([[ 0.3361,  0.8194,  0.1297, -0.5547],</span>
+<span class="sd">                                  [ 0.2531, -0.0637,  0.9822,  2.1618],</span>
+<span class="sd">                                  [ 2.0140, -0.0929,  0.9304,  1.5430]], requires_grad=True)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="n">requires_grad</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.detach"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.detach.auto.html#treetensor.torch.Tensor.detach">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">detach</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.detach`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tensor.detach_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.detach_.auto.html#treetensor.torch.Tensor.detach_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">detach_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.detach`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">detach_</span><span class="p">()</span></div>
+
+    <span class="c1"># noinspection PyShadowingBuiltins,PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">all</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__all_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># noinspection PyShadowingBuiltins</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__all_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># noinspection PyArgumentList</span>
+<div class="viewcode-block" id="Tensor.all"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.all.auto.html#treetensor.torch.Tensor.all">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__all_r</span><span class="p">,</span> <span class="n">__all_nr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.all`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+    <span class="c1"># noinspection PyShadowingBuiltins,PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">any</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__any_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># noinspection PyShadowingBuiltins</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__any_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># noinspection PyArgumentList</span>
+<div class="viewcode-block" id="Tensor.any"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.any.auto.html#treetensor.torch.Tensor.any">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__any_r</span><span class="p">,</span> <span class="n">__any_nr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.any`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+    <span class="c1"># noinspection PyShadowingBuiltins,PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__max_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># noinspection PyShadowingBuiltins</span>
+    <span class="nd">@post_process</span><span class="p">(</span><span class="n">__auto_tensor</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__max_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor.max"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.max.auto.html#treetensor.torch.Tensor.max">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__max_r</span><span class="p">,</span> <span class="n">__max_nr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.max`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+    <span class="c1"># noinspection PyShadowingBuiltins,PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">min</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__min_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># noinspection PyShadowingBuiltins</span>
+    <span class="nd">@post_process</span><span class="p">(</span><span class="n">__auto_tensor</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__min_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor.min"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.min.auto.html#treetensor.torch.Tensor.min">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__min_r</span><span class="p">,</span> <span class="n">__min_nr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.min`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+    <span class="c1"># noinspection PyShadowingBuiltins,PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__sum_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="c1"># noinspection PyShadowingBuiltins</span>
+    <span class="nd">@post_process</span><span class="p">(</span><span class="n">__auto_tensor</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__sum_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor.sum"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sum.auto.html#treetensor.torch.Tensor.sum">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__sum_r</span><span class="p">,</span> <span class="n">__sum_nr</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.sum`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="Tensor.__eq__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__eq__.auto.html#treetensor.torch.Tensor.__eq__">[docs]</a>    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.eq`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+<div class="viewcode-block" id="Tensor.__ne__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__ne__.auto.html#treetensor.torch.Tensor.__ne__">[docs]</a>    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.ne`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">!=</span> <span class="n">other</span></div>
+
+<div class="viewcode-block" id="Tensor.__lt__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__lt__.auto.html#treetensor.torch.Tensor.__lt__">[docs]</a>    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.lt`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">&lt;</span> <span class="n">other</span></div>
+
+<div class="viewcode-block" id="Tensor.__gt__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__gt__.auto.html#treetensor.torch.Tensor.__gt__">[docs]</a>    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.gt`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">&gt;</span> <span class="n">other</span></div>
+
+<div class="viewcode-block" id="Tensor.__le__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__le__.auto.html#treetensor.torch.Tensor.__le__">[docs]</a>    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.le`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">&lt;=</span> <span class="n">other</span></div>
+
+<div class="viewcode-block" id="Tensor.__ge__"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.__ge__.auto.html#treetensor.torch.Tensor.__ge__">[docs]</a>    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.ge`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">&gt;=</span> <span class="n">other</span></div>
+
+<div class="viewcode-block" id="Tensor.clone"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.clone.auto.html#treetensor.torch.Tensor.clone">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.clone`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.dot"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.dot.auto.html#treetensor.torch.Tensor.dot">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.dot`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.mm"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.mm.auto.html#treetensor.torch.Tensor.mm">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">mm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mat2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.mm`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">mat2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.matmul"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.matmul.auto.html#treetensor.torch.Tensor.matmul">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.matmul`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.isfinite"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.isfinite.auto.html#treetensor.torch.Tensor.isfinite">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">isfinite</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.isfinite`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isfinite</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tensor.isinf"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.isinf.auto.html#treetensor.torch.Tensor.isinf">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">isinf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.isinf`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isinf</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tensor.isnan"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.isnan.auto.html#treetensor.torch.Tensor.isnan">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">isnan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.isnan`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isnan</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Tensor.isclose"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.isclose.auto.html#treetensor.torch.Tensor.isclose">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">isclose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.isclose`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.abs"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.abs.auto.html#treetensor.torch.Tensor.abs">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.abs`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.abs_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.abs_.auto.html#treetensor.torch.Tensor.abs_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">abs_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.abs_`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.clamp"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.clamp.auto.html#treetensor.torch.Tensor.clamp">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.clamp`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.clamp_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.clamp_.auto.html#treetensor.torch.Tensor.clamp_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">clamp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.clamp_`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clamp_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sign"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sign.auto.html#treetensor.torch.Tensor.sign">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.sign`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sign_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sign_.auto.html#treetensor.torch.Tensor.sign_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sign_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.sign`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sigmoid"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sigmoid.auto.html#treetensor.torch.Tensor.sigmoid">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.sigmoid`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sigmoid_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sigmoid_.auto.html#treetensor.torch.Tensor.sigmoid_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sigmoid_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.sigmoid_`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.floor"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.floor.auto.html#treetensor.torch.Tensor.floor">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">floor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.floor`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.floor_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.floor_.auto.html#treetensor.torch.Tensor.floor_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">floor_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.floor_`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">floor_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.ceil"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.ceil.auto.html#treetensor.torch.Tensor.ceil">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">ceil</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.ceil`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.ceil_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.ceil_.auto.html#treetensor.torch.Tensor.ceil_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">ceil_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.ceil_`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ceil_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.round"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.round.auto.html#treetensor.torch.Tensor.round">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">round</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.round`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.round_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.round_.auto.html#treetensor.torch.Tensor.round_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">round_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.round_`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">round_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.add"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.add.auto.html#treetensor.torch.Tensor.add">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.add`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.add_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.add_.auto.html#treetensor.torch.Tensor.add_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">add_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.add`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sub"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sub.auto.html#treetensor.torch.Tensor.sub">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.sub`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sub_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sub_.auto.html#treetensor.torch.Tensor.sub_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sub_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.sub`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.mul"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.mul.auto.html#treetensor.torch.Tensor.mul">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">mul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.mul`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.mul_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.mul_.auto.html#treetensor.torch.Tensor.mul_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">mul_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.mul`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.div"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.div.auto.html#treetensor.torch.Tensor.div">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">div</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.div`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.div_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.div_.auto.html#treetensor.torch.Tensor.div_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">div_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.div`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">div_</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.pow"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.pow.auto.html#treetensor.torch.Tensor.pow">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">pow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.pow`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">exponent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.pow_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.pow_.auto.html#treetensor.torch.Tensor.pow_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">pow_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.pow`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pow_</span><span class="p">(</span><span class="n">exponent</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.neg"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.neg.auto.html#treetensor.torch.Tensor.neg">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">neg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.neg`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.neg_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.neg_.auto.html#treetensor.torch.Tensor.neg_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">neg_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.neg`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.exp"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.exp.auto.html#treetensor.torch.Tensor.exp">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">exp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.exp`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.exp_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.exp_.auto.html#treetensor.torch.Tensor.exp_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">exp_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.exp`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.exp2"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.exp2.auto.html#treetensor.torch.Tensor.exp2">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">exp2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.exp2`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.exp2_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.exp2_.auto.html#treetensor.torch.Tensor.exp2_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">exp2_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.exp2`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp2_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sqrt"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sqrt.auto.html#treetensor.torch.Tensor.sqrt">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.sqrt`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.sqrt_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.sqrt_.auto.html#treetensor.torch.Tensor.sqrt_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">sqrt_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.sqrt`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sqrt_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.log"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.log.auto.html#treetensor.torch.Tensor.log">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.log`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.log_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.log_.auto.html#treetensor.torch.Tensor.log_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">log_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.log`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.log2"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.log2.auto.html#treetensor.torch.Tensor.log2">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">log2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.log2`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.log2_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.log2_.auto.html#treetensor.torch.Tensor.log2_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">log2_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.log2`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">log2_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.log10"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.log10.auto.html#treetensor.torch.Tensor.log10">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">log10</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.log10`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.log10_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.log10_.auto.html#treetensor.torch.Tensor.log10_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">log10_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.log10`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">log10_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.split"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.split.auto.html#treetensor.torch.Tensor.split">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@post_process</span><span class="p">(</span><span class="n">__auto_tensor</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">split_size</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.split`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">split_size</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.chunk"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.chunk.auto.html#treetensor.torch.Tensor.chunk">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@post_process</span><span class="p">(</span><span class="n">__auto_tensor</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.chunk`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.reshape"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.reshape.auto.html#treetensor.torch.Tensor.reshape">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.reshape`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.squeeze"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.squeeze.auto.html#treetensor.torch.Tensor.squeeze">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.squeeze`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.squeeze_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.squeeze_.auto.html#treetensor.torch.Tensor.squeeze_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">squeeze_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.squeeze&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">squeeze_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.unsqueeze"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.unsqueeze.auto.html#treetensor.torch.Tensor.unsqueeze">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">unsqueeze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.unsqueeze`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.unsqueeze_"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.unsqueeze_.auto.html#treetensor.torch.Tensor.unsqueeze_">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@return_self</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">unsqueeze_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In-place version of :meth:`Tensor.unsqueeze&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unsqueeze_</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.where"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.where.auto.html#treetensor.torch.Tensor.where">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">where</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ``self.where(condition, y)`` is equivalent to</span>
+<span class="sd">        ``treetensor.torch.where(condition, self, y)``.</span>
+<span class="sd">        See :func:`treetensor.torch.where`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.index_select"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.index_select.auto.html#treetensor.torch.Tensor.index_select">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">index_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.index_select`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
+
+    <span class="c1"># noinspection PyShadowingBuiltins,PyUnusedLocal</span>
+    <span class="nd">@rmreduce</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__masked_select_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># noinspection PyShadowingBuiltins</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__masked_select_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># noinspection PyUnusedLocal,PyMethodParameters,PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">__ms_determine</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">args</span> <span class="ow">or</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="c1"># noinspection PyUnusedLocal,PyMethodParameters,PyMethodMayBeStatic</span>
+    <span class="k">def</span> <span class="nf">__ms_condition</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">args</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span>
+
+<div class="viewcode-block" id="Tensor.masked_select"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.masked_select.auto.html#treetensor.torch.Tensor.masked_select">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__masked_select_r</span><span class="p">,</span> <span class="n">__masked_select_nr</span><span class="p">,</span>
+                 <span class="n">__ms_determine</span><span class="p">,</span> <span class="n">__ms_condition</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">masked_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.masked_select`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+    <span class="c1"># noinspection PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">std</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__std_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__std_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor.std"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.std.auto.html#treetensor.torch.Tensor.std">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__std_r</span><span class="p">,</span> <span class="n">__std_nr</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.std`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+    <span class="c1"># noinspection PyUnusedLocal</span>
+    <span class="nd">@post_reduce</span><span class="p">(</span><span class="n">pytorch</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">Object</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__mean_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__mean_nr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pytorch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Tensor.mean"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.mean.auto.html#treetensor.torch.Tensor.mean">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@auto_reduce</span><span class="p">(</span><span class="n">__mean_r</span><span class="p">,</span> <span class="n">__mean_nr</span><span class="p">)</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.mean`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="Tensor.dist"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.dist.auto.html#treetensor.torch.Tensor.dist">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.dist`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Tensor.norm"><a class="viewcode-back" href="../../../api_doc/torch/trees.Tensor.norm.auto.html#treetensor.torch.Tensor.norm">[docs]</a>    <span class="nd">@doc_from_base</span><span class="p">()</span>
+    <span class="nd">@method_treelize</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        See :func:`treetensor.torch.norm`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="tensor.html">main</a></dd>
+                        <dd><a href="../../../../dev-unet-demo/index.html">dev-unet-demo</a></dd>
+                        <dd><a href="../../../../dev/binary/index.html">dev/binary</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

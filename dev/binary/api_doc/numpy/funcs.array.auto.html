@@ -1,0 +1,458 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>array &mdash; DI-treetensor 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="array_equal" href="funcs.array_equal.auto.html" />
+    <link rel="prev" title="any" href="funcs.any.auto.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">treetensor.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">treetensor.numpy</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="funcs.auto.html">Common Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="funcs.all.auto.html">all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.any.auto.html">any</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">array</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-from-numpy-v1-21">Description From Numpy v1.21</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.array_equal.auto.html">array_equal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.equal.auto.html">equal</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">treetensor.numpy</a> &raquo;</li>
+        
+          <li><a href="funcs.auto.html">Common Functions</a> &raquo;</li>
+        
+      <li>array</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/numpy/funcs.array.auto.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="array">
+<h1>array<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="treetensor.numpy.array">
+<code class="sig-prename descclassname">treetensor.numpy.</code><code class="sig-name descname">array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p_object</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/treetensor/numpy/funcs.html#array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#treetensor.numpy.array" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="docutils literal notranslate"><span class="pre">treetensor</span></code>, you can create a tree of <code class="xref py py-class docutils literal notranslate"><span class="pre">np.ndarray</span></code> with <a class="reference internal" href="#treetensor.numpy.array" title="treetensor.numpy.array"><code class="xref py py-func docutils literal notranslate"><span class="pre">array()</span></code></a>.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">treetensor.numpy</span> <span class="k">as</span> <span class="nn">tnp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">({</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]],</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">})</span>
+<span class="go">tnp.ndarray({</span>
+<span class="go">    &#39;a&#39;: np.array([1, 2, 3]),</span>
+<span class="go">    &#39;b&#39;: np.array([[4, 5], [5, 6]]),</span>
+<span class="go">    &#39;c&#39;: np.array(True),</span>
+<span class="go">})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="tip admonition">
+<p class="admonition-title">Numpy Version Related</p>
+<p>This documentation is based on
+<a class="reference external" href="https://numpy.org/doc/1.21/reference/generated/numpy.array.html">numpy.array</a>
+in <a class="reference external" href="https://numpy.org/doc/1.21/">numpy v1.21.5</a>.
+<strong>Its arguments’ arrangements depend on the version of numpy you installed</strong>.</p>
+<p>If some arguments listed here are not working properly, please check your numpy’s version
+with the following command and find its documentation.</p>
+<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>python -c <span class="s1">&#39;import numpy as np;print(np.__version__)&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The arguments and keyword arguments supported in numpy v1.21.5 is listed below.</p>
+</div>
+</div>
+<div class="section" id="description-from-numpy-v1-21">
+<h2>Description From Numpy v1.21<a class="headerlink" href="#description-from-numpy-v1-21" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt>
+<code class="sig-name descname">array(object, dtype=None, *, copy=True, order='K', subok=False, ndmin=0,</code></dt>
+<dd><blockquote>
+<div><p>like=None)</p>
+</div></blockquote>
+<p>Create an array.</p>
+</dd></dl>
+
+<div class="section" id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl>
+<dt>object : array_like</dt><dd><p>An array, any object exposing the array interface, an object whose
+__array__ method returns an array, or any (nested) sequence.</p>
+</dd>
+<dt>dtype : data-type, optional</dt><dd><p>The desired data-type for the array.  If not given, then the type will
+be determined as the minimum type required to hold the objects in the
+sequence.</p>
+</dd>
+<dt>copy : bool, optional</dt><dd><p>If true (default), then the object is copied.  Otherwise, a copy will
+only be made if __array__ returns a copy, if obj is a nested sequence,
+or if a copy is needed to satisfy any of the other requirements
+(<cite>dtype</cite>, <cite>order</cite>, etc.).</p>
+</dd>
+<dt>order : {‘K’, ‘A’, ‘C’, ‘F’}, optional</dt><dd><p>Specify the memory layout of the array. If object is not an array, the
+newly created array will be in C order (row major) unless ‘F’ is
+specified, in which case it will be in Fortran order (column major).
+If object is an array the following holds.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 14%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>order</p></th>
+<th class="head"><p>no copy</p></th>
+<th class="head"><p>copy=True</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>‘K’</p></td>
+<td><p>unchanged</p></td>
+<td><p>F &amp; C order preserved, otherwise most similar order</p></td>
+</tr>
+<tr class="row-odd"><td><p>‘A’</p></td>
+<td><p>unchanged</p></td>
+<td><p>F order if input is F and not C, otherwise C order</p></td>
+</tr>
+<tr class="row-even"><td><p>‘C’</p></td>
+<td><p>C order</p></td>
+<td><p>C order</p></td>
+</tr>
+<tr class="row-odd"><td><p>‘F’</p></td>
+<td><p>F order</p></td>
+<td><p>F order</p></td>
+</tr>
+</tbody>
+</table>
+<p>When <code class="docutils literal notranslate"><span class="pre">copy=False</span></code> and a copy is made for other reasons, the result is
+the same as if <code class="docutils literal notranslate"><span class="pre">copy=True</span></code>, with some exceptions for ‘A’, see the
+Notes section. The default order is ‘K’.</p>
+</dd>
+<dt>subok : bool, optional</dt><dd><p>If True, then sub-classes will be passed-through, otherwise
+the returned array will be forced to be a base-class array (default).</p>
+</dd>
+<dt>ndmin : int, optional</dt><dd><p>Specifies the minimum number of dimensions that the resulting
+array should have.  Ones will be pre-pended to the shape as
+needed to meet this requirement.</p>
+</dd>
+<dt>like : array_like</dt><dd><p>Reference object to allow the creation of arrays which are not
+NumPy arrays. If an array-like passed in as <code class="docutils literal notranslate"><span class="pre">like</span></code> supports
+the <code class="docutils literal notranslate"><span class="pre">__array_function__</span></code> protocol, the result will be defined
+by it. In this case, it ensures the creation of an array object
+compatible with that passed in via this argument.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.20.0.</span></p>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><dl class="simple">
+<dt>out : ndarray</dt><dd><p>An array object satisfying the specified requirements.</p>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="see-also">
+<h3>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>empty_like : Return an empty array with shape and type of input.
+ones_like : Return an array of ones with shape and type of input.
+zeros_like : Return an array of zeros with shape and type of input.
+full_like : Return a new array with shape of input filled with value.
+empty : Return a new uninitialized array.
+ones : Return a new array setting values to one.
+zeros : Return a new array setting values to zero.
+full : Return a new array of given shape filled with value.</p>
+</div></blockquote>
+</div>
+<div class="section" id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>When order is ‘A’ and <cite>object</cite> is an array in neither ‘C’ nor ‘F’ order,
+and a copy is forced by a change in dtype, then the order of the result is
+not necessarily ‘C’ as expected. This is likely a bug.</p>
+</div></blockquote>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">array([1, 2, 3])</span>
+</pre></div>
+</div>
+<p>Upcasting:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="go">array([ 1.,  2.,  3.])</span>
+</pre></div>
+</div>
+<p>More than one dimension:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="go">array([[1, 2],</span>
+<span class="go">       [3, 4]])</span>
+</pre></div>
+</div>
+<p>Minimum dimensions 2:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">ndmin</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">array([[1, 2, 3]])</span>
+</pre></div>
+</div>
+<p>Type provided:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+<span class="go">array([ 1.+0.j,  2.+0.j,  3.+0.j])</span>
+</pre></div>
+</div>
+<p>Data-type consisting of more than one element:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)],</span><span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">),(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;&lt;i4&#39;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="go">array([1, 3])</span>
+</pre></div>
+</div>
+<p>Creating an array from sub-classes:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s1">&#39;1 2; 3 4&#39;</span><span class="p">))</span>
+<span class="go">array([[1, 2],</span>
+<span class="go">       [3, 4]])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">(</span><span class="s1">&#39;1 2; 3 4&#39;</span><span class="p">),</span> <span class="n">subok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">matrix([[1, 2],</span>
+<span class="go">        [3, 4]])</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="funcs.array_equal.auto.html" class="btn btn-neutral float-right" title="array_equal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="funcs.any.auto.html" class="btn btn-neutral float-left" title="any" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/binary
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../main/api_doc/numpy/funcs.array.auto.html">main</a></dd>
+                        <dd><a href="../../../../dev-unet-demo/api_doc/numpy/funcs.array.auto.html">dev-unet-demo</a></dd>
+                        <dd><a href="funcs.array.auto.html">dev/binary</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
