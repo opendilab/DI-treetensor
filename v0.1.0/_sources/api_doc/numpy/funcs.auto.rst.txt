@@ -1,0 +1,15 @@
+Common Functions
+=====================
+
+.. currentmodule:: treetensor.numpy
+
+    
+.. toctree:: 
+    :maxdepth: 1
+
+    funcs.all.auto
+    funcs.any.auto
+    funcs.array.auto
+    funcs.array_equal.auto
+    funcs.equal.auto
+    

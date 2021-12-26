@@ -1,0 +1,48 @@
+log
+========
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. automethod:: log
+    
+    
+    
+.. admonition:: Torch Version Related
+    :class: tip
+
+    This documentation is based on
+    `torch.Tensor.log <https://pytorch.org/docs/1.9.0+cu102/tensors.html#torch.Tensor.log>`_
+    in `torch v1.9.0+cu102 <https://pytorch.org/docs/1.9.0+cu102/>`_.
+    **Its arguments' arrangements depend on the version of pytorch you installed**.
+    
+    If some arguments listed here are not working properly, please check your pytorch's version 
+    with the following command and find its documentation.
+    
+    .. code-block:: shell
+        :linenos:
+    
+        python -c 'import torch;print(torch.__version__)'
+    
+    
+    
+    The arguments and keyword arguments supported in torch v1.9.0+cu102 is listed below.
+    
+    
+
+Description From Torch v1.9.0+cu102
+----------------------------------------
+
+.. currentmodule:: torch
+
+    
+.. autoclass:: torch.Tensor
+    :members: log
+
+    
+
