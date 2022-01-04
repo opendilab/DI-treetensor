@@ -14,6 +14,7 @@ module.
 
     tutorials/installation/index
     tutorials/quick_start/index
+    tutorials/plugins/index
 
 .. toctree::
     :maxdepth: 2

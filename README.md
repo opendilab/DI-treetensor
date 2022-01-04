@@ -159,6 +159,25 @@ For more quick start explanation and further usage, take a look at:
 
 * [Quick Start](https://opendilab.github.io/DI-treetensor/main/tutorials/quick_start/index.html)
 
+## Extension
+
+If you need to translate `treevalue` object to runnable source code, you may use the [potc-treevalue](https://github.com/potc-dev/potc-treevalue) plugin with the installation command below
+
+```
+pip install DI-treetensor[potc]
+```
+
+In potc, you can translate the objects to runnable python source code, which can be loaded to objects afterwards by the python interpreter, like the following graph
+
+![potc_system](docs/source/_static/potc-doing.svg)
+
+For more information, you can refer to
+
+- [potc-dev/potc](https://github.com/potc-dev/potc)
+- [potc-dev/potc-treevalue](https://github.com/potc-dev/potc-treevalue)
+- [potc-dev/potc-torch](https://github.com/potc-dev/potc-torch)
+- [Potc Plugin Installation](https://opendilab.github.io/DI-treetensor/main/tutorials/plugins/index.html#potc-support)
+
 ## Contribution
 
 We appreciate all contributions to improve DI-treetensor, both logic and system designs. Please refer to CONTRIBUTING.md for more guides.
