@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Stack Structured Data" href="../../best_practice/stack/index.html" />
+    <link rel="next" title="Plugins" href="../plugins/index.html" />
     <link rel="prev" title="Installation" href="../installation/index.html" /> 
 </head>
 
@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#create-a-tree-based-tensor">Create a Tree-based Tensor</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../plugins/index.html">Plugins</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Best Practice</span></p>
 <ul>
@@ -257,23 +258,23 @@
 tensor([[1, 2, 3],
         [4, 5, 6]])
 new tree tensor:
-&lt;Tensor 0x7f1234800f90&gt;
+&lt;Tensor 0x7fbabe185090&gt;
 ├── a --&gt; tensor([1, 2, 3])
-└── b --&gt; &lt;Tensor 0x7f1234800ed0&gt;
+└── b --&gt; &lt;Tensor 0x7fbabe1852d0&gt;
     └── x --&gt; tensor([[4, 5],
                       [6, 7]])
 
 new random native tensor:
-tensor([[ 0.2997, -0.5981, -0.4159],
-        [ 0.1973, -0.4263,  1.3463]])
+tensor([[ 1.4196,  1.0879,  0.6822],
+        [-0.0156, -0.2144, -0.1448]])
 new random tree tensor:
-&lt;Tensor 0x7f122ae14590&gt;
-├── a --&gt; tensor([[ 0.5350,  0.7428,  0.8528],
-│                 [-1.0012,  1.1982,  1.4947]])
-└── b --&gt; &lt;Tensor 0x7f122ae14b10&gt;
-    └── x --&gt; tensor([[-0.7613, -3.1859,  0.4313, -1.3569],
-                      [-2.0784,  0.6608,  1.2426,  0.7908],
-                      [-0.3021,  0.9310, -0.0263,  0.9237]])
+&lt;Tensor 0x7fbab456dad0&gt;
+├── a --&gt; tensor([[-0.2822, -1.1314,  0.4505],
+│                 [ 2.7657, -0.3274,  0.0778]])
+└── b --&gt; &lt;Tensor 0x7fbab456d9d0&gt;
+    └── x --&gt; tensor([[-0.2991,  2.7293, -0.4692, -0.2057],
+                      [ 1.2547, -0.7198, -0.1888, -0.2288],
+                      [-0.0347,  0.4245,  0.3330, -0.7245]])
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -288,7 +289,7 @@ new random tree tensor:
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../../best_practice/stack/index.html" class="btn btn-neutral float-right" title="Stack Structured Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../plugins/index.html" class="btn btn-neutral float-right" title="Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../installation/index.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -300,7 +301,7 @@ new random tree tensor:
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>
@@ -328,9 +329,9 @@ new random tree tensor:
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="index.html">main</a></dd>
                         <dd><a href="../../../dev-unet-demo/tutorials/quick_start/index.html">dev-unet-demo</a></dd>
                         <dd><a href="../../../dev/binary/tutorials/quick_start/index.html">dev/binary</a></dd>
-                        <dd><a href="index.html">main</a></dd>
                 </dl>
         </div>
     </div>
