@@ -30,7 +30,7 @@ def module_func_loader(base, cls: Type[TreeValue], cls_mapper=None):
         @doc_from_base()
         @return_self_dec
         @post_process(auto_tree_cls)
-        @func_treelize(return_type=TreeValue, rise=True)
+        @func_treelize(return_type=TreeValue, subside=True, rise=True)
         @wraps(func, assigned=('__name__',), updated=())
         def _new_func(*args, **kwargs):
             return func(*args, **kwargs)
