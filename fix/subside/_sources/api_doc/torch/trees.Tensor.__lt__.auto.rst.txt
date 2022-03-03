@@ -1,0 +1,16 @@
+\_\_lt\_\_
+===============
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. automethod:: __lt__
+    
+    
+    
+

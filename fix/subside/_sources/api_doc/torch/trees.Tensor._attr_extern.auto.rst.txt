@@ -1,0 +1,22 @@
+\_attr\_extern [No Doc]
+============================
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. automethod:: _attr_extern
+    
+    
+    
+.. admonition:: No Documentation
+    :class: error
+
+    No ``__doc__`` is provided yet, need to be completed.
+    
+    
+
