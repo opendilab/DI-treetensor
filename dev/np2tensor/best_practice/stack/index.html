@@ -1,0 +1,1004 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Stack Structured Data &mdash; DI-treetensor 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Customized Operations For Different Fields" href="../operation/index.html" />
+    <link rel="prev" title="Plugins" href="../../tutorials/plugins/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/plugins/index.html">Plugins</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Stack Structured Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#stack-with-native-pytorch-api">Stack With Native PyTorch API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stack-with-treetensor-api">Stack With TreeTensor API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Stack Structured Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/best_practice/stack/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="stack-structured-data">
+<h1>Stack Structured Data<a class="headerlink" href="#stack-structured-data" title="Permalink to this headline">¶</a></h1>
+<p>When the tensors form the tree structures, they are often needed to be stacked together, like the <a class="reference internal" href="../../api_doc/torch/funcs.stack.auto.html#torch.stack" title="torch.stack"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.stack()</span></code></a> implemented in torch.</p>
+<div class="section" id="stack-with-native-pytorch-api">
+<h2>Stack With Native PyTorch API<a class="headerlink" href="#stack-with-native-pytorch-api" title="Permalink to this headline">¶</a></h2>
+<p>Here is the common code implement with native pytorch API.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="mi">4</span>
+
+
+<span class="k">def</span> <span class="nf">get_item</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;obs&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;scalar&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span>
+            <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)),</span>
+        <span class="s1">&#39;reward&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;done&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_item</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">)]</span>
+
+
+<span class="c1"># execute `stack` op</span>
+<span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+    <span class="n">elem</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">stack</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">dim</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">BoolTensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;not support elem type: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">elem</span><span class="p">)))</span>
+
+
+<span class="n">stacked_data</span> <span class="o">=</span> <span class="n">stack</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># validate</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stacked_data</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="p">[</span><span class="s1">&#39;obs&#39;</span><span class="p">][</span><span class="s1">&#39;image&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="p">[</span><span class="s1">&#39;action&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="p">[</span><span class="s1">&#39;reward&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">bool</span>
+</pre></div>
+</td></tr></table></div>
+<p>The output should be like below, and the assertion statements can be all passed.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>{&#39;obs&#39;: {&#39;scalar&#39;: tensor([[ 0.5204,  0.0222,  0.6966, -0.6402,  0.7258,  2.6010, -0.1948, -0.1448,
+         -0.2551, -2.1484,  0.2066,  0.7155],
+        [ 0.7727,  0.2898,  1.0134, -0.0031,  1.7537, -0.7390, -0.2662,  0.1137,
+         -1.0875,  1.6917, -0.1894, -1.6357],
+        [-0.4218,  1.5151, -0.3971,  0.0780,  1.4293,  0.3382, -0.2491, -1.9567,
+          0.5268, -1.6476,  0.6446, -0.9215],
+        [ 0.3790,  0.2271, -1.2729,  1.4500,  0.5019,  0.4492, -1.0563,  2.0651,
+          1.5949, -0.3090,  1.4459, -0.4968]]), &#39;image&#39;: tensor([[[[ 1.0315,  1.1903, -2.0697,  ..., -0.6004, -0.4964,  0.9579],
+          [-0.6415,  0.0565,  1.9523,  ..., -1.6742,  0.4832,  0.1044],
+          [ 0.6604, -0.4637, -1.5692,  ...,  0.1843, -1.5763,  0.1369],
+          ...,
+          [-2.0361, -0.6277,  0.3779,  ..., -0.3762,  0.1224,  0.2440],
+          [ 0.3379, -0.4299,  0.0185,  ...,  0.4292,  0.1692, -0.4411],
+          [-0.4611, -0.9497, -1.3229,  ...,  2.7135,  0.2797,  0.4487]],
+
+         [[ 1.7029,  1.1049,  0.3091,  ...,  1.7906, -0.9176,  0.1126],
+          [-1.9896, -2.0186, -0.4073,  ...,  0.8532, -0.1564,  1.4141],
+          [-0.1013, -0.8332,  1.6639,  ..., -1.0405, -0.9677, -0.1751],
+          ...,
+          [ 1.0959,  1.9199,  0.1970,  ..., -0.8177, -1.6319, -0.3549],
+          [ 0.0270, -0.5540,  0.3326,  ...,  0.0357,  0.1136, -0.3515],
+          [ 0.6609,  0.0344,  0.6171,  ..., -1.0097,  1.1285,  0.6675]],
+
+         [[ 0.1485,  0.3640,  1.5239,  ..., -0.3464,  0.7131, -1.0103],
+          [ 0.1214, -0.3322,  1.4021,  ...,  2.2482,  0.3572,  2.5465],
+          [ 0.4443,  0.0332,  0.3727,  ...,  2.0388, -1.6631, -0.2386],
+          ...,
+          [ 0.1210,  1.9076,  1.2999,  ...,  1.7448,  1.3503, -0.8708],
+          [-1.3976, -0.5576,  1.7953,  ...,  0.0250, -0.1646, -0.0671],
+          [-0.7894,  0.6310,  0.4452,  ...,  0.2123, -0.2430,  1.3597]]],
+
+
+        [[[-0.3630, -0.3231, -0.0240,  ..., -1.1475, -1.8075,  1.2916],
+          [ 0.8177,  1.6435, -0.4184,  ...,  1.6419,  0.4990,  0.6609],
+          [ 1.3211, -0.7277, -0.0106,  ...,  0.2923, -0.0282, -0.3155],
+          ...,
+          [-0.1314,  0.8904,  0.3402,  ...,  0.0210,  3.3228,  0.0408],
+          [ 0.4610, -1.0236,  0.5152,  ..., -0.3339, -1.0152, -1.3951],
+          [ 0.2760,  1.0901, -0.8894,  ...,  0.6878,  1.0479,  1.4028]],
+
+         [[-1.6260, -0.2222, -0.2865,  ..., -0.2927, -0.1242,  0.2072],
+          [-0.8677,  0.5572, -0.2319,  ..., -0.6763, -0.5954, -0.1871],
+          [ 1.2279,  1.2084,  0.3291,  ..., -0.4833, -0.2586,  0.0256],
+          ...,
+          [ 1.2199,  0.6740,  0.0557,  ...,  0.8793, -0.7188, -1.4148],
+          [-2.7067,  0.0670,  1.3547,  ..., -1.1244, -0.2128, -2.6232],
+          [ 0.1137,  0.8907,  1.0651,  ...,  2.0503,  0.5396,  0.5597]],
+
+         [[-0.0611,  0.8010, -0.9784,  ...,  0.7540,  1.6691,  1.5425],
+          [ 1.4156, -1.0232, -0.6651,  ...,  1.4998,  0.6262, -0.2002],
+          [ 1.6414,  0.1482, -0.8483,  ..., -1.4026,  2.5348, -1.0752],
+          ...,
+          [ 0.5464, -0.2042, -0.7903,  ..., -1.2218, -0.1536,  0.4509],
+          [ 0.5547,  1.1077,  0.5732,  ..., -0.1301,  0.1710,  0.4374],
+          [-1.6691, -0.6275, -0.9873,  ...,  0.0349, -0.2954, -2.7410]]],
+
+
+        [[[-1.0482,  0.4254, -0.2990,  ...,  1.3829, -0.8624, -0.5023],
+          [ 1.7085,  0.4919, -0.3633,  ..., -0.1158, -1.0121,  0.8485],
+          [-1.0405, -1.2559,  0.2729,  ...,  0.4242, -0.4204, -0.1446],
+          ...,
+          [ 0.1489,  2.7245,  0.3236,  ...,  1.1205,  0.8327, -1.3841],
+          [ 0.1249, -1.1004, -0.8889,  ..., -0.5347, -1.0362, -0.3271],
+          [ 0.5581, -0.4065,  0.7248,  ..., -1.0054, -0.8324,  0.4716]],
+
+         [[-0.5922,  0.0267,  2.0725,  ...,  1.0274,  1.7134,  0.6394],
+          [-0.0313,  1.0313, -1.4627,  ..., -0.4853,  0.7899, -1.0395],
+          [-1.0127,  0.3144, -0.3649,  ..., -0.8691,  0.2460, -0.2100],
+          ...,
+          [-0.6488,  1.0650, -1.3508,  ..., -0.2047, -0.2932, -1.2770],
+          [ 0.6924, -1.1922, -2.7154,  ...,  0.6116, -1.0891, -1.2609],
+          [-0.1955, -0.3365,  0.7326,  ..., -2.9904,  3.5151, -0.4469]],
+
+         [[-0.4664,  0.7069, -0.7983,  ...,  0.6737, -1.0627,  2.7490],
+          [ 0.8091,  0.7651, -0.3473,  ...,  2.8170, -0.1441,  1.0932],
+          [-0.7953, -0.2814,  2.2488,  ...,  0.7878, -0.5645,  0.2732],
+          ...,
+          [-0.5257, -0.7626,  0.0579,  ...,  1.8995,  0.7091,  0.1221],
+          [-1.0952, -0.3769,  0.7103,  ..., -0.2492,  0.4850, -0.6873],
+          [ 0.3509, -0.3018,  1.9250,  ...,  0.9517,  0.8003,  1.7805]]],
+
+
+        [[[-1.2476,  0.3069, -0.5452,  ..., -0.5554, -0.7897, -0.8220],
+          [-0.0134, -1.0488,  0.1091,  ...,  0.1473, -0.8542, -0.7063],
+          [-0.1131, -1.2242,  0.2841,  ..., -0.2862, -0.1667, -1.0644],
+          ...,
+          [-2.1717,  1.0518,  0.8249,  ...,  0.0415, -0.5626,  1.5678],
+          [ 0.4814,  0.7143, -1.3497,  ..., -1.4009, -0.1895, -1.4887],
+          [-0.3653, -0.9769,  0.7378,  ..., -0.7759, -0.7884,  0.3974]],
+
+         [[-0.6246, -0.1573,  0.6611,  ..., -0.8358, -0.8405, -0.0160],
+          [ 1.3575,  0.4052, -0.7546,  ..., -0.2326,  0.0866,  1.3193],
+          [ 0.7078,  1.2473, -0.5544,  ..., -0.9524, -2.3010,  0.2808],
+          ...,
+          [-0.3881, -0.2392, -1.1405,  ...,  0.5241, -1.3754, -0.6013],
+          [ 0.1571,  0.2564, -0.5538,  ..., -0.4026,  0.1329,  0.0087],
+          [ 1.2082, -0.8459, -0.6159,  ...,  0.5649, -0.0095, -0.8624]],
+
+         [[-0.0952,  1.3153, -0.9512,  ..., -0.7926,  0.6373, -0.5325],
+          [-1.2342,  0.0983,  0.6880,  ...,  0.7567, -0.2821, -1.9699],
+          [-1.3122,  1.4082, -0.7308,  ..., -0.6665,  0.0776,  0.2240],
+          ...,
+          [ 0.0711,  1.1878, -2.5999,  ..., -0.7636,  1.6656, -1.9029],
+          [-0.7676,  1.6871,  0.0771,  ..., -1.1208, -0.2587, -0.9550],
+          [ 0.1272, -0.2852,  1.2004,  ..., -0.6222, -1.1097, -1.6254]]]])}, &#39;action&#39;: tensor([[3],
+        [4],
+        [3],
+        [4]]), &#39;reward&#39;: tensor([[0.6553],
+        [0.8092],
+        [0.5894],
+        [0.5711]]), &#39;done&#39;: tensor([False, False, False, False])}
+</pre></div>
+</td></tr></table></div>
+<p>We can see that the structure process function need to be fully implemented (like the function <code class="docutils literal notranslate"><span class="pre">stack</span></code>). This code is actually not clear, and due to hard coding, if you need to support more data types (such as integer), you must make special modifications to the function.</p>
+</div>
+<div class="section" id="stack-with-treetensor-api">
+<h2>Stack With TreeTensor API<a class="headerlink" href="#stack-with-treetensor-api" title="Permalink to this headline">¶</a></h2>
+<p>The same workflow can be implemented with treetensor API like the code below.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">import</span> <span class="nn">treetensor.torch</span> <span class="k">as</span> <span class="nn">ttorch</span>
+
+<span class="n">B</span> <span class="o">=</span> <span class="mi">4</span>
+
+
+<span class="k">def</span> <span class="nf">get_item</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;obs&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;scalar&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span>
+            <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)),</span>
+        <span class="s1">&#39;reward&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s1">&#39;done&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">}</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_item</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">)]</span>
+<span class="c1"># execute `stack` op</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">ttorch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+<span class="n">stacked_data</span> <span class="o">=</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># validate</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stacked_data</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">reward</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">B</span><span class="p">,)</span>
+<span class="k">assert</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">bool</span>
+</pre></div>
+</td></tr></table></div>
+<p>The output should be like below, and the assertion statements can be all passed as well.</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>&lt;Tensor 0x7fec936becd0&gt;
+├── action --&gt; tensor([[3],
+│                      [0],
+│                      [5],
+│                      [6]])
+├── done --&gt; tensor([False, False, False, False])
+├── obs --&gt; &lt;Tensor 0x7fec93794150&gt;
+│   ├── image --&gt; tensor([[[[-1.5079e+00, -1.8114e+00, -5.9874e-01,  ...,  2.2758e+00,
+│   │                        -7.4647e-02, -6.2110e-01],
+│   │                       [ 3.1400e-01,  6.2511e-01, -6.6464e-01,  ..., -2.3923e-01,
+│   │                         8.2456e-01,  1.1116e+00],
+│   │                       [-6.7998e-01,  3.5705e-01,  6.5289e-01,  ..., -2.1665e+00,
+│   │                        -1.3898e-01,  5.2372e-01],
+│   │                       ...,
+│   │                       [-1.0834e-01,  1.8554e-01, -1.4378e+00,  ...,  1.6362e-01,
+│   │                         1.4691e+00,  8.9076e-01],
+│   │                       [-1.0532e+00, -3.1359e-01,  5.8653e-01,  ...,  1.5397e+00,
+│   │                        -5.1099e-01,  1.7874e+00],
+│   │                       [-1.4996e+00,  1.3151e+00, -4.9157e-01,  ...,  3.4304e-01,
+│   │                        -5.9632e-01,  1.5318e+00]],
+│   │             
+│   │                      [[ 1.4047e+00,  1.3652e+00,  2.8482e-01,  ...,  4.4007e-01,
+│   │                        -4.6699e-01,  3.2519e-01],
+│   │                       [ 2.8195e-01, -1.1734e-01, -4.2919e-01,  ...,  2.3920e-01,
+│   │                        -2.2719e+00, -8.0287e-01],
+│   │                       [ 1.4036e+00,  1.3396e-01, -1.6822e+00,  ...,  6.3973e-01,
+│   │                        -1.3945e+00, -5.0210e-01],
+│   │                       ...,
+│   │                       [-1.3415e+00,  9.0472e-01,  2.3032e-01,  ...,  6.4340e-01,
+│   │                         1.7481e+00,  6.6190e-01],
+│   │                       [ 1.3637e+00, -9.0504e-01,  1.2147e+00,  ...,  2.4754e-01,
+│   │                         1.5339e+00,  3.7554e-01],
+│   │                       [-3.4308e-01, -1.2649e+00,  6.5065e-02,  ..., -8.8964e-02,
+│   │                        -5.9422e-01, -4.6478e-01]],
+│   │             
+│   │                      [[ 1.4704e+00, -1.1988e+00, -7.3784e-01,  ..., -1.6245e+00,
+│   │                         5.7629e-02, -1.1082e+00],
+│   │                       [ 1.1375e+00, -3.7609e-01, -1.9109e+00,  ...,  9.5882e-01,
+│   │                         8.0420e-01, -1.1157e+00],
+│   │                       [ 1.3606e+00,  2.6165e-01, -6.1072e-01,  ...,  1.8631e+00,
+│   │                        -1.4792e+00, -1.9404e+00],
+│   │                       ...,
+│   │                       [ 9.5781e-01, -1.0273e+00,  3.0872e-01,  ...,  1.4341e+00,
+│   │                        -7.7365e-01,  8.9390e-01],
+│   │                       [-9.9231e-01,  8.0517e-01, -4.3552e-01,  ..., -5.1681e-01,
+│   │                         1.1858e+00,  3.6605e-01],
+│   │                       [ 1.6832e+00, -1.2495e-02, -6.3177e-01,  ...,  2.5447e+00,
+│   │                        -4.7622e-01,  2.3114e+00]]],
+│   │             
+│   │             
+│   │                     [[[ 7.0420e-01,  8.6226e-01, -1.1994e+00,  ...,  2.6606e-01,
+│   │                        -2.1284e+00, -4.0159e-01],
+│   │                       [ 6.5825e-01, -7.6859e-03,  7.1835e-01,  ..., -4.7635e-03,
+│   │                         1.8449e-01,  1.0929e-01],
+│   │                       [-1.3149e+00, -3.6055e-01, -8.6759e-01,  ..., -2.3719e-01,
+│   │                         1.3036e+00, -7.9865e-01],
+│   │                       ...,
+│   │                       [-1.0778e+00,  6.3114e-01, -2.0661e-01,  ..., -4.8112e-01,
+│   │                        -3.2559e-01,  5.7822e-01],
+│   │                       [-1.6681e-01, -4.1932e-01,  3.2470e-01,  ...,  9.6352e-01,
+│   │                         2.8855e-01,  9.0387e-01],
+│   │                       [ 2.0878e+00, -2.3488e+00, -9.6717e-01,  ..., -5.9714e-01,
+│   │                         7.6764e-01, -4.0211e-01]],
+│   │             
+│   │                      [[-9.6763e-01,  3.0793e-01, -5.0853e-02,  ..., -1.9832e-01,
+│   │                        -1.4784e+00,  8.0202e-01],
+│   │                       [ 5.6980e-01, -1.3752e+00,  1.9380e+00,  ..., -1.4646e+00,
+│   │                        -1.9160e+00, -1.3178e+00],
+│   │                       [ 3.5696e+00, -1.9609e+00,  1.0612e+00,  ...,  1.6419e+00,
+│   │                         1.5453e+00, -6.0187e-02],
+│   │                       ...,
+│   │                       [-1.2072e+00, -4.0917e-01,  1.0403e+00,  ...,  2.6161e-01,
+│   │                         1.0108e+00,  2.3611e-02],
+│   │                       [-8.1334e-02, -2.2041e+00,  6.6292e-01,  ..., -1.6856e+00,
+│   │                         4.5145e-01, -2.1094e+00],
+│   │                       [-8.9092e-01,  9.5431e-01, -3.4888e-01,  ..., -1.6229e-01,
+│   │                         5.4099e-01,  6.8087e-01]],
+│   │             
+│   │                      [[-7.3561e-01, -1.3145e+00,  1.7377e-01,  ..., -2.9382e-01,
+│   │                        -1.1933e+00, -1.9080e-01],
+│   │                       [-2.5802e-01,  7.2097e-01,  9.6741e-01,  ...,  1.1820e+00,
+│   │                         1.0053e-01, -1.5810e-01],
+│   │                       [ 1.4377e+00, -2.3903e+00,  4.1872e-01,  ...,  1.0808e+00,
+│   │                         1.3000e-01,  6.3204e-01],
+│   │                       ...,
+│   │                       [ 6.8900e-01,  1.5129e-01, -7.5699e-02,  ..., -3.6637e-01,
+│   │                         9.1092e-01,  4.7781e-01],
+│   │                       [ 6.2826e-01, -4.2502e-01, -2.6740e+00,  ...,  5.5555e-01,
+│   │                        -1.8824e-01,  1.6222e+00],
+│   │                       [-1.1272e+00, -1.5302e-01, -1.8705e-01,  ..., -3.3439e-01,
+│   │                        -1.2802e+00,  3.6240e-01]]],
+│   │             
+│   │             
+│   │                     [[[ 1.5218e-01,  9.1115e-01,  5.9090e-01,  ..., -9.5615e-01,
+│   │                         2.7371e+00,  1.3081e+00],
+│   │                       [-9.1056e-01, -2.3295e+00, -1.2089e+00,  ...,  2.0466e-01,
+│   │                         1.0252e+00, -5.2227e-01],
+│   │                       [ 2.2901e+00, -2.7739e-01, -1.3618e+00,  ..., -2.2056e+00,
+│   │                         5.8461e-01,  2.9839e-01],
+│   │                       ...,
+│   │                       [ 2.2960e-01, -2.2732e-01, -1.7488e+00,  ...,  2.1903e+00,
+│   │                        -2.6922e-01,  1.7254e+00],
+│   │                       [-6.0335e-01, -2.9938e-01, -1.9943e+00,  ...,  1.6299e+00,
+│   │                        -1.6953e-01, -1.1592e+00],
+│   │                       [-1.8246e-01, -4.5705e-01,  2.7990e-01,  ..., -9.8443e-02,
+│   │                        -8.0113e-01,  1.0641e+00]],
+│   │             
+│   │                      [[ 1.4704e-01, -2.4775e-01,  9.8686e-02,  ...,  1.8738e-02,
+│   │                         6.3698e-01,  5.1547e-01],
+│   │                       [-1.0733e+00, -4.5439e-01,  9.4458e-01,  ...,  1.0079e+00,
+│   │                        -9.0094e-01,  4.5334e-01],
+│   │                       [ 6.9852e-01, -1.3639e-01,  5.1492e-01,  ..., -1.5941e-01,
+│   │                        -1.7877e+00,  2.0958e+00],
+│   │                       ...,
+│   │                       [ 6.0152e-01, -6.2460e-01,  2.5367e+00,  ...,  6.7987e-01,
+│   │                         2.8365e-01, -4.2721e-01],
+│   │                       [-1.5076e+00,  8.4362e-01, -1.2718e+00,  ..., -5.9362e-01,
+│   │                         5.0458e-01,  3.8225e-02],
+│   │                       [-1.4750e+00,  6.0985e-03, -4.1410e-01,  ..., -6.2393e-01,
+│   │                         1.2322e+00,  6.1180e-01]],
+│   │             
+│   │                      [[ 2.1332e-01, -9.5283e-02,  5.0451e-01,  ..., -1.5493e+00,
+│   │                         5.4285e-01,  1.0073e-01],
+│   │                       [-3.8988e-01,  2.6004e-01, -7.1280e-01,  ..., -1.7122e-01,
+│   │                        -1.2745e+00, -1.1196e-01],
+│   │                       [-1.2307e+00, -5.4699e-01,  1.5174e+00,  ...,  4.1547e-01,
+│   │                         7.2456e-01, -1.2544e+00],
+│   │                       ...,
+│   │                       [-3.9722e-02, -9.7606e-01,  1.6179e+00,  ...,  1.7114e+00,
+│   │                         1.2241e+00, -4.9703e-01],
+│   │                       [-3.6036e-01,  4.5743e-01, -2.4551e+00,  ..., -4.6340e-01,
+│   │                         6.6520e-04, -6.9130e-02],
+│   │                       [ 9.7510e-01,  1.2679e+00,  7.0218e-01,  ..., -5.5146e-02,
+│   │                         1.1712e+00, -3.3330e-01]]],
+│   │             
+│   │             
+│   │                     [[[ 7.4425e-01,  7.6701e-01,  2.8084e+00,  ...,  3.5875e-01,
+│   │                         9.6300e-01,  9.7875e-01],
+│   │                       [-4.5228e-01, -4.3967e-01,  9.7993e-01,  ..., -1.1705e-01,
+│   │                         6.4014e-01, -1.2219e+00],
+│   │                       [ 3.1684e-01, -5.5895e-02, -1.6249e+00,  ...,  3.6955e-01,
+│   │                        -3.4807e-01, -2.1368e+00],
+│   │                       ...,
+│   │                       [-5.2082e-02, -5.4584e-01,  9.5581e-01,  ..., -7.3032e-01,
+│   │                         1.2793e+00,  7.5224e-01],
+│   │                       [-4.6906e-01, -5.5883e-02,  1.1931e-01,  ...,  9.4041e-01,
+│   │                        -1.5223e-01,  3.4496e-01],
+│   │                       [ 1.2828e+00,  7.8311e-01,  1.1409e-01,  ..., -3.3432e-01,
+│   │                         9.6318e-01, -6.3896e-01]],
+│   │             
+│   │                      [[-1.5148e+00,  1.3255e+00, -1.4369e-01,  ...,  3.1400e-01,
+│   │                        -1.1399e+00, -1.6005e+00],
+│   │                       [ 1.8023e+00,  5.1236e-01, -7.3106e-01,  ..., -6.9915e-01,
+│   │                        -5.0221e-01, -4.5528e-01],
+│   │                       [-4.3800e-01, -1.8099e+00,  1.3773e+00,  ..., -6.0698e-01,
+│   │                         5.8568e-01, -1.1750e+00],
+│   │                       ...,
+│   │                       [ 5.3832e-01,  7.2668e-02, -1.1570e+00,  ...,  7.8161e-01,
+│   │                        -1.0339e+00, -9.8844e-01],
+│   │                       [ 2.0904e+00, -1.8020e-01,  1.1219e+00,  ...,  1.0857e+00,
+│   │                         2.0120e-01,  3.8076e-01],
+│   │                       [ 3.9418e-01,  1.0641e+00,  8.6726e-01,  ..., -2.5517e-01,
+│   │                         1.7953e+00,  1.5082e+00]],
+│   │             
+│   │                      [[ 1.2180e+00, -1.1349e-01, -1.5634e+00,  ..., -1.0512e-01,
+│   │                         4.2146e-01, -6.5292e-01],
+│   │                       [ 1.3350e+00, -4.7894e-01, -1.1551e+00,  ..., -2.4741e-01,
+│   │                         1.8280e+00, -5.0773e-01],
+│   │                       [-1.2838e+00, -8.0840e-01,  1.5911e+00,  ..., -4.1119e-01,
+│   │                        -4.2360e-01, -2.0638e-01],
+│   │                       ...,
+│   │                       [ 1.9255e+00,  1.7511e+00, -1.4169e+00,  ...,  1.8348e-01,
+│   │                        -4.2362e-01,  6.1971e-01],
+│   │                       [-2.0857e-01, -5.1932e-01,  1.1366e-01,  ..., -1.2352e-01,
+│   │                         1.2759e-01,  7.7917e-01],
+│   │                       [ 9.7113e-01, -1.7331e+00,  6.4137e-01,  ...,  8.1096e-01,
+│   │                         8.5460e-02,  1.1183e+00]]]])
+│   └── scalar --&gt; tensor([[-0.4176, -0.4461,  1.2922, -0.9493, -0.2507, -0.0997, -0.5899,  0.8764,
+│                           -1.7598,  0.0724, -1.1480, -0.1608],
+│                          [ 0.4162, -0.2557,  0.2321,  1.3553, -0.3044, -1.4343,  0.0827, -0.7780,
+│                           -0.5975,  1.5400,  1.3003,  0.1597],
+│                          [ 0.4958, -0.0871, -3.1313,  1.0133,  0.7663,  0.9243, -0.3178, -0.4313,
+│                            0.2938,  0.5030, -0.1880,  0.6136],
+│                          [-0.3114,  0.3048, -0.0665,  0.3908, -0.9142, -0.1222, -0.3067,  0.1191,
+│                           -1.9197, -1.2022, -1.1716,  1.2631]])
+└── reward --&gt; tensor([[0.7311],
+                       [0.5896],
+                       [0.2920],
+                       [0.3651]])
+</pre></div>
+</td></tr></table></div>
+<p>This code looks much simpler and clearer.</p>
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../operation/index.html" class="btn btn-neutral float-right" title="Customized Operations For Different Fields" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../../tutorials/plugins/index.html" class="btn btn-neutral float-left" title="Plugins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/np2tensor
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="index.html">dev/np2tensor</a></dd>
+                        <dd><a href="../../../../main/best_practice/stack/index.html">main</a></dd>
+                        <dd><a href="../../../../release/0.2.1/best_practice/stack/index.html">release/0.2.1</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

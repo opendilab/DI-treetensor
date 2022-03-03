@@ -1,0 +1,407 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>full_like &mdash; DI-treetensor 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ge" href="funcs.ge.auto.html" />
+    <link rel="prev" title="full" href="funcs.full.auto.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/plugins/index.html">Plugins</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">treetensor.torch</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="funcs.auto.html">Common Functions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="funcs.abs.auto.html">abs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.abs_.auto.html">abs_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.add.auto.html">add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.all.auto.html">all</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.any.auto.html">any</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.as_tensor.auto.html">as_tensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.cat.auto.html">cat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ceil.auto.html">ceil</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ceil_.auto.html">ceil_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.chunk.auto.html">chunk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.clamp.auto.html">clamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.clamp_.auto.html">clamp_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.clone.auto.html">clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.detach.auto.html">detach</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.detach_.auto.html">detach_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.dist.auto.html">dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.div.auto.html">div</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.dot.auto.html">dot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.empty.auto.html">empty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.empty_like.auto.html">empty_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.eq.auto.html">eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.equal.auto.html">equal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp.auto.html">exp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp2.auto.html">exp2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp2_.auto.html">exp2_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.exp_.auto.html">exp_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.floor.auto.html">floor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.floor_.auto.html">floor_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.full.auto.html">full</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">full_like</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v1-10-0-cu102">Description From Torch v1.10.0+cu102</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ge.auto.html">ge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.gt.auto.html">gt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.index_select.auto.html">index_select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isclose.auto.html">isclose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isfinite.auto.html">isfinite</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isinf.auto.html">isinf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.isnan.auto.html">isnan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.le.auto.html">le</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log.auto.html">log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log10.auto.html">log10</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log10_.auto.html">log10_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log2.auto.html">log2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log2_.auto.html">log2_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.log_.auto.html">log_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.lt.auto.html">lt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.masked_select.auto.html">masked_select</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.matmul.auto.html">matmul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.max.auto.html">max</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.mean.auto.html">mean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.min.auto.html">min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.mm.auto.html">mm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.mul.auto.html">mul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ne.auto.html">ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.neg.auto.html">neg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.neg_.auto.html">neg_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.norm.auto.html">norm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ones.auto.html">ones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ones_like.auto.html">ones_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.pow.auto.html">pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randint.auto.html">randint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randint_like.auto.html">randint_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randn.auto.html">randn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.randn_like.auto.html">randn_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.reshape.auto.html">reshape</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.round.auto.html">round</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.round_.auto.html">round_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sigmoid.auto.html">sigmoid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sigmoid_.auto.html">sigmoid_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sign.auto.html">sign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.split.auto.html">split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sqrt.auto.html">sqrt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sqrt_.auto.html">sqrt_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.squeeze.auto.html">squeeze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.stack.auto.html">stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.std.auto.html">std</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sub.auto.html">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.sum.auto.html">sum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.tensor.auto.html">tensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.unsqueeze.auto.html">unsqueeze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.where.auto.html">where</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.zeros.auto.html">zeros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.zeros_like.auto.html">zeros_like</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="trees.auto.html">Tree Classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">treetensor.torch</a> &raquo;</li>
+        
+          <li><a href="funcs.auto.html">Common Functions</a> &raquo;</li>
+        
+      <li>full_like</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/torch/funcs.full_like.auto.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="full-like">
+<h1>full_like<a class="headerlink" href="#full-like" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="treetensor.torch.full_like">
+<code class="sig-prename descclassname">treetensor.torch.</code><code class="sig-name descname">full_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/treetensor/torch/funcs/construct.html#full_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#treetensor.torch.full_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>In <code class="docutils literal notranslate"><span class="pre">treetensor</span></code>, you can use <code class="docutils literal notranslate"><span class="pre">ones_like</span></code> to create a tree of tensors with
+all the same value of like another tree.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">treetensor.torch</span> <span class="k">as</span> <span class="nn">ttorch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ttorch</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mf">2.3</span><span class="p">)</span>  <span class="c1"># the same as torch.full_like(torch.randn(2, 3), 2.3)</span>
+<span class="go">tensor([[2.3000, 2.3000, 2.3000],</span>
+<span class="go">        [2.3000, 2.3000, 2.3000]])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ttorch</span><span class="o">.</span><span class="n">full_like</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">)},</span>
+<span class="gp">... </span><span class="p">},</span> <span class="mf">2.3</span><span class="p">)</span>
+<span class="go">&lt;Tensor 0x7ff363bb6cf8&gt;</span>
+<span class="go">├── a --&gt; tensor([[2.3000, 2.3000, 2.3000],</span>
+<span class="go">│                 [2.3000, 2.3000, 2.3000]])</span>
+<span class="go">└── b --&gt; &lt;Tensor 0x7ff363bb69e8&gt;</span>
+<span class="go">    └── x --&gt; tensor([2.3000, 2.3000, 2.3000, 2.3000])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="tip admonition">
+<p class="admonition-title">Torch Version Related</p>
+<p>This documentation is based on
+<a class="reference external" href="https://pytorch.org/docs/1.10.0+cu102/generated/torch.full_like.html">torch.full_like</a>
+in <a class="reference external" href="https://pytorch.org/docs/1.10.0+cu102/">torch v1.10.0+cu102</a>.
+<strong>Its arguments’ arrangements depend on the version of pytorch you installed</strong>.</p>
+<p>If some arguments listed here are not working properly, please check your pytorch’s version
+with the following command and find its documentation.</p>
+<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>python -c <span class="s1">&#39;import torch;print(torch.__version__)&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The arguments and keyword arguments supported in torch v1.10.0+cu102 is listed below.</p>
+</div>
+</div>
+<div class="section" id="description-from-torch-v1-10-0-cu102">
+<h2>Description From Torch v1.10.0+cu102<a class="headerlink" href="#description-from-torch-v1-10-0-cu102" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="torch.full_like">
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">full_like</code><span class="sig-paren">(</span><em class="sig-param">input</em>, <em class="sig-param">fill_value</em>, <em class="sig-param">\*</em>, <em class="sig-param">dtype=None</em>, <em class="sig-param">layout=torch.strided</em>, <em class="sig-param">device=None</em>, <em class="sig-param">requires_grad=False</em>, <em class="sig-param">memory_format=torch.preserve_format</em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.full_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a tensor with the same size as <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> filled with <code class="xref py py-attr docutils literal notranslate"><span class="pre">fill_value</span></code>.
+<code class="docutils literal notranslate"><span class="pre">torch.full_like(input,</span> <span class="pre">fill_value)</span></code> is equivalent to
+<code class="docutils literal notranslate"><span class="pre">torch.full(input.size(),</span> <span class="pre">fill_value,</span> <span class="pre">dtype=input.dtype,</span> <span class="pre">layout=input.layout,</span> <span class="pre">device=input.device)</span></code>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>input (Tensor): the size of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> will determine size of the output tensor.
+fill_value: the number to fill the output tensor with.</p>
+</dd>
+<dt>Keyword args:</dt><dd><dl class="simple">
+<dt>dtype (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.dtype</span></code>, optional): the desired data type of returned Tensor.</dt><dd><p>Default: if <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to the dtype of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.</p>
+</dd>
+<dt>layout (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.layout</span></code>, optional): the desired layout of returned tensor.</dt><dd><p>Default: if <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to the layout of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.</p>
+</dd>
+<dt>device (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.device</span></code>, optional): the desired device of returned tensor.</dt><dd><p>Default: if <code class="docutils literal notranslate"><span class="pre">None</span></code>, defaults to the device of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.</p>
+</dd>
+<dt>requires_grad (bool, optional): If autograd should record operations on the</dt><dd><p>returned tensor. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt>memory_format (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.memory_format</span></code>, optional): the desired memory format of</dt><dd><p>returned Tensor. Default: <code class="docutils literal notranslate"><span class="pre">torch.preserve_format</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="funcs.ge.auto.html" class="btn btn-neutral float-right" title="ge" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="funcs.full.auto.html" class="btn btn-neutral float-left" title="full" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/np2tensor
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="funcs.full_like.auto.html">dev/np2tensor</a></dd>
+                        <dd><a href="../../../../main/api_doc/torch/funcs.full_like.auto.html">main</a></dd>
+                        <dd><a href="../../../../release/0.2.1/api_doc/torch/funcs.full_like.auto.html">release/0.2.1</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
