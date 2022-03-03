@@ -18,7 +18,7 @@ _ArrayProxy, _InstanceArrayProxy = get_tree_proxy(numpy.ndarray)
 @lru_cache()
 def _get_tensor_class(args0):
     from ..torch import Tensor
-    return Tensor
+    return Tensor(args0)
 
 
 class _BaseArrayMeta(clsmeta(numpy.asarray, allow_dict=True)):
