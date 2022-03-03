@@ -1,7 +1,6 @@
 from functools import wraps
-from operator import itemgetter
 
-from treevalue import TreeValue, walk
+from treevalue import TreeValue, flatten_values
 
 __all__ = [
     'ireduce',
@@ -17,7 +16,7 @@ def ireduce(rfunc, piter=None):
         def _new_func(*args, **kwargs):
             result = func(*args, **kwargs)
             if isinstance(result, TreeValue):
-                it = map(itemgetter(1), walk(result, include_nodes=False))
+                it = flatten_values(result)
                 return rfunc(piter(it))
             else:
                 return result
