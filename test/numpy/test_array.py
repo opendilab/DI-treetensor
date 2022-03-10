@@ -1,7 +1,9 @@
 import numpy as np
 import pytest
+import torch
 
 import treetensor.numpy as tnp
+import treetensor.torch as ttorch
 from treetensor.common import Object
 
 
@@ -233,3 +235,22 @@ class TestNumpyArray:
                 'd': [0, 0, 0.0],
             }
         })
+
+    def test_tensor(self):
+        assert (self._DEMO_1.tensor() == ttorch.Tensor({
+            'a': ttorch.Tensor([[1, 2, 3], [4, 5, 6]]),
+            'b': ttorch.Tensor([1, 3, 5, 7]),
+            'x': {
+                'c': ttorch.Tensor([[11], [23]]),
+                'd': ttorch.Tensor([3, 9, 11.0])
+            }
+        })).all()
+
+        assert (self._DEMO_1.tensor(dtype=torch.float64) == ttorch.Tensor({
+            'a': ttorch.Tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float64),
+            'b': ttorch.Tensor([1, 3, 5, 7], dtype=torch.float64),
+            'x': {
+                'c': ttorch.Tensor([[11], [23]], dtype=torch.float64),
+                'd': ttorch.Tensor([3, 9, 11.0], dtype=torch.float64),
+            }
+        })).all()

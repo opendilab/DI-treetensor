@@ -1,4 +1,7 @@
+from functools import lru_cache
+
 import numpy
+import torch
 from treevalue import method_treelize
 
 from .base import TreeNumpy
@@ -10,6 +13,12 @@ __all__ = [
 ]
 
 _ArrayProxy, _InstanceArrayProxy = get_tree_proxy(numpy.ndarray)
+
+
+@lru_cache()
+def _get_tensor_class(args0):
+    from ..torch import Tensor
+    return Tensor(args0)
 
 
 class _BaseArrayMeta(clsmeta(numpy.asarray, allow_dict=True)):
@@ -91,6 +100,13 @@ class ndarray(TreeNumpy, metaclass=_ArrayMeta):
     @method_treelize(return_type=Object)
     def any(self: numpy.ndarray, *args, **kwargs):
         return self.any(*args, **kwargs)
+
+    @method_treelize(return_type=_get_tensor_class)
+    def tensor(self: numpy.ndarray, *args, **kwargs):
+        tensor_: torch.Tensor = torch.from_numpy(self)
+        if args or kwargs:
+            tensor_ = tensor_.to(*args, **kwargs)
+        return tensor_
 
     @method_treelize()
     def __eq__(self, other):
