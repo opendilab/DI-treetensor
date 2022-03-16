@@ -4,6 +4,8 @@ import torch
 import treetensor.torch as ttorch
 from .base import choose_mark
 
+bool_init_dtype = torch.tensor([True, False]).dtype
+
 
 # noinspection DuplicatedCode,PyUnresolvedReferences
 class TestTorchTensorReduction:
@@ -14,7 +16,7 @@ class TestTorchTensorReduction:
             'b': {'x': [[True, True, ], [True, True, ]]}
         }).all()
         assert isinstance(t1, torch.Tensor)
-        assert t1.dtype == torch.bool
+        assert t1.dtype == bool_init_dtype
         assert t1
 
         t2 = ttorch.Tensor({
@@ -22,7 +24,7 @@ class TestTorchTensorReduction:
             'b': {'x': [[True, True, ], [True, True, ]]}
         }).all()
         assert isinstance(t2, torch.Tensor)
-        assert t2.dtype == torch.bool
+        assert t2.dtype == bool_init_dtype
         assert not t2
 
         t3 = ttorch.tensor({
@@ -48,7 +50,7 @@ class TestTorchTensorReduction:
             'b': {'x': [[False, False, ], [False, False, ]]}
         }).any()
         assert isinstance(t1, torch.Tensor)
-        assert t1.dtype == torch.bool
+        assert t1.dtype == bool_init_dtype
         assert t1
 
         t2 = ttorch.Tensor({
@@ -56,7 +58,7 @@ class TestTorchTensorReduction:
             'b': {'x': [[False, False, ], [False, False, ]]}
         }).any()
         assert isinstance(t2, torch.Tensor)
-        assert t2.dtype == torch.bool
+        assert t2.dtype == bool_init_dtype
         assert not t2
 
         t3 = ttorch.Tensor({
