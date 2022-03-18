@@ -182,6 +182,8 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
     <span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;array_equal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;stack&#39;</span><span class="p">,</span> <span class="s1">&#39;concatenate&#39;</span><span class="p">,</span> <span class="s1">&#39;split&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="s1">&#39;ones&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">func_treelize</span> <span class="o">=</span> <span class="n">post_process</span><span class="p">(</span><span class="n">post_process</span><span class="p">(</span><span class="n">args_mapping</span><span class="p">(</span>
@@ -240,6 +242,36 @@
 <span class="sd">        })</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p_object</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stack"><a class="viewcode-back" href="../../../api_doc/numpy/funcs.stack.auto.html#treetensor.numpy.stack">[docs]</a><span class="nd">@doc_from</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">subside</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="concatenate"><a class="viewcode-back" href="../../../api_doc/numpy/funcs.concatenate.auto.html#treetensor.numpy.concatenate">[docs]</a><span class="nd">@doc_from</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">subside</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">concatenate</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="split"><a class="viewcode-back" href="../../../api_doc/numpy/funcs.split.auto.html#treetensor.numpy.split">[docs]</a><span class="nd">@doc_from</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">ary</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ary</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="zeros"><a class="viewcode-back" href="../../../api_doc/numpy/funcs.zeros.auto.html#treetensor.numpy.zeros">[docs]</a><span class="nd">@doc_from</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ones"><a class="viewcode-back" href="../../../api_doc/numpy/funcs.ones.auto.html#treetensor.numpy.ones">[docs]</a><span class="nd">@doc_from</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">ones</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
 
@@ -277,7 +309,7 @@
         <div class="rst-other-versions">
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../dev/numpy/index.html">dev/numpy</a></dd>
+                        <dd><a href="../../../../../4/merge/index.html">4/merge</a></dd>
                         <dd><a href="../../../../../main/index.html">main</a></dd>
                         <dd><a href="funcs.html">release/0.2.1</a></dd>
                 </dl>
