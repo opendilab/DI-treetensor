@@ -13,6 +13,8 @@ from ..utils import replaceable_partial, doc_from, args_mapping
 __all__ = [
     'all', 'any', 'array',
     'equal', 'array_equal',
+    'stack', 'concatenate', 'split',
+    'zeros', 'ones',
 ]
 
 func_treelize = post_process(post_process(args_mapping(
@@ -71,3 +73,33 @@ def array(p_object, *args, **kwargs):
         })
     """
     return np.array(p_object, *args, **kwargs)
+
+
+@doc_from(np.stack)
+@func_treelize(subside=True)
+def stack(arrays, *args, **kwargs):
+    return np.stack(arrays, *args, **kwargs)
+
+
+@doc_from(np.concatenate)
+@func_treelize(subside=True)
+def concatenate(arrays, *args, **kwargs):
+    return np.concatenate(arrays, *args, **kwargs)
+
+
+@doc_from(np.split)
+@func_treelize(rise=True)
+def split(ary, *args, **kwargs):
+    return np.split(ary, *args, **kwargs)
+
+
+@doc_from(np.zeros)
+@func_treelize()
+def zeros(shape, *args, **kwargs):
+    return np.zeros(shape, *args, **kwargs)
+
+
+@doc_from(np.ones)
+@func_treelize()
+def ones(shape, *args, **kwargs):
+    return np.ones(shape, *args, **kwargs)
