@@ -73,7 +73,7 @@ with the following command and find its documentation.
                         print_title(f"Description From Numpy v{_short_version}", levelc='-', file=p_func)
                         current_module(np.__name__, file=p_func)
 
-                        _origin_doc = _doc_process(_origin.__doc__ or "")
+                        _origin_doc = _doc_process(_origin.__doc__ or "").lstrip()
                         _doc_lines = _origin_doc.splitlines()
                         _first_line, _other_lines = _doc_lines[0], _doc_lines[1:]
                         if _first_line.strip():
