@@ -38,10 +38,8 @@ Description From Numpy v1.21
 .. currentmodule:: numpy
 
     
-.. function:: any(a, axis=None, out=None, keepdims=<no value>, *, where=<no value>)
+.. function:: Test whether any array element along a given axis evaluates to True.
 
-
-    Test whether any array element along a given axis evaluates to True.
 
     Returns single boolean unless `axis` is not ``None``
 

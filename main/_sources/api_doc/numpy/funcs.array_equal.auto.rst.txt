@@ -38,10 +38,8 @@ Description From Numpy v1.21
 .. currentmodule:: numpy
 
     
-.. function:: array_equal(a1, a2, equal_nan=False)
+.. function:: True if two arrays have the same shape and elements, False otherwise.
 
-
-    True if two arrays have the same shape and elements, False otherwise.
 
 Parameters
 ~~~~~~~~~~

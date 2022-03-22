@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>array_equal &mdash; DI-treetensor 0.2.0 documentation</title>
+  <title>array_equal &mdash; DI-treetensor 0.2.1 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="equal" href="funcs.equal.auto.html" />
+    <link rel="next" title="concatenate" href="funcs.concatenate.auto.html" />
     <link rel="prev" title="array" href="funcs.array.auto.html" /> 
 </head>
 
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.1
               </div>
             
           
@@ -111,7 +111,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#description-from-numpy-v1-21">Description From Numpy v1.21</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.concatenate.auto.html">concatenate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.equal.auto.html">equal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.ones.auto.html">ones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.split.auto.html">split</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.stack.auto.html">stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.zeros.auto.html">zeros</a></li>
 </ul>
 </li>
 </ul>
@@ -214,10 +219,9 @@ with the following command and find its documentation.</p>
 <div class="section" id="description-from-numpy-v1-21">
 <h2>Description From Numpy v1.21<a class="headerlink" href="#description-from-numpy-v1-21" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="numpy.array_equal">
-<code class="sig-prename descclassname">numpy.</code><code class="sig-name descname">array_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a1</span></em>, <em class="sig-param"><span class="n">a2</span></em>, <em class="sig-param"><span class="n">equal_nan</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#numpy.array_equal" title="Permalink to this definition">¶</a></dt>
-<dd><p>True if two arrays have the same shape and elements, False otherwise.</p>
-</dd></dl>
+<dt>
+<code class="sig-name descname">True if two arrays have the same shape and elements, False otherwise.</code></dt>
+<dd></dd></dl>
 
 <div class="section" id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
@@ -297,7 +301,7 @@ considered equal if either the real <em>or</em> the imaginary components are nan
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="funcs.equal.auto.html" class="btn btn-neutral float-right" title="equal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="funcs.concatenate.auto.html" class="btn btn-neutral float-right" title="concatenate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="funcs.array.auto.html" class="btn btn-neutral float-left" title="array" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -333,9 +337,7 @@ considered equal if either the real <em>or</em> the imaginary components are nan
         <div class="rst-other-versions">
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../4/merge/api_doc/numpy/funcs.array_equal.auto.html">4/merge</a></dd>
                         <dd><a href="funcs.array_equal.auto.html">main</a></dd>
-                        <dd><a href="../../../release/0.2.1/api_doc/numpy/funcs.array_equal.auto.html">release/0.2.1</a></dd>
                 </dl>
         </div>
     </div>

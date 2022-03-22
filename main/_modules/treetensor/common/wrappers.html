@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>treetensor.common.wrappers &mdash; DI-treetensor 0.2.0 documentation</title>
+  <title>treetensor.common.wrappers &mdash; DI-treetensor 0.2.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.2.1
               </div>
             
           
@@ -168,9 +168,8 @@
     
   <h1>Source code for treetensor.common.wrappers</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
 
-<span class="kn">from</span> <span class="nn">treevalue</span> <span class="kn">import</span> <span class="n">TreeValue</span><span class="p">,</span> <span class="n">walk</span>
+<span class="kn">from</span> <span class="nn">treevalue</span> <span class="kn">import</span> <span class="n">TreeValue</span><span class="p">,</span> <span class="n">flatten_values</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;ireduce&#39;</span><span class="p">,</span>
@@ -186,7 +185,7 @@
         <span class="k">def</span> <span class="nf">_new_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">TreeValue</span><span class="p">):</span>
-                <span class="n">it</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">walk</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">include_nodes</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="n">flatten_values</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">rfunc</span><span class="p">(</span><span class="n">piter</span><span class="p">(</span><span class="n">it</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">result</span>
@@ -240,9 +239,7 @@
         <div class="rst-other-versions">
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../4/merge/index.html">4/merge</a></dd>
                         <dd><a href="wrappers.html">main</a></dd>
-                        <dd><a href="../../../../release/0.2.1/index.html">release/0.2.1</a></dd>
                 </dl>
         </div>
     </div>

@@ -11,5 +11,10 @@ Common Functions
     funcs.any.auto
     funcs.array.auto
     funcs.array_equal.auto
+    funcs.concatenate.auto
     funcs.equal.auto
+    funcs.ones.auto
+    funcs.split.auto
+    funcs.stack.auto
+    funcs.zeros.auto
     

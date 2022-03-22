@@ -38,10 +38,8 @@ Description From Numpy v1.21
 .. currentmodule:: numpy
 
     
-.. function:: all(a, axis=None, out=None, keepdims=<no value>, *, where=<no value>)
+.. function:: Test whether all array elements along a given axis evaluate to True.
 
-
-    Test whether all array elements along a given axis evaluate to True.
 
 Parameters
 ~~~~~~~~~~
