@@ -1,4 +1,8 @@
-# DI-treetensor
+<div align="center">
+    <a href="https://opendilab.github.io/DI-treetensor/"><img width="500px" height="auto" src="https://github.com/opendilab/DI-treetensor/blob/main/docs/source/_static/di-treetensor.svg"></a>
+</div>
+
+---
 
 [![PyPI](https://img.shields.io/pypi/v/DI-treetensor)](https://pypi.org/project/DI-treetensor/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/DI-treetensor)
@@ -169,7 +173,7 @@ pip install DI-treetensor[potc]
 
 In potc, you can translate the objects to runnable python source code, which can be loaded to objects afterwards by the python interpreter, like the following graph
 
-![potc_system](docs/source/_static/potc-doing.svg)
+![potc_system](https://github.com/opendilab/DI-treetensor/blob/main/docs/source/_static/potc-doing.svg)
 
 For more information, you can refer to
 
