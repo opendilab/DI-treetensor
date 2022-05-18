@@ -56,7 +56,7 @@ jobs:
           CI: 'true'
           LINETRACE: 1
         run: |
-          make clean build run
+          make run
       - name: Show the artifacts
         run: |
           tree runs/artifacts
