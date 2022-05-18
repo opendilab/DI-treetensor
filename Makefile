@@ -3,6 +3,7 @@
 DOC_DIR  := ./docs
 TEST_DIR := ./test
 SRC_DIR  := ./treetensor
+RUNS_DIR := ./runs
 
 RANGE_DIR      ?= .
 RANGE_TEST_DIR := ${TEST_DIR}/${RANGE_DIR}
@@ -24,3 +25,6 @@ docs:
 	$(MAKE) -C "${DOC_DIR}" build
 pdocs:
 	$(MAKE) -C "${DOC_DIR}" prod
+
+run:
+	PYTHONPATH=$(shell readlink -f .):$(shell readlink -f ${RUNS_DIR}):${PYTHONPATH} $(MAKE) -C "${RUNS_DIR}" run
