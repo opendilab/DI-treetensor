@@ -1,0 +1,667 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>treetensor.torch.funcs.construct &mdash; DI-treetensor 0.2.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/plugins/index.html">Plugins</a></li>
+</ul>
+<p><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>treetensor.torch.funcs.construct</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for treetensor.torch.funcs.construct</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">treevalue</span> <span class="kn">import</span> <span class="n">TreeValue</span>
+<span class="kn">from</span> <span class="nn">treevalue.tree.common</span> <span class="kn">import</span> <span class="n">TreeStorage</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">doc_from_base</span><span class="p">,</span> <span class="n">func_treelize</span>
+<span class="kn">from</span> <span class="nn">...utils</span> <span class="kn">import</span> <span class="n">args_mapping</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;tensor&#39;</span><span class="p">,</span> <span class="s1">&#39;as_tensor&#39;</span><span class="p">,</span> <span class="s1">&#39;clone&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="s1">&#39;zeros_like&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;randn&#39;</span><span class="p">,</span> <span class="s1">&#39;randn_like&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;randint&#39;</span><span class="p">,</span> <span class="s1">&#39;randint_like&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ones&#39;</span><span class="p">,</span> <span class="s1">&#39;ones_like&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;full_like&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty&#39;</span><span class="p">,</span> <span class="s1">&#39;empty_like&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">args_treelize</span> <span class="o">=</span> <span class="n">args_mapping</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">TreeValue</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">TreeStorage</span><span class="p">,</span> <span class="n">TreeValue</span><span class="p">))</span> <span class="k">else</span> <span class="n">x</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="tensor"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.tensor.auto.html#treetensor.torch.tensor">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can create a tree tensor with simple data structure.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.tensor(True)  # the same as torch.tensor(True)</span>
+<span class="sd">        tensor(True)</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.tensor([1, 2, 3])  # the same as torch.tensor([1, 2, 3])</span>
+<span class="sd">        tensor([1, 2, 3])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.tensor({&#39;a&#39;: 1, &#39;b&#39;: [1, 2, 3], &#39;c&#39;: [[True, False], [False, True]]})</span>
+<span class="sd">        &lt;Tensor 0x7ff363bbcc50&gt;</span>
+<span class="sd">        ├── a --&gt; tensor(1)</span>
+<span class="sd">        ├── b --&gt; tensor([1, 2, 3])</span>
+<span class="sd">        └── c --&gt; tensor([[ True, False],</span>
+<span class="sd">                          [False,  True]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="as_tensor"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.as_tensor.auto.html#treetensor.torch.as_tensor">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">as_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the data into a :class:`treetensor.torch.Tensor` or :class:`torch.Tensor`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.as_tensor(True)</span>
+<span class="sd">        tensor(True)</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.as_tensor([1, 2, 3], dtype=torch.float32)</span>
+<span class="sd">        tensor([1., 2., 3.])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.as_tensor({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.tensor([1, 2, 3]),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: [[4, 5], [6, 7]]}</span>
+<span class="sd">        ... }, dtype=torch.float32)</span>
+<span class="sd">        &lt;Tensor 0x7fc2b80c25c0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([1., 2., 3.])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fc2b80c24e0&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[4., 5.],</span>
+<span class="sd">                              [6., 7.]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="clone"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.clone.auto.html#treetensor.torch.clone">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can create a clone of the original tree with :func:`treetensor.torch.clone`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.clone(torch.tensor([[1, 2], [3, 4]]))</span>
+<span class="sd">        tensor([[1, 2],</span>
+<span class="sd">                [3, 4]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.clone(ttorch.tensor({</span>
+<span class="sd">        ...     &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: [[5], [6], [7]]},</span>
+<span class="sd">        ... }))</span>
+<span class="sd">        &lt;Tensor 0x7f2a820ba5e0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[1, 2],</span>
+<span class="sd">        │                 [3, 4]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f2a820aaf70&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[5],</span>
+<span class="sd">                              [6],</span>
+<span class="sd">                              [7]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="zeros"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.zeros.auto.html#treetensor.torch.zeros">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">zeros</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``zeros`` to create a tree of tensors with all zeros.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.zeros(2, 3)  # the same as torch.zeros(2, 3)</span>
+<span class="sd">        tensor([[0., 0., 0.],</span>
+<span class="sd">                [0., 0., 0.]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.zeros({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}})</span>
+<span class="sd">        &lt;Tensor 0x7f5f6ccf1ef0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[0., 0., 0.],</span>
+<span class="sd">        │                 [0., 0., 0.]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f5fe0107208&gt;</span>
+<span class="sd">            └── x --&gt; tensor([0., 0., 0., 0.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="zeros_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.zeros_like.auto.html#treetensor.torch.zeros_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">zeros_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``zeros_like`` to create a tree of tensors with all zeros like another tree.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.zeros_like(torch.randn(2, 3))  # the same as torch.zeros_like(torch.randn(2, 3))</span>
+<span class="sd">        tensor([[0., 0., 0.],</span>
+<span class="sd">                [0., 0., 0.]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.zeros_like({</span>
+<span class="sd">        ...    &#39;a&#39;: torch.randn(2, 3),</span>
+<span class="sd">        ...    &#39;b&#39;: {&#39;x&#39;: torch.randn(4, )},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6128&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[0., 0., 0.],</span>
+<span class="sd">        │                 [0., 0., 0.]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6080&gt;</span>
+<span class="sd">            └── x --&gt; tensor([0., 0., 0., 0.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="randn"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randn.auto.html#treetensor.torch.randn">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">randn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``randn`` to create a tree of tensors with numbers</span>
+<span class="sd">    obey standard normal distribution.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.randn(2, 3)  # the same as torch.randn(2, 3)</span>
+<span class="sd">        tensor([[-0.8534, -0.5754, -0.2507],</span>
+<span class="sd">                [ 0.0826, -1.4110,  0.9748]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.randn({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}})</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6518&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ 0.5398,  0.7529, -2.0339],</span>
+<span class="sd">        │                 [-0.5722, -1.1900,  0.7945]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6438&gt;</span>
+<span class="sd">            └── x --&gt; tensor([-0.7181,  0.1670, -1.3587, -1.5129])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="randn_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randn_like.auto.html#treetensor.torch.randn_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">randn_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``randn_like`` to create a tree of tensors with numbers</span>
+<span class="sd">    obey standard normal distribution like another tree.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.randn_like(torch.ones(2, 3))  # the same as torch.randn_like(torch.ones(2, 3))</span>
+<span class="sd">        tensor([[ 1.8436,  0.2601,  0.9687],</span>
+<span class="sd">                [ 1.6430, -0.1765, -1.1732]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.randn_like({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.ones(2, 3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: torch.ones(4, )},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &lt;Tensor 0x7ff3d6f3cb38&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[-0.1532,  1.3965, -1.2956],</span>
+<span class="sd">        │                 [-0.0750,  0.6475,  1.1421]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff3d6f420b8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([ 0.1730,  1.6085,  0.6487, -1.1022])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="randint"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randint.auto.html#treetensor.torch.randint">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">randint</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``randint`` to create a tree of tensors with numbers</span>
+<span class="sd">    in an integer range.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.randint(10, (2, 3))  # the same as torch.randint(10, (2, 3))</span>
+<span class="sd">        tensor([[3, 4, 5],</span>
+<span class="sd">                [4, 5, 5]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.randint(10, {&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}})</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6438&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[5, 3, 7],</span>
+<span class="sd">        │                 [8, 1, 8]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6240&gt;</span>
+<span class="sd">            └── x --&gt; tensor([8, 8, 2, 4])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="randint_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randint_like.auto.html#treetensor.torch.randint_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">randint_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``randint_like`` to create a tree of tensors with numbers</span>
+<span class="sd">    in an integer range.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.randint_like(torch.ones(2, 3), 10)  # the same as torch.randint_like(torch.ones(2, 3), 10)</span>
+<span class="sd">        tensor([[0., 5., 0.],</span>
+<span class="sd">                [2., 0., 9.]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.randint_like({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.ones(2, 3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: torch.ones(4, )},</span>
+<span class="sd">        ... }, 10)</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6748&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[3., 6., 1.],</span>
+<span class="sd">        │                 [8., 9., 5.]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6898&gt;</span>
+<span class="sd">            └── x --&gt; tensor([4., 4., 7., 1.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ones"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.ones.auto.html#treetensor.torch.ones">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">ones</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``ones`` to create a tree of tensors with all ones.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.ones(2, 3)  # the same as torch.ones(2, 3)</span>
+<span class="sd">        tensor([[1., 1., 1.],</span>
+<span class="sd">                [1., 1., 1.]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.ones({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}})</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6eb8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[1., 1., 1.],</span>
+<span class="sd">        │                 [1., 1., 1.]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6dd8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([1., 1., 1., 1.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="ones_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.ones_like.auto.html#treetensor.torch.ones_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">ones_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``ones_like`` to create a tree of tensors with all ones like another tree.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.ones_like(torch.randn(2, 3))  # the same as torch.ones_like(torch.randn(2, 3))</span>
+<span class="sd">        tensor([[1., 1., 1.],</span>
+<span class="sd">                [1., 1., 1.]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.ones_like({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.randn(2, 3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: torch.randn(4, )},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &lt;Tensor 0x7ff363bbc320&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[1., 1., 1.],</span>
+<span class="sd">        │                 [1., 1., 1.]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bbc240&gt;</span>
+<span class="sd">            └── x --&gt; tensor([1., 1., 1., 1.])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="full"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.full.auto.html#treetensor.torch.full">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``ones`` to create a tree of tensors with the same value.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.full((2, 3), 2.3)  # the same as torch.full((2, 3), 2.3)</span>
+<span class="sd">        tensor([[2.3000, 2.3000, 2.3000],</span>
+<span class="sd">                [2.3000, 2.3000, 2.3000]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.full({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}}, 2.3)</span>
+<span class="sd">        &lt;Tensor 0x7ff363bbc7f0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[2.3000, 2.3000, 2.3000],</span>
+<span class="sd">        │                 [2.3000, 2.3000, 2.3000]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bbc8d0&gt;</span>
+<span class="sd">            └── x --&gt; tensor([2.3000, 2.3000, 2.3000, 2.3000])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="full_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.full_like.auto.html#treetensor.torch.full_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">full_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``ones_like`` to create a tree of tensors with</span>
+<span class="sd">    all the same value of like another tree.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.full_like(torch.randn(2, 3), 2.3)  # the same as torch.full_like(torch.randn(2, 3), 2.3)</span>
+<span class="sd">        tensor([[2.3000, 2.3000, 2.3000],</span>
+<span class="sd">                [2.3000, 2.3000, 2.3000]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.full_like({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.randn(2, 3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: torch.randn(4, )},</span>
+<span class="sd">        ... }, 2.3)</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6cf8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[2.3000, 2.3000, 2.3000],</span>
+<span class="sd">        │                 [2.3000, 2.3000, 2.3000]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb69e8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([2.3000, 2.3000, 2.3000, 2.3000])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="empty"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.empty.auto.html#treetensor.torch.empty">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``ones`` to create a tree of tensors with</span>
+<span class="sd">    the uninitialized values.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.empty(2, 3)  # the same as torch.empty(2, 3)</span>
+<span class="sd">        tensor([[-1.3267e-36,  3.0802e-41,  2.3000e+00],</span>
+<span class="sd">                [ 2.3000e+00,  2.3000e+00,  2.3000e+00]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.empty({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}})</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6080&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[-3.6515e+14,  4.5900e-41, -1.3253e-36],</span>
+<span class="sd">        │                 [ 3.0802e-41,  2.3000e+00,  2.3000e+00]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb66d8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([-3.6515e+14,  4.5900e-41, -3.8091e-38,  3.0802e-41])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="empty_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.empty_like.auto.html#treetensor.torch.empty_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">empty_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``ones_like`` to create a tree of tensors with</span>
+<span class="sd">    all the uninitialized values of like another tree.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.empty_like(torch.randn(2, 3))  # the same as torch.empty_like(torch.randn(2, 3), 2.3)</span>
+<span class="sd">        tensor([[-3.6515e+14,  4.5900e-41, -1.3266e-36],</span>
+<span class="sd">                [ 3.0802e-41,  4.4842e-44,  0.0000e+00]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.empty_like({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.randn(2, 3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: torch.randn(4, )},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &lt;Tensor 0x7ff363bbc780&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[-3.6515e+14,  4.5900e-41, -3.6515e+14],</span>
+<span class="sd">        │                 [ 4.5900e-41,  1.1592e-41,  0.0000e+00]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff3d6f3cb38&gt;</span>
+<span class="sd">            └── x --&gt; tensor([-1.3267e-36,  3.0802e-41, -3.8049e-38,  3.0802e-41])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: 9/merge
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../../v0.2.1/index.html">v0.2.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="construct.html">9/merge</a></dd>
+                        <dd><a href="../../../../../../dev/tv140/index.html">dev/tv140</a></dd>
+                        <dd><a href="../../../../../../main/index.html">main</a></dd>
+                        <dd><a href="../../../../../../run/xdemos/index.html">run/xdemos</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
