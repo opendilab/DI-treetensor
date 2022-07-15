@@ -25,7 +25,7 @@ __all__ = [
 def _post_index(func):
     def _has_non_none(tree):
         if isinstance(tree, TreeValue):
-            for _, value in tree:
+            for _, value in tree.items():
                 if _has_non_none(value):
                     return True
 
