@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>zeros &mdash; DI-treetensor 0.2.1 documentation</title>
@@ -86,18 +87,18 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p><span class="caption-text">Tutorials</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/plugins/index.html">Plugins</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Best Practice</span></p>
+<p><span class="caption-text">Best Practice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation</span></p>
+<p><span class="caption-text">API Documentation</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../common/index.html">treetensor.common</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config/index.html">treetensor.config</a></li>
@@ -193,9 +194,9 @@
             
     
     
-  <div class="section" id="zeros">
+  <section id="zeros">
 <h1>zeros<a class="headerlink" href="#zeros" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="documentation">
+<section id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="treetensor.numpy.zeros">
@@ -206,17 +207,17 @@
 <p class="admonition-title">Numpy Version Related</p>
 <p>This documentation is based on
 <a class="reference external" href="https://numpy.org/doc/1.21/reference/generated/numpy.zeros.html">numpy.zeros</a>
-in <a class="reference external" href="https://numpy.org/doc/1.21/">numpy v1.21.5</a>.
+in <a class="reference external" href="https://numpy.org/doc/1.21/">numpy v1.21.6</a>.
 <strong>Its arguments’ arrangements depend on the version of numpy you installed</strong>.</p>
 <p>If some arguments listed here are not working properly, please check your numpy’s version
 with the following command and find its documentation.</p>
-<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>python -c <span class="s1">&#39;import numpy as np;print(np.__version__)&#39;</span>
-</pre></div>
-</td></tr></table></div>
-<p>The arguments and keyword arguments supported in numpy v1.21.5 is listed below.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span>python -c <span class="s1">&#39;import numpy as np;print(np.__version__)&#39;</span>
+</pre></div></td></tr></table></div>
 </div>
+<p>The arguments and keyword arguments supported in numpy v1.21.6 is listed below.</p>
 </div>
-<div class="section" id="description-from-numpy-v1-21">
+</section>
+<section id="description-from-numpy-v1-21">
 <h2>Description From Numpy v1.21<a class="headerlink" href="#description-from-numpy-v1-21" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="numpy.zeros">
@@ -224,7 +225,7 @@ with the following command and find its documentation.</p>
 <dd><p>Return a new array of given shape and type, filled with zeros.</p>
 </dd></dl>
 
-<div class="section" id="parameters">
+<section id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl>
@@ -248,8 +249,8 @@ compatible with that passed in via this argument.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="returns">
+</section>
+<section id="returns">
 <h3>Returns<a class="headerlink" href="#returns" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><dl class="simple">
@@ -257,8 +258,8 @@ compatible with that passed in via this argument.</p>
 </dd>
 </dl>
 </div></blockquote>
-</div>
-<div class="section" id="see-also">
+</section>
+<section id="see-also">
 <h3>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h3>
 <blockquote>
 <div><p>zeros_like : Return an array of zeros with shape and type of input.
@@ -266,8 +267,8 @@ empty : Return a new uninitialized array.
 ones : Return a new array setting values to one.
 full : Return a new array of given shape filled with value.</p>
 </div></blockquote>
-</div>
-<div class="section" id="examples">
+</section>
+<section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">array([ 0.,  0.,  0.,  0.,  0.])</span>
@@ -293,9 +294,9 @@ full : Return a new array of given shape filled with value.</p>
 <span class="go">      dtype=[(&#39;x&#39;, &#39;&lt;i4&#39;), (&#39;y&#39;, &#39;&lt;i4&#39;)])</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
 
@@ -346,7 +347,9 @@ full : Return a new array of given shape filled with value.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/tv140/api_doc/numpy/funcs.zeros.auto.html">dev/tv140</a></dd>
                         <dd><a href="funcs.zeros.auto.html">main</a></dd>
+                        <dd><a href="../../../run/xdemos/api_doc/numpy/funcs.zeros.auto.html">run/xdemos</a></dd>
                 </dl>
         </div>
     </div>

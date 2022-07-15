@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Quick Start &mdash; DI-treetensor 0.2.1 documentation</title>
@@ -86,7 +87,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
@@ -95,12 +96,12 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../plugins/index.html">Plugins</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Best Practice</span></p>
+<p><span class="caption-text">Best Practice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation</span></p>
+<p><span class="caption-text">API Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api_doc/common/index.html">treetensor.common</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api_doc/config/index.html">treetensor.config</a></li>
@@ -173,12 +174,12 @@
             
     
     
-  <div class="section" id="quick-start">
+  <section id="quick-start">
 <h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="create-a-tree-based-tensor">
+<section id="create-a-tree-based-tensor">
 <h2>Create a Tree-based Tensor<a class="headerlink" href="#create-a-tree-based-tensor" title="Permalink to this headline">¶</a></h2>
 <p>You can create a tree-based tensor or a native tensor like the following example code.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-python notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -204,7 +205,7 @@
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
-<span class="normal">27</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">builtins</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">builtins</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 
@@ -231,10 +232,10 @@
         <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)},</span>
     <span class="p">})</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;new random tree tensor:&#39;</span><span class="p">,</span> <span class="n">t4</span><span class="p">)</span>
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 <p>The output should be like below.</p>
-<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-text notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -254,31 +255,31 @@
 <span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>new native tensor:
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span>new native tensor:
 tensor([[1, 2, 3],
         [4, 5, 6]])
 new tree tensor:
-&lt;Tensor 0x7fe36ab99150&gt;
+&lt;Tensor 0x7fc8e715c1d0&gt;
 ├── &#39;a&#39; --&gt; tensor([1, 2, 3])
-└── &#39;b&#39; --&gt; &lt;Tensor 0x7fe36ab99390&gt;
+└── &#39;b&#39; --&gt; &lt;Tensor 0x7fc8e715c350&gt;
     └── &#39;x&#39; --&gt; tensor([[4, 5],
                         [6, 7]])
 
 new random native tensor:
-tensor([[ 1.0220,  0.2994, -0.2880],
-        [-0.8738,  1.3660, -0.2868]])
+tensor([[-0.7348, -0.2560, -1.5232],
+        [-2.1855, -0.7026,  0.8151]])
 new random tree tensor:
-&lt;Tensor 0x7fe3012f4b90&gt;
-├── &#39;a&#39; --&gt; tensor([[-0.0888, -0.6345,  1.0692],
-│                   [ 0.6631,  1.4926,  0.4575]])
-└── &#39;b&#39; --&gt; &lt;Tensor 0x7fe3012fb310&gt;
-    └── &#39;x&#39; --&gt; tensor([[-0.5325,  0.3139,  1.2433,  0.0598],
-                        [-0.8091,  0.3715,  1.6323,  0.3380],
-                        [ 1.3524,  1.9142, -0.8104, -1.8712]])
-</pre></div>
-</td></tr></table></div>
+&lt;Tensor 0x7fc885a18810&gt;
+├── &#39;a&#39; --&gt; tensor([[-0.1408,  0.0562, -0.4876],
+│                   [-0.9363, -1.3677, -0.5682]])
+└── &#39;b&#39; --&gt; &lt;Tensor 0x7fc88593ff10&gt;
+    └── &#39;x&#39; --&gt; tensor([[-1.2202,  0.7999,  1.0796, -0.1139],
+                        [-0.7729, -1.3575, -0.6204,  2.3823],
+                        [ 0.7315,  0.0795,  0.2941, -0.3264]])
+</pre></div></td></tr></table></div>
 </div>
-</div>
+</section>
+</section>
 
 
 
@@ -329,7 +330,9 @@ new random tree tensor:
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/tv140/tutorials/quick_start/index.html">dev/tv140</a></dd>
                         <dd><a href="index.html">main</a></dd>
+                        <dd><a href="../../../run/xdemos/tutorials/quick_start/index.html">run/xdemos</a></dd>
                 </dl>
         </div>
     </div>

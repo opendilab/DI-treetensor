@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Plugins &mdash; DI-treetensor 0.2.1 documentation</title>
@@ -86,7 +87,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quick_start/index.html">Quick Start</a></li>
@@ -95,12 +96,12 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Best Practice</span></p>
+<p><span class="caption-text">Best Practice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation</span></p>
+<p><span class="caption-text">API Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api_doc/common/index.html">treetensor.common</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api_doc/config/index.html">treetensor.config</a></li>
@@ -173,9 +174,9 @@
             
     
     
-  <div class="section" id="plugins">
+  <section id="plugins">
 <h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="potc-support">
+<section id="potc-support">
 <h2>Potc support<a class="headerlink" href="#potc-support" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/potc-dev/potc">Potc</a> is a package that can convert any object into executable source code.
 For <code class="docutils literal notranslate"><span class="pre">DI-treetensor</span></code>, potc can support the source code transformation of treevalue objects
@@ -185,7 +186,7 @@ through the installation of additional plugins. So we can execute the following 
 </div>
 <p>After this installation, you will be able to directly convert tree-nested tensors to objects
 without any additional operations. Such as</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-python notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -202,7 +203,7 @@ without any additional operations. Such as</p>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">potc</span> <span class="kn">import</span> <span class="n">transvars</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">from</span> <span class="nn">potc</span> <span class="kn">import</span> <span class="n">transvars</span>
 
 <span class="kn">import</span> <span class="nn">treetensor.torch</span> <span class="k">as</span> <span class="nn">ttorch</span>
 
@@ -220,10 +221,10 @@ without any additional operations. Such as</p>
         <span class="n">reformat</span><span class="o">=</span><span class="s1">&#39;pep8&#39;</span>
     <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">_code</span><span class="p">)</span>
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 <p>The output should be</p>
-<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-text notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -257,43 +258,43 @@ without any additional operations. Such as</p>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>import torch
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span>import torch
 from treetensor import Tensor
 from treetensor.torch import Size
 
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
-    &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[6, -1, 5], [-5, -3, -2]], dtype=torch.long)
-    },
     &#39;a&#39;:
-    torch.as_tensor([[5, 9, -1, 9], [-4, 2, 0, 5], [-5, 9, -1, 8]],
-                    dtype=torch.long)
+    torch.as_tensor([[6, 6, 1, 0], [-2, 3, 4, 3], [4, 7, 1, 2]],
+                    dtype=torch.long),
+    &#39;x&#39;: {
+        &#39;b&#39;: torch.as_tensor([[2, -2, 3], [3, -5, 4]], dtype=torch.long)
+    }
 })
-t_shape = Size({&#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}, &#39;a&#39;: torch.Size([3, 4])})
+t_shape = Size({&#39;a&#39;: torch.Size([3, 4]), &#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}})
 t_tensor = Tensor({
     &#39;b&#39;:
     torch.as_tensor([[
-        -1.254744291305542, -1.3412816524505615, -0.7230159044265747,
-        0.416014164686203
+        0.7087340354919434, 1.985186219215393, -0.8782768845558167,
+        -0.05072586610913277
     ],
                      [
-                         1.3474208116531372, -1.5531967878341675,
-                         0.05101657658815384, -0.6268744468688965
+                         -1.4419102668762207, 1.987252116203308,
+                         -0.02836919203400612, 1.3676912784576416
                      ],
                      [
-                         0.6689271926879883, -0.07525607943534851,
-                         1.1699137687683105, 1.306465983390808
+                         -0.06884752213954926, 0.2799612581729889,
+                         1.726955771446228, 0.7092292308807373
                      ]],
                     dtype=torch.float32),
     &#39;a&#39;:
     torch.as_tensor(
-        [[0.5325863361358643, 0.8336725831031799, 0.5968754887580872],
-         [-2.1851515769958496, -0.2397269308567047, -0.12884928286075592]],
+        [[-0.49198636412620544, 0.5564621686935425, 0.5096776485443115],
+         [-0.15277685225009918, -0.2614181637763977, -0.39017146825790405]],
         dtype=torch.float32)
 })
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 <p>Also, you can use the following CLI command to get the same output results as above.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>potc <span class="nb">export</span> -v <span class="s1">&#39;test_simple.t_*&#39;</span>
 </pre></div>
@@ -304,8 +305,8 @@ t_tensor = Tensor({
 <li><p><a class="reference external" href="https://github.com/potc-dev/potc-treevalue">potc-dev/potc-treevalue</a></p></li>
 <li><p><a class="reference external" href="https://github.com/potc-dev/potc-torch">potc-dev/potc-torch</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
 
@@ -356,7 +357,9 @@ t_tensor = Tensor({
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/tv140/tutorials/plugins/index.html">dev/tv140</a></dd>
                         <dd><a href="index.html">main</a></dd>
+                        <dd><a href="../../../run/xdemos/tutorials/plugins/index.html">run/xdemos</a></dd>
                 </dl>
         </div>
     </div>

@@ -1,0 +1,16 @@
+\_\_gt\_\_
+===============
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. automethod:: __gt__
+    
+    
+    
+

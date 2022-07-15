@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Plugins &mdash; DI-treetensor 0.2.1 documentation</title>
@@ -86,7 +87,7 @@
               
             
             
-              <p class="caption"><span class="caption-text">Tutorials</span></p>
+              <p><span class="caption-text">Tutorials</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../quick_start/index.html">Quick Start</a></li>
@@ -95,12 +96,12 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Best Practice</span></p>
+<p><span class="caption-text">Best Practice</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/stack/index.html">Stack Structured Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation</span></p>
+<p><span class="caption-text">API Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api_doc/common/index.html">treetensor.common</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api_doc/config/index.html">treetensor.config</a></li>
@@ -173,9 +174,9 @@
             
     
     
-  <div class="section" id="plugins">
+  <section id="plugins">
 <h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="potc-support">
+<section id="potc-support">
 <h2>Potc support<a class="headerlink" href="#potc-support" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://github.com/potc-dev/potc">Potc</a> is a package that can convert any object into executable source code.
 For <code class="docutils literal notranslate"><span class="pre">DI-treetensor</span></code>, potc can support the source code transformation of treevalue objects
@@ -185,7 +186,7 @@ through the installation of additional plugins. So we can execute the following 
 </div>
 <p>After this installation, you will be able to directly convert tree-nested tensors to objects
 without any additional operations. Such as</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-python notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -202,7 +203,7 @@ without any additional operations. Such as</p>
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">potc</span> <span class="kn">import</span> <span class="n">transvars</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">from</span> <span class="nn">potc</span> <span class="kn">import</span> <span class="n">transvars</span>
 
 <span class="kn">import</span> <span class="nn">treetensor.torch</span> <span class="k">as</span> <span class="nn">ttorch</span>
 
@@ -220,10 +221,10 @@ without any additional operations. Such as</p>
         <span class="n">reformat</span><span class="o">=</span><span class="s1">&#39;pep8&#39;</span>
     <span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">_code</span><span class="p">)</span>
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 <p>The output should be</p>
-<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-text notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -257,43 +258,43 @@ without any additional operations. Such as</p>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>import torch
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span>import torch
 from treetensor import Tensor
 from treetensor.torch import Size
 
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
     &#39;a&#39;:
-    torch.as_tensor([[4, -5, -4, 2], [-5, 8, -4, 1], [4, -5, 1, 1]],
+    torch.as_tensor([[3, 8, -4, 2], [1, -5, -2, 9], [-2, 6, -2, 6]],
                     dtype=torch.long),
     &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[8, 1, -1], [9, -1, 7]], dtype=torch.long)
+        &#39;b&#39;: torch.as_tensor([[7, 6, 0], [9, -3, -4]], dtype=torch.long)
     }
 })
 t_shape = Size({&#39;a&#39;: torch.Size([3, 4]), &#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}})
 t_tensor = Tensor({
     &#39;a&#39;:
     torch.as_tensor(
-        [[0.6739415526390076, -1.7237032651901245, 0.8920907974243164],
-         [-0.45321422815322876, -1.3641605377197266, 0.6012972593307495]],
+        [[0.41320037841796875, 0.8891034722328186, -1.0939123630523682],
+         [-0.4646759331226349, -0.679906964302063, -0.18589086830615997]],
         dtype=torch.float32),
     &#39;b&#39;:
     torch.as_tensor([[
-        -0.9589943289756775, -0.01231993455439806, -0.32267141342163086,
-        0.25395724177360535
+        -0.26278024911880493, 0.46692246198654175, 0.6223858594894409,
+        0.10194247215986252
     ],
                      [
-                         0.4279102385044098, -1.111862063407898,
-                         -0.29558587074279785, -0.1111975610256195
+                         0.8011282682418823, 0.9222353100776672,
+                         0.5844146609306335, -0.9498440027236938
                      ],
                      [
-                         0.2550930976867676, -0.08529683947563171,
-                         -0.2218707948923111, 0.05539804324507713
+                         0.8499487042427063, 1.2112324237823486,
+                         -0.7623059749603271, -0.12645652890205383
                      ]],
                     dtype=torch.float32)
 })
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 <p>Also, you can use the following CLI command to get the same output results as above.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>potc <span class="nb">export</span> -v <span class="s1">&#39;test_simple.t_*&#39;</span>
 </pre></div>
@@ -304,8 +305,8 @@ t_tensor = Tensor({
 <li><p><a class="reference external" href="https://github.com/potc-dev/potc-treevalue">potc-dev/potc-treevalue</a></p></li>
 <li><p><a class="reference external" href="https://github.com/potc-dev/potc-torch">potc-dev/potc-torch</a></p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
 
@@ -356,7 +357,9 @@ t_tensor = Tensor({
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/tv140/tutorials/plugins/index.html">dev/tv140</a></dd>
                         <dd><a href="../../../main/tutorials/plugins/index.html">main</a></dd>
+                        <dd><a href="../../../run/xdemos/tutorials/plugins/index.html">run/xdemos</a></dd>
                 </dl>
         </div>
     </div>
