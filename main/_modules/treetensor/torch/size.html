@@ -194,7 +194,7 @@
 <span class="k">def</span> <span class="nf">_post_index</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_has_non_none</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">TreeValue</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">_has_non_none</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
                     <span class="k">return</span> <span class="kc">True</span>
 
@@ -350,8 +350,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../9/merge/index.html">9/merge</a></dd>
-                        <dd><a href="../../../../dev/tv140/index.html">dev/tv140</a></dd>
                         <dd><a href="size.html">main</a></dd>
                         <dd><a href="../../../../run/xdemos/index.html">run/xdemos</a></dd>
                 </dl>
