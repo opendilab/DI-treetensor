@@ -7,7 +7,7 @@ Overview:
 __TITLE__ = "DI-treetensor"
 
 #: Version of this project.
-__VERSION__ = "0.2.1"
+__VERSION__ = "0.3.0"
 
 #: Short description of the project, will be included in ``setup.py``.
 __DESCRIPTION__ = 'A flexible, generalized tree-based tensor structure.'
