@@ -10,6 +10,8 @@ from .funcs import __all__ as _funcs_all
 from .funcs.base import get_func_from_torch
 from .size import *
 from .size import __all__ as _size_all
+from .stream import *
+from .stream import __all__ as _stream_all
 from .tensor import *
 from .tensor import __all__ as _tensor_all
 from ..config.meta import __VERSION__
@@ -18,6 +20,7 @@ __all__ = [
     *_funcs_all,
     *_size_all,
     *_tensor_all,
+    *_stream_all,
 ]
 
 _basic_types = (
