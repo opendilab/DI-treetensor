@@ -3,6 +3,7 @@ from hbutils.reflection import post_process
 from treevalue import TreeValue
 
 from .base import doc_from_base, func_treelize, auto_tensor
+from ..stream import stream_call
 
 __all__ = [
     'cat', 'split', 'chunk', 'stack',
@@ -112,7 +113,7 @@ def cat(tensors, *args, **kwargs):
             └── y --> tensor([[51, 65, 65, 21, 29, 17, 46, 46, 46],
                               [54, 67, 57, 16, 11, 16, 30, 47, 36]])
     """
-    return torch.cat(tensors, *args, **kwargs)
+    return stream_call(torch.cat, tensors, *args, **kwargs)
 
 
 # noinspection PyShadowingNames
@@ -201,7 +202,7 @@ def split(tensor, split_size_or_sections, *args, **kwargs):
                                [58, 54, 78]]])
         )
     """
-    return torch.split(tensor, split_size_or_sections, *args, **kwargs)
+    return stream_call(torch.split, tensor, split_size_or_sections, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -261,7 +262,7 @@ def chunk(input, chunks, *args, **kwargs):
                                [29, 65, 17, 72],
                                [53, 50, 75,  0]]])
     """
-    return torch.chunk(input, chunks, *args, **kwargs)
+    return stream_call(torch.chunk, input, chunks, *args, **kwargs)
 
 
 @doc_from_base()
@@ -352,7 +353,7 @@ def stack(tensors, *args, **kwargs):
                               [[18, 21, 17, 12],
                                [36, 30, 33, 31]]])
     """
-    return torch.stack(tensors, *args, **kwargs)
+    return stream_call(torch.stack, tensors, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -399,7 +400,7 @@ def reshape(input, shape):
                                   [11, 13]])
 
     """
-    return torch.reshape(input, shape)
+    return stream_call(torch.reshape, input, shape)
 
 
 # noinspection PyShadowingBuiltins
@@ -434,7 +435,7 @@ def squeeze(input, *args, **kwargs):
         └── b --> <Size 0x7fa4c1afe710>
             └── x --> torch.Size([2, 3])
     """
-    return torch.squeeze(input, *args, *kwargs)
+    return stream_call(torch.squeeze, input, *args, *kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -469,7 +470,7 @@ def unsqueeze(input, dim):
         └── b --> <Size 0x7f5d1a5c99b0>
             └── x --> torch.Size([2, 1, 3])
     """
-    return torch.unsqueeze(input, dim)
+    return stream_call(torch.unsqueeze, input, dim)
 
 
 @doc_from_base()
@@ -518,7 +519,7 @@ def where(condition, x, y):
                               [[ 0,  3, 93, 89],
                                [ 0, 89, 85,  0]]])
     """
-    return torch.where(condition, x, y)
+    return stream_call(torch.where, condition, x, y)
 
 
 # noinspection PyShadowingBuiltins
@@ -586,4 +587,4 @@ def index_select(input, dim, index, *args, **kwargs):
                               [-2.1694, -0.4224,  0.3998],
                               [ 0.9777, -0.0101, -1.1500]])
     """
-    return torch.index_select(input, dim, index, *args, **kwargs)
+    return stream_call(torch.index_select, input, dim, index, *args, **kwargs)

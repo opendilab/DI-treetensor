@@ -5,6 +5,7 @@ from treevalue import method_treelize, TreeValue, typetrans
 
 from .base import Torch, rmreduce, post_reduce, auto_reduce
 from .size import Size
+from .stream import stream_call
 from ..common import Object, ireduce, clsmeta, return_self, auto_tree, get_tree_proxy
 from ..numpy import ndarray
 from ..utils import current_names, class_autoremove, replaceable_partial
@@ -152,7 +153,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         This tensor and the returned :class:`treetensor.numpy.ndarray` share the same underlying storage.
         Changes to self tensor will be reflected in the ``ndarray`` and vice versa.
         """
-        return self.numpy()
+        return stream_call(self.numpy, )
 
     @doc_from_base()
     @method_treelize(return_type=Object)
@@ -175,7 +176,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
                 'c': True,
             })
         """
-        return self.tolist()
+        return stream_call(self.tolist, )
 
     @doc_from_base()
     @method_treelize()
@@ -186,7 +187,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         If this tree tensor is already in CPU memory and on the correct device,
         then no copy is performed and the original object is returned.
         """
-        return self.cpu(*args, **kwargs)
+        return stream_call(self.cpu, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -197,7 +198,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         If this tree tensor is already in CUDA memory and on the correct device,
         then no copy is performed and the original object is returned.
         """
-        return self.cuda(*args, **kwargs)
+        return stream_call(self.cuda, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -221,7 +222,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
                 └── x --> tensor([[4., 5.],
                                   [6., 7.]], dtype=torch.float64)
         """
-        return self.to(*args, **kwargs)
+        return stream_call(self.to, *args, **kwargs)
 
     @doc_from_base()
     @ireduce(sum)
@@ -230,7 +231,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.numel`
         """
-        return self.numel()
+        return stream_call(self.numel, )
 
     @property
     @doc_from_base()
@@ -346,7 +347,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
                                   [ 0.2531, -0.0637,  0.9822,  2.1618],
                                   [ 2.0140, -0.0929,  0.9304,  1.5430]], requires_grad=True)
         """
-        return self.requires_grad_(requires_grad)
+        return stream_call(self.requires_grad_, requires_grad)
 
     @doc_from_base()
     @method_treelize()
@@ -354,7 +355,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.detach`.
         """
-        return self.detach()
+        return stream_call(self.detach, )
 
     @doc_from_base()
     @return_self
@@ -363,7 +364,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.detach`.
         """
-        return self.detach_()
+        return stream_call(self.detach_, )
 
     # noinspection PyShadowingBuiltins,PyUnusedLocal
     @post_reduce(pytorch.all)
@@ -513,7 +514,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.clone`.
         """
-        return self.clone(*args, **kwargs)
+        return stream_call(self.clone, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -521,7 +522,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.dot`.
         """
-        return self.dot(other, *args, **kwargs)
+        return stream_call(self.dot, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -529,7 +530,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.mm`.
         """
-        return self.mm(mat2, *args, **kwargs)
+        return stream_call(self.mm, mat2, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -537,7 +538,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.matmul`.
         """
-        return self.matmul(tensor2, *args, **kwargs)
+        return stream_call(self.matmul, tensor2, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -545,7 +546,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.isfinite`.
         """
-        return self.isfinite()
+        return stream_call(self.isfinite, )
 
     @doc_from_base()
     @method_treelize()
@@ -553,7 +554,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.isinf`.
         """
-        return self.isinf()
+        return stream_call(self.isinf, )
 
     @doc_from_base()
     @method_treelize()
@@ -561,7 +562,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.isnan`.
         """
-        return self.isnan()
+        return stream_call(self.isnan, )
 
     @doc_from_base()
     @method_treelize()
@@ -569,7 +570,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.isclose`.
         """
-        return self.isclose(other, *args, **kwargs)
+        return stream_call(self.isclose, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -577,7 +578,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.abs`.
         """
-        return self.abs(*args, **kwargs)
+        return stream_call(self.abs, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -586,7 +587,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.abs_`.
         """
-        return self.abs_(*args, **kwargs)
+        return stream_call(self.abs_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -594,7 +595,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.clamp`.
         """
-        return self.clamp(*args, **kwargs)
+        return stream_call(self.clamp, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -603,7 +604,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.clamp_`.
         """
-        return self.clamp_(*args, **kwargs)
+        return stream_call(self.clamp_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -611,7 +612,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.sign`.
         """
-        return self.sign(*args, **kwargs)
+        return stream_call(self.sign, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -620,7 +621,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.sign`.
         """
-        return self.sign_(*args, **kwargs)
+        return stream_call(self.sign_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -628,7 +629,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.sigmoid`.
         """
-        return self.sigmoid(*args, **kwargs)
+        return stream_call(self.sigmoid, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -637,7 +638,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.sigmoid_`.
         """
-        return self.sigmoid_(*args, **kwargs)
+        return stream_call(self.sigmoid_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -645,7 +646,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.floor`.
         """
-        return self.floor(*args, **kwargs)
+        return stream_call(self.floor, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -654,7 +655,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.floor_`.
         """
-        return self.floor_(*args, **kwargs)
+        return stream_call(self.floor_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -662,7 +663,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.ceil`.
         """
-        return self.ceil(*args, **kwargs)
+        return stream_call(self.ceil, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -671,7 +672,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.ceil_`.
         """
-        return self.ceil_(*args, **kwargs)
+        return stream_call(self.ceil_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -679,7 +680,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.round`.
         """
-        return self.round(*args, **kwargs)
+        return stream_call(self.round, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -688,7 +689,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.round_`.
         """
-        return self.round_(*args, **kwargs)
+        return stream_call(self.round_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -696,7 +697,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.add`.
         """
-        return self.add(other, *args, **kwargs)
+        return stream_call(self.add, other, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -705,7 +706,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.add`.
         """
-        return self.add_(other, *args, **kwargs)
+        return stream_call(self.add_, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -713,7 +714,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.sub`.
         """
-        return self.sub(other, *args, **kwargs)
+        return stream_call(self.sub, other, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -722,7 +723,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.sub`.
         """
-        return self.sub_(other, *args, **kwargs)
+        return stream_call(self.sub_, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -730,7 +731,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.mul`.
         """
-        return self.mul(other, *args, **kwargs)
+        return stream_call(self.mul, other, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -739,7 +740,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.mul`.
         """
-        return self.mul_(other, *args, **kwargs)
+        return stream_call(self.mul_, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -747,7 +748,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.div`.
         """
-        return self.div(other, *args, **kwargs)
+        return stream_call(self.div, other, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -756,7 +757,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.div`.
         """
-        return self.div_(other, *args, **kwargs)
+        return stream_call(self.div_, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -764,7 +765,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.pow`.
         """
-        return self.pow(exponent, *args, **kwargs)
+        return stream_call(self.pow, exponent, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -773,7 +774,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.pow`.
         """
-        return self.pow_(exponent, *args, **kwargs)
+        return stream_call(self.pow_, exponent, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -781,7 +782,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.neg`.
         """
-        return self.neg(*args, **kwargs)
+        return stream_call(self.neg, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -790,7 +791,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.neg`.
         """
-        return self.neg_(*args, **kwargs)
+        return stream_call(self.neg_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -798,7 +799,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.exp`.
         """
-        return self.exp(*args, **kwargs)
+        return stream_call(self.exp, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -807,7 +808,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.exp`.
         """
-        return self.exp_(*args, **kwargs)
+        return stream_call(self.exp_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -815,7 +816,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.exp2`.
         """
-        return self.exp2(*args, **kwargs)
+        return stream_call(self.exp2, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -824,7 +825,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.exp2`.
         """
-        return self.exp2_(*args, **kwargs)
+        return stream_call(self.exp2_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -832,7 +833,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.sqrt`.
         """
-        return self.sqrt(*args, **kwargs)
+        return stream_call(self.sqrt, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -841,7 +842,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.sqrt`.
         """
-        return self.sqrt_(*args, **kwargs)
+        return stream_call(self.sqrt_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -849,7 +850,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.log`.
         """
-        return self.log(*args, **kwargs)
+        return stream_call(self.log, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -858,7 +859,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.log`.
         """
-        return self.log_(*args, **kwargs)
+        return stream_call(self.log_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -866,7 +867,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.log2`.
         """
-        return self.log2(*args, **kwargs)
+        return stream_call(self.log2, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -875,7 +876,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.log2`.
         """
-        return self.log2_(*args, **kwargs)
+        return stream_call(self.log2_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -883,7 +884,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.log10`.
         """
-        return self.log10(*args, **kwargs)
+        return stream_call(self.log10, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -892,7 +893,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.log10`.
         """
-        return self.log10_(*args, **kwargs)
+        return stream_call(self.log10_, *args, **kwargs)
 
     @doc_from_base()
     @post_process(__auto_tensor)
@@ -901,7 +902,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.split`.
         """
-        return self.split(split_size, *args, **kwargs)
+        return stream_call(self.split, split_size, *args, **kwargs)
 
     @doc_from_base()
     @post_process(__auto_tensor)
@@ -910,7 +911,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.chunk`.
         """
-        return self.chunk(chunks, *args, **kwargs)
+        return stream_call(self.chunk, chunks, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -918,7 +919,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.reshape`.
         """
-        return self.reshape(*args, **kwargs)
+        return stream_call(self.reshape, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -926,7 +927,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.squeeze`.
         """
-        return self.squeeze(*args, **kwargs)
+        return stream_call(self.squeeze, *args, **kwargs)
 
     @doc_from_base()
     @return_self
@@ -935,7 +936,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.squeeze'.
         """
-        return self.squeeze_(*args, **kwargs)
+        return stream_call(self.squeeze_, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -943,7 +944,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.unsqueeze`.
         """
-        return self.unsqueeze(dim)
+        return stream_call(self.unsqueeze, dim)
 
     @doc_from_base()
     @return_self
@@ -952,7 +953,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         In-place version of :meth:`Tensor.unsqueeze'.
         """
-        return self.unsqueeze_(dim)
+        return stream_call(self.unsqueeze_, dim)
 
     @doc_from_base()
     @method_treelize()
@@ -962,7 +963,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         ``treetensor.torch.where(condition, self, y)``.
         See :func:`treetensor.torch.where`.
         """
-        return self.where(condition, y, *args, **kwargs)
+        return stream_call(self.where, condition, y, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -970,7 +971,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.index_select`.
         """
-        return self.index_select(dim, index)
+        return stream_call(self.index_select, dim, index)
 
     # noinspection PyShadowingBuiltins,PyUnusedLocal
     @rmreduce()
@@ -1044,7 +1045,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.dist`.
         """
-        return self.dist(other, *args, **kwargs)
+        return stream_call(self.dist, other, *args, **kwargs)
 
     @doc_from_base()
     @method_treelize()
@@ -1052,4 +1053,4 @@ class Tensor(Torch, metaclass=_TensorMeta):
         """
         See :func:`treetensor.torch.norm`.
         """
-        return self.norm(*args, **kwargs)
+        return stream_call(self.norm, *args, **kwargs)

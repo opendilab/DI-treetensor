@@ -7,7 +7,7 @@ _stream_pool: Optional[List[torch.cuda.Stream]] = None
 _global_streams: Optional[List[torch.cuda.Stream]] = None
 
 __all__ = [
-    'stream',
+    'stream', 'stream_call',
 ]
 
 
