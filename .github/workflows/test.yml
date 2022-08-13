@@ -1,7 +1,10 @@
 name: Code Test
 
 on:
-  - push
+  push:
+    branches: [ main, 'dev/*', 'test/*', 'fix/*' ]
+  pull_request:
+    branches: [ main, 'dev/*', 'test/*', 'fix/*' ]
 
 jobs:
   unittest:
@@ -13,7 +16,6 @@ jobs:
         os:
           - 'ubuntu-18.04'
         python-version:
-          - '3.6'
           - '3.7'
           - '3.8'
           - '3.9'
@@ -28,10 +30,6 @@ jobs:
           - '1.8.0'
           - '1.10.0'
         exclude:
-          - python-version: '3.6'
-            numpy-version: '1.20.0'
-          - python-version: '3.6'
-            numpy-version: '1.22.0'
           - python-version: '3.7'
             numpy-version: '1.22.0'
           - python-version: '3.8'
