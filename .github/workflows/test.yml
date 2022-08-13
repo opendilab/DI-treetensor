@@ -37,6 +37,10 @@ jobs:
             torch-version: '1.2.0'
           - python-version: '3.9'
             torch-version: '1.6.0'
+          - os: 'windows-2019'
+            torch-version: '1.2.0'
+          - os: 'windows-2019'
+            torch-version: '1.6.0'
 
     steps:
       - name: Get system version for Linux
