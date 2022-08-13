@@ -1,0 +1,671 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Customized Operations For Different Fields &mdash; DI-treetensor 0.3.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="treetensor.common" href="../../api_doc/common/index.html" />
+    <link rel="prev" title="Stack Structured Data" href="../stack/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/plugins/index.html">Plugins</a></li>
+</ul>
+<p><span class="caption-text">Best Practice</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customized Operations For Different Fields</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Customized Operations For Different Fields</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/best_practice/operation/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="customized-operations-for-different-fields">
+<h1>Customized Operations For Different Fields<a class="headerlink" href="#customized-operations-for-different-fields" title="Permalink to this headline">¶</a></h1>
+<p>Here is another example of the custom operations implemented with both native torch API and treetensor API.</p>
+<div class="highlight-python notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">import</span> <span class="nn">treetensor.torch</span> <span class="k">as</span> <span class="nn">ttorch</span>
+
+<span class="n">T</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span>
+
+
+<span class="k">def</span> <span class="nf">with_nativetensor</span><span class="p">(</span><span class="n">batch_</span><span class="p">):</span>
+    <span class="n">mean_b_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">even_index_a_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch_</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">batch_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;a&#39;</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+                <span class="n">even_index_a_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+                <span class="n">transformed_v</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span>
+                <span class="n">mean_b_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transformed_v</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k1</span><span class="p">,</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">k1</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+                        <span class="n">v1</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ignore keys: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ignore keys: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch_</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">batch_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span>
+                <span class="n">batch_</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;noise&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="n">mean_b</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mean_b_list</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_b_list</span><span class="p">)</span>
+    <span class="n">even_index_a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">even_index_a_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">batch_</span><span class="p">,</span> <span class="n">mean_b</span><span class="p">,</span> <span class="n">even_index_a</span>
+
+
+<span class="k">def</span> <span class="nf">with_treetensor</span><span class="p">(</span><span class="n">batch_</span><span class="p">):</span>
+    <span class="n">batch_</span> <span class="o">=</span> <span class="p">[</span><span class="n">ttorch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batch_</span><span class="p">]</span>
+    <span class="n">batch_</span> <span class="o">=</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">batch_</span><span class="p">)</span>
+    <span class="n">batch_</span> <span class="o">=</span> <span class="n">batch_</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">batch_</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">batch_</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span>
+    <span class="n">batch_</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">noise</span> <span class="o">=</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">mean_b</span> <span class="o">=</span> <span class="n">batch_</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">even_index_a</span> <span class="o">=</span> <span class="n">batch_</span><span class="o">.</span><span class="n">a</span><span class="p">[:,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">batch_</span> <span class="o">=</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">batch_</span><span class="p">,</span> <span class="n">split_size_or_sections</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">batch_</span><span class="p">,</span> <span class="n">mean_b</span><span class="p">,</span> <span class="n">even_index_a</span>
+
+
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">8</span><span class="p">)),</span>
+        <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,)),</span>
+        <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_data</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">B</span><span class="p">)]</span>
+    <span class="n">batch0</span><span class="p">,</span> <span class="n">mean0</span><span class="p">,</span> <span class="n">even_index_a0</span> <span class="o">=</span> <span class="n">with_nativetensor</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">))</span>
+    <span class="n">batch1</span><span class="p">,</span> <span class="n">mean1</span><span class="p">,</span> <span class="n">even_index_a1</span> <span class="o">=</span> <span class="n">with_treetensor</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">batch</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">batch0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">batch1</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mean0</span> <span class="o">-</span> <span class="n">mean1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean0 &amp; mean1:&#39;</span><span class="p">,</span> <span class="n">mean0</span><span class="p">,</span> <span class="n">mean1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">even_index_a0</span> <span class="o">-</span> <span class="n">even_index_a1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;even_index_a0:&#39;</span><span class="p">,</span> <span class="n">even_index_a0</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;even_index_a1:&#39;</span><span class="p">,</span> <span class="n">even_index_a1</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch0</span><span class="p">)</span> <span class="o">==</span> <span class="n">B</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch1</span><span class="p">)</span> <span class="o">==</span> <span class="n">B</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ttorch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">batch1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div></td></tr></table></div>
+</div>
+<p>The output should be like below, and all the assertions can be passed.</p>
+<div class="highlight-text notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span>[{&#39;a&#39;: tensor([[0.4731, 0.6351, 0.2706, 0.3762, 0.4150, 0.0208, 0.6677, 0.4468],
+        [0.7951, 0.3480, 0.0183, 0.4462, 0.5581, 0.4473, 0.1161, 0.0418],
+        [0.4565, 0.7561, 0.6691, 0.9773, 0.2878, 0.5573, 0.1814, 0.7963]]), &#39;b&#39;: tensor([0.8683, 0.1603, 0.1651, 0.5127, 0.9587, 0.6814]), &#39;c&#39;: {&#39;d&#39;: tensor([6])}}, {&#39;a&#39;: tensor([[0.3168, 0.2201, 0.0122, 0.5847, 0.6930, 0.1801, 0.5534, 0.1199],
+        [0.4908, 0.8839, 0.3110, 0.8683, 0.5799, 0.5776, 0.3181, 0.4500],
+        [0.7320, 0.4853, 0.4643, 0.2655, 0.4360, 0.4619, 0.0044, 0.5693]]), &#39;b&#39;: tensor([0.9367, 0.9031, 0.0106, 0.9151, 0.7558, 0.3350]), &#39;c&#39;: {&#39;d&#39;: tensor([0])}}, {&#39;a&#39;: tensor([[0.4541, 0.5872, 0.2400, 0.4117, 0.7437, 0.0663, 0.3342, 0.6384],
+        [0.5464, 0.1934, 0.7719, 0.8663, 0.7837, 0.3763, 0.3179, 0.2620],
+        [0.8269, 0.7375, 0.2747, 0.4411, 0.9195, 0.1205, 0.3938, 0.9118]]), &#39;b&#39;: tensor([0.1550, 0.9626, 0.6337, 0.5965, 0.1505, 0.6252]), &#39;c&#39;: {&#39;d&#39;: tensor([7])}}, {&#39;a&#39;: tensor([[0.8287, 0.4365, 0.6077, 0.7186, 0.1275, 0.5857, 0.6992, 0.0248],
+        [0.9155, 0.4002, 0.1907, 0.3264, 0.1533, 0.3362, 0.0939, 0.6839],
+        [0.6931, 0.1934, 0.0122, 0.5924, 0.4514, 0.1208, 0.7547, 0.7320]]), &#39;b&#39;: tensor([0.7800, 0.8735, 0.1591, 0.4672, 0.2126, 0.8497]), &#39;c&#39;: {&#39;d&#39;: tensor([1])}}]
+
+
+
+(&lt;Tensor 0x7fa9f76a45d0&gt;
+├── &#39;a&#39; --&gt; tensor([[[0.4731, 0.6351, 0.2706, 0.3762, 0.4150, 0.0208, 0.6677, 0.4468],
+│                    [0.7951, 0.3480, 0.0183, 0.4462, 0.5581, 0.4473, 0.1161, 0.0418],
+│                    [0.4565, 0.7561, 0.6691, 0.9773, 0.2878, 0.5573, 0.1814, 0.7963]]])
+├── &#39;b&#39; --&gt; tensor([[1.7539, 1.0257, 1.0273, 1.2629, 1.9191, 1.4643]])
+└── &#39;c&#39; --&gt; &lt;Tensor 0x7fa9f76a4590&gt;
+    ├── &#39;d&#39; --&gt; tensor([[6.]])
+    └── &#39;noise&#39; --&gt; tensor([[[[ 0.6887,  1.4261,  0.5618, -0.9893,  0.4560],
+                              [ 0.9892,  1.5741,  0.5258, -0.6351,  1.2045],
+                              [-0.3133,  1.3283, -2.0301,  0.9267, -1.6552],
+                              [-0.6892,  1.5893, -0.3537, -1.6662, -0.9262]],
+                    
+                             [[ 0.4751,  1.1777,  1.7447, -0.3413, -1.5581],
+                              [ 0.8875, -0.6632,  0.0876,  0.3764, -1.3161],
+                              [-1.1292, -1.5339,  1.4133, -0.3470,  1.5961],
+                              [-0.5885,  0.9203, -0.3720,  1.0995,  0.8114]],
+                    
+                             [[-0.3653, -2.1343, -0.0328,  1.6607, -0.7763],
+                              [-1.1374,  1.5896,  0.9243, -0.3374,  0.4178],
+                              [-0.9067, -0.6984, -0.3903, -1.1445, -1.0946],
+                              [-0.0504,  0.3041, -1.2114,  1.3055,  0.2402]]]])
+, &lt;Tensor 0x7fa9f76a4650&gt;
+├── &#39;a&#39; --&gt; tensor([[[0.3168, 0.2201, 0.0122, 0.5847, 0.6930, 0.1801, 0.5534, 0.1199],
+│                    [0.4908, 0.8839, 0.3110, 0.8683, 0.5799, 0.5776, 0.3181, 0.4500],
+│                    [0.7320, 0.4853, 0.4643, 0.2655, 0.4360, 0.4619, 0.0044, 0.5693]]])
+├── &#39;b&#39; --&gt; tensor([[1.8774, 1.8157, 1.0001, 1.8374, 1.5712, 1.1123]])
+└── &#39;c&#39; --&gt; &lt;Tensor 0x7fa9f76a4610&gt;
+    ├── &#39;d&#39; --&gt; tensor([[0.]])
+    └── &#39;noise&#39; --&gt; tensor([[[[ 0.6554, -0.5187,  0.9445, -1.3379,  2.6179],
+                              [ 0.6772, -0.0506,  1.0099,  0.2987,  1.2620],
+                              [ 1.0647,  0.4670, -0.4624, -1.2441, -2.4814],
+                              [ 0.4445, -0.7678,  0.3422,  0.3248,  0.5828]],
+                    
+                             [[-0.0703, -0.6260,  0.4461,  0.8422, -2.2716],
+                              [-0.5772,  0.4431,  0.2634,  0.7171, -0.6420],
+                              [ 0.5060, -0.0212, -0.9042,  1.1596, -0.1889],
+                              [ 1.3045,  1.3046,  0.3102,  0.5607,  0.6515]],
+                    
+                             [[ 0.0090, -0.8155, -0.1829,  0.2086, -0.1976],
+                              [-0.7652, -2.0191,  1.0058,  1.2749, -1.4019],
+                              [-1.5568,  0.3646,  1.2288, -2.0979,  0.5548],
+                              [-0.8589,  0.2397, -0.4064,  0.8746,  0.5684]]]])
+, &lt;Tensor 0x7fa9f76a46d0&gt;
+├── &#39;a&#39; --&gt; tensor([[[0.4541, 0.5872, 0.2400, 0.4117, 0.7437, 0.0663, 0.3342, 0.6384],
+│                    [0.5464, 0.1934, 0.7719, 0.8663, 0.7837, 0.3763, 0.3179, 0.2620],
+│                    [0.8269, 0.7375, 0.2747, 0.4411, 0.9195, 0.1205, 0.3938, 0.9118]]])
+├── &#39;b&#39; --&gt; tensor([[1.0240, 1.9266, 1.4016, 1.3558, 1.0227, 1.3909]])
+└── &#39;c&#39; --&gt; &lt;Tensor 0x7fa9f76a4690&gt;
+    ├── &#39;d&#39; --&gt; tensor([[7.]])
+    └── &#39;noise&#39; --&gt; tensor([[[[-0.6848, -0.3466, -1.4159, -0.2048, -1.1780],
+                              [-0.3223,  0.3872,  0.4237, -1.2635,  0.7271],
+                              [-0.3295,  1.1795, -0.3092, -0.6012, -0.2610],
+                              [ 0.9699, -0.1161, -0.0027, -0.5657,  0.0666]],
+                    
+                             [[ 0.2272,  0.4758, -0.0517, -1.1071, -0.0549],
+                              [-1.8290,  1.2255,  0.4837, -0.6318,  1.6075],
+                              [ 1.2728, -0.1683,  0.5443,  1.0197, -0.1540],
+                              [ 1.3030, -0.8254,  1.5599,  1.3194, -0.5823]],
+                    
+                             [[ 0.2082,  0.7017,  0.5061, -0.3758,  0.1334],
+                              [ 0.0176,  0.4647, -1.9111, -1.5606,  2.2668],
+                              [ 0.7537,  0.2987, -0.2021,  1.9952, -0.4871],
+                              [-0.0779,  1.6981,  1.1970, -0.8614, -0.9925]]]])
+, &lt;Tensor 0x7fa9f76a4750&gt;
+├── &#39;a&#39; --&gt; tensor([[[0.8287, 0.4365, 0.6077, 0.7186, 0.1275, 0.5857, 0.6992, 0.0248],
+│                    [0.9155, 0.4002, 0.1907, 0.3264, 0.1533, 0.3362, 0.0939, 0.6839],
+│                    [0.6931, 0.1934, 0.0122, 0.5924, 0.4514, 0.1208, 0.7547, 0.7320]]])
+├── &#39;b&#39; --&gt; tensor([[1.6085, 1.7631, 1.0253, 1.2183, 1.0452, 1.7221]])
+└── &#39;c&#39; --&gt; &lt;Tensor 0x7fa9f76a4710&gt;
+    ├── &#39;d&#39; --&gt; tensor([[1.]])
+    └── &#39;noise&#39; --&gt; tensor([[[[ 0.5085,  0.4361, -1.5793,  0.5333,  1.5849],
+                              [-0.6177, -0.4275,  0.0791,  1.6906, -0.8709],
+                              [ 1.1833, -1.3238, -0.7429, -1.8608, -0.9776],
+                              [ 0.6453, -1.1083, -0.5992, -0.7837, -0.7580]],
+                    
+                             [[ 0.1102, -0.9633, -0.1853,  0.3429, -0.9974],
+                              [-1.5107,  1.0526, -0.5934, -1.1520,  0.9820],
+                              [-1.4593, -0.9775,  0.3114,  0.2092, -0.3233],
+                              [ 0.2676,  1.1276,  0.7979, -0.1588,  0.9876]],
+                    
+                             [[ 0.8711, -1.0220,  0.2964,  0.6687, -0.2371],
+                              [ 1.8405,  0.9884, -1.5535, -0.0559,  0.2022],
+                              [ 1.1365,  0.2209,  1.6355, -0.5037, -2.1714],
+                              [-0.6908,  0.3965, -1.2726,  1.1618, -1.5675]]]])
+)
+mean0 &amp; mean1: tensor(1.4238) tensor(1.4238)
+
+
+even_index_a0: tensor([[[0.4731, 0.6351, 0.2706, 0.3762, 0.4150, 0.0208, 0.6677, 0.4468],
+         [0.4565, 0.7561, 0.6691, 0.9773, 0.2878, 0.5573, 0.1814, 0.7963]],
+
+        [[0.3168, 0.2201, 0.0122, 0.5847, 0.6930, 0.1801, 0.5534, 0.1199],
+         [0.7320, 0.4853, 0.4643, 0.2655, 0.4360, 0.4619, 0.0044, 0.5693]],
+
+        [[0.4541, 0.5872, 0.2400, 0.4117, 0.7437, 0.0663, 0.3342, 0.6384],
+         [0.8269, 0.7375, 0.2747, 0.4411, 0.9195, 0.1205, 0.3938, 0.9118]],
+
+        [[0.8287, 0.4365, 0.6077, 0.7186, 0.1275, 0.5857, 0.6992, 0.0248],
+         [0.6931, 0.1934, 0.0122, 0.5924, 0.4514, 0.1208, 0.7547, 0.7320]]])
+even_index_a1: tensor([[[0.4731, 0.6351, 0.2706, 0.3762, 0.4150, 0.0208, 0.6677, 0.4468],
+         [0.4565, 0.7561, 0.6691, 0.9773, 0.2878, 0.5573, 0.1814, 0.7963]],
+
+        [[0.3168, 0.2201, 0.0122, 0.5847, 0.6930, 0.1801, 0.5534, 0.1199],
+         [0.7320, 0.4853, 0.4643, 0.2655, 0.4360, 0.4619, 0.0044, 0.5693]],
+
+        [[0.4541, 0.5872, 0.2400, 0.4117, 0.7437, 0.0663, 0.3342, 0.6384],
+         [0.8269, 0.7375, 0.2747, 0.4411, 0.9195, 0.1205, 0.3938, 0.9118]],
+
+        [[0.8287, 0.4365, 0.6077, 0.7186, 0.1275, 0.5857, 0.6992, 0.0248],
+         [0.6931, 0.1934, 0.0122, 0.5924, 0.4514, 0.1208, 0.7547, 0.7320]]])
+&lt;Size 0x7fa9f76a44d0&gt;
+├── &#39;a&#39; --&gt; torch.Size([1, 3, 8])
+├── &#39;b&#39; --&gt; torch.Size([1, 6])
+└── &#39;c&#39; --&gt; &lt;Size 0x7fa9f76a4890&gt;
+    ├── &#39;d&#39; --&gt; torch.Size([1, 1])
+    └── &#39;noise&#39; --&gt; torch.Size([1, 3, 4, 5])
+</pre></div></td></tr></table></div>
+</div>
+<p>The implement with treetensor API is much simpler and clearer.</p>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../api_doc/common/index.html" class="btn btn-neutral float-right" title="treetensor.common" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../stack/index.html" class="btn btn-neutral float-left" title="Stack Structured Data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: test/os
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.2.1/best_practice/operation/index.html">v0.2.1</a></dd>
+                        <dd><a href="../../../../v0.3.0/best_practice/operation/index.html">v0.3.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="index.html">test/os</a></dd>
+                        <dd><a href="../../../../dev/stream/best_practice/operation/index.html">dev/stream</a></dd>
+                        <dd><a href="../../../../main/best_practice/operation/index.html">main</a></dd>
+                        <dd><a href="../../../../run/xdemos/best_practice/operation/index.html">run/xdemos</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
