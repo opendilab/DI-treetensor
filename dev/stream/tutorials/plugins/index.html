@@ -264,32 +264,32 @@ from treetensor.torch import Size
 
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
-    &#39;a&#39;:
-    torch.as_tensor([[-1, -2, -2, 2], [-1, 1, 3, 2], [-4, 9, -3, 7]],
-                    dtype=torch.long),
     &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[7, 0, 1], [7, 3, -4]], dtype=torch.long)
-    }
+        &#39;b&#39;: torch.as_tensor([[-2, 9, 8], [5, 1, 6]], dtype=torch.long)
+    },
+    &#39;a&#39;:
+    torch.as_tensor([[4, 0, -2, 1], [2, 9, 9, -5], [-1, 0, -5, 5]],
+                    dtype=torch.long)
 })
-t_shape = Size({&#39;a&#39;: torch.Size([3, 4]), &#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}})
+t_shape = Size({&#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}, &#39;a&#39;: torch.Size([3, 4])})
 t_tensor = Tensor({
     &#39;a&#39;:
     torch.as_tensor(
-        [[-0.7208329439163208, -0.36759379506111145, 0.18965262174606323],
-         [-0.7451672554016113, -1.4141688346862793, 0.7968824505805969]],
+        [[-0.185405895113945, 0.807240903377533, -0.8063638806343079],
+         [-0.3050934076309204, 0.008099663071334362, -1.315434455871582]],
         dtype=torch.float32),
     &#39;b&#39;:
     torch.as_tensor([[
-        0.8161407709121704, 0.04251113161444664, 1.3800437450408936,
-        -0.21588201820850372
+        0.4876067340373993, -1.0757815837860107, -0.2936181426048279,
+        1.2613768577575684
     ],
                      [
-                         0.309373676776886, 0.3466835021972656,
-                         0.21504606306552887, 0.0661209374666214
+                         1.2655733823776245, -0.7559563517570496,
+                         -0.5231496095657349, 1.9692845344543457
                      ],
                      [
-                         0.14666661620140076, -0.959415078163147,
-                         -1.0560418367385864, 0.21461717784404755
+                         3.3643550872802734, -0.786276638507843,
+                         -1.795569896697998, 0.3683099150657654
                      ]],
                     dtype=torch.float32)
 })
@@ -358,10 +358,11 @@ t_tensor = Tensor({
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../test/os/tutorials/plugins/index.html">test/os</a></dd>
+                        <dd><a href="../../../../12/merge/tutorials/plugins/index.html">12/merge</a></dd>
                         <dd><a href="index.html">dev/stream</a></dd>
                         <dd><a href="../../../../main/tutorials/plugins/index.html">main</a></dd>
                         <dd><a href="../../../../run/xdemos/tutorials/plugins/index.html">run/xdemos</a></dd>
+                        <dd><a href="../../../../test/os/tutorials/plugins/index.html">test/os</a></dd>
                 </dl>
         </div>
     </div>

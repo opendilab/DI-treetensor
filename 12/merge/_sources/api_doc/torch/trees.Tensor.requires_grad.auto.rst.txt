@@ -1,0 +1,16 @@
+requires\_grad
+===================
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. autoproperty:: requires_grad
+    
+    
+    
+
