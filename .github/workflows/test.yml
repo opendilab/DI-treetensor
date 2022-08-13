@@ -1,7 +1,10 @@
 name: Code Test
 
 on:
-  - push
+  push:
+    branches: [ main, 'dev/*', 'test/*', 'fix/*' ]
+  pull_request:
+    branches: [ main, 'dev/*', 'test/*', 'fix/*' ]
 
 jobs:
   unittest:
@@ -12,26 +15,20 @@ jobs:
       matrix:
         os:
           - 'ubuntu-18.04'
+          - 'windows-2019'  # need to be fixed, see: https://github.com/opendilab/treevalue/issues/41
+          - 'macos-10.15'
         python-version:
-          - '3.6'
           - '3.7'
           - '3.8'
           - '3.9'
         numpy-version:
           - '1.18.0'
-          - '1.20.0'
           - '1.22.0'
         torch-version:
           - '1.2.0'
-          - '1.4.0'
           - '1.6.0'
-          - '1.8.0'
           - '1.10.0'
         exclude:
-          - python-version: '3.6'
-            numpy-version: '1.20.0'
-          - python-version: '3.6'
-            numpy-version: '1.22.0'
           - python-version: '3.7'
             numpy-version: '1.22.0'
           - python-version: '3.8'
@@ -39,51 +36,86 @@ jobs:
           - python-version: '3.9'
             torch-version: '1.2.0'
           - python-version: '3.9'
-            torch-version: '1.4.0'
-          - python-version: '3.9'
             torch-version: '1.6.0'
+          - os: 'windows-2019'
+            torch-version: '1.2.0'
+          - os: 'windows-2019'
+            torch-version: '1.6.0'
+          - os: 'windows-2019'
+            python-version: '3.9'
+            numpy-version: '1.18.0'
 
     steps:
+      - name: Get system version for Linux
+        if: ${{ runner.os == 'Linux' }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Linux" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for Windows
+        if: ${{ runner.os == 'Windows' }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Windows" >> $GITHUB_ENV
+          echo "IS_WIN=1" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for MacOS
+        if: ${{ runner.os == 'macOS' }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=1" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 20
       - name: Set up system dependences on linux
         if: ${{ runner.os == 'Linux' }}
+        shell: bash
         run: |
           sudo apt-get update
           sudo apt-get install -y tree cloc wget curl make graphviz
-          sudo apt-get install -y libxml2-dev libxslt-dev python-dev  # need by pypy3
+          dot -V
+      - name: Set up system dependences on Windows
+        if: ${{ env.OS_NAME == 'Windows' }}
+        shell: bash
+        run: |
+          choco install tree cloc wget curl make zip graphviz
+          dot -V
+      - name: Set up system dependences on MacOS
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        shell: bash
+        run: |
+          brew install tree cloc wget curl make zip graphviz
           dot -V
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install basic dependencies
+        shell: bash
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade flake8 setuptools wheel twine
-      - name: Install latest numpy
-        if: ${{ matrix.numpy-version == 'latest' }}
-        run: |
-          pip install 'numpy'
       - name: Install numpy v${{ matrix.numpy-version }}
         if: ${{ matrix.numpy-version != 'latest' }}
+        shell: bash
         run: |
           pip install 'numpy==${{ matrix.numpy-version }}'
-      - name: Install latest pytorch
-        if: ${{ matrix.torch-version == 'latest' }}
-        run: |
-          pip install 'torch'
       - name: Install pytorch v${{ matrix.torch-version }}
         if: ${{ matrix.torch-version != 'latest' }}
+        shell: bash
         run: |
           pip install 'torch==${{ matrix.torch-version }}'
       - name: Install dependencies
+        shell: bash
         run: |
           pip install -r requirements.txt
           pip install -r requirements-test.txt
       - name: Test the basic environment
+        shell: bash
         run: |
           python -V
           pip --version
@@ -94,6 +126,7 @@ jobs:
       - name: Run unittest
         env:
           CI: 'true'
+        shell: bash
         run: |
           make unittest
       - name: Upload coverage to Codecov

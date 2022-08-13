@@ -5,9 +5,9 @@ name: Docs Deploy
 
 on:
   push:
-    branches: [ main, 'doc/*', 'dev/*' ]
+    branches: [ main, 'doc/*', 'dev/*', 'test/*' ]
   pull_request:
-    branches: [ main, 'doc/*', 'dev/*' ]
+    branches: [ main, 'doc/*', 'dev/*', 'test/*' ]
   release:
     types: [ published ]
 

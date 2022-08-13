@@ -1,6 +1,9 @@
+import unittest
+
 import numpy as np
 import pytest
 import torch
+from hbutils.testing import OS
 
 import treetensor.numpy as tnp
 import treetensor.torch as ttorch
@@ -52,7 +55,14 @@ class TestNumpyArray:
         assert self._DEMO_2.size == 15
         assert self._DEMO_3.size == 15
 
-    def test_nbytes(self):
+    @unittest.skipUnless(OS.windows, 'Windows only')
+    def test_nbytes_on_windows(self):
+        assert self._DEMO_1.nbytes == 72
+        assert self._DEMO_2.nbytes == 72
+        assert self._DEMO_3.nbytes == 72
+
+    @unittest.skipUnless(OS.linux or OS.macos, 'Linux or macos only')
+    def test_nbytes_on_linux_or_macos(self):
         assert self._DEMO_1.nbytes == 120
         assert self._DEMO_2.nbytes == 120
         assert self._DEMO_3.nbytes == 120
