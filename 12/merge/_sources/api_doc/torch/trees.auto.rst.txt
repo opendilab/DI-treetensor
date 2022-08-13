@@ -1,0 +1,12 @@
+Tree Classes
+=================
+
+.. currentmodule:: treetensor.torch
+
+    
+.. toctree:: 
+    :maxdepth: 2
+
+    trees.Size.auto
+    trees.Tensor.auto
+    
