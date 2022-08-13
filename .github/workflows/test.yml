@@ -21,13 +21,10 @@ jobs:
           - '3.9'
         numpy-version:
           - '1.18.0'
-          - '1.20.0'
           - '1.22.0'
         torch-version:
           - '1.2.0'
-          - '1.4.0'
           - '1.6.0'
-          - '1.8.0'
           - '1.10.0'
         exclude:
           - python-version: '3.7'
@@ -36,8 +33,6 @@ jobs:
             torch-version: '1.2.0'
           - python-version: '3.9'
             torch-version: '1.2.0'
-          - python-version: '3.9'
-            torch-version: '1.4.0'
           - python-version: '3.9'
             torch-version: '1.6.0'
 
