@@ -28,9 +28,6 @@ jobs:
           - '1.2.0'
           - '1.6.0'
           - '1.10.0'
-        include:
-          - numpy-version: 'latest'
-            torch-version: 'latest'
         exclude:
           - python-version: '3.7'
             numpy-version: '1.22.0'
