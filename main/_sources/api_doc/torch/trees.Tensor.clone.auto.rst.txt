@@ -17,8 +17,8 @@ Documentation
     :class: tip
 
     This documentation is based on
-    `torch.Tensor.clone <https://pytorch.org/docs/1.10.0+cu102/tensors.html#torch.Tensor.clone>`_
-    in `torch v1.10.0+cu102 <https://pytorch.org/docs/1.10.0+cu102/>`_.
+    `torch.Tensor.clone <https://pytorch.org/docs/1.12.1+cu102/tensors.html#torch.Tensor.clone>`_
+    in `torch v1.12.1+cu102 <https://pytorch.org/docs/1.12.1+cu102/>`_.
     **Its arguments' arrangements depend on the version of pytorch you installed**.
     
     If some arguments listed here are not working properly, please check your pytorch's version 
@@ -31,11 +31,11 @@ Documentation
     
     
     
-    The arguments and keyword arguments supported in torch v1.10.0+cu102 is listed below.
+    The arguments and keyword arguments supported in torch v1.12.1+cu102 is listed below.
     
     
 
-Description From Torch v1.10.0+cu102
+Description From Torch v1.12.1+cu102
 -----------------------------------------
 
 .. currentmodule:: torch
