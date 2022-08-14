@@ -1,0 +1,14 @@
+Size
+=========
+
+.. currentmodule:: treetensor.torch
+
+    
+.. toctree:: 
+    :maxdepth: 1
+
+    trees.Size.__init__.auto
+    trees.Size.count.auto
+    trees.Size.index.auto
+    trees.Size.numel.auto
+    

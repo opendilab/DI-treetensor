@@ -1,0 +1,16 @@
+\_\_init\_\_
+=================
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Size
+
+    .. automethod:: __init__
+    
+    
+    
+
