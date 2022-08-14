@@ -1,5 +1,8 @@
+import unittest
+
 import numpy as np
 import torch
+from hbutils.testing import vpython, OS
 from treevalue import typetrans, TreeValue, func_treelize
 
 import treetensor.numpy as tnp
@@ -47,6 +50,11 @@ class TestTorchTensorClass:
     def test_numel(self):
         assert self._DEMO_1.numel() == 18
 
+    # Here is a bug in torch on Windows and python3.10 environment
+    # RuntimeError: Numpy is not available
+    # The only solution I found is to downgrade python to 3.9 ==,
+    # so this is currently unsolvable.
+    @unittest.skipIf(OS.windows and vpython >= '3.10', 'Bug in torch')
     @choose_mark()
     def test_numpy(self):
         assert tnp.all(self._DEMO_1.numpy() == tnp.ndarray({
