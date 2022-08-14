@@ -1,6 +1,9 @@
+import unittest
+
 import numpy as np
 import pytest
 import torch
+from hbutils.testing import OS, vpython
 
 import treetensor.numpy as tnp
 import treetensor.torch as ttorch
@@ -52,7 +55,14 @@ class TestNumpyArray:
         assert self._DEMO_2.size == 15
         assert self._DEMO_3.size == 15
 
-    def test_nbytes(self):
+    @unittest.skipUnless(OS.windows, 'Windows only')
+    def test_nbytes_on_windows(self):
+        assert self._DEMO_1.nbytes == 72
+        assert self._DEMO_2.nbytes == 72
+        assert self._DEMO_3.nbytes == 72
+
+    @unittest.skipUnless(OS.linux or OS.macos, 'Linux or macos only')
+    def test_nbytes_on_linux_or_macos(self):
         assert self._DEMO_1.nbytes == 120
         assert self._DEMO_2.nbytes == 120
         assert self._DEMO_3.nbytes == 120
@@ -236,6 +246,11 @@ class TestNumpyArray:
             }
         })
 
+    # Here is a bug in torch on Windows and python3.10 environment
+    # RuntimeError: Numpy is not available
+    # The only solution I found is to downgrade python to 3.9 ==,
+    # so this is currently unsolvable.
+    @unittest.skipIf(OS.windows and vpython >= '3.10', 'Bug in torch')
     def test_tensor(self):
         assert ttorch.isclose(self._DEMO_1.tensor().double(), ttorch.Tensor({
             'a': ttorch.Tensor([[1, 2, 3], [4, 5, 6]]),
