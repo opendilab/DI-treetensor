@@ -1,4 +1,4 @@
-import random
+import itertools
 from typing import Optional, List
 
 import torch
@@ -27,9 +27,14 @@ def stream(cnt):
         _global_streams = _stream_pool[:cnt]
 
 
+_stream_count = itertools.count()
+
+
 def stream_call(func, *args, **kwargs):
     if _global_streams is not None:
-        with torch.cuda.stream(random.choice(_global_streams)):
+        _stream_index = next(_stream_count) % len(_global_streams)
+        _stream = _global_streams[_stream_index]
+        with torch.cuda.stream(_stream):
             return func(*args, **kwargs)
     else:
         return func(*args, **kwargs)
