@@ -172,6 +172,7 @@
 <span class="kn">from</span> <span class="nn">treevalue.tree.common</span> <span class="kn">import</span> <span class="n">TreeStorage</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">doc_from_base</span><span class="p">,</span> <span class="n">func_treelize</span>
+<span class="kn">from</span> <span class="nn">..stream</span> <span class="kn">import</span> <span class="n">stream_call</span>
 <span class="kn">from</span> <span class="nn">...utils</span> <span class="kn">import</span> <span class="n">args_mapping</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -211,7 +212,7 @@
 <span class="sd">        └── c --&gt; tensor([[ True, False],</span>
 <span class="sd">                          [False,  True]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="as_tensor"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.as_tensor.auto.html#treetensor.torch.as_tensor">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -241,7 +242,7 @@
 <span class="sd">            └── x --&gt; tensor([[4., 5.],</span>
 <span class="sd">                              [6., 7.]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -271,7 +272,7 @@
 <span class="sd">                              [6],</span>
 <span class="sd">                              [7]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">clone</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="zeros"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.zeros.auto.html#treetensor.torch.zeros">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -296,7 +297,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7f5fe0107208&gt;</span>
 <span class="sd">            └── x --&gt; tensor([0., 0., 0., 0.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -325,7 +326,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6080&gt;</span>
 <span class="sd">            └── x --&gt; tensor([0., 0., 0., 0.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="randn"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randn.auto.html#treetensor.torch.randn">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -351,7 +352,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6438&gt;</span>
 <span class="sd">            └── x --&gt; tensor([-0.7181,  0.1670, -1.3587, -1.5129])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -381,7 +382,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff3d6f420b8&gt;</span>
 <span class="sd">            └── x --&gt; tensor([ 0.1730,  1.6085,  0.6487, -1.1022])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="randint"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randint.auto.html#treetensor.torch.randint">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -407,7 +408,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6240&gt;</span>
 <span class="sd">            └── x --&gt; tensor([8, 8, 2, 4])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -437,7 +438,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6898&gt;</span>
 <span class="sd">            └── x --&gt; tensor([4., 4., 7., 1.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randint_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ones"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.ones.auto.html#treetensor.torch.ones">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -462,7 +463,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6dd8&gt;</span>
 <span class="sd">            └── x --&gt; tensor([1., 1., 1., 1.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -491,7 +492,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bbc240&gt;</span>
 <span class="sd">            └── x --&gt; tensor([1., 1., 1., 1.])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="full"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.full.auto.html#treetensor.torch.full">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -516,7 +517,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bbc8d0&gt;</span>
 <span class="sd">            └── x --&gt; tensor([2.3000, 2.3000, 2.3000, 2.3000])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -546,7 +547,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb69e8&gt;</span>
 <span class="sd">            └── x --&gt; tensor([2.3000, 2.3000, 2.3000, 2.3000])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">full_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="empty"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.empty.auto.html#treetensor.torch.empty">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -572,7 +573,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb66d8&gt;</span>
 <span class="sd">            └── x --&gt; tensor([-3.6515e+14,  4.5900e-41, -3.8091e-38,  3.0802e-41])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -602,7 +603,7 @@
 <span class="sd">        └── b --&gt; &lt;Tensor 0x7ff3d6f3cb38&gt;</span>
 <span class="sd">            └── x --&gt; tensor([-1.3267e-36,  3.0802e-41, -3.8049e-38,  3.0802e-41])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
 
@@ -645,8 +646,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../10/merge/index.html">10/merge</a></dd>
-                        <dd><a href="../../../../../dev/stream/index.html">dev/stream</a></dd>
                         <dd><a href="construct.html">main</a></dd>
                         <dd><a href="../../../../../run/xdemos/index.html">run/xdemos</a></dd>
                 </dl>

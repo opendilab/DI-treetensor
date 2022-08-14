@@ -172,6 +172,7 @@
 <span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">doc_from_base</span><span class="p">,</span> <span class="n">func_treelize</span>
+<span class="kn">from</span> <span class="nn">..stream</span> <span class="kn">import</span> <span class="n">stream_call</span>
 <span class="kn">from</span> <span class="nn">...common</span> <span class="kn">import</span> <span class="n">ireduce</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -211,7 +212,7 @@
 <span class="sd">        ... )</span>
 <span class="sd">        True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -239,7 +240,7 @@
 <span class="sd">            └── x --&gt; tensor([[ True, False,  True],</span>
 <span class="sd">                              [False,  True, False]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isfinite</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -267,7 +268,7 @@
 <span class="sd">            └── x --&gt; tensor([[False,  True, False],</span>
 <span class="sd">                              [ True, False, False]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isinf</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -295,7 +296,7 @@
 <span class="sd">            └── x --&gt; tensor([[False, False, False],</span>
 <span class="sd">                              [False, False,  True]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -335,7 +336,7 @@
 <span class="sd">            └── x --&gt; tensor([[ True, False,  True],</span>
 <span class="sd">                              [ True,  True, False]])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isclose</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -371,7 +372,7 @@
 <span class="sd">        │                 [False,  True]])</span>
 <span class="sd">        └── b --&gt; tensor([False, False,  True])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">eq</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -407,7 +408,7 @@
 <span class="sd">        │                 [ True, False]])</span>
 <span class="sd">        └── b --&gt; tensor([ True,  True, False])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ne</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ne</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -443,7 +444,7 @@
 <span class="sd">        │                 [ True, False]])</span>
 <span class="sd">        └── b --&gt; tensor([ True, False, False])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">lt</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -479,7 +480,7 @@
 <span class="sd">        │                 [ True,  True]])</span>
 <span class="sd">        └── b --&gt; tensor([ True, False,  True])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">le</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">le</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -515,7 +516,7 @@
 <span class="sd">        │                 [False, False]])</span>
 <span class="sd">        └── b --&gt; tensor([False,  True, False])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">gt</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyShadowingBuiltins</span>
@@ -551,7 +552,7 @@
 <span class="sd">        │                 [False,  True]])</span>
 <span class="sd">        └── b --&gt; tensor([False,  True,  True])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">ge</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ge</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
 
@@ -594,8 +595,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../10/merge/index.html">10/merge</a></dd>
-                        <dd><a href="../../../../../dev/stream/index.html">dev/stream</a></dd>
                         <dd><a href="comparison.html">main</a></dd>
                         <dd><a href="../../../../../run/xdemos/index.html">run/xdemos</a></dd>
                 </dl>
