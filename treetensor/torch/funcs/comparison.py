@@ -3,6 +3,7 @@ import builtins
 import torch
 
 from .base import doc_from_base, func_treelize
+from ..stream import stream_call
 from ...common import ireduce
 
 __all__ = [
@@ -42,7 +43,7 @@ def equal(input, other):
         ... )
         True
     """
-    return torch.equal(input, other)
+    return stream_call(torch.equal, input, other)
 
 
 # noinspection PyShadowingBuiltins
@@ -70,7 +71,7 @@ def isfinite(input):
             └── x --> tensor([[ True, False,  True],
                               [False,  True, False]])
     """
-    return torch.isfinite(input)
+    return stream_call(torch.isfinite, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -98,7 +99,7 @@ def isinf(input):
             └── x --> tensor([[False,  True, False],
                               [ True, False, False]])
     """
-    return torch.isinf(input)
+    return stream_call(torch.isinf, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -126,7 +127,7 @@ def isnan(input):
             └── x --> tensor([[False, False, False],
                               [False, False,  True]])
     """
-    return torch.isnan(input)
+    return stream_call(torch.isnan, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -166,7 +167,7 @@ def isclose(input, other, *args, **kwargs):
             └── x --> tensor([[ True, False,  True],
                               [ True,  True, False]])
     """
-    return torch.isclose(input, other, *args, **kwargs)
+    return stream_call(torch.isclose, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -202,7 +203,7 @@ def eq(input, other, *args, **kwargs):
         │                 [False,  True]])
         └── b --> tensor([False, False,  True])
     """
-    return torch.eq(input, other, *args, **kwargs)
+    return stream_call(torch.eq, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -238,7 +239,7 @@ def ne(input, other, *args, **kwargs):
         │                 [ True, False]])
         └── b --> tensor([ True,  True, False])
     """
-    return torch.ne(input, other, *args, **kwargs)
+    return stream_call(torch.ne, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -274,7 +275,7 @@ def lt(input, other, *args, **kwargs):
         │                 [ True, False]])
         └── b --> tensor([ True, False, False])
     """
-    return torch.lt(input, other, *args, **kwargs)
+    return stream_call(torch.lt, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -310,7 +311,7 @@ def le(input, other, *args, **kwargs):
         │                 [ True,  True]])
         └── b --> tensor([ True, False,  True])
     """
-    return torch.le(input, other, *args, **kwargs)
+    return stream_call(torch.le, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -346,7 +347,7 @@ def gt(input, other, *args, **kwargs):
         │                 [False, False]])
         └── b --> tensor([False,  True, False])
     """
-    return torch.gt(input, other, *args, **kwargs)
+    return stream_call(torch.gt, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -382,4 +383,4 @@ def ge(input, other, *args, **kwargs):
         │                 [False,  True]])
         └── b --> tensor([False,  True,  True])
     """
-    return torch.ge(input, other, *args, **kwargs)
+    return stream_call(torch.ge, input, other, *args, **kwargs)

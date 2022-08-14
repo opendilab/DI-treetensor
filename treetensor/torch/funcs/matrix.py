@@ -1,6 +1,7 @@
 import torch
 
 from .base import doc_from_base, func_treelize
+from ..stream import stream_call
 
 __all__ = [
     'dot', 'matmul', 'mm',
@@ -36,7 +37,7 @@ def dot(input, other, *args, **kwargs):
         └── b --> <Tensor 0x7feac55c9250>
             └── x --> tensor(11)
     """
-    return torch.dot(input, other, *args, **kwargs)
+    return stream_call(torch.dot, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -73,7 +74,7 @@ def matmul(input, other, *args, **kwargs):
         └── b --> <Tensor 0x7f2e74886430>
             └── x --> tensor(40)
     """
-    return torch.matmul(input, other, *args, **kwargs)
+    return stream_call(torch.matmul, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -111,4 +112,4 @@ def mm(input, mat2, *args, **kwargs):
             └── x --> tensor([[44, 32],
                               [80, 59]])
     """
-    return torch.mm(input, mat2, *args, **kwargs)
+    return stream_call(torch.mm, input, mat2, *args, **kwargs)

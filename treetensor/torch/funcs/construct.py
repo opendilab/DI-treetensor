@@ -3,6 +3,7 @@ from treevalue import TreeValue
 from treevalue.tree.common import TreeStorage
 
 from .base import doc_from_base, func_treelize
+from ..stream import stream_call
 from ...utils import args_mapping
 
 __all__ = [
@@ -42,7 +43,7 @@ def tensor(data, *args, **kwargs):
         └── c --> tensor([[ True, False],
                           [False,  True]])
     """
-    return torch.tensor(data, *args, **kwargs)
+    return stream_call(torch.tensor, data, *args, **kwargs)
 
 
 @doc_from_base()
@@ -72,7 +73,7 @@ def as_tensor(data, *args, **kwargs):
             └── x --> tensor([[4., 5.],
                               [6., 7.]])
     """
-    return torch.as_tensor(data, *args, **kwargs)
+    return stream_call(torch.as_tensor, data, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -102,7 +103,7 @@ def clone(input, *args, **kwargs):
                               [6],
                               [7]])
     """
-    return torch.clone(input, *args, **kwargs)
+    return stream_call(torch.clone, input, *args, **kwargs)
 
 
 @doc_from_base()
@@ -127,7 +128,7 @@ def zeros(*args, **kwargs):
         └── b --> <Tensor 0x7f5fe0107208>
             └── x --> tensor([0., 0., 0., 0.])
     """
-    return torch.zeros(*args, **kwargs)
+    return stream_call(torch.zeros, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -156,7 +157,7 @@ def zeros_like(input, *args, **kwargs):
         └── b --> <Tensor 0x7ff363bb6080>
             └── x --> tensor([0., 0., 0., 0.])
     """
-    return torch.zeros_like(input, *args, **kwargs)
+    return stream_call(torch.zeros_like, input, *args, **kwargs)
 
 
 @doc_from_base()
@@ -182,7 +183,7 @@ def randn(*args, **kwargs):
         └── b --> <Tensor 0x7ff363bb6438>
             └── x --> tensor([-0.7181,  0.1670, -1.3587, -1.5129])
     """
-    return torch.randn(*args, **kwargs)
+    return stream_call(torch.randn, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -212,7 +213,7 @@ def randn_like(input, *args, **kwargs):
         └── b --> <Tensor 0x7ff3d6f420b8>
             └── x --> tensor([ 0.1730,  1.6085,  0.6487, -1.1022])
     """
-    return torch.randn_like(input, *args, **kwargs)
+    return stream_call(torch.randn_like, input, *args, **kwargs)
 
 
 @doc_from_base()
@@ -238,7 +239,7 @@ def randint(*args, **kwargs):
         └── b --> <Tensor 0x7ff363bb6240>
             └── x --> tensor([8, 8, 2, 4])
     """
-    return torch.randint(*args, **kwargs)
+    return stream_call(torch.randint, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -268,7 +269,7 @@ def randint_like(input, *args, **kwargs):
         └── b --> <Tensor 0x7ff363bb6898>
             └── x --> tensor([4., 4., 7., 1.])
     """
-    return torch.randint_like(input, *args, **kwargs)
+    return stream_call(torch.randint_like, input, *args, **kwargs)
 
 
 @doc_from_base()
@@ -293,7 +294,7 @@ def ones(*args, **kwargs):
         └── b --> <Tensor 0x7ff363bb6dd8>
             └── x --> tensor([1., 1., 1., 1.])
     """
-    return torch.ones(*args, **kwargs)
+    return stream_call(torch.ones, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -322,7 +323,7 @@ def ones_like(input, *args, **kwargs):
         └── b --> <Tensor 0x7ff363bbc240>
             └── x --> tensor([1., 1., 1., 1.])
     """
-    return torch.ones_like(input, *args, **kwargs)
+    return stream_call(torch.ones_like, input, *args, **kwargs)
 
 
 @doc_from_base()
@@ -347,7 +348,7 @@ def full(*args, **kwargs):
         └── b --> <Tensor 0x7ff363bbc8d0>
             └── x --> tensor([2.3000, 2.3000, 2.3000, 2.3000])
     """
-    return torch.full(*args, **kwargs)
+    return stream_call(torch.full, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -377,7 +378,7 @@ def full_like(input, *args, **kwargs):
         └── b --> <Tensor 0x7ff363bb69e8>
             └── x --> tensor([2.3000, 2.3000, 2.3000, 2.3000])
     """
-    return torch.full_like(input, *args, **kwargs)
+    return stream_call(torch.full_like, input, *args, **kwargs)
 
 
 @doc_from_base()
@@ -403,7 +404,7 @@ def empty(*args, **kwargs):
         └── b --> <Tensor 0x7ff363bb66d8>
             └── x --> tensor([-3.6515e+14,  4.5900e-41, -3.8091e-38,  3.0802e-41])
     """
-    return torch.empty(*args, **kwargs)
+    return stream_call(torch.empty, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -433,4 +434,4 @@ def empty_like(input, *args, **kwargs):
         └── b --> <Tensor 0x7ff3d6f3cb38>
             └── x --> tensor([-1.3267e-36,  3.0802e-41, -3.8049e-38,  3.0802e-41])
     """
-    return torch.empty_like(input, *args, **kwargs)
+    return stream_call(torch.empty_like, input, *args, **kwargs)

@@ -1,6 +1,7 @@
 import torch
 
 from .base import doc_from_base, func_treelize
+from ..stream import stream_call
 from ...common import return_self
 
 __all__ = [
@@ -37,7 +38,7 @@ def abs(input, *args, **kwargs):
             └── x --> tensor([[3, 1],
                               [0, 2]])
     """
-    return torch.abs(input, *args, **kwargs)
+    return stream_call(torch.abs, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -69,7 +70,7 @@ def abs_(input):
             └── x --> tensor([[3, 1],
                               [0, 2]])
     """
-    return torch.abs_(input)
+    return stream_call(torch.abs_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -96,7 +97,7 @@ def clamp(input, *args, **kwargs):
             └── x --> tensor([[-0.5000,  0.5000, -0.3697],
                               [ 0.0489, -0.5000, -0.5000]])
     """
-    return torch.clamp(input, *args, **kwargs)
+    return stream_call(torch.clamp, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins,PyUnresolvedReferences
@@ -128,7 +129,7 @@ def clamp_(input, *args, **kwargs):
             └── x --> tensor([[-0.5000,  0.5000, -0.3697],
                               [ 0.0489, -0.5000, -0.5000]])
     """
-    return torch.clamp_(input, *args, **kwargs)
+    return stream_call(torch.clamp_, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -155,7 +156,7 @@ def sign(input, *args, **kwargs):
             └── x --> tensor([[-1,  1],
                               [ 0, -1]])
     """
-    return torch.sign(input, *args, **kwargs)
+    return stream_call(torch.sign, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -185,7 +186,7 @@ def round(input, *args, **kwargs):
             └── x --> tensor([[ 1., -4.,  1.],
                               [-5., -2.,  3.]])
     """
-    return torch.round(input, *args, **kwargs)
+    return stream_call(torch.round, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -219,7 +220,7 @@ def round_(input):
             └── x --> tensor([[ 1., -4.,  1.],
                               [-5., -2.,  3.]])
     """
-    return torch.round_(input)
+    return stream_call(torch.round_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -249,7 +250,7 @@ def floor(input, *args, **kwargs):
             └── x --> tensor([[ 1., -4.,  1.],
                               [-5., -2.,  2.]])
     """
-    return torch.floor(input, *args, **kwargs)
+    return stream_call(torch.floor, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -283,7 +284,7 @@ def floor_(input):
             └── x --> tensor([[ 1., -4.,  1.],
                               [-5., -2.,  2.]])
     """
-    return torch.floor_(input)
+    return stream_call(torch.floor_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -313,7 +314,7 @@ def ceil(input, *args, **kwargs):
             └── x --> tensor([[ 1., -3.,  2.],
                               [-4., -2.,  3.]])
     """
-    return torch.ceil(input, *args, **kwargs)
+    return stream_call(torch.ceil, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -347,7 +348,7 @@ def ceil_(input):
             └── x --> tensor([[ 1., -3.,  2.],
                               [-4., -2.,  3.]])
     """
-    return torch.ceil_(input)
+    return stream_call(torch.ceil_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -374,7 +375,7 @@ def sigmoid(input, *args, **kwargs):
             └── x --> tensor([[0.6225, 0.7685],
                               [0.0759, 0.5622]])
     """
-    return torch.sigmoid(input, *args, **kwargs)
+    return stream_call(torch.sigmoid, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -406,7 +407,7 @@ def sigmoid_(input):
             └── x --> tensor([[0.6225, 0.7685],
                               [0.0759, 0.5622]])
     """
-    return torch.sigmoid_(input)
+    return stream_call(torch.sigmoid_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -443,7 +444,7 @@ def add(input, other, *args, **kwargs):
             └── x --> tensor([[ 34, -10],
                               [ 22,  35]])
     """
-    return torch.add(input, other, *args, **kwargs)
+    return stream_call(torch.add, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -479,7 +480,7 @@ def sub(input, other, *args, **kwargs):
             └── x --> tensor([[-28,  20],
                               [ -4, -11]])
     """
-    return torch.sub(input, other, *args, **kwargs)
+    return stream_call(torch.sub, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -516,7 +517,7 @@ def mul(input, other, *args, **kwargs):
             └── x --> tensor([[ 93, -75],
                               [117, 276]])
     """
-    return torch.mul(input, other, *args, **kwargs)
+    return stream_call(torch.mul, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -571,7 +572,7 @@ def div(input, other, *args, **kwargs):
                               [[-7.8589,  1.3007, -2.0349],
                                [ 0.1460,  0.5554, -0.1900]]])
     """
-    return torch.div(input, other, *args, **kwargs)
+    return stream_call(torch.div, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -627,7 +628,7 @@ def pow(input, exponent, *args, **kwargs):
                               [[  1024,     36,  15625],
                                [823543,      8,   2401]]])
     """
-    return torch.pow(input, exponent, *args, **kwargs)
+    return stream_call(torch.pow, input, exponent, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -666,7 +667,7 @@ def neg(input, *args, **kwargs):
                               [[-4, -6, -5],
                                [-7, -2, -7]]])
     """
-    return torch.neg(input, *args, **kwargs)
+    return stream_call(torch.neg, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -710,7 +711,7 @@ def neg_(input):
                               [[-4, -6, -5],
                                [-7, -2, -7]]])
     """
-    return torch.neg_(input)
+    return stream_call(torch.neg_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -738,7 +739,7 @@ def exp(input, *args, **kwargs):
             └── x --> tensor([[1.3534e-01, 3.3201e+00, 1.2840e+00],
                               [8.8861e+06, 4.2521e+01, 9.6328e-02]])
     """
-    return torch.exp(input, *args, **kwargs)
+    return stream_call(torch.exp, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -771,7 +772,7 @@ def exp_(input):
             └── x --> tensor([[1.3534e-01, 3.3201e+00, 1.2840e+00],
                               [8.8861e+06, 4.2521e+01, 9.6328e-02]])
     """
-    return torch.exp_(input)
+    return stream_call(torch.exp_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -799,7 +800,7 @@ def exp2(input, *args, **kwargs):
             └── x --> tensor([[2.5000e-01, 2.2974e+00, 1.1892e+00],
                               [6.5536e+04, 1.3454e+01, 1.9751e-01]])
     """
-    return torch.exp2(input, *args, **kwargs)
+    return stream_call(torch.exp2, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -832,7 +833,7 @@ def exp2_(input):
             └── x --> tensor([[2.5000e-01, 2.2974e+00, 1.1892e+00],
                               [6.5536e+04, 1.3454e+01, 1.9751e-01]])
     """
-    return torch.exp2_(input)
+    return stream_call(torch.exp2_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -860,7 +861,7 @@ def sqrt(input, *args, **kwargs):
             └── x --> tensor([[   nan, 1.0954, 0.5000],
                               [4.0000, 1.9365,    nan]])
     """
-    return torch.sqrt(input, *args, **kwargs)
+    return stream_call(torch.sqrt, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -893,7 +894,7 @@ def sqrt_(input):
             └── x --> tensor([[   nan, 1.0954, 0.5000],
                               [4.0000, 1.9365,    nan]])
     """
-    return torch.sqrt_(input)
+    return stream_call(torch.sqrt_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -921,7 +922,7 @@ def log(input, *args, **kwargs):
             └── x --> tensor([[    nan,  0.1823, -1.3863],
                               [ 2.7726,  1.3218,     nan]])
     """
-    return torch.log(input, *args, **kwargs)
+    return stream_call(torch.log, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -954,7 +955,7 @@ def log_(input):
             └── x --> tensor([[    nan,  0.1823, -1.3863],
                               [ 2.7726,  1.3218,     nan]])
     """
-    return torch.log_(input)
+    return stream_call(torch.log_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -982,7 +983,7 @@ def log2(input, *args, **kwargs):
             └── x --> tensor([[    nan,  0.2630, -2.0000],
                               [ 4.0000,  1.9069,     nan]])
     """
-    return torch.log2(input, *args, **kwargs)
+    return stream_call(torch.log2, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -1015,7 +1016,7 @@ def log2_(input):
             └── x --> tensor([[    nan,  0.2630, -2.0000],
                               [ 4.0000,  1.9069,     nan]])
     """
-    return torch.log2_(input)
+    return stream_call(torch.log2_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -1043,7 +1044,7 @@ def log10(input, *args, **kwargs):
             └── x --> tensor([[    nan,  0.0792, -0.6021],
                               [ 1.2041,  0.5740,     nan]])
     """
-    return torch.log10(input, *args, **kwargs)
+    return stream_call(torch.log10, input, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -1076,7 +1077,7 @@ def log10_(input):
             └── x --> tensor([[    nan,  0.0792, -0.6021],
                               [ 1.2041,  0.5740,     nan]])
     """
-    return torch.log10_(input)
+    return stream_call(torch.log10_, input)
 
 
 # noinspection PyShadowingBuiltins
@@ -1117,7 +1118,7 @@ def dist(input, other, *args, **kwargs):
         └── b --> <Tensor 0x7f95f68494a8>
             └── x --> tensor(4.1904)
     """
-    return torch.dist(input, other, *args, **kwargs)
+    return stream_call(torch.dist, input, other, *args, **kwargs)
 
 
 # noinspection PyShadowingBuiltins
@@ -1157,4 +1158,4 @@ def norm(input, *args, **kwargs):
         └── b --> <Tensor 0x7f95f684f978>
             └── x --> tensor(3.2982)
     """
-    return torch.norm(input, *args, **kwargs)
+    return stream_call(torch.norm, input, *args, **kwargs)
