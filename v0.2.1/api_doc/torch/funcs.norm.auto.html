@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -319,7 +319,7 @@ with the following command and find its documentation.</p>
 </pre></div></td></tr></table></div>
 </div>
 <p>The arguments and keyword arguments supported in torch v1.9.0+cu102 is listed below.</p>
-</div>
+</aside>
 </section>
 <section id="description-from-torch-v1-9-0-cu102">
 <h2>Description From Torch v1.9.0+cu102<a class="headerlink" href="#description-from-torch-v1-9-0-cu102" title="Permalink to this headline">¶</a></h2>
@@ -334,7 +334,7 @@ with the following command and find its documentation.</p>
 when computing vector norms and <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.matrix_norm()</span></code> when
 computing matrix norms. Note, however, the signature for these functions
 is slightly different than the signature for torch.norm.</p>
-</div>
+</aside>
 <dl>
 <dt>Args:</dt><dd><dl>
 <dt>input (Tensor): The input tensor. Its data type must be either a floating</dt><dd><p>point or complex type. For complex inputs, the norm is calculated using the
@@ -345,11 +345,6 @@ complexfloat).</p>
 </dd>
 <dt>p (int, float, inf, -inf, ‘fro’, ‘nuc’, optional): the order of norm. Default: <code class="docutils literal notranslate"><span class="pre">'fro'</span></code></dt><dd><p>The following norms can be calculated:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 30%" />
-<col style="width: 57%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>ord</p></th>
 <th class="head"><p>matrix norm</p></th>
@@ -404,7 +399,7 @@ mathematical definition of Frobenius norm only applies to tensors with
 exactly two dimensions. <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.norm()</span></code> with <code class="docutils literal notranslate"><span class="pre">ord='fro'</span></code> aligns
 with the mathematical definition, since it can only be applied across
 exactly two dimensions.</p>
-</div>
+</aside>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span>
@@ -487,6 +482,7 @@ exactly two dimensions.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/constraint/api_doc/torch/funcs.norm.auto.html">dev/constraint</a></dd>
                         <dd><a href="../../../main/api_doc/torch/funcs.norm.auto.html">main</a></dd>
                         <dd><a href="../../../run/xdemos/api_doc/torch/funcs.norm.auto.html">run/xdemos</a></dd>
                 </dl>

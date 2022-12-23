@@ -1,0 +1,16 @@
+shape
+==========
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. autoproperty:: shape
+    
+    
+    
+

@@ -1,0 +1,618 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>treetensor.torch.funcs.comparison &mdash; DI-treetensor 0.4.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/plugins/index.html">Plugins</a></li>
+</ul>
+<p><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>treetensor.torch.funcs.comparison</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for treetensor.torch.funcs.comparison</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">builtins</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">doc_from_base</span><span class="p">,</span> <span class="n">func_treelize</span>
+<span class="kn">from</span> <span class="nn">..stream</span> <span class="kn">import</span> <span class="n">stream_call</span>
+<span class="kn">from</span> <span class="nn">...common</span> <span class="kn">import</span> <span class="n">ireduce</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;equal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;isfinite&#39;</span><span class="p">,</span> <span class="s1">&#39;isinf&#39;</span><span class="p">,</span> <span class="s1">&#39;isnan&#39;</span><span class="p">,</span> <span class="s1">&#39;isclose&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;eq&#39;</span><span class="p">,</span> <span class="s1">&#39;ne&#39;</span><span class="p">,</span> <span class="s1">&#39;lt&#39;</span><span class="p">,</span> <span class="s1">&#39;le&#39;</span><span class="p">,</span> <span class="s1">&#39;gt&#39;</span><span class="p">,</span> <span class="s1">&#39;ge&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="equal"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.equal.auto.html#treetensor.torch.equal">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@ireduce</span><span class="p">(</span><span class="n">builtins</span><span class="o">.</span><span class="n">all</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">equal</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get the equality of the two tree tensors.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.equal(</span>
+<span class="sd">        ...     torch.tensor([1, 2, 3]),</span>
+<span class="sd">        ...     torch.tensor([1, 2, 3]),</span>
+<span class="sd">        ... )  # the same as torch.equal</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.equal(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: torch.tensor([1, 2, 3]),</span>
+<span class="sd">        ...         &#39;b&#39;: torch.tensor([[4, 5], [6, 7]]),</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: torch.tensor([1, 2, 3]),</span>
+<span class="sd">        ...         &#39;b&#39;: torch.tensor([[4, 5], [6, 7]]),</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="isfinite"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.isfinite.auto.html#treetensor.torch.isfinite">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">isfinite</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get a tree of new tensors with boolean elements</span>
+<span class="sd">    representing if each element is `finite` or not.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.isfinite(torch.tensor([1, float(&#39;inf&#39;), 2, float(&#39;-inf&#39;), float(&#39;nan&#39;)]))</span>
+<span class="sd">        tensor([ True, False,  True, False, False])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.isfinite(ttorch.tensor({</span>
+<span class="sd">        ...     &#39;a&#39;: [1, float(&#39;inf&#39;), 2, float(&#39;-inf&#39;), float(&#39;nan&#39;)],</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: [[1, float(&#39;inf&#39;), -2], [float(&#39;-inf&#39;), 3, float(&#39;nan&#39;)]]}</span>
+<span class="sd">        ... }))</span>
+<span class="sd">        &lt;Tensor 0x7fb782a15970&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([ True, False,  True, False, False])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fb782a1e040&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[ True, False,  True],</span>
+<span class="sd">                              [False,  True, False]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isfinite</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="isinf"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.isinf.auto.html#treetensor.torch.isinf">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">isinf</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can test if each element of ``input``</span>
+<span class="sd">    is infinite (positive or negative infinity) or not.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.isinf(torch.tensor([1, float(&#39;inf&#39;), 2, float(&#39;-inf&#39;), float(&#39;nan&#39;)]))</span>
+<span class="sd">        tensor([False,  True, False,  True, False])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.isinf(ttorch.tensor({</span>
+<span class="sd">        ...     &#39;a&#39;: [1, float(&#39;inf&#39;), 2, float(&#39;-inf&#39;), float(&#39;nan&#39;)],</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: [[1, float(&#39;inf&#39;), -2], [float(&#39;-inf&#39;), 3, float(&#39;nan&#39;)]]}</span>
+<span class="sd">        ... }))</span>
+<span class="sd">        &lt;Tensor 0x7fb782a29b80&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([False,  True, False,  True, False])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fb782a2d1f0&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[False,  True, False],</span>
+<span class="sd">                              [ True, False, False]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isinf</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="isnan"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.isnan.auto.html#treetensor.torch.isnan">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">isnan</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you get a tree of new tensors with boolean elements representing</span>
+<span class="sd">    if each element of ``input`` is NaN or not</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.isnan(torch.tensor([1, float(&#39;inf&#39;), 2, float(&#39;-inf&#39;), float(&#39;nan&#39;)]))</span>
+<span class="sd">        tensor([False, False, False, False,  True])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.isnan(ttorch.tensor({</span>
+<span class="sd">        ...     &#39;a&#39;: [1, float(&#39;inf&#39;), 2, float(&#39;-inf&#39;), float(&#39;nan&#39;)],</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: [[1, float(&#39;inf&#39;), -2], [float(&#39;-inf&#39;), 3, float(&#39;nan&#39;)]]}</span>
+<span class="sd">        ... }))</span>
+<span class="sd">        &lt;Tensor 0x7fb782a2d0a0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([False, False, False, False,  True])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fb782a29d90&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[False, False, False],</span>
+<span class="sd">                              [False, False,  True]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">,</span> <span class="nb">input</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="isclose"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.isclose.auto.html#treetensor.torch.isclose">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">isclose</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a new tensor with boolean elements representing</span>
+<span class="sd">    if each element of ``input`` is “close” to the corresponding element of ``other``.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; import math</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.isclose(</span>
+<span class="sd">        ...     ttorch.tensor((1., 2, 3)),</span>
+<span class="sd">        ...     ttorch.tensor((1 + 1e-10, 3, 4))</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([ True, False, False])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.isclose(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [1., 2, 3],</span>
+<span class="sd">        ...         &#39;b&#39;: {&#39;x&#39;: [[float(&#39;inf&#39;), 4, 1e20],</span>
+<span class="sd">        ...                     [-math.inf, 2.2943, 9483.32]]},</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [1 + 1e-10, 3, 4],</span>
+<span class="sd">        ...         &#39;b&#39;: {&#39;x&#39;: [[math.inf, 6, 1e20+1],</span>
+<span class="sd">        ...                     [-float(&#39;inf&#39;), 2.294300000001, 9484.32]]},</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7f5b3219f370&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([ True, False, False])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f5b3219f550&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[ True, False,  True],</span>
+<span class="sd">                              [ True,  True, False]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">isclose</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="eq"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.eq.auto.html#treetensor.torch.eq">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">eq</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get the equality of the two tree tensors with :func:`eq`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.eq(</span>
+<span class="sd">        ...     torch.tensor([[1, 2], [3, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[1, 1], [4, 4]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[ True, False],</span>
+<span class="sd">                [False,  True]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.eq(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.0, 1.5, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 1], [4, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.3, 1.2, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7ff363bbce10&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ True, False],</span>
+<span class="sd">        │                 [False,  True]])</span>
+<span class="sd">        └── b --&gt; tensor([False, False,  True])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">eq</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="ne"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.ne.auto.html#treetensor.torch.ne">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">ne</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get the non-equality of the two tree tensors with :func:`ne`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.ne(</span>
+<span class="sd">        ...     torch.tensor([[1, 2], [3, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[1, 1], [4, 4]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[False,  True],</span>
+<span class="sd">                [ True, False]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.ne(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.0, 1.5, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 1], [4, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.3, 1.2, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6cf8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[False,  True],</span>
+<span class="sd">        │                 [ True, False]])</span>
+<span class="sd">        └── b --&gt; tensor([ True,  True, False])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ne</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="lt"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.lt.auto.html#treetensor.torch.lt">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">lt</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get less-than situation of the two tree tensors with :func:`lt`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.lt(</span>
+<span class="sd">        ...     torch.tensor([[1, 2], [3, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[1, 1], [4, 4]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[False, False],</span>
+<span class="sd">                [ True, False]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.lt(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.0, 1.5, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 1], [4, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.3, 1.2, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7ff363bc67f0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[False, False],</span>
+<span class="sd">        │                 [ True, False]])</span>
+<span class="sd">        └── b --&gt; tensor([ True, False, False])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">lt</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="le"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.le.auto.html#treetensor.torch.le">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">le</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get less-than-or-equal situation of the two tree tensors with :func:`le`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.le(</span>
+<span class="sd">        ...     torch.tensor([[1, 2], [3, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[1, 1], [4, 4]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[ True, False],</span>
+<span class="sd">                [ True,  True]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.le(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.0, 1.5, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 1], [4, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.3, 1.2, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7ff363bc6198&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ True, False],</span>
+<span class="sd">        │                 [ True,  True]])</span>
+<span class="sd">        └── b --&gt; tensor([ True, False,  True])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">le</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="gt"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.gt.auto.html#treetensor.torch.gt">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">gt</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get greater-than situation of the two tree tensors with :func:`gt`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.gt(</span>
+<span class="sd">        ...     torch.tensor([[1, 2], [3, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[1, 1], [4, 4]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[False,  True],</span>
+<span class="sd">                [False, False]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.gt(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.0, 1.5, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 1], [4, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.3, 1.2, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7ff363bc6f28&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[False,  True],</span>
+<span class="sd">        │                 [False, False]])</span>
+<span class="sd">        └── b --&gt; tensor([False,  True, False])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">gt</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="ge"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.ge.auto.html#treetensor.torch.ge">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">ge</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can get greater-than-or-equal situation of the two tree tensors with :func:`ge`.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.ge(</span>
+<span class="sd">        ...     torch.tensor([[1, 2], [3, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[1, 1], [4, 4]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[ True,  True],</span>
+<span class="sd">                [False,  True]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.ge(</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.0, 1.5, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ...     ttorch.tensor({</span>
+<span class="sd">        ...         &#39;a&#39;: [[1, 1], [4, 4]],</span>
+<span class="sd">        ...         &#39;b&#39;: [1.3, 1.2, 2.0],</span>
+<span class="sd">        ...     }),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &lt;Tensor 0x7ff363bc6f28&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ True,  True],</span>
+<span class="sd">        │                 [False,  True]])</span>
+<span class="sd">        └── b --&gt; tensor([False,  True,  True])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ge</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/constraint
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../../v0.2.1/index.html">v0.2.1</a></dd>
+                        <dd><a href="../../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="comparison.html">dev/constraint</a></dd>
+                        <dd><a href="../../../../../../main/index.html">main</a></dd>
+                        <dd><a href="../../../../../../run/xdemos/index.html">run/xdemos</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
