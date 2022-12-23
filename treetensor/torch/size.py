@@ -47,7 +47,7 @@ def _post_index(func):
 # noinspection PyTypeChecker
 @current_names()
 class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
-    def __init__(self, data):
+    def __init__(self, data, constraint=None):
         """
         In :class:`treetensor.torch.Size`, it's similar with the original :class:`torch.Size`.
 
@@ -69,7 +69,7 @@ class Size(Torch, metaclass=clsmeta(torch.Size, allow_dict=True)):
             │   └── x --> torch.Size([3, 4])
             └── c --> torch.Size([5])
         """
-        super(Torch, self).__init__(data)
+        super(Torch, self).__init__(data, constraint=constraint)
 
     @doc_from_base()
     @ireduce(sum)

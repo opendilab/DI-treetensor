@@ -70,7 +70,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
     )(x)
 
     # noinspection PyUnusedLocal
-    def __init__(self, data, *args, **kwargs):
+    def __init__(self, data, *args, constraint=None, **kwargs):
         """
         In :class:`treetensor.torch.Tensor`, it's similar but a little bit different with the
         original :class:`torch.Tensor`.
@@ -100,7 +100,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
             └── c --> tensor([[ True],
                               [False]])
         """
-        super(Torch, self).__init__(data)
+        super(Torch, self).__init__(data, constraint=constraint)
 
     @method_treelize(return_type=Object)
     def __get_attr(self, key):

@@ -20,7 +20,7 @@ class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
         Generic object tree class, used in :py:mod:`treetensor.numpy` and :py:mod:`treetensor.torch`.
     """
 
-    def __init__(self, data):
+    def __init__(self, data, constraint=None):
         """
         In :class:`treetensor.common.Object`, object or object tree can be initialized.
 
@@ -37,7 +37,7 @@ class Object(BaseTreeStruct, metaclass=clsmeta(_object, allow_dict=True)):
             └── x --> <Object 0x7fe00b115ee0>
                 └── c --> 233
         """
-        BaseTreeStruct.__init__(self, data)
+        BaseTreeStruct.__init__(self, data, constraint=constraint)
 
     @ireduce(builtins.all, piter=list)
     @method_treelize()
