@@ -181,7 +181,7 @@
 <p><a class="reference external" href="https://github.com/potc-dev/potc">Potc</a> is a package that can convert any object into executable source code.
 For <code class="docutils literal notranslate"><span class="pre">DI-treetensor</span></code>, potc can support the source code transformation of treevalue objects
 through the installation of additional plugins. So we can execute the following installation command</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install DI-treetensor<span class="o">[</span>potc<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>DI-treetensor<span class="o">[</span>potc<span class="o">]</span>
 </pre></div>
 </div>
 <p>After this installation, you will be able to directly convert tree-nested tensors to objects
@@ -264,39 +264,39 @@ from treetensor.torch import Size
 
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
-    &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[8, 8, 2], [1, 7, 4]], dtype=torch.long)
-    },
     &#39;a&#39;:
-    torch.as_tensor([[5, -5, -5, 9], [-4, 9, 3, 7], [-3, 8, -5, 7]],
-                    dtype=torch.long)
+    torch.as_tensor([[9, 3, -3, -1], [5, 3, -5, 3], [4, -2, 9, 7]],
+                    dtype=torch.long),
+    &#39;x&#39;: {
+        &#39;b&#39;: torch.as_tensor([[6, 7, -4], [1, -4, 8]], dtype=torch.long)
+    }
 })
-t_shape = Size({&#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}, &#39;a&#39;: torch.Size([3, 4])})
+t_shape = Size({&#39;a&#39;: torch.Size([3, 4]), &#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}})
 t_tensor = Tensor({
-    &#39;b&#39;:
-    torch.as_tensor([[
-        -0.2597862482070923, 1.0784200429916382, 0.28382420539855957,
-        0.7719215750694275
-    ],
-                     [
-                         0.8660557270050049, -0.49815815687179565,
-                         -0.4332107603549957, 0.6081815958023071
-                     ],
-                     [
-                         0.37792834639549255, 2.3877389430999756,
-                         -0.8198979496955872, 0.22600895166397095
-                     ]],
-                    dtype=torch.float32),
     &#39;a&#39;:
     torch.as_tensor(
-        [[-0.678561806678772, -0.8706534504890442, 0.5297166705131531],
-         [-0.791083574295044, -1.5702769756317139, -0.405631959438324]],
-        dtype=torch.float32)
+        [[0.17471414804458618, -1.072761058807373, 0.1137918159365654],
+         [0.04530187323689461, 0.8990456461906433, 0.2922320067882538]],
+        dtype=torch.float32),
+    &#39;b&#39;:
+    torch.as_tensor([[
+        0.1406409740447998, 0.15609246492385864, -2.061741590499878,
+        -0.0672854334115982
+    ],
+                     [
+                         2.110274314880371, -0.22537876665592194,
+                         0.7670727968215942, -1.1344164609909058
+                     ],
+                     [
+                         3.1836860179901123, -1.190971851348877,
+                         0.911344587802887, 1.3788796663284302
+                     ]],
+                    dtype=torch.float32)
 })
 </pre></div></td></tr></table></div>
 </div>
 <p>Also, you can use the following CLI command to get the same output results as above.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>potc <span class="nb">export</span> -v <span class="s1">&#39;test_simple.t_*&#39;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>potc<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;test_simple.t_*&#39;</span>
 </pre></div>
 </div>
 <p>For further information, you can refer to</p>
@@ -329,7 +329,7 @@ t_tensor = Tensor({
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

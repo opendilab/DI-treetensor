@@ -181,7 +181,7 @@
 <p><a class="reference external" href="https://github.com/potc-dev/potc">Potc</a> is a package that can convert any object into executable source code.
 For <code class="docutils literal notranslate"><span class="pre">DI-treetensor</span></code>, potc can support the source code transformation of treevalue objects
 through the installation of additional plugins. So we can execute the following installation command</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip install DI-treetensor<span class="o">[</span>potc<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>DI-treetensor<span class="o">[</span>potc<span class="o">]</span>
 </pre></div>
 </div>
 <p>After this installation, you will be able to directly convert tree-nested tensors to objects
@@ -264,39 +264,39 @@ from treetensor.torch import Size
 
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
-    &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[2, 4, 0], [2, 0, 1]], dtype=torch.long)
-    },
     &#39;a&#39;:
-    torch.as_tensor([[-3, 9, 8, 1], [9, 8, 3, -1], [2, -5, 1, 9]],
-                    dtype=torch.long)
+    torch.as_tensor([[-3, -4, 9, 5], [3, 7, 6, 5], [7, -2, -5, 1]],
+                    dtype=torch.long),
+    &#39;x&#39;: {
+        &#39;b&#39;: torch.as_tensor([[7, 6, 6], [4, 8, 3]], dtype=torch.long)
+    }
 })
-t_shape = Size({&#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}, &#39;a&#39;: torch.Size([3, 4])})
+t_shape = Size({&#39;a&#39;: torch.Size([3, 4]), &#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}})
 t_tensor = Tensor({
     &#39;a&#39;:
     torch.as_tensor(
-        [[0.33609825372695923, 0.46102333068847656, -1.7880537509918213],
-         [-0.8629762530326843, 0.746050238609314, 0.1646050065755844]],
+        [[2.084594249725342, -1.0012195110321045, 0.13980644941329956],
+         [1.1812081336975098, 0.5990421175956726, 0.7902942299842834]],
         dtype=torch.float32),
     &#39;b&#39;:
     torch.as_tensor([[
-        -0.12989294528961182, 1.7371630668640137, -0.5614089965820312,
-        -0.3641837537288666
+        -0.4196051359176636, 1.038743019104004, -0.38864865899086,
+        -0.48946449160575867
     ],
                      [
-                         0.7984181046485901, 0.4880591630935669,
-                         -0.7861228585243225, 0.020889440551400185
+                         0.9061322808265686, -2.1525673866271973,
+                         -0.8230726718902588, -2.0111982822418213
                      ],
                      [
-                         0.2976880967617035, -0.1983366459608078,
-                         0.41114628314971924, 0.8221358060836792
+                         1.086622953414917, 0.8381461501121521,
+                         0.11524371057748795, 0.8904711604118347
                      ]],
                     dtype=torch.float32)
 })
 </pre></div></td></tr></table></div>
 </div>
 <p>Also, you can use the following CLI command to get the same output results as above.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>potc <span class="nb">export</span> -v <span class="s1">&#39;test_simple.t_*&#39;</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>potc<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;test_simple.t_*&#39;</span>
 </pre></div>
 </div>
 <p>For further information, you can refer to</p>
@@ -329,7 +329,7 @@ t_tensor = Tensor({
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

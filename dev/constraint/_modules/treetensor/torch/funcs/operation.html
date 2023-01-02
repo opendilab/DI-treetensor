@@ -184,7 +184,7 @@
 <div class="viewcode-block" id="cat"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.cat.auto.html#treetensor.torch.cat">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">(</span><span class="n">subside</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">cat</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concatenates the given sequence of ``seq`` tensors in the given dimension.</span>
 <span class="sd">    All tensors must either have the same shape (except in the concatenating dimension) or be empty.</span>
 
@@ -290,7 +290,7 @@
 <span class="nd">@post_process</span><span class="p">(</span><span class="n">auto_tensor</span><span class="p">)</span>
 <span class="nd">@func_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">split_size_or_sections</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Splits the tensor into chunks. Each chunk is a view of the original tensor.</span>
 
 <span class="sd">    Examples::</span>
@@ -379,7 +379,7 @@
 <span class="nd">@post_process</span><span class="p">(</span><span class="n">auto_tensor</span><span class="p">)</span>
 <span class="nd">@func_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">chunk</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Splits a tensor into a specific number of chunks. Each chunk is a view of the input tensor.</span>
 
 <span class="sd">    Examples::</span>
@@ -437,7 +437,7 @@
 <div class="viewcode-block" id="stack"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.stack.auto.html#treetensor.torch.stack">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">(</span><span class="n">subside</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Concatenates a sequence of tensors along a new dimension.</span>
 
 <span class="sd">    Examples::</span>
@@ -529,7 +529,7 @@
 <div class="viewcode-block" id="reshape"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.reshape.auto.html#treetensor.torch.reshape">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a tensor with the same data and number of elements as ``input``,</span>
 <span class="sd">    but with the specified shape. When possible, the returned tensor will be a view of ``input``.</span>
 
@@ -576,7 +576,7 @@
 <div class="viewcode-block" id="squeeze"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.squeeze.auto.html#treetensor.torch.squeeze">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">squeeze</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a tensor with all the dimensions of ``input`` of size 1 removed.</span>
 
 <span class="sd">    Examples::</span>
@@ -611,7 +611,7 @@
 <div class="viewcode-block" id="unsqueeze"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.unsqueeze.auto.html#treetensor.torch.unsqueeze">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">unsqueeze</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a new tensor with a dimension of size one inserted at the specified position.</span>
 
 <span class="sd">    Examples::</span>
@@ -645,7 +645,7 @@
 <div class="viewcode-block" id="where"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.where.auto.html#treetensor.torch.where">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">where</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a tree of tensors of elements selected from either ``x`` or ``y``, depending on ``condition``.</span>
 
 <span class="sd">    Examples::</span>
@@ -695,7 +695,7 @@
 <div class="viewcode-block" id="index_select"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.index_select.auto.html#treetensor.torch.index_select">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
 <span class="nd">@func_treelize</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">index_select</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a new tensor which indexes the ``input`` tensor</span>
 <span class="sd">    along dimension ``dim`` using the entries in ``index`` which is a LongTensor.</span>
 
@@ -770,7 +770,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>
