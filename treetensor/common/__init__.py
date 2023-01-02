@@ -1,3 +1,4 @@
+from .constraints import *
 from .module import *
 from .object import *
 from .proxy import *
