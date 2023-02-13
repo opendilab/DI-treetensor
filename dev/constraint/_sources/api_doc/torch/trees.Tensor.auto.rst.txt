@@ -68,6 +68,7 @@ Tensor
     trees.Tensor.numpy.auto
     trees.Tensor.pow.auto
     trees.Tensor.pow_.auto
+    trees.Tensor.pshape.auto
     trees.Tensor.requires_grad.auto
     trees.Tensor.requires_grad_.auto
     trees.Tensor.reshape.auto

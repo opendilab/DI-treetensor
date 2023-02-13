@@ -167,12 +167,15 @@
     
     
   <h1>Source code for treetensor.torch.tensor</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">torch</span> <span class="k">as</span> <span class="nn">pytorch</span>
 <span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">post_process</span>
 <span class="kn">from</span> <span class="nn">treevalue</span> <span class="kn">import</span> <span class="n">method_treelize</span><span class="p">,</span> <span class="n">TreeValue</span><span class="p">,</span> <span class="n">typetrans</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Torch</span><span class="p">,</span> <span class="n">rmreduce</span><span class="p">,</span> <span class="n">post_reduce</span><span class="p">,</span> <span class="n">auto_reduce</span>
+<span class="kn">from</span> <span class="nn">.constraints</span> <span class="kn">import</span> <span class="n">TensorShapePrefixConstraint</span>
 <span class="kn">from</span> <span class="nn">.size</span> <span class="kn">import</span> <span class="n">Size</span>
 <span class="kn">from</span> <span class="nn">.stream</span> <span class="kn">import</span> <span class="n">stream_call</span>
 <span class="kn">from</span> <span class="nn">..common</span> <span class="kn">import</span> <span class="n">Object</span><span class="p">,</span> <span class="n">ireduce</span><span class="p">,</span> <span class="n">clsmeta</span><span class="p">,</span> <span class="n">return_self</span><span class="p">,</span> <span class="n">auto_tree</span><span class="p">,</span> <span class="n">get_tree_proxy</span>
@@ -284,6 +287,14 @@
                 <span class="k">return</span> <span class="n">tree</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">Tensor</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">tree</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pshape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+        <span class="n">constraint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraint</span><span class="o">.</span><span class="n">access_first</span><span class="p">(</span><span class="n">TensorShapePrefixConstraint</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">constraint</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">constraint</span><span class="o">.</span><span class="n">prefix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">torch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1266,7 +1277,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../16/merge/index.html">16/merge</a></dd>
                         <dd><a href="tensor.html">dev/constraint</a></dd>
                         <dd><a href="../../../../../main/index.html">main</a></dd>
                         <dd><a href="../../../../../run/xdemos/index.html">run/xdemos</a></dd>

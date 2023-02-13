@@ -1,0 +1,22 @@
+pshape [No Doc]
+====================
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autoclass:: Tensor
+
+    .. autoproperty:: pshape
+    
+    
+    
+.. admonition:: No Documentation
+    :class: error
+
+    No ``__doc__`` is provided yet, need to be completed.
+    
+    
+
