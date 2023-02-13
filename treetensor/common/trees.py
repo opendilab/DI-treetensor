@@ -1,3 +1,4 @@
+import inspect
 from functools import partial
 from typing import Type
 
@@ -59,15 +60,13 @@ def clsmeta(func, allow_dict: bool = False) -> Type[type]:
     _wrapped_func = func_treelize()(func)
 
     class _MetaClass(type):
-        def __call__(cls, data, *args, **kwargs):
-            if isinstance(data, TreeStorage):
-                return type.__call__(cls, data)
-            elif isinstance(data, cls) and not args and not kwargs:
-                return data
+        def __call__(cls, data, *args, constraint=None, **kwargs):
+            if isinstance(data, TreeStorage) or isinstance(data, cls) and not args and not kwargs:
+                return type.__call__(cls, data, constraint=constraint)
 
             _result = _wrapped_func(data, *args, **kwargs)
             if isinstance(_result, _TempTreeValue):
-                return type.__call__(cls, _result)
+                return type.__call__(cls, _result, constraint=constraint)
             else:
                 return _result
 

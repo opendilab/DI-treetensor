@@ -1,9 +1,12 @@
+from typing import Tuple, Optional
+
 import numpy as np
 import torch as pytorch
 from hbutils.reflection import post_process
 from treevalue import method_treelize, TreeValue, typetrans
 
 from .base import Torch, rmreduce, post_reduce, auto_reduce
+from .constraints import TensorShapePrefixConstraint
 from .size import Size
 from .stream import stream_call
 from ..common import Object, ireduce, clsmeta, return_self, auto_tree, get_tree_proxy
@@ -70,7 +73,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
     )(x)
 
     # noinspection PyUnusedLocal
-    def __init__(self, data, *args, **kwargs):
+    def __init__(self, data, *args, constraint=None, **kwargs):
         """
         In :class:`treetensor.torch.Tensor`, it's similar but a little bit different with the
         original :class:`torch.Tensor`.
@@ -100,7 +103,7 @@ class Tensor(Torch, metaclass=_TensorMeta):
             └── c --> tensor([[ True],
                               [False]])
         """
-        super(Torch, self).__init__(data)
+        super(Torch, self).__init__(data, constraint=constraint)
 
     @method_treelize(return_type=Object)
     def __get_attr(self, key):
@@ -115,6 +118,14 @@ class Tensor(Torch, metaclass=_TensorMeta):
                 return tree.type(Tensor)
             else:
                 return tree
+
+    @property
+    def pshape(self) -> Optional[Tuple[int, ...]]:
+        constraint = self.constraint.access_first(TensorShapePrefixConstraint)
+        if constraint:
+            return constraint.prefix
+        else:
+            return None
 
     @property
     def torch(self):
