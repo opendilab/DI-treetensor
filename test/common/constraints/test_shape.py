@@ -22,6 +22,17 @@ class TestCommonConstraintsShape:
         assert c1.prefix == (2, 3, 4)
         assert repr(c1) == '<ShapePrefixConstraint (2, 3, 4)>'
 
+        assert len(c1) == 3
+        assert c1[0] == 2
+        assert c1[1] == 3
+        assert c1[2] == 4
+        with pytest.raises(IndexError):
+            _ = c1[3]
+        assert c1[-1] == 4
+        assert c1[-2] == 3
+        assert c1[-3] == 2
+        assert c1[1:] == (3, 4)
+
         c1.validate(np.random.rand(2, 3, 4))
         c1.validate(np.random.rand(2, 3, 4, 5))
         with pytest.raises(ValueError):

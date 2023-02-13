@@ -5,6 +5,8 @@ from typing import Iterable
 
 import torch
 
+from .constraints import *
+from .constraints import __all__ as _constraints_all
 from .funcs import *
 from .funcs import __all__ as _funcs_all
 from .funcs.base import get_func_from_torch
@@ -17,6 +19,7 @@ from .tensor import __all__ as _tensor_all
 from ..config.meta import __VERSION__
 
 __all__ = [
+    *_constraints_all,
     *_funcs_all,
     *_size_all,
     *_tensor_all,

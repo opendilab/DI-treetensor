@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from typing import Type, TypeVar, Optional
 
 from treevalue.tree import ValueConstraint
@@ -9,7 +10,7 @@ __all__ = [
 ]
 
 
-class ShapePrefixConstraint(ValueConstraint):
+class ShapePrefixConstraint(ValueConstraint, Sequence):
     __type__: Optional[type] = None
 
     def __init__(self, *prefix):
@@ -19,6 +20,12 @@ class ShapePrefixConstraint(ValueConstraint):
     @property
     def prefix(self):
         return self.__prefix
+
+    def __getitem__(self, index):
+        return self.__prefix[index]
+
+    def __len__(self) -> int:
+        return len(self.__prefix)
 
     def _validate_value(self, instance):
         if self.__type__ and not isinstance(instance, self.__type__):

@@ -1,9 +1,12 @@
+from typing import Tuple, Optional
+
 import numpy as np
 import torch as pytorch
 from hbutils.reflection import post_process
 from treevalue import method_treelize, TreeValue, typetrans
 
 from .base import Torch, rmreduce, post_reduce, auto_reduce
+from .constraints import TensorShapePrefixConstraint
 from .size import Size
 from .stream import stream_call
 from ..common import Object, ireduce, clsmeta, return_self, auto_tree, get_tree_proxy
@@ -115,6 +118,14 @@ class Tensor(Torch, metaclass=_TensorMeta):
                 return tree.type(Tensor)
             else:
                 return tree
+
+    @property
+    def pshape(self) -> Optional[Tuple[int, ...]]:
+        constraint = self.constraint.access_first(TensorShapePrefixConstraint)
+        if constraint:
+            return constraint.prefix
+        else:
+            return None
 
     @property
     def torch(self):
