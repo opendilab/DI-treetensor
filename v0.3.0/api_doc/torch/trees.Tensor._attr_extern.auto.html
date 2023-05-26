@@ -296,14 +296,14 @@
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Container</span><span class="p">:</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">value</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@property</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__value</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">+</span> <span class="n">v</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">FastTreeValue</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">Container</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">Container</span><span class="p">(</span><span class="mi">2</span><span class="p">)})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">value</span>   <span class="c1"># FastTreeValue({&#39;a&#39;: 1, &#39;b&#39;: 2})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">append</span>  <span class="c1"># FastTreeValue({&#39;a&#39;: &lt;method &#39;append&#39; of Container(1)&gt;, &#39;b&#39;: &lt;method &#39;append&#39; of Container(2)&gt;})</span>
@@ -373,7 +373,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../16/merge/api_doc/torch/trees.Tensor._attr_extern.auto.html">16/merge</a></dd>
+                        <dd><a href="../../../dev/torch/api_doc/torch/trees.Tensor._attr_extern.auto.html">dev/torch</a></dd>
                         <dd><a href="../../../dev/constraint/api_doc/torch/trees.Tensor._attr_extern.auto.html">dev/constraint</a></dd>
                         <dd><a href="../../../main/api_doc/torch/trees.Tensor._attr_extern.auto.html">main</a></dd>
                         <dd><a href="../../../run/xdemos/api_doc/torch/trees.Tensor._attr_extern.auto.html">run/xdemos</a></dd>
