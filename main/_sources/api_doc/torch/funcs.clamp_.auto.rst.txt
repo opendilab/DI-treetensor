@@ -14,8 +14,8 @@ Documentation
     :class: tip
 
     This documentation is based on
-    `torch.clamp_ <https://pytorch.org/docs/1.9.0+cu102/generated/torch.clamp_.html>`_
-    in `torch v1.9.0+cu102 <https://pytorch.org/docs/1.9.0+cu102/>`_.
+    `torch.clamp_ <https://pytorch.org/docs/1.13.1+cu117/generated/torch.clamp_.html>`_
+    in `torch v1.13.1+cu117 <https://pytorch.org/docs/1.13.1+cu117/>`_.
     **Its arguments' arrangements depend on the version of pytorch you installed**.
     
     If some arguments listed here are not working properly, please check your pytorch's version 
