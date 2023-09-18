@@ -14,6 +14,8 @@ from .operation import *
 from .operation import __all__ as _operation_all
 from .reduction import *
 from .reduction import __all__ as _reduction_all
+from .wrapper import *
+from .wrapper import __all__ as _wrapper_all
 from ...utils import module_autoremove
 
 __all__ = [
@@ -24,6 +26,7 @@ __all__ = [
     *_matrix_all,
     *_operation_all,
     *_reduction_all,
+    *_wrapper_all,
 ]
 
 _current_module = sys.modules[__name__]

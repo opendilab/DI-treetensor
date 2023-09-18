@@ -1,3 +1,5 @@
+from functools import wraps
+
 import torch
 from treevalue import func_treelize as original_func_treelize
 
@@ -11,3 +13,15 @@ doc_from_base = replaceable_partial(original_doc_from_base, base=torch)
 auto_tensor = replaceable_partial(auto_tree, cls=[(torch.is_tensor, Tensor)])
 get_func_from_torch = module_func_loader(torch, Tensor,
                                          [(torch.is_tensor, Tensor)])
+
+
+def wrap_for_treelize(*args, **kwargs):
+    def _decorator(func):
+        @wraps(func)
+        def _new_func(*args_, **kwargs_):
+            retval = func(*args_, **kwargs_)
+            return func_treelize(*args, **kwargs)(retval)
+
+        return _new_func
+
+    return _decorator
