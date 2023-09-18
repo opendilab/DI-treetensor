@@ -14,8 +14,8 @@ Documentation
     :class: tip
 
     This documentation is based on 
-    `numpy.stack <https://numpy.org/doc/1.21/reference/generated/numpy.stack.html>`_ 
-    in `numpy v1.21.6 <https://numpy.org/doc/1.21/>`_.
+    `numpy.stack <https://numpy.org/doc/1.24/reference/generated/numpy.stack.html>`_ 
+    in `numpy v1.24.4 <https://numpy.org/doc/1.24/>`_.
     **Its arguments' arrangements depend on the version of numpy you installed**.
     
     If some arguments listed here are not working properly, please check your numpy's version 
@@ -28,11 +28,11 @@ Documentation
     
     
     
-    The arguments and keyword arguments supported in numpy v1.21.6 is listed below.
+    The arguments and keyword arguments supported in numpy v1.24.4 is listed below.
     
     
 
-Description From Numpy v1.21
+Description From Numpy v1.24
 ---------------------------------
 
 .. currentmodule:: numpy
@@ -59,6 +59,18 @@ Parameters
         If provided, the destination to place the result. The shape must be
         correct, matching that of what stack would have returned if no
         out argument were specified.
+
+    dtype \: str or dtype
+        If provided, the destination array will have this dtype. Cannot be
+        provided together with `out`.
+
+        .. versionadded:: 1.24
+
+    casting \: {'no', 'equiv', 'safe', 'same_kind', 'unsafe'}, optional
+        Controls what kind of data casting may occur. Defaults to 'same_kind'.
+
+        .. versionadded:: 1.24
+
 
 Returns
 ~~~~~~~

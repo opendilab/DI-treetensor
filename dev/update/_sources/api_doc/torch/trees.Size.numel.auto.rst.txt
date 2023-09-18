@@ -17,8 +17,8 @@ Documentation
     :class: tip
 
     This documentation is based on
-    `torch.Size.numel <https://pytorch.org/docs/1.13.1+cu117/tensors.html#torch.Size.numel>`_
-    in `torch v1.13.1+cu117 <https://pytorch.org/docs/1.13.1+cu117/>`_.
+    `torch.Size.numel <https://pytorch.org/docs/2.0.1+cu117/tensors.html#torch.Size.numel>`_
+    in `torch v2.0.1+cu117 <https://pytorch.org/docs/2.0.1+cu117/>`_.
     **Its arguments' arrangements depend on the version of pytorch you installed**.
     
     If some arguments listed here are not working properly, please check your pytorch's version 

@@ -180,14 +180,14 @@
 <span class="sd">----------------------------</span>
 <span class="sd">Documentation is available in two forms: docstrings provided</span>
 <span class="sd">with the code, and a loose standing reference guide, available from</span>
-<span class="sd">`the NumPy homepage &lt;https://www.scipy.org&gt;`_.</span>
+<span class="sd">`the NumPy homepage &lt;https://numpy.org&gt;`_.</span>
 
 <span class="sd">We recommend exploring the docstrings using</span>
 <span class="sd">`IPython &lt;https://ipython.org&gt;`_, an advanced Python shell with</span>
 <span class="sd">TAB-completion and introspection capabilities.  See below for further</span>
 <span class="sd">instructions.</span>
 
-<span class="sd">The docstring examples assume that `numpy` has been imported as `np`::</span>
+<span class="sd">The docstring examples assume that `numpy` has been imported as ``np``::</span>
 
 <span class="sd">  &gt;&gt;&gt; import numpy as np</span>
 
@@ -221,8 +221,6 @@
 
 <span class="sd">Available subpackages</span>
 <span class="sd">---------------------</span>
-<span class="sd">doc</span>
-<span class="sd">    Topical documentation on broadcasting, indexing, etc.</span>
 <span class="sd">lib</span>
 <span class="sd">    Basic functions used by several sub-packages.</span>
 <span class="sd">random</span>
@@ -235,8 +233,6 @@
 <span class="sd">    Polynomial tools</span>
 <span class="sd">testing</span>
 <span class="sd">    NumPy testing tools</span>
-<span class="sd">f2py</span>
-<span class="sd">    Fortran to Python Interface Generator.</span>
 <span class="sd">distutils</span>
 <span class="sd">    Enhancements to distutils with support for</span>
 <span class="sd">    Fortran compilers support and more.</span>
@@ -258,10 +254,11 @@
 
 <span class="sd">Viewing documentation using IPython</span>
 <span class="sd">-----------------------------------</span>
-<span class="sd">Start IPython with the NumPy profile (``ipython -p numpy``), which will</span>
-<span class="sd">import `numpy` under the alias `np`.  Then, use the ``cpaste`` command to</span>
-<span class="sd">paste examples into the shell.  To see which functions are available in</span>
-<span class="sd">`numpy`, type ``np.&lt;TAB&gt;`` (where ``&lt;TAB&gt;`` refers to the TAB key), or use</span>
+
+<span class="sd">Start IPython and import `numpy` usually under the alias ``np``: `import</span>
+<span class="sd">numpy as np`.  Then, directly past or use the ``%cpaste`` magic to paste</span>
+<span class="sd">examples into the shell.  To see which functions are available in `numpy`,</span>
+<span class="sd">type ``np.&lt;TAB&gt;`` (where ``&lt;TAB&gt;`` refers to the TAB key), or use</span>
 <span class="sd">``np.*cos*?&lt;ENTER&gt;`` (where ``&lt;ENTER&gt;`` refers to the ENTER key) to narrow</span>
 <span class="sd">down the list.  To view the docstring for a function, use</span>
 <span class="sd">``np.cos?&lt;ENTER&gt;`` (to view the docstring) and ``np.cos??&lt;ENTER&gt;`` (to view</span>
@@ -279,7 +276,8 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">._globals</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ModuleDeprecationWarning</span><span class="p">,</span> <span class="n">VisibleDeprecationWarning</span><span class="p">,</span> <span class="n">_NoValue</span>
+    <span class="n">ModuleDeprecationWarning</span><span class="p">,</span> <span class="n">VisibleDeprecationWarning</span><span class="p">,</span>
+    <span class="n">_NoValue</span><span class="p">,</span> <span class="n">_CopyMode</span>
 <span class="p">)</span>
 
 <span class="c1"># We first need to detect if we&#39;re being called as part of the numpy setup</span>
@@ -302,13 +300,6 @@
 
     <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ModuleDeprecationWarning&#39;</span><span class="p">,</span>
                <span class="s1">&#39;VisibleDeprecationWarning&#39;</span><span class="p">]</span>
-
-    <span class="c1"># get the version using versioneer</span>
-    <span class="kn">from</span> <span class="nn">._version</span> <span class="kn">import</span> <span class="n">get_versions</span>
-    <span class="n">vinfo</span> <span class="o">=</span> <span class="n">get_versions</span><span class="p">()</span>
-    <span class="n">__version__</span> <span class="o">=</span> <span class="n">vinfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;closest-tag&quot;</span><span class="p">,</span> <span class="n">vinfo</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">])</span>
-    <span class="n">__git_version__</span> <span class="o">=</span> <span class="n">vinfo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;full-revisionid&quot;</span><span class="p">)</span>
-    <span class="k">del</span> <span class="n">get_versions</span><span class="p">,</span> <span class="n">vinfo</span>
 
     <span class="c1"># mapping of {name: (value, deprecation_msg)}</span>
     <span class="n">__deprecated_attrs__</span> <span class="o">=</span> <span class="p">{}</span>
@@ -337,11 +328,13 @@
     <span class="kn">import</span> <span class="nn">builtins</span> <span class="k">as</span> <span class="nn">_builtins</span>
 
     <span class="n">_msg</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;`np.</span><span class="si">{n}</span><span class="s2">` is a deprecated alias for the builtin `</span><span class="si">{n}</span><span class="s2">`. &quot;</span>
-        <span class="s2">&quot;To silence this warning, use `</span><span class="si">{n}</span><span class="s2">` by itself. Doing this will not &quot;</span>
-        <span class="s2">&quot;modify any behavior and is safe. </span><span class="si">{extended_msg}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;Deprecated in NumPy 1.20; for more details and guidance: &quot;</span>
-        <span class="s2">&quot;https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations&quot;</span><span class="p">)</span>
+        <span class="s2">&quot;module &#39;numpy&#39; has no attribute &#39;</span><span class="si">{n}</span><span class="s2">&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;`np.</span><span class="si">{n}</span><span class="s2">` was a deprecated alias for the builtin `</span><span class="si">{n}</span><span class="s2">`. &quot;</span>
+        <span class="s2">&quot;To avoid this error in existing code, use `</span><span class="si">{n}</span><span class="s2">` by itself. &quot;</span>
+        <span class="s2">&quot;Doing this will not modify any behavior and is safe. </span><span class="si">{extended_msg}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;The aliases was originally deprecated in NumPy 1.20; for more &quot;</span>
+        <span class="s2">&quot;details and guidance see the original release note at:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations&quot;</span><span class="p">)</span>
 
     <span class="n">_specific_msg</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;If you specifically wanted the numpy scalar type, use `np.</span><span class="si">{}</span><span class="s2">` here.&quot;</span><span class="p">)</span>
@@ -360,37 +353,39 @@
         <span class="p">(</span><span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="n">_specific_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;str_&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="n">_int_extended_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">))]</span>
 
-    <span class="n">__deprecated_attrs__</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="n">n</span><span class="p">:</span> <span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_builtins</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">extended_msg</span><span class="o">=</span><span class="n">extended_msg</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">extended_msg</span> <span class="ow">in</span> <span class="n">_type_info</span>
-    <span class="p">})</span>
-    <span class="c1"># Numpy 1.20.0, 2020-10-19</span>
-    <span class="n">__deprecated_attrs__</span><span class="p">[</span><span class="s2">&quot;typeDict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">core</span><span class="o">.</span><span class="n">numerictypes</span><span class="o">.</span><span class="n">typeDict</span><span class="p">,</span>
-        <span class="s2">&quot;`np.typeDict` is a deprecated alias for `np.sctypeDict`.&quot;</span>
-    <span class="p">)</span>
+    <span class="n">__former_attrs__</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="n">n</span><span class="p">:</span> <span class="n">_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">extended_msg</span><span class="o">=</span><span class="n">extended_msg</span><span class="p">)</span>
+         <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">extended_msg</span> <span class="ow">in</span> <span class="n">_type_info</span>
+     <span class="p">}</span>
 
+    <span class="c1"># Future warning introduced in NumPy 1.24.0, 2022-11-17</span>
     <span class="n">_msg</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;`np.</span><span class="si">{n}</span><span class="s2">` is a deprecated alias for `np.compat.</span><span class="si">{n}</span><span class="s2">`. &quot;</span>
-        <span class="s2">&quot;To silence this warning, use `np.compat.</span><span class="si">{n}</span><span class="s2">` by itself. &quot;</span>
-        <span class="s2">&quot;In the likely event your code does not need to work on Python 2 &quot;</span>
-        <span class="s2">&quot;you can use the builtin `</span><span class="si">{n2}</span><span class="s2">` for which `np.compat.</span><span class="si">{n}</span><span class="s2">` is itself &quot;</span>
-        <span class="s2">&quot;an alias. Doing this will not modify any behaviour and is safe. &quot;</span>
-        <span class="s2">&quot;</span><span class="si">{extended_msg}</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;Deprecated in NumPy 1.20; for more details and guidance: &quot;</span>
-        <span class="s2">&quot;https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations&quot;</span><span class="p">)</span>
+        <span class="s2">&quot;`np.</span><span class="si">{n}</span><span class="s2">` is a deprecated alias for `</span><span class="si">{an}</span><span class="s2">`.  (Deprecated NumPy 1.24)&quot;</span><span class="p">)</span>
 
-    <span class="n">__deprecated_attrs__</span><span class="p">[</span><span class="s2">&quot;long&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">getattr</span><span class="p">(</span><span class="n">compat</span><span class="p">,</span> <span class="s2">&quot;long&quot;</span><span class="p">),</span>
-        <span class="n">_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="s2">&quot;long&quot;</span><span class="p">,</span> <span class="n">n2</span><span class="o">=</span><span class="s2">&quot;int&quot;</span><span class="p">,</span>
-                    <span class="n">extended_msg</span><span class="o">=</span><span class="n">_int_extended_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">)))</span>
+    <span class="c1"># Some of these are awkward (since `np.str` may be preferable in the long</span>
+    <span class="c1"># term), but overall the names ending in 0 seem undesireable</span>
+    <span class="n">_type_info</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;bool8&quot;</span><span class="p">,</span> <span class="n">bool_</span><span class="p">,</span> <span class="s2">&quot;np.bool_&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;int0&quot;</span><span class="p">,</span> <span class="n">intp</span><span class="p">,</span> <span class="s2">&quot;np.intp&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;uint0&quot;</span><span class="p">,</span> <span class="n">uintp</span><span class="p">,</span> <span class="s2">&quot;np.uintp&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;str0&quot;</span><span class="p">,</span> <span class="n">str_</span><span class="p">,</span> <span class="s2">&quot;np.str_&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;bytes0&quot;</span><span class="p">,</span> <span class="n">bytes_</span><span class="p">,</span> <span class="s2">&quot;np.bytes_&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;void0&quot;</span><span class="p">,</span> <span class="n">void</span><span class="p">,</span> <span class="s2">&quot;np.void&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;object0&quot;</span><span class="p">,</span> <span class="n">object_</span><span class="p">,</span>
+            <span class="s2">&quot;`np.object0` is a deprecated alias for `np.object_`. &quot;</span>
+            <span class="s2">&quot;`object` can be used instead.  (Deprecated NumPy 1.24)&quot;</span><span class="p">)]</span>
 
-    <span class="n">__deprecated_attrs__</span><span class="p">[</span><span class="s2">&quot;unicode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">getattr</span><span class="p">(</span><span class="n">compat</span><span class="p">,</span> <span class="s2">&quot;unicode&quot;</span><span class="p">),</span>
-        <span class="n">_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="s2">&quot;unicode&quot;</span><span class="p">,</span> <span class="n">n2</span><span class="o">=</span><span class="s2">&quot;str&quot;</span><span class="p">,</span>
-                    <span class="n">extended_msg</span><span class="o">=</span><span class="n">_specific_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;str_&quot;</span><span class="p">)))</span>
+    <span class="c1"># Some of these could be defined right away, but most were aliases to</span>
+    <span class="c1"># the Python objects and only removed in NumPy 1.24.  Defining them should</span>
+    <span class="c1"># probably wait for NumPy 1.26 or 2.0.</span>
+    <span class="c1"># When defined, these should possibly not be added to `__all__` to avoid</span>
+    <span class="c1"># import with `from numpy import *`.</span>
+    <span class="n">__future_scalars__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bool&quot;</span><span class="p">,</span> <span class="s2">&quot;long&quot;</span><span class="p">,</span> <span class="s2">&quot;ulong&quot;</span><span class="p">,</span> <span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">}</span>
 
-    <span class="k">del</span> <span class="n">_msg</span><span class="p">,</span> <span class="n">_specific_msg</span><span class="p">,</span> <span class="n">_int_extended_msg</span><span class="p">,</span> <span class="n">_type_info</span><span class="p">,</span> <span class="n">_builtins</span>
+    <span class="n">__deprecated_attrs__</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+        <span class="n">n</span><span class="p">:</span> <span class="p">(</span><span class="n">alias</span><span class="p">,</span> <span class="n">_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">an</span><span class="o">=</span><span class="n">an</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">alias</span><span class="p">,</span> <span class="n">an</span> <span class="ow">in</span> <span class="n">_type_info</span><span class="p">})</span>
+
+    <span class="k">del</span> <span class="n">_msg</span><span class="p">,</span> <span class="n">_type_info</span>
 
     <span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="nb">round</span><span class="p">,</span> <span class="nb">abs</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="nb">min</span>
     <span class="c1"># now that numpy modules are imported, can initialize limits</span>
@@ -401,6 +396,10 @@
     <span class="n">__all__</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_mat</span><span class="o">.</span><span class="n">__all__</span><span class="p">)</span>
     <span class="n">__all__</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">lib</span><span class="o">.</span><span class="n">__all__</span><span class="p">)</span>
     <span class="n">__all__</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;linalg&#39;</span><span class="p">,</span> <span class="s1">&#39;fft&#39;</span><span class="p">,</span> <span class="s1">&#39;random&#39;</span><span class="p">,</span> <span class="s1">&#39;ctypeslib&#39;</span><span class="p">,</span> <span class="s1">&#39;ma&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Remove one of the two occurrences of `issubdtype`, which is exposed as</span>
+    <span class="c1"># both `numpy.core.issubdtype` and `numpy.lib.issubdtype`.</span>
+    <span class="n">__all__</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;issubdtype&#39;</span><span class="p">)</span>
 
     <span class="c1"># These are exported by np.core, but are replaced by the builtins below</span>
     <span class="c1"># remove them to ensure that we don&#39;t end up with `np.long == np.int_`,</span>
@@ -439,69 +438,68 @@
     <span class="n">oldnumeric</span> <span class="o">=</span> <span class="s1">&#39;removed&#39;</span>
     <span class="n">numarray</span> <span class="o">=</span> <span class="s1">&#39;removed&#39;</span>
 
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
-        <span class="c1"># module level getattr is only supported in 3.7 onwards</span>
-        <span class="c1"># https://www.python.org/dev/peps/pep-0562/</span>
-        <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
-            <span class="c1"># Warn for expired attributes, and return a dummy function</span>
-            <span class="c1"># that always raises an exception.</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">msg</span> <span class="o">=</span> <span class="n">__expired_functions__</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">pass</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+        <span class="c1"># Warn for expired attributes, and return a dummy function</span>
+        <span class="c1"># that always raises an exception.</span>
+        <span class="kn">import</span> <span class="nn">warnings</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">__expired_functions__</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-                <span class="k">def</span> <span class="nf">_expired</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">_expired</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-                <span class="k">return</span> <span class="n">_expired</span>
+            <span class="k">return</span> <span class="n">_expired</span>
 
-            <span class="c1"># Emit warnings for deprecated attributes</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">val</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">__deprecated_attrs__</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">pass</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">val</span>
+        <span class="c1"># Emit warnings for deprecated attributes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">val</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">__deprecated_attrs__</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">val</span>
 
-            <span class="c1"># Importing Tester requires importing all of UnitTest which is not a</span>
-            <span class="c1"># cheap import Since it is mainly used in test suits, we lazy import it</span>
-            <span class="c1"># here to save on the order of 10 ms of import time for most users</span>
-            <span class="c1">#</span>
-            <span class="c1"># The previous way Tester was imported also had a side effect of adding</span>
-            <span class="c1"># the full `numpy.testing` namespace</span>
-            <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
-                <span class="kn">import</span> <span class="nn">numpy.testing</span> <span class="k">as</span> <span class="nn">testing</span>
-                <span class="k">return</span> <span class="n">testing</span>
-            <span class="k">elif</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;Tester&#39;</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">.testing</span> <span class="kn">import</span> <span class="n">Tester</span>
-                <span class="k">return</span> <span class="n">Tester</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">__future_scalars__</span><span class="p">:</span>
+            <span class="c1"># And future warnings for those that will change, but also give</span>
+            <span class="c1"># the AttributeError</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;In the future `np.</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">` will be defined as the &quot;</span>
+                <span class="s2">&quot;corresponding NumPy scalar.&quot;</span><span class="p">,</span> <span class="ne">FutureWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;module </span><span class="si">{!r}</span><span class="s2"> has no attribute &quot;</span>
-                                 <span class="s2">&quot;</span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">__former_attrs__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">__former_attrs__</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
 
-        <span class="k">def</span> <span class="fm">__dir__</span><span class="p">():</span>
-            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;Tester&#39;</span><span class="p">,</span> <span class="s1">&#39;testing&#39;</span><span class="p">})</span>
+        <span class="c1"># Importing Tester requires importing all of UnitTest which is not a</span>
+        <span class="c1"># cheap import Since it is mainly used in test suits, we lazy import it</span>
+        <span class="c1"># here to save on the order of 10 ms of import time for most users</span>
+        <span class="c1">#</span>
+        <span class="c1"># The previous way Tester was imported also had a side effect of adding</span>
+        <span class="c1"># the full `numpy.testing` namespace</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;testing&#39;</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">numpy.testing</span> <span class="k">as</span> <span class="nn">testing</span>
+            <span class="k">return</span> <span class="n">testing</span>
+        <span class="k">elif</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;Tester&#39;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">.testing</span> <span class="kn">import</span> <span class="n">Tester</span>
+            <span class="k">return</span> <span class="n">Tester</span>
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># We don&#39;t actually use this ourselves anymore, but I&#39;m not 100% sure that</span>
-        <span class="c1"># no-one else in the world is using it (though I hope not)</span>
-        <span class="kn">from</span> <span class="nn">.testing</span> <span class="kn">import</span> <span class="n">Tester</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;module </span><span class="si">{!r}</span><span class="s2"> has no attribute &quot;</span>
+                             <span class="s2">&quot;</span><span class="si">{!r}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
 
-        <span class="c1"># We weren&#39;t able to emit a warning about these, so keep them around</span>
-        <span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span> <span class="ow">in</span> <span class="n">__deprecated_attrs__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-        <span class="p">})</span>
-
+    <span class="k">def</span> <span class="fm">__dir__</span><span class="p">():</span>
+        <span class="n">public_symbols</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;Tester&#39;</span><span class="p">,</span> <span class="s1">&#39;testing&#39;</span><span class="p">}</span>
+        <span class="n">public_symbols</span> <span class="o">-=</span> <span class="p">{</span>
+            <span class="s2">&quot;core&quot;</span><span class="p">,</span> <span class="s2">&quot;matrixlib&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">public_symbols</span><span class="p">)</span>
 
     <span class="c1"># Pytest testing</span>
     <span class="kn">from</span> <span class="nn">numpy._pytesttester</span> <span class="kn">import</span> <span class="n">PytestTester</span>
     <span class="n">test</span> <span class="o">=</span> <span class="n">PytestTester</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">PytestTester</span>
-
 
     <span class="k">def</span> <span class="nf">_sanity_check</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -516,7 +514,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">float32</span><span class="p">(</span><span class="mf">2.0</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The current Numpy installation (</span><span class="si">{!r}</span><span class="s2">) fails to &quot;</span>
@@ -542,7 +540,6 @@
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">pass</span>
 
-    <span class="kn">import</span> <span class="nn">sys</span>
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
             <span class="n">_mac_os_check</span><span class="p">()</span>
@@ -552,10 +549,10 @@
                 <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">message</span><span class="p">))</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="s2">&quot;Polyfit sanity test emitted a warning, most likely due &quot;</span>
-                    <span class="s2">&quot;to using a buggy Accelerate backend. If you compiled &quot;</span>
-                    <span class="s2">&quot;yourself, more information is available at &quot;</span>
-                    <span class="s2">&quot;https://numpy.org/doc/stable/user/building.html#accelerated-blas-lapack-libraries &quot;</span>
-                    <span class="s2">&quot;Otherwise report this to the vendor &quot;</span>
+                    <span class="s2">&quot;to using a buggy Accelerate backend.&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">If you compiled yourself, more information is available at:&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">https://numpy.org/doc/stable/user/building.html#accelerated-blas-lapack-libraries&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Otherwise report this to the vendor &quot;</span>
                     <span class="s2">&quot;that provided NumPy.</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error_message</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">_mac_os_check</span>
@@ -593,9 +590,22 @@
     <span class="c1"># it is tidier organized.</span>
     <span class="n">core</span><span class="o">.</span><span class="n">multiarray</span><span class="o">.</span><span class="n">_multiarray_umath</span><span class="o">.</span><span class="n">_reload_guard</span><span class="p">()</span>
 
-<span class="kn">from</span> <span class="nn">._version</span> <span class="kn">import</span> <span class="n">get_versions</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="n">get_versions</span><span class="p">()[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
-<span class="k">del</span> <span class="n">get_versions</span>
+    <span class="n">core</span><span class="o">.</span><span class="n">_set_promotion_state</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;NPY_PROMOTION_STATE&quot;</span><span class="p">,</span> <span class="s2">&quot;legacy&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Tell PyInstaller where to find hook-numpy.py</span>
+    <span class="k">def</span> <span class="nf">_pyinstaller_hooks_dir</span><span class="p">():</span>
+        <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="s2">&quot;_pyinstaller&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())]</span>
+
+    <span class="c1"># Remove symbols imported for internal use</span>
+    <span class="k">del</span> <span class="n">os</span>
+
+
+<span class="c1"># get the version using versioneer</span>
+<span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">git_revision</span> <span class="k">as</span> <span class="n">__git_version__</span>
+
+<span class="c1"># Remove symbols imported for internal use</span>
+<span class="k">del</span> <span class="n">sys</span><span class="p">,</span> <span class="n">warnings</span>
 </pre></div>
 
 

@@ -88,6 +88,7 @@ Common Functions
     funcs.sum.auto
     funcs.tensor.auto
     funcs.unsqueeze.auto
+    funcs.vmap.auto
     funcs.where.auto
     funcs.zeros.auto
     funcs.zeros_like.auto

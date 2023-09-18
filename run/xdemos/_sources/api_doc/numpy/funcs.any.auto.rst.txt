@@ -14,8 +14,8 @@ Documentation
     :class: tip
 
     This documentation is based on 
-    `numpy.any <https://numpy.org/doc/1.21/reference/generated/numpy.any.html>`_ 
-    in `numpy v1.21.6 <https://numpy.org/doc/1.21/>`_.
+    `numpy.any <https://numpy.org/doc/1.24/reference/generated/numpy.any.html>`_ 
+    in `numpy v1.24.4 <https://numpy.org/doc/1.24/>`_.
     **Its arguments' arrangements depend on the version of numpy you installed**.
     
     If some arguments listed here are not working properly, please check your numpy's version 
@@ -28,11 +28,11 @@ Documentation
     
     
     
-    The arguments and keyword arguments supported in numpy v1.21.6 is listed below.
+    The arguments and keyword arguments supported in numpy v1.24.4 is listed below.
     
     
 
-Description From Numpy v1.21
+Description From Numpy v1.24
 ---------------------------------
 
 .. currentmodule:: numpy
@@ -41,7 +41,7 @@ Description From Numpy v1.21
 .. function:: Test whether any array element along a given axis evaluates to True.
 
 
-    Returns single boolean unless `axis` is not ``None``
+    Returns single boolean if `axis` is ``None``
 
 Parameters
 ~~~~~~~~~~
