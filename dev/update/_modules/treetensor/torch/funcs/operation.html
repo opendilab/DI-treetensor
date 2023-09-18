@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>treetensor.torch.funcs.operation &mdash; DI-treetensor 0.4.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> DI-treetensor
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/plugins/index.html">Plugins</a></li>
+</ul>
+<p><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../best_practice/stack/index.html">Stack Structured Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../best_practice/operation/index.html">Customized Operations For Different Fields</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/common/index.html">treetensor.common</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/config/index.html">treetensor.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/numpy/index.html">treetensor.numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/torch/index.html">treetensor.torch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/utils/index.html">treetensor.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DI-treetensor</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>treetensor.torch.funcs.operation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for treetensor.torch.funcs.operation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">post_process</span>
+<span class="kn">from</span> <span class="nn">treevalue</span> <span class="kn">import</span> <span class="n">TreeValue</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">doc_from_base</span><span class="p">,</span> <span class="n">func_treelize</span><span class="p">,</span> <span class="n">auto_tensor</span>
+<span class="kn">from</span> <span class="nn">..stream</span> <span class="kn">import</span> <span class="n">stream_call</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;split&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="s1">&#39;stack&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;reshape&#39;</span><span class="p">,</span> <span class="s1">&#39;where&#39;</span><span class="p">,</span> <span class="s1">&#39;squeeze&#39;</span><span class="p">,</span> <span class="s1">&#39;unsqueeze&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;index_select&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="cat"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.cat.auto.html#treetensor.torch.cat">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">subside</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">cat</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Concatenates the given sequence of ``seq`` tensors in the given dimension.</span>
+<span class="sd">    All tensors must either have the same shape (except in the concatenating dimension) or be empty.</span>
+
+<span class="sd">    Examples:</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t1 = torch.randint(10, 30, (2, 3))</span>
+<span class="sd">        &gt;&gt;&gt; t1</span>
+<span class="sd">        tensor([[21, 29, 17],</span>
+<span class="sd">                [16, 11, 16]])</span>
+<span class="sd">        &gt;&gt;&gt; t2 = torch.randint(30, 50, (2, 3))</span>
+<span class="sd">        tensor([[46, 46, 46],</span>
+<span class="sd">                [30, 47, 36]])</span>
+<span class="sd">        &gt;&gt;&gt; t2</span>
+<span class="sd">        &gt;&gt;&gt; t3 = torch.randint(50, 70, (2, 3))</span>
+<span class="sd">        tensor([[51, 65, 65],</span>
+<span class="sd">                [54, 67, 57]])</span>
+<span class="sd">        &gt;&gt;&gt; t3</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.cat((t1, t2, t3))</span>
+<span class="sd">        tensor([[21, 29, 17],</span>
+<span class="sd">                [16, 11, 16],</span>
+<span class="sd">                [46, 46, 46],</span>
+<span class="sd">                [30, 47, 36],</span>
+<span class="sd">                [51, 65, 65],</span>
+<span class="sd">                [54, 67, 57]])</span>
+
+<span class="sd">        &gt;&gt;&gt; tt1 = ttorch.Tensor({</span>
+<span class="sd">        ...    &#39;a&#39;: t1,</span>
+<span class="sd">        ...    &#39;b&#39;: {&#39;x&#39;: t2, &#39;y&#39;: t3},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt1</span>
+<span class="sd">        &lt;Tensor 0x7fed579acf60&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[21, 29, 17],</span>
+<span class="sd">        │                 [16, 11, 16]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fed579acf28&gt;</span>
+<span class="sd">            ├── x --&gt; tensor([[46, 46, 46],</span>
+<span class="sd">            │                 [30, 47, 36]])</span>
+<span class="sd">            └── y --&gt; tensor([[51, 65, 65],</span>
+<span class="sd">                              [54, 67, 57]])</span>
+<span class="sd">        &gt;&gt;&gt; tt2 = ttorch.Tensor({</span>
+<span class="sd">        ...    &#39;a&#39;: t2,</span>
+<span class="sd">        ...    &#39;b&#39;: {&#39;x&#39;: t3, &#39;y&#39;: t1},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt2</span>
+<span class="sd">        &lt;Tensor 0x7fed579d62e8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[46, 46, 46],</span>
+<span class="sd">        │                 [30, 47, 36]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fed579d62b0&gt;</span>
+<span class="sd">            ├── x --&gt; tensor([[51, 65, 65],</span>
+<span class="sd">            │                 [54, 67, 57]])</span>
+<span class="sd">            └── y --&gt; tensor([[21, 29, 17],</span>
+<span class="sd">                              [16, 11, 16]])</span>
+<span class="sd">        &gt;&gt;&gt; tt3 = ttorch.Tensor({</span>
+<span class="sd">        ...    &#39;a&#39;: t3,</span>
+<span class="sd">        ...    &#39;b&#39;: {&#39;x&#39;: t1, &#39;y&#39;: t2},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt3</span>
+<span class="sd">        &lt;Tensor 0x7fed579d66a0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[51, 65, 65],</span>
+<span class="sd">        │                 [54, 67, 57]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fed579d65f8&gt;</span>
+<span class="sd">            ├── x --&gt; tensor([[21, 29, 17],</span>
+<span class="sd">            │                 [16, 11, 16]])</span>
+<span class="sd">            └── y --&gt; tensor([[46, 46, 46],</span>
+<span class="sd">                              [30, 47, 36]]</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.cat((tt1, tt2, tt3))</span>
+<span class="sd">        &lt;Tensor 0x7fed579d6ac8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[21, 29, 17],</span>
+<span class="sd">        │                 [16, 11, 16],</span>
+<span class="sd">        │                 [46, 46, 46],</span>
+<span class="sd">        │                 [30, 47, 36],</span>
+<span class="sd">        │                 [51, 65, 65],</span>
+<span class="sd">        │                 [54, 67, 57]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fed579d6a90&gt;</span>
+<span class="sd">            ├── x --&gt; tensor([[46, 46, 46],</span>
+<span class="sd">            │                 [30, 47, 36],</span>
+<span class="sd">            │                 [51, 65, 65],</span>
+<span class="sd">            │                 [54, 67, 57],</span>
+<span class="sd">            │                 [21, 29, 17],</span>
+<span class="sd">            │                 [16, 11, 16]])</span>
+<span class="sd">            └── y --&gt; tensor([[51, 65, 65],</span>
+<span class="sd">                              [54, 67, 57],</span>
+<span class="sd">                              [21, 29, 17],</span>
+<span class="sd">                              [16, 11, 16],</span>
+<span class="sd">                              [46, 46, 46],</span>
+<span class="sd">                              [30, 47, 36]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.cat((tt1, tt2, tt3), dim=1)</span>
+<span class="sd">        &lt;Tensor 0x7fed579644a8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[21, 29, 17, 46, 46, 46, 51, 65, 65],</span>
+<span class="sd">        │                 [16, 11, 16, 30, 47, 36, 54, 67, 57]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fed57964438&gt;</span>
+<span class="sd">            ├── x --&gt; tensor([[46, 46, 46, 51, 65, 65, 21, 29, 17],</span>
+<span class="sd">            │                 [30, 47, 36, 54, 67, 57, 16, 11, 16]])</span>
+<span class="sd">            └── y --&gt; tensor([[51, 65, 65, 21, 29, 17, 46, 46, 46],</span>
+<span class="sd">                              [54, 67, 57, 16, 11, 16, 30, 47, 36]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">,</span> <span class="n">tensors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingNames</span>
+<div class="viewcode-block" id="split"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.split.auto.html#treetensor.torch.split">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@post_process</span><span class="p">(</span><span class="n">auto_tensor</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">split_size_or_sections</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits the tensor into chunks. Each chunk is a view of the original tensor.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t1 = torch.randint(100, (6, 2))</span>
+<span class="sd">        &gt;&gt;&gt; t1</span>
+<span class="sd">        tensor([[59, 82],</span>
+<span class="sd">                [86, 42],</span>
+<span class="sd">                [71, 84],</span>
+<span class="sd">                [61, 58],</span>
+<span class="sd">                [82, 37],</span>
+<span class="sd">                [14, 31]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.split(t1, (1, 2, 3))</span>
+<span class="sd">        (tensor([[59, 82]]), tensor([[86, 42],</span>
+<span class="sd">                [71, 84]]), tensor([[61, 58],</span>
+<span class="sd">                [82, 37],</span>
+<span class="sd">                [14, 31]]))</span>
+
+<span class="sd">        &gt;&gt;&gt; tt1 = ttorch.randint(100, {</span>
+<span class="sd">        ...     &#39;a&#39;: (6, 2),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (6, 2, 3)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt1</span>
+<span class="sd">        &lt;Tensor 0x7f4c8d786400&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ 1, 65],</span>
+<span class="sd">        │                 [68, 31],</span>
+<span class="sd">        │                 [76, 73],</span>
+<span class="sd">        │                 [74, 76],</span>
+<span class="sd">        │                 [90,  0],</span>
+<span class="sd">        │                 [95, 89]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8d786320&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[11, 20, 74],</span>
+<span class="sd">                               [17, 85, 44]],</span>
+
+<span class="sd">                              [[67, 37, 89],</span>
+<span class="sd">                               [76, 28,  0]],</span>
+
+<span class="sd">                              [[56, 12,  7],</span>
+<span class="sd">                               [17, 63, 32]],</span>
+
+<span class="sd">                              [[81, 75, 19],</span>
+<span class="sd">                               [89, 21, 55]],</span>
+
+<span class="sd">                              [[71, 53,  0],</span>
+<span class="sd">                               [66, 82, 57]],</span>
+
+<span class="sd">                              [[73, 81, 11],</span>
+<span class="sd">                               [58, 54, 78]]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.split(tt1, (1, 2, 3))</span>
+<span class="sd">        (&lt;Tensor 0x7f4c8d7861d0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ 1, 65]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8d786128&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[11, 20, 74],</span>
+<span class="sd">                               [17, 85, 44]]])</span>
+<span class="sd">        , &lt;Tensor 0x7f4c8d7860f0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[68, 31],</span>
+<span class="sd">        │                 [76, 73]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8d7860b8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[67, 37, 89],</span>
+<span class="sd">                               [76, 28,  0]],</span>
+
+<span class="sd">                              [[56, 12,  7],</span>
+<span class="sd">                               [17, 63, 32]]])</span>
+<span class="sd">        , &lt;Tensor 0x7f4c8d7866d8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[74, 76],</span>
+<span class="sd">        │                 [90,  0],</span>
+<span class="sd">        │                 [95, 89]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8d786668&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[81, 75, 19],</span>
+<span class="sd">                               [89, 21, 55]],</span>
+
+<span class="sd">                              [[71, 53,  0],</span>
+<span class="sd">                               [66, 82, 57]],</span>
+
+<span class="sd">                              [[73, 81, 11],</span>
+<span class="sd">                               [58, 54, 78]]])</span>
+<span class="sd">        )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">split</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">split_size_or_sections</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="chunk"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.chunk.auto.html#treetensor.torch.chunk">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@post_process</span><span class="p">(</span><span class="n">auto_tensor</span><span class="p">)</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">return_type</span><span class="o">=</span><span class="n">TreeValue</span><span class="p">,</span> <span class="n">rise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">chunk</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits a tensor into a specific number of chunks. Each chunk is a view of the input tensor.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t = torch.randint(100, (4, 5))</span>
+<span class="sd">        &gt;&gt;&gt; t</span>
+<span class="sd">        tensor([[54, 97, 12, 48, 62],</span>
+<span class="sd">                [92, 87, 28, 53, 54],</span>
+<span class="sd">                [65, 82, 40, 26, 61],</span>
+<span class="sd">                [75, 43, 86, 99,  7]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.chunk(t, 2)</span>
+<span class="sd">        (tensor([[54, 97, 12, 48, 62],</span>
+<span class="sd">                [92, 87, 28, 53, 54]]), tensor([[65, 82, 40, 26, 61],</span>
+<span class="sd">                [75, 43, 86, 99,  7]]))</span>
+
+<span class="sd">        &gt;&gt;&gt; tt = ttorch.randint(100, {</span>
+<span class="sd">        ...     &#39;a&#39;: (4, 5),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (2, 3, 4)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt</span>
+<span class="sd">        &lt;Tensor 0x7f667e2fb358&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[80,  2, 15, 45, 48],</span>
+<span class="sd">        │                 [38, 89, 34, 10, 34],</span>
+<span class="sd">        │                 [18, 99, 33, 38, 20],</span>
+<span class="sd">        │                 [43, 21, 35, 43, 37]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f667e2fb278&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[19, 17, 39, 68],</span>
+<span class="sd">                               [41, 69, 33, 89],</span>
+<span class="sd">                               [31, 88, 39, 14]],</span>
+
+<span class="sd">                              [[27, 81, 84, 35],</span>
+<span class="sd">                               [29, 65, 17, 72],</span>
+<span class="sd">                               [53, 50, 75,  0]]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.chunk(tt, 2)</span>
+<span class="sd">        (&lt;Tensor 0x7f667e9b7eb8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[80,  2, 15, 45, 48],</span>
+<span class="sd">        │                 [38, 89, 34, 10, 34]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f667e2e7cf8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[19, 17, 39, 68],</span>
+<span class="sd">                               [41, 69, 33, 89],</span>
+<span class="sd">                               [31, 88, 39, 14]]])</span>
+<span class="sd">        , &lt;Tensor 0x7f66f176dac8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[18, 99, 33, 38, 20],</span>
+<span class="sd">        │                 [43, 21, 35, 43, 37]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f668030ba58&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[27, 81, 84, 35],</span>
+<span class="sd">                               [29, 65, 17, 72],</span>
+<span class="sd">                               [53, 50, 75,  0]]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">chunk</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stack"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.stack.auto.html#treetensor.torch.stack">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">(</span><span class="n">subside</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Concatenates a sequence of tensors along a new dimension.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t1 = torch.randint(10, 30, (2, 3))</span>
+<span class="sd">        &gt;&gt;&gt; t1</span>
+<span class="sd">        tensor([[17, 15, 27],</span>
+<span class="sd">                [12, 17, 29]])</span>
+<span class="sd">        &gt;&gt;&gt; t2 = torch.randint(30, 50, (2, 3))</span>
+<span class="sd">        &gt;&gt;&gt; t2</span>
+<span class="sd">        tensor([[45, 41, 47],</span>
+<span class="sd">                [37, 37, 36]])</span>
+<span class="sd">        &gt;&gt;&gt; t3 = torch.randint(50, 70, (2, 3))</span>
+<span class="sd">        &gt;&gt;&gt; t3</span>
+<span class="sd">        tensor([[60, 50, 55],</span>
+<span class="sd">                [69, 54, 58]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.stack((t1, t2, t3))</span>
+<span class="sd">        tensor([[[17, 15, 27],</span>
+<span class="sd">                 [12, 17, 29]],</span>
+
+<span class="sd">                [[45, 41, 47],</span>
+<span class="sd">                 [37, 37, 36]],</span>
+
+<span class="sd">                [[60, 50, 55],</span>
+<span class="sd">                 [69, 54, 58]]])</span>
+
+<span class="sd">        &gt;&gt;&gt; tt1 = ttorch.randint(10, 30, {</span>
+<span class="sd">        ...     &#39;a&#39;: (2,  3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (3, 4)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt1</span>
+<span class="sd">        &lt;Tensor 0x7f4c8eba9630&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[25, 22, 29],</span>
+<span class="sd">        │                 [19, 21, 27]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8eba9550&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[20, 17, 28, 10],</span>
+<span class="sd">                              [28, 16, 27, 27],</span>
+<span class="sd">                              [18, 21, 17, 12]])</span>
+<span class="sd">        &gt;&gt;&gt; tt2 = ttorch.randint(30, 50, {</span>
+<span class="sd">        ...     &#39;a&#39;: (2,  3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (3, 4)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt2</span>
+<span class="sd">        &lt;Tensor 0x7f4c8eba97b8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[40, 44, 41],</span>
+<span class="sd">        │                 [39, 44, 40]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8eba9710&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[44, 42, 38, 44],</span>
+<span class="sd">                              [30, 44, 42, 31],</span>
+<span class="sd">                              [36, 30, 33, 31]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.stack((tt1, tt2))</span>
+<span class="sd">        &lt;Tensor 0x7f4c8eb411d0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[[25, 22, 29],</span>
+<span class="sd">        │                  [19, 21, 27]],</span>
+<span class="sd">        │</span>
+<span class="sd">        │                 [[40, 44, 41],</span>
+<span class="sd">        │                  [39, 44, 40]]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4c8eb410b8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[20, 17, 28, 10],</span>
+<span class="sd">                               [28, 16, 27, 27],</span>
+<span class="sd">                               [18, 21, 17, 12]],</span>
+
+<span class="sd">                              [[44, 42, 38, 44],</span>
+<span class="sd">                               [30, 44, 42, 31],</span>
+<span class="sd">                               [36, 30, 33, 31]]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.stack((tt1, tt2), dim=1)</span>
+<span class="sd">        &lt;Tensor 0x7f4c8eba9da0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[[25, 22, 29],</span>
+<span class="sd">        │                  [40, 44, 41]],</span>
+<span class="sd">        │</span>
+<span class="sd">        │                 [[19, 21, 27],</span>
+<span class="sd">        │                  [39, 44, 40]]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f4d01fb4898&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[20, 17, 28, 10],</span>
+<span class="sd">                               [44, 42, 38, 44]],</span>
+
+<span class="sd">                              [[28, 16, 27, 27],</span>
+<span class="sd">                               [30, 44, 42, 31]],</span>
+
+<span class="sd">                              [[18, 21, 17, 12],</span>
+<span class="sd">                               [36, 30, 33, 31]]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">,</span> <span class="n">tensors</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="reshape"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.reshape.auto.html#treetensor.torch.reshape">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a tensor with the same data and number of elements as ``input``,</span>
+<span class="sd">    but with the specified shape. When possible, the returned tensor will be a view of ``input``.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.reshape(torch.tensor([[1, 2], [3, 4]]), (-1, ))</span>
+<span class="sd">        tensor([1, 2, 3, 4])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.reshape(ttorch.tensor({</span>
+<span class="sd">        ...     &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: [[2], [3], [5], [7], [11], [13]]},</span>
+<span class="sd">        ... }), (-1, ))</span>
+<span class="sd">        &lt;Tensor 0x7fc9efa3bda0&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([1, 2, 3, 4])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7fc9efa3bcf8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([ 2,  3,  5,  7, 11, 13])</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        If the given ``shape`` is only one tuple, it should make sure that all the tensors</span>
+<span class="sd">        in this tree can be reshaped to the given ``shape``. Or you can give a tree of tuples</span>
+<span class="sd">        to reshape the tensors to different shapes.</span>
+
+<span class="sd">            &gt;&gt;&gt; import torch</span>
+<span class="sd">            &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">            &gt;&gt;&gt; ttorch.reshape(ttorch.tensor({</span>
+<span class="sd">            ...     &#39;a&#39;: [[1, 2], [3, 4]],</span>
+<span class="sd">            ...     &#39;b&#39;: {&#39;x&#39;: [[2], [3], [5], [7], [11], [13]]},</span>
+<span class="sd">            ... }), {&#39;a&#39;: (4, ), &#39;b&#39;: {&#39;x&#39;: (3, 2)}})</span>
+<span class="sd">            &lt;Tensor 0x7fc9efa3bd68&gt;</span>
+<span class="sd">            ├── a --&gt; tensor([1, 2, 3, 4])</span>
+<span class="sd">            └── b --&gt; &lt;Tensor 0x7fc9efa3bf28&gt;</span>
+<span class="sd">                └── x --&gt; tensor([[ 2,  3],</span>
+<span class="sd">                                  [ 5,  7],</span>
+<span class="sd">                                  [11, 13]])</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">reshape</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="squeeze"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.squeeze.auto.html#treetensor.torch.squeeze">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">squeeze</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a tensor with all the dimensions of ``input`` of size 1 removed.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t1 = torch.randint(100, (2, 1, 2, 1, 2))</span>
+<span class="sd">        &gt;&gt;&gt; t1.shape</span>
+<span class="sd">        torch.Size([2, 1, 2, 1, 2])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.squeeze(t1).shape</span>
+<span class="sd">        torch.Size([2, 2, 2])</span>
+
+<span class="sd">        &gt;&gt;&gt; tt1 = ttorch.randint(100, {</span>
+<span class="sd">        ...     &#39;a&#39;: (2, 1, 2, 1, 2),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (2, 1, 1, 3)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt1.shape</span>
+<span class="sd">        &lt;Size 0x7fa4c1b05410&gt;</span>
+<span class="sd">        ├── a --&gt; torch.Size([2, 1, 2, 1, 2])</span>
+<span class="sd">        └── b --&gt; &lt;Size 0x7fa4c1b05510&gt;</span>
+<span class="sd">            └── x --&gt; torch.Size([2, 1, 1, 3])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.squeeze(tt1).shape</span>
+<span class="sd">        &lt;Size 0x7fa4c1b9f3d0&gt;</span>
+<span class="sd">        ├── a --&gt; torch.Size([2, 2, 2])</span>
+<span class="sd">        └── b --&gt; &lt;Size 0x7fa4c1afe710&gt;</span>
+<span class="sd">            └── x --&gt; torch.Size([2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">squeeze</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="unsqueeze"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.unsqueeze.auto.html#treetensor.torch.unsqueeze">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">unsqueeze</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a new tensor with a dimension of size one inserted at the specified position.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t1 = torch.randint(100, (100, ))</span>
+<span class="sd">        &gt;&gt;&gt; t1.shape</span>
+<span class="sd">        torch.Size([100])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.unsqueeze(t1, 0).shape</span>
+<span class="sd">        torch.Size([1, 100])</span>
+
+<span class="sd">        &gt;&gt;&gt; tt1 = ttorch.randint(100, {</span>
+<span class="sd">        ...     &#39;a&#39;: (2, 2, 2),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (2, 3)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt1.shape</span>
+<span class="sd">        &lt;Size 0x7f5d1a5741d0&gt;</span>
+<span class="sd">        ├── a --&gt; torch.Size([2, 2, 2])</span>
+<span class="sd">        └── b --&gt; &lt;Size 0x7f5d1a5740b8&gt;</span>
+<span class="sd">            └── x --&gt; torch.Size([2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.unsqueeze(tt1, 1).shape</span>
+<span class="sd">        &lt;Size 0x7f5d1a5c98d0&gt;</span>
+<span class="sd">        ├── a --&gt; torch.Size([2, 1, 2, 2])</span>
+<span class="sd">        └── b --&gt; &lt;Size 0x7f5d1a5c99b0&gt;</span>
+<span class="sd">            └── x --&gt; torch.Size([2, 1, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="where"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.where.auto.html#treetensor.torch.where">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">where</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a tree of tensors of elements selected from either ``x`` or ``y``, depending on ``condition``.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.where(</span>
+<span class="sd">        ...     torch.tensor([[True, False], [False, True]]),</span>
+<span class="sd">        ...     torch.tensor([[2, 8], [16, 4]]),</span>
+<span class="sd">        ...     torch.tensor([[3, 11], [5, 7]]),</span>
+<span class="sd">        ... )</span>
+<span class="sd">        tensor([[ 2, 11],</span>
+<span class="sd">                [ 5,  4]])</span>
+
+<span class="sd">        &gt;&gt;&gt; tt1 = ttorch.randint(1, 99, {&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (3, 2, 4)}})</span>
+<span class="sd">        &gt;&gt;&gt; tt1</span>
+<span class="sd">        &lt;Tensor 0x7f6760ad9908&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[27, 90, 80],</span>
+<span class="sd">        │                 [12, 59,  5]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f6760ad9860&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[71, 52, 92, 79],</span>
+<span class="sd">                               [48,  4, 13, 96]],</span>
+
+<span class="sd">                              [[72, 89, 44, 62],</span>
+<span class="sd">                               [32,  4, 29, 76]],</span>
+
+<span class="sd">                              [[ 6,  3, 93, 89],</span>
+<span class="sd">                               [44, 89, 85, 90]]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.where(tt1 % 2 == 1, tt1, 0)</span>
+<span class="sd">        &lt;Tensor 0x7f6760ad9d30&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[27,  0,  0],</span>
+<span class="sd">        │                 [ 0, 59,  5]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f6760ad9f98&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[[71,  0,  0, 79],</span>
+<span class="sd">                               [ 0,  0, 13,  0]],</span>
+
+<span class="sd">                              [[ 0, 89,  0,  0],</span>
+<span class="sd">                               [ 0,  0, 29,  0]],</span>
+
+<span class="sd">                              [[ 0,  3, 93, 89],</span>
+<span class="sd">                               [ 0, 89, 85,  0]]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="index_select"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.index_select.auto.html#treetensor.torch.index_select">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">index_select</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a new tensor which indexes the ``input`` tensor</span>
+<span class="sd">    along dimension ``dim`` using the entries in ``index`` which is a LongTensor.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; t = torch.randn(3, 4)</span>
+<span class="sd">        &gt;&gt;&gt; t</span>
+<span class="sd">        tensor([[ 0.2247, -0.1441, -1.2249, -0.2738],</span>
+<span class="sd">                [-0.1496, -0.4883, -1.2442,  0.6374],</span>
+<span class="sd">                [ 0.8017,  1.1220, -2.1013, -0.5951]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.index_select(t, 1, torch.tensor([1, 2]))</span>
+<span class="sd">        tensor([[-0.1441, -1.2249],</span>
+<span class="sd">                [-0.4883, -1.2442],</span>
+<span class="sd">                [ 1.1220, -2.1013]])</span>
+
+<span class="sd">        &gt;&gt;&gt; tt = ttorch.randn({</span>
+<span class="sd">        ...     &#39;a&#39;: (3, 4),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: (5, 6)},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; tt</span>
+<span class="sd">        &lt;Tensor 0x7f6b636c1cf8&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ 3.9724e-05, -3.3134e-01, -1.0441e+00,  7.9233e-01],</span>
+<span class="sd">        │                 [-1.0035e-01,  2.3422e+00,  1.9307e+00, -1.7215e-01],</span>
+<span class="sd">        │                 [ 1.9069e+00,  1.1852e+00, -1.0672e+00,  1.3463e+00]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f6b636c1be0&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[ 0.5200, -0.3595, -1.4235, -0.2655,  0.9504, -1.7564],</span>
+<span class="sd">                              [-1.6577, -0.5516,  0.1660, -2.3273, -0.9811, -0.4677],</span>
+<span class="sd">                              [ 0.7047, -1.6920,  0.3139,  0.6220,  0.4758, -1.2637],</span>
+<span class="sd">                              [-0.3945, -2.1694,  0.8404, -0.4224, -1.4819,  0.3998],</span>
+<span class="sd">                              [-0.0308,  0.9777, -0.7776, -0.0101, -1.0446, -1.1500]])</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.index_select(tt, 1, torch.tensor([1, 2]))</span>
+<span class="sd">        &lt;Tensor 0x7f6b636c1f28&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[-0.3313, -1.0441],</span>
+<span class="sd">        │                 [ 2.3422,  1.9307],</span>
+<span class="sd">        │                 [ 1.1852, -1.0672]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f6b636c1e80&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[-0.3595, -1.4235],</span>
+<span class="sd">                              [-0.5516,  0.1660],</span>
+<span class="sd">                              [-1.6920,  0.3139],</span>
+<span class="sd">                              [-2.1694,  0.8404],</span>
+<span class="sd">                              [ 0.9777, -0.7776]])</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        If you need to select different indices in the tensors, just do like this.</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.index_select(tt, 1, ttorch.tensor({&#39;a&#39;: [1, 2], &#39;b&#39;: {&#39;x&#39;: [1, 3, 5]}}))</span>
+<span class="sd">        &lt;Tensor 0x7f6b636dbf60&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[-0.3313, -1.0441],</span>
+<span class="sd">        │                 [ 2.3422,  1.9307],</span>
+<span class="sd">        │                 [ 1.1852, -1.0672]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7f6b636dbe80&gt;</span>
+<span class="sd">            └── x --&gt; tensor([[-0.3595, -0.2655, -1.7564],</span>
+<span class="sd">                              [-0.5516, -2.3273, -0.4677],</span>
+<span class="sd">                              [-1.6920,  0.6220, -1.2637],</span>
+<span class="sd">                              [-2.1694, -0.4224,  0.3998],</span>
+<span class="sd">                              [ 0.9777, -0.0101, -1.1500]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">index_select</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/update
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../../v0.2.1/index.html">v0.2.1</a></dd>
+                        <dd><a href="../../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="operation.html">dev/update</a></dd>
+                        <dd><a href="../../../../../constraint/index.html">dev/constraint</a></dd>
+                        <dd><a href="../../../../../torch/index.html">dev/torch</a></dd>
+                        <dd><a href="../../../../../../main/index.html">main</a></dd>
+                        <dd><a href="../../../../../../run/xdemos/index.html">run/xdemos</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
