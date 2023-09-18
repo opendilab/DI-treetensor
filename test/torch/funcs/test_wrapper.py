@@ -98,3 +98,9 @@ class TestTorchTensorWrapper:
                 }
             })
         ).all()
+
+    @skipUnless(vpip('torch') < '2', 'Torch 1.x required.')
+    def test_vmap_torch_1x(self, treetensor_x, treetensor_y):
+        f = lambda x, y: (x.sum() + y.mean() * 2)
+        with pytest.raises(NotImplementedError):
+            _ = ttorch.vmap(f)
