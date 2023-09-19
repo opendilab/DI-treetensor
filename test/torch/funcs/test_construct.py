@@ -219,9 +219,9 @@ class TestTorchFuncsConstruct:
 
         _target = ttorch.rand_like({
             'a': torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32),
-            'b': torch.tensor([1, 2, 3, 4], dtype=torch.float32),
+            'b': torch.tensor([1, 2, 3, 4], dtype=torch.float),
             'x': {
-                'c': torch.tensor([5, 6, 7], dtype=torch.float32),
+                'c': torch.tensor([5, 6, 7], dtype=torch.float64),
                 'd': torch.tensor([[[8, 9]]], dtype=torch.float32),
             }
         })

@@ -33,9 +33,9 @@ class TestTorchTensorWrapper:
     @skipUnless(vpip('torch') >= '2', 'Torch 2 required.')
     def test_vmap(self, treetensor_x, treetensor_y):
         f = lambda x, y: (x.sum() + y.mean() * 2)
-        n_pow = torch.vmap(f)
-        batched_pow = ttorch.vmap(f)
-        r = batched_pow(treetensor_x, treetensor_y)
+        native_vf = torch.vmap(f)
+        tv_vf = ttorch.vmap(f)
+        r = tv_vf(treetensor_x, treetensor_y)
 
         assert r.shape == Size({
             'a': (2,),
@@ -46,9 +46,9 @@ class TestTorchTensorWrapper:
         assert ttorch.isclose(
             r,
             ttorch.tensor({
-                'a': n_pow(treetensor_x.a, treetensor_y.a),
+                'a': native_vf(treetensor_x.a, treetensor_y.a),
                 'b': {
-                    'x': n_pow(treetensor_x.b.x, treetensor_y.b.x),
+                    'x': native_vf(treetensor_x.b.x, treetensor_y.b.x),
                 }
             })
         ).all()
@@ -56,9 +56,9 @@ class TestTorchTensorWrapper:
     @skipUnless(vpip('torch') >= '2', 'Torch 2 required.')
     def test_vmap_in_dims(self, treetensor_x, treetensor_y):
         f = lambda x, y: (x.sum() + y.mean() * 2)
-        n_pow = torch.vmap(f, in_dims=1)
-        batched_pow = ttorch.vmap(f, in_dims=1)
-        r = batched_pow(treetensor_x, treetensor_y)
+        native_vf = torch.vmap(f, in_dims=1)
+        tv_vf = ttorch.vmap(f, in_dims=1)
+        r = tv_vf(treetensor_x, treetensor_y)
 
         assert r.shape == Size({
             'a': (5,),
@@ -69,9 +69,9 @@ class TestTorchTensorWrapper:
         assert ttorch.isclose(
             r,
             ttorch.tensor({
-                'a': n_pow(treetensor_x.a, treetensor_y.a),
+                'a': native_vf(treetensor_x.a, treetensor_y.a),
                 'b': {
-                    'x': n_pow(treetensor_x.b.x, treetensor_y.b.x),
+                    'x': native_vf(treetensor_x.b.x, treetensor_y.b.x),
                 }
             })
         ).all()
@@ -79,9 +79,9 @@ class TestTorchTensorWrapper:
     @skipUnless(vpip('torch') >= '2', 'Torch 2 required.')
     def test_vmap_nested(self, treetensor_x, treetensor_y):
         f = lambda x, y: (x.sum() + y.mean() * 2)
-        n_pow = torch.vmap(torch.vmap(f))
-        batched_pow = ttorch.vmap(ttorch.vmap(f))
-        r = batched_pow(treetensor_x, treetensor_y)
+        native_vf = torch.vmap(torch.vmap(f))
+        tv_vf = ttorch.vmap(ttorch.vmap(f))
+        r = tv_vf(treetensor_x, treetensor_y)
 
         assert r.shape == Size({
             'a': (2, 5),
@@ -92,9 +92,9 @@ class TestTorchTensorWrapper:
         assert ttorch.isclose(
             r,
             ttorch.tensor({
-                'a': n_pow(treetensor_x.a, treetensor_y.a),
+                'a': native_vf(treetensor_x.a, treetensor_y.a),
                 'b': {
-                    'x': n_pow(treetensor_x.b.x, treetensor_y.b.x),
+                    'x': native_vf(treetensor_x.b.x, treetensor_y.b.x),
                 }
             })
         ).all()
