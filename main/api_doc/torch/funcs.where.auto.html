@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="zeros" href="funcs.zeros.auto.html" />
-    <link rel="prev" title="unsqueeze" href="funcs.unsqueeze.auto.html" /> 
+    <link rel="prev" title="vmap [Reprint Only]" href="funcs.vmap.auto.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -164,6 +164,8 @@
 <li class="toctree-l3"><a class="reference internal" href="funcs.ones.auto.html">ones</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.ones_like.auto.html">ones_like</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.pow.auto.html">pow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.rand.auto.html">rand</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.rand_like.auto.html">rand_like</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.randint.auto.html">randint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.randint_like.auto.html">randint_like</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.randn.auto.html">randn</a></li>
@@ -184,9 +186,10 @@
 <li class="toctree-l3"><a class="reference internal" href="funcs.sum.auto.html">sum</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.tensor.auto.html">tensor</a></li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.unsqueeze.auto.html">unsqueeze</a></li>
+<li class="toctree-l3"><a class="reference internal" href="funcs.vmap.auto.html">vmap [Reprint Only]</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">where</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v1-9-0-cu102">Description From Torch v1.9.0+cu102</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v2-0-1-cu117">Description From Torch v2.0.1+cu117</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.zeros.auto.html">zeros</a></li>
@@ -320,19 +323,19 @@
 <div class="tip admonition">
 <p class="admonition-title">Torch Version Related</p>
 <p>This documentation is based on
-<a class="reference external" href="https://pytorch.org/docs/1.9.0+cu102/generated/torch.where.html">torch.where</a>
-in <a class="reference external" href="https://pytorch.org/docs/1.9.0+cu102/">torch v1.9.0+cu102</a>.
+<a class="reference external" href="https://pytorch.org/docs/2.0.1+cu117/generated/torch.where.html">torch.where</a>
+in <a class="reference external" href="https://pytorch.org/docs/2.0.1+cu117/">torch v2.0.1+cu117</a>.
 <strong>Its arguments’ arrangements depend on the version of pytorch you installed</strong>.</p>
 <p>If some arguments listed here are not working properly, please check your pytorch’s version
 with the following command and find its documentation.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import torch;print(torch.__version__)&#39;</span>
 </pre></div></td></tr></table></div>
 </div>
-<p>The arguments and keyword arguments supported in torch v1.9.0+cu102 is listed below.</p>
+<p>The arguments and keyword arguments supported in torch v2.0.1+cu117 is listed below.</p>
 </aside>
 </section>
-<section id="description-from-torch-v1-9-0-cu102">
-<h2>Description From Torch v1.9.0+cu102<a class="headerlink" href="#description-from-torch-v1-9-0-cu102" title="Permalink to this headline">¶</a></h2>
+<section id="description-from-torch-v2-0-1-cu117">
+<h2>Description From Torch v2.0.1+cu117<a class="headerlink" href="#description-from-torch-v2-0-1-cu117" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="torch.where">
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">condition</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.where" title="Permalink to this definition">¶</a></dt>
@@ -416,7 +419,7 @@ x (Tensor or Scalar): value (if :attr:x is a scalar) or values selected at indic
         <a href="funcs.zeros.auto.html" class="btn btn-neutral float-right" title="zeros" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="funcs.unsqueeze.auto.html" class="btn btn-neutral float-left" title="unsqueeze" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="funcs.vmap.auto.html" class="btn btn-neutral float-left" title="vmap [Reprint Only]" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -456,10 +459,9 @@ x (Tensor or Scalar): value (if :attr:x is a scalar) or values selected at indic
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/update/api_doc/torch/funcs.where.auto.html">dev/update</a></dd>
+                        <dd><a href="funcs.where.auto.html">main</a></dd>
                         <dd><a href="../../../dev/constraint/api_doc/torch/funcs.where.auto.html">dev/constraint</a></dd>
                         <dd><a href="../../../dev/torch/api_doc/torch/funcs.where.auto.html">dev/torch</a></dd>
-                        <dd><a href="funcs.where.auto.html">main</a></dd>
                         <dd><a href="../../../run/xdemos/api_doc/torch/funcs.where.auto.html">run/xdemos</a></dd>
                 </dl>
         </div>

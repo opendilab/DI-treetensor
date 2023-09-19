@@ -179,6 +179,7 @@
     <span class="s1">&#39;tensor&#39;</span><span class="p">,</span> <span class="s1">&#39;as_tensor&#39;</span><span class="p">,</span> <span class="s1">&#39;clone&#39;</span><span class="p">,</span>
     <span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="s1">&#39;zeros_like&#39;</span><span class="p">,</span>
     <span class="s1">&#39;randn&#39;</span><span class="p">,</span> <span class="s1">&#39;randn_like&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rand&#39;</span><span class="p">,</span> <span class="s1">&#39;rand_like&#39;</span><span class="p">,</span>
     <span class="s1">&#39;randint&#39;</span><span class="p">,</span> <span class="s1">&#39;randint_like&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ones&#39;</span><span class="p">,</span> <span class="s1">&#39;ones_like&#39;</span><span class="p">,</span>
     <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;full_like&#39;</span><span class="p">,</span>
@@ -383,6 +384,62 @@
 <span class="sd">            └── x --&gt; tensor([ 0.1730,  1.6085,  0.6487, -1.1022])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rand"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.rand.auto.html#treetensor.torch.rand">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">rand</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``rand`` to create a tree of tensors with numbers</span>
+<span class="sd">    obey standard normal distribution.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.rand(2, 3)  # the same as torch.rand(2, 3)</span>
+<span class="sd">        tensor([[-0.8534, -0.5754, -0.2507],</span>
+<span class="sd">                [ 0.0826, -1.4110,  0.9748]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.rand({&#39;a&#39;: (2, 3), &#39;b&#39;: {&#39;x&#39;: (4, )}})</span>
+<span class="sd">        &lt;Tensor 0x7ff363bb6518&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[ 0.5398,  0.7529, -2.0339],</span>
+<span class="sd">        │                 [-0.5722, -1.1900,  0.7945]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff363bb6438&gt;</span>
+<span class="sd">            └── x --&gt; tensor([-0.7181,  0.1670, -1.3587, -1.5129])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyShadowingBuiltins</span>
+<div class="viewcode-block" id="rand_like"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.rand_like.auto.html#treetensor.torch.rand_like">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
+<span class="nd">@args_treelize</span>
+<span class="nd">@func_treelize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">rand_like</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In ``treetensor``, you can use ``rand_like`` to create a tree of tensors with numbers</span>
+<span class="sd">    obey standard normal distribution like another tree.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        &gt;&gt;&gt; import torch</span>
+<span class="sd">        &gt;&gt;&gt; import treetensor.torch as ttorch</span>
+<span class="sd">        &gt;&gt;&gt; ttorch.rand_like(torch.ones(2, 3))  # the same as torch.rand_like(torch.ones(2, 3))</span>
+<span class="sd">        tensor([[ 1.8436,  0.2601,  0.9687],</span>
+<span class="sd">                [ 1.6430, -0.1765, -1.1732]])</span>
+
+<span class="sd">        &gt;&gt;&gt; ttorch.rand_like({</span>
+<span class="sd">        ...     &#39;a&#39;: torch.ones(2, 3),</span>
+<span class="sd">        ...     &#39;b&#39;: {&#39;x&#39;: torch.ones(4, )},</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &lt;Tensor 0x7ff3d6f3cb38&gt;</span>
+<span class="sd">        ├── a --&gt; tensor([[-0.1532,  1.3965, -1.2956],</span>
+<span class="sd">        │                 [-0.0750,  0.6475,  1.1421]])</span>
+<span class="sd">        └── b --&gt; &lt;Tensor 0x7ff3d6f420b8&gt;</span>
+<span class="sd">            └── x --&gt; tensor([ 0.1730,  1.6085,  0.6487, -1.1022])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">stream_call</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="randint"><a class="viewcode-back" href="../../../../api_doc/torch/funcs.randint.auto.html#treetensor.torch.randint">[docs]</a><span class="nd">@doc_from_base</span><span class="p">()</span>
@@ -648,10 +705,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../dev/update/index.html">dev/update</a></dd>
+                        <dd><a href="construct.html">main</a></dd>
                         <dd><a href="../../../../../dev/constraint/index.html">dev/constraint</a></dd>
                         <dd><a href="../../../../../dev/torch/index.html">dev/torch</a></dd>
-                        <dd><a href="construct.html">main</a></dd>
                         <dd><a href="../../../../../run/xdemos/index.html">run/xdemos</a></dd>
                 </dl>
         </div>

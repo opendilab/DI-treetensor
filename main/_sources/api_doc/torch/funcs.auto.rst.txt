@@ -66,6 +66,8 @@ Common Functions
     funcs.ones.auto
     funcs.ones_like.auto
     funcs.pow.auto
+    funcs.rand.auto
+    funcs.rand_like.auto
     funcs.randint.auto
     funcs.randint_like.auto
     funcs.randn.auto
@@ -86,6 +88,7 @@ Common Functions
     funcs.sum.auto
     funcs.tensor.auto
     funcs.unsqueeze.auto
+    funcs.vmap.auto
     funcs.where.auto
     funcs.zeros.auto
     funcs.zeros_like.auto
