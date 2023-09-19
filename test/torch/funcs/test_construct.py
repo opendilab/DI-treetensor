@@ -191,6 +191,50 @@ class TestTorchFuncsConstruct:
         })
 
     @choose_mark()
+    def test_rand(self):
+        _target = ttorch.rand(200, 300)
+        assert 0.45 <= _target.view(60000).mean().tolist() <= 0.55
+        assert _target.shape == torch.Size([200, 300])
+
+        _target = ttorch.rand({
+            'a': (2, 3),
+            'b': (5, 6),
+            'x': {
+                'c': (2, 3, 4),
+            }
+        })
+        assert _target.shape == ttorch.Size({
+            'a': torch.Size([2, 3]),
+            'b': torch.Size([5, 6]),
+            'x': {
+                'c': torch.Size([2, 3, 4]),
+            }
+        })
+
+    @choose_mark()
+    def test_rand_like(self):
+        _target = ttorch.rand_like(torch.ones(200, 300))
+        assert 0.45 <= _target.view(60000).mean().tolist() <= 0.55
+        assert _target.shape == torch.Size([200, 300])
+
+        _target = ttorch.rand_like({
+            'a': torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32),
+            'b': torch.tensor([1, 2, 3, 4], dtype=torch.float),
+            'x': {
+                'c': torch.tensor([5, 6, 7], dtype=torch.float64),
+                'd': torch.tensor([[[8, 9]]], dtype=torch.float32),
+            }
+        })
+        assert _target.shape == ttorch.Size({
+            'a': torch.Size([2, 3]),
+            'b': torch.Size([4]),
+            'x': {
+                'c': torch.Size([3]),
+                'd': torch.Size([1, 1, 2]),
+            }
+        })
+
+    @choose_mark()
     def test_randint(self):
         _target = ttorch.randint(-10, 10, {
             'a': (2, 3),

@@ -10,6 +10,7 @@ __all__ = [
     'tensor', 'as_tensor', 'clone',
     'zeros', 'zeros_like',
     'randn', 'randn_like',
+    'rand', 'rand_like',
     'randint', 'randint_like',
     'ones', 'ones_like',
     'full', 'full_like',
@@ -214,6 +215,62 @@ def randn_like(input, *args, **kwargs):
             └── x --> tensor([ 0.1730,  1.6085,  0.6487, -1.1022])
     """
     return stream_call(torch.randn_like, input, *args, **kwargs)
+
+
+@doc_from_base()
+@args_treelize
+@func_treelize()
+def rand(*args, **kwargs):
+    """
+    In ``treetensor``, you can use ``rand`` to create a tree of tensors with numbers
+    obey standard normal distribution.
+
+    Example::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.rand(2, 3)  # the same as torch.rand(2, 3)
+        tensor([[-0.8534, -0.5754, -0.2507],
+                [ 0.0826, -1.4110,  0.9748]])
+
+        >>> ttorch.rand({'a': (2, 3), 'b': {'x': (4, )}})
+        <Tensor 0x7ff363bb6518>
+        ├── a --> tensor([[ 0.5398,  0.7529, -2.0339],
+        │                 [-0.5722, -1.1900,  0.7945]])
+        └── b --> <Tensor 0x7ff363bb6438>
+            └── x --> tensor([-0.7181,  0.1670, -1.3587, -1.5129])
+    """
+    return stream_call(torch.rand, *args, **kwargs)
+
+
+# noinspection PyShadowingBuiltins
+@doc_from_base()
+@args_treelize
+@func_treelize()
+def rand_like(input, *args, **kwargs):
+    """
+    In ``treetensor``, you can use ``rand_like`` to create a tree of tensors with numbers
+    obey standard normal distribution like another tree.
+
+    Example::
+
+        >>> import torch
+        >>> import treetensor.torch as ttorch
+        >>> ttorch.rand_like(torch.ones(2, 3))  # the same as torch.rand_like(torch.ones(2, 3))
+        tensor([[ 1.8436,  0.2601,  0.9687],
+                [ 1.6430, -0.1765, -1.1732]])
+
+        >>> ttorch.rand_like({
+        ...     'a': torch.ones(2, 3),
+        ...     'b': {'x': torch.ones(4, )},
+        ... })
+        <Tensor 0x7ff3d6f3cb38>
+        ├── a --> tensor([[-0.1532,  1.3965, -1.2956],
+        │                 [-0.0750,  0.6475,  1.1421]])
+        └── b --> <Tensor 0x7ff3d6f420b8>
+            └── x --> tensor([ 0.1730,  1.6085,  0.6487, -1.1022])
+    """
+    return stream_call(torch.rand_like, input, *args, **kwargs)
 
 
 @doc_from_base()
