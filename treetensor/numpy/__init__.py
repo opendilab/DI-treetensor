@@ -11,6 +11,11 @@ from .funcs import __all__ as _funcs_all
 from .funcs import get_func_from_numpy
 from ..config.meta import __VERSION__
 
+try:
+    from numpy.core._multiarray_umath import _ArrayFunctionDispatcher
+except (ImportError, ModuleNotFoundError):
+    _ArrayFunctionDispatcher = None
+
 __all__ = [
     *_funcs_all,
     *_array_all,
@@ -22,6 +27,13 @@ _basic_types = (
     builtins.slice, builtins.str, builtins.tuple,
 )
 _np_all = set(np.__all__)
+
+_l_func_types = [BuiltinFunctionType, FunctionType]
+if _ArrayFunctionDispatcher:
+    _l_func_types.append(_ArrayFunctionDispatcher)
+if getattr(np, 'ufunc'):
+    _l_func_types.append(np.ufunc)
+_func_types = tuple(_l_func_types)
 
 
 class _Module(ModuleType):
@@ -40,7 +52,7 @@ class _Module(ModuleType):
             return getattr(self.__origin__, name)
         else:
             item = getattr(np, name)
-            if isinstance(item, (FunctionType, BuiltinFunctionType)) and not name.startswith('_'):
+            if isinstance(item, _func_types) and not name.startswith('_'):
                 return get_func_from_numpy(name)
             elif isinstance(item, _basic_types) and name in _np_all:
                 return item

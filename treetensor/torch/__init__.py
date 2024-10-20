@@ -50,8 +50,7 @@ class _Module(ModuleType):
             item = getattr(torch, name)
             if isinstance(item, (FunctionType, BuiltinFunctionType)) and not name.startswith('_'):
                 return get_func_from_torch(name)
-            elif (isinstance(item, torch.dtype)) or \
-                    isinstance(item, _basic_types) and name in _torch_all:
+            elif isinstance(item, torch.dtype) or isinstance(item, _basic_types):
                 return item
             else:
                 raise AttributeError(f'Attribute {repr(name)} not found in {repr(__name__)}.')
