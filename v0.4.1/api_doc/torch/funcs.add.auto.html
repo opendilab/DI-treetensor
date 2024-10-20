@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -322,61 +322,37 @@ with the following command and find its documentation.</p>
 <h2>Description From Torch v1.9.0+cu102<a class="headerlink" href="#description-from-torch-v1-9-0-cu102" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="torch.add">
-<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds the scalar <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> to each element of the input <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>
-and returns a new resulting tensor.</p>
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code>, scaled by <code class="xref py py-attr docutils literal notranslate"><span class="pre">alpha</span></code>, to <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.</p>
 <div class="math notranslate nohighlight">
-\[\text{out} = \text{input} + \text{other}\]</div>
-<p>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> is of type FloatTensor or DoubleTensor, <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> must be
-a real number, otherwise it should be an integer.</p>
+\[\text{{out}}_i = \text{{input}}_i + \text{{alpha}} \times \text{{other}}_i\]</div>
+<p>Supports <span class="xref std std-ref">broadcasting to a common shape</span>,
+<span class="xref std std-ref">type promotion</span>, and integer, float, and complex inputs.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>input (Tensor): the input tensor.
-other (Number): the number to be added to each element of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code></p>
+other (Tensor or Number): the tensor or number to add to input.</p>
 </dd>
-<dt>Keyword arguments:</dt><dd><p>out (Tensor, optional): the output tensor.</p>
+<dt>Keyword arguments:</dt><dd><p>alpha (Number): the multiplier for <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code>.
+out (Tensor, optional): the output tensor.</p>
 </dd>
 </dl>
-<p>Example:</p>
+<p>Examples:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
 <span class="go">tensor([ 0.0202,  1.0985,  1.3506, -0.6056])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 <span class="go">tensor([ 20.0202,  21.0985,  21.3506,  19.3944])</span>
-</pre></div>
-</div>
-<dl class="py function">
-<dt id="id0">
-<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
-<p>Each element of the tensor <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> is multiplied by the scalar
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">alpha</span></code> and added to each element of the tensor <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code>.
-The resulting tensor is returned.</p>
-<p>The shapes of <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> must be
-<span class="xref std std-ref">broadcastable</span>.</p>
-<div class="math notranslate nohighlight">
-\[\text{out} = \text{input} + \text{alpha} \times \text{other}\]</div>
-<p>If <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code> is of type FloatTensor or DoubleTensor, <code class="xref py py-attr docutils literal notranslate"><span class="pre">alpha</span></code> must be
-a real number, otherwise it should be an integer.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>input (Tensor): the first input tensor
-other (Tensor): the second input tensor</p>
-</dd>
-<dt>Keyword args:</dt><dd><p>alpha (Number): the scalar multiplier for <code class="xref py py-attr docutils literal notranslate"><span class="pre">other</span></code>
-out (Tensor, optional): the output tensor.</p>
-</dd>
-</dl>
-<p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
-<span class="go">tensor([-0.9732, -0.3497,  0.6245,  0.4022])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span>
+<span class="go">tensor([-0.9732, -0.3497,  0.6245,  0.4022])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span>
 <span class="go">tensor([[ 0.3743],</span>
 <span class="go">        [-1.7724],</span>
 <span class="go">        [-0.5811],</span>
 <span class="go">        [-0.8017]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="go">tensor([[  2.7695,   3.3930,   4.3672,   4.1450],</span>
 <span class="go">        [-18.6971, -18.0736, -17.0994, -17.3216],</span>
 <span class="go">        [ -6.7845,  -6.1610,  -5.1868,  -5.4090],</span>
@@ -409,7 +385,7 @@ out (Tensor, optional): the output tensor.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -329,7 +329,9 @@ with the following command and find its documentation.</p>
 <dd><p>Returns the matrix norm or vector norm of a given tensor.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>torch.norm is deprecated and may be removed in a future PyTorch release.</p>
+<p>torch.norm is deprecated and may be removed in a future PyTorch release.
+Its documentation and behavior may be incorrect, and it is no longer
+actively maintained.</p>
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.norm()</span></code>, instead, or <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.vector_norm()</span></code>
 when computing vector norms and <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.matrix_norm()</span></code> when
 computing matrix norms. Note, however, the signature for these functions
@@ -387,7 +389,7 @@ dimensions, an error will occur.</p>
 <dt>out (Tensor, optional): the output tensor. Ignored if</dt><dd><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> = <code class="docutils literal notranslate"><span class="pre">None</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">out</span></code> = <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
 <dt>dtype (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.dtype</span></code>, optional): the desired data type of</dt><dd><p>returned tensor. If specified, the input tensor is casted to
-:attr:’dtype’ while performing the operation. Default: None.</p>
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">dtype</span></code> while performing the operation. Default: None.</p>
 </dd>
 </dl>
 </dd>
@@ -452,7 +454,7 @@ exactly two dimensions.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

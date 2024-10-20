@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -155,7 +155,7 @@
 <li class="toctree-l3"><a class="reference internal" href="funcs.max.auto.html">max</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">mean</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v2-0-1-cu117">Description From Torch v2.0.1+cu117</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v2-4-1-cu121">Description From Torch v2.4.1+cu121</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.min.auto.html">min</a></li>
@@ -319,25 +319,31 @@
 <div class="tip admonition">
 <p class="admonition-title">Torch Version Related</p>
 <p>This documentation is based on
-<a class="reference external" href="https://pytorch.org/docs/2.0.1+cu117/generated/torch.mean.html">torch.mean</a>
-in <a class="reference external" href="https://pytorch.org/docs/2.0.1+cu117/">torch v2.0.1+cu117</a>.
+<a class="reference external" href="https://pytorch.org/docs/2.4.1+cu121/generated/torch.mean.html">torch.mean</a>
+in <a class="reference external" href="https://pytorch.org/docs/2.4.1+cu121/">torch v2.4.1+cu121</a>.
 <strong>Its arguments’ arrangements depend on the version of pytorch you installed</strong>.</p>
 <p>If some arguments listed here are not working properly, please check your pytorch’s version
 with the following command and find its documentation.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import torch;print(torch.__version__)&#39;</span>
 </pre></div></td></tr></table></div>
 </div>
-<p>The arguments and keyword arguments supported in torch v2.0.1+cu117 is listed below.</p>
+<p>The arguments and keyword arguments supported in torch v2.4.1+cu121 is listed below.</p>
 </aside>
 </section>
-<section id="description-from-torch-v2-0-1-cu117">
-<h2>Description From Torch v2.0.1+cu117<a class="headerlink" href="#description-from-torch-v2-0-1-cu117" title="Permalink to this headline">¶</a></h2>
+<section id="description-from-torch-v2-4-1-cu121">
+<h2>Description From Torch v2.4.1+cu121<a class="headerlink" href="#description-from-torch-v2-4-1-cu121" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="torch.mean">
-<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.mean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#torch.mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the mean value of all elements in the <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> tensor.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>input (Tensor): the input tensor.</p>
+</dd>
+<dt>Keyword args:</dt><dd><dl class="simple">
+<dt>dtype (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.dtype</span></code>, optional): the desired data type of returned tensor.</dt><dd><p>If specified, the input tensor is casted to <code class="xref py py-attr docutils literal notranslate"><span class="pre">dtype</span></code> before the operation
+is performed. This is useful for preventing data type overflows. Default: None.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 <p>Example:</p>
@@ -349,8 +355,8 @@ with the following command and find its documentation.</p>
 </pre></div>
 </div>
 <dl class="py function">
-<dt id="id0">
-<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">dim</span></em>, <em class="sig-param"><span class="n">keepdim</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">torch.</code><code class="sig-name descname">mean</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">dim</span></em>, <em class="sig-param"><span class="n">keepdim</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="trees.Tensor.where.auto.html#torch.Tensor" title="torch.Tensor">Tensor</a></dt>
 <dd></dd></dl>
 
 <p>Returns the mean value of each row of the <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> tensor in the given
@@ -360,14 +366,23 @@ reduce over all of them.</p>
 as <code class="xref py py-attr docutils literal notranslate"><span class="pre">input</span></code> except in the dimension(s) <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> where it is of size 1.
 Otherwise, <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> is squeezed (see <a class="reference internal" href="funcs.squeeze.auto.html#torch.squeeze" title="torch.squeeze"><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.squeeze()</span></code></a>), resulting in the
 output tensor having 1 (or <code class="docutils literal notranslate"><span class="pre">len(dim)</span></code>) fewer dimension(s).</p>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><p>input (Tensor): the input tensor.
 dim (int or tuple of ints): the dimension or dimensions to reduce.
 keepdim (bool): whether the output tensor has <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> retained or not.</p>
 </dd>
-<dt>Keyword args:</dt><dd><p>out (Tensor, optional): the output tensor.</p>
+<dt>Keyword args:</dt><dd><dl class="simple">
+<dt>dtype (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.dtype</span></code>, optional): the desired data type of returned tensor.</dt><dd><p>If specified, the input tensor is casted to <code class="xref py py-attr docutils literal notranslate"><span class="pre">dtype</span></code> before the operation
+is performed. This is useful for preventing data type overflows. Default: None.</p>
 </dd>
 </dl>
+<p>out (Tensor, optional): the output tensor.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.nanmean()</span></code> computes the mean value of <cite>non-NaN</cite> elements.</p>
+</aside>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
@@ -410,7 +425,7 @@ keepdim (bool): whether the output tensor has <code class="xref py py-attr docut
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -327,9 +327,9 @@ size (tuple): a tuple defining the shape of the output tensor.</p>
 </dd>
 <dt>Keyword args:</dt><dd><p>generator (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.Generator</span></code>, optional): a pseudorandom number generator for sampling
 out (Tensor, optional): the output tensor.
-dtype (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.dtype</span></code>, optional): the desired data type of returned tensor.</p>
+dtype (<cite>torch.dtype</cite>, optional) - the desired data type of returned tensor. Default: if <code class="docutils literal notranslate"><span class="pre">None</span></code>,</p>
 <blockquote>
-<div><p>Default: if <code class="docutils literal notranslate"><span class="pre">None</span></code>, uses a global default (see <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.set_default_tensor_type()</span></code>).</p>
+<div><p>this function returns a tensor with dtype <code class="docutils literal notranslate"><span class="pre">torch.int64</span></code>.</p>
 </div></blockquote>
 <dl class="simple">
 <dt>layout (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.layout</span></code>, optional): the desired layout of returned Tensor.</dt><dd><p>Default: <code class="docutils literal notranslate"><span class="pre">torch.strided</span></code>.</p>
@@ -384,7 +384,7 @@ for CPU tensor types and the current CUDA device for CUDA tensor types.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

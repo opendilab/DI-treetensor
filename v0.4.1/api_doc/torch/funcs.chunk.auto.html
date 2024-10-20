@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -345,14 +345,49 @@ with the following command and find its documentation.</p>
 <dl class="py function">
 <dt id="torch.chunk">
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">chunk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">chunks</span></em>, <em class="sig-param"><span class="n">dim</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; List of Tensors<a class="headerlink" href="#torch.chunk" title="Permalink to this definition">¶</a></dt>
-<dd><p>Splits a tensor into a specific number of chunks. Each chunk is a view of
+<dd><p>Attempts to split a tensor into the specified number of chunks. Each chunk is a view of
 the input tensor.</p>
-<p>Last chunk will be smaller if the tensor size along the given dimension
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> is not divisible by <code class="xref py py-attr docutils literal notranslate"><span class="pre">chunks</span></code>.</p>
-<dl class="simple">
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function may return less then the specified number of chunks!</p>
+</aside>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">torch.tensor_split()</span></code> a function that always returns exactly the specified number of chunks</p>
+</aside>
+<p>If the tensor size along the given dimesion <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> is divisible by <code class="xref py py-attr docutils literal notranslate"><span class="pre">chunks</span></code>,
+all returned chunks will be the same size.
+If the tensor size along the given dimension <code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> is not divisible by <code class="xref py py-attr docutils literal notranslate"><span class="pre">chunks</span></code>,
+all returned chunks will be the same size, except the last one.
+If such division is not possible, this function may return less
+than the specified number of chunks.</p>
+<dl>
 <dt>Arguments:</dt><dd><p>input (Tensor): the tensor to split
 chunks (int): number of chunks to return
 dim (int): dimension along which to split the tensor</p>
+</dd>
+<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="go">(tensor([0, 1]),</span>
+<span class="go"> tensor([2, 3]),</span>
+<span class="go"> tensor([4, 5]),</span>
+<span class="go"> tensor([6, 7]),</span>
+<span class="go"> tensor([8, 9]),</span>
+<span class="go"> tensor([10]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="go">(tensor([0, 1]),</span>
+<span class="go"> tensor([2, 3]),</span>
+<span class="go"> tensor([4, 5]),</span>
+<span class="go"> tensor([6, 7]),</span>
+<span class="go"> tensor([8, 9]),</span>
+<span class="go"> tensor([10, 11]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="go">(tensor([0, 1, 2]),</span>
+<span class="go"> tensor([3, 4, 5]),</span>
+<span class="go"> tensor([6, 7, 8]),</span>
+<span class="go"> tensor([ 9, 10, 11]),</span>
+<span class="go"> tensor([12]))</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </dd></dl>
@@ -381,7 +416,7 @@ dim (int): dimension along which to split the tensor</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

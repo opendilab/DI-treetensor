@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -162,7 +162,7 @@
 <li class="toctree-l3"><a class="reference internal" href="funcs.neg_.auto.html">neg_</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">norm</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v1-9-0-cu102">Description From Torch v1.9.0+cu102</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-from-torch-v1-10-0-cu102">Description From Torch v1.10.0+cu102</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="funcs.ones.auto.html">ones</a></li>
@@ -310,26 +310,28 @@
 <div class="tip admonition">
 <p class="admonition-title">Torch Version Related</p>
 <p>This documentation is based on
-<a class="reference external" href="https://pytorch.org/docs/1.9.0+cu102/generated/torch.norm.html">torch.norm</a>
-in <a class="reference external" href="https://pytorch.org/docs/1.9.0+cu102/">torch v1.9.0+cu102</a>.
+<a class="reference external" href="https://pytorch.org/docs/1.10.0+cu102/generated/torch.norm.html">torch.norm</a>
+in <a class="reference external" href="https://pytorch.org/docs/1.10.0+cu102/">torch v1.10.0+cu102</a>.
 <strong>Its arguments’ arrangements depend on the version of pytorch you installed</strong>.</p>
 <p>If some arguments listed here are not working properly, please check your pytorch’s version
 with the following command and find its documentation.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;import torch;print(torch.__version__)&#39;</span>
 </pre></div></td></tr></table></div>
 </div>
-<p>The arguments and keyword arguments supported in torch v1.9.0+cu102 is listed below.</p>
+<p>The arguments and keyword arguments supported in torch v1.10.0+cu102 is listed below.</p>
 </aside>
 </section>
-<section id="description-from-torch-v1-9-0-cu102">
-<h2>Description From Torch v1.9.0+cu102<a class="headerlink" href="#description-from-torch-v1-9-0-cu102" title="Permalink to this headline">¶</a></h2>
+<section id="description-from-torch-v1-10-0-cu102">
+<h2>Description From Torch v1.10.0+cu102<a class="headerlink" href="#description-from-torch-v1-10-0-cu102" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="torch.norm">
 <code class="sig-prename descclassname">torch.</code><code class="sig-name descname">norm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input</span></em>, <em class="sig-param"><span class="n">p</span><span class="o">=</span><span class="default_value">'fro'</span></em>, <em class="sig-param"><span class="n">dim</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">keepdim</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">out</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/torch/functional.html#norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#torch.norm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the matrix norm or vector norm of a given tensor.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>torch.norm is deprecated and may be removed in a future PyTorch release.</p>
+<p>torch.norm is deprecated and may be removed in a future PyTorch release.
+Its documentation and behavior may be incorrect, and it is no longer
+actively maintained.</p>
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.norm()</span></code>, instead, or <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.vector_norm()</span></code>
 when computing vector norms and <code class="xref py py-func docutils literal notranslate"><span class="pre">torch.linalg.matrix_norm()</span></code> when
 computing matrix norms. Note, however, the signature for these functions
@@ -387,7 +389,7 @@ dimensions, an error will occur.</p>
 <dt>out (Tensor, optional): the output tensor. Ignored if</dt><dd><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">dim</span></code> = <code class="docutils literal notranslate"><span class="pre">None</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">out</span></code> = <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
 <dt>dtype (<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.dtype</span></code>, optional): the desired data type of</dt><dd><p>returned tensor. If specified, the input tensor is casted to
-:attr:’dtype’ while performing the operation. Default: None.</p>
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">dtype</span></code> while performing the operation. Default: None.</p>
 </dd>
 </dl>
 </dd>
@@ -452,7 +454,7 @@ exactly two dimensions.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>

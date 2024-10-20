@@ -17,8 +17,8 @@ Documentation
     :class: tip
 
     This documentation is based on
-    `torch.Tensor.abs <https://pytorch.org/docs/2.0.1+cu117/tensors.html#torch.Tensor.abs>`_
-    in `torch v2.0.1+cu117 <https://pytorch.org/docs/2.0.1+cu117/>`_.
+    `torch.Tensor.abs <https://pytorch.org/docs/2.4.1+cu121/tensors.html#torch.Tensor.abs>`_
+    in `torch v2.4.1+cu121 <https://pytorch.org/docs/2.4.1+cu121/>`_.
     **Its arguments' arrangements depend on the version of pytorch you installed**.
     
     If some arguments listed here are not working properly, please check your pytorch's version 
@@ -31,11 +31,11 @@ Documentation
     
     
     
-    The arguments and keyword arguments supported in torch v2.0.1+cu117 is listed below.
+    The arguments and keyword arguments supported in torch v2.4.1+cu121 is listed below.
     
     
 
-Description From Torch v2.0.1+cu117
+Description From Torch v2.4.1+cu121
 ----------------------------------------
 
 .. currentmodule:: torch

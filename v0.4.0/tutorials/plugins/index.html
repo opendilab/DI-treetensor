@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -265,31 +265,31 @@ from treetensor.torch import Size
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
     &#39;a&#39;:
-    torch.as_tensor([[-4, 0, -3, 3], [9, 8, 1, 4], [-1, 0, -1, 3]],
+    torch.as_tensor([[5, -4, 3, 1], [2, 2, -5, 3], [9, 0, 2, -1]],
                     dtype=torch.long),
     &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[-4, -4, 7], [5, 6, 0]], dtype=torch.long)
+        &#39;b&#39;: torch.as_tensor([[-2, 4, -4], [5, 2, 1]], dtype=torch.long)
     }
 })
 t_shape = Size({&#39;a&#39;: torch.Size([3, 4]), &#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}})
 t_tensor = Tensor({
     &#39;a&#39;:
     torch.as_tensor(
-        [[-0.7067719101905823, -1.103571891784668, -0.3790871798992157],
-         [-0.9946219325065613, 0.5986604690551758, 1.0759562253952026]],
+        [[-1.4800925254821777, 0.21046805381774902, 2.869009494781494],
+         [-1.1214308738708496, -0.8132669925689697, 0.6341845393180847]],
         dtype=torch.float32),
     &#39;b&#39;:
     torch.as_tensor([[
-        -0.16045930981636047, -0.4624665081501007, -2.0878164768218994,
-        -0.345730185508728
+        1.7577950954437256, -0.2167661488056183, -1.031519889831543,
+        -0.5207454562187195
     ],
                      [
-                         -0.16158010065555573, 0.8994827270507812,
-                         0.09723912179470062, 0.7104199528694153
+                         -0.3678712844848633, 0.8774384260177612,
+                         -0.5098789930343628, 1.8585498332977295
                      ],
                      [
-                         -1.7983828783035278, -0.9509936571121216,
-                         0.6165590286254883, -0.21629543602466583
+                         -0.6355711817741394, -0.35926553606987,
+                         0.3780096471309662, -1.081393837928772
                      ]],
                     dtype=torch.float32)
 })
@@ -329,7 +329,7 @@ t_tensor = Tensor({
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2023, HansBug, DI-engine&#39;s Contributors
+        &copy; Copyright 2024, HansBug, DI-engine&#39;s Contributors
 
     </p>
   </div>
