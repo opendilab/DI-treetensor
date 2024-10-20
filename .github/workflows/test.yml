@@ -111,6 +111,10 @@ jobs:
             torch-version: '2.0.1'
           - os: 'macos-latest'
             numpy-version: '1.18.0'
+          - os: 'windows-latest'
+            python-version: '3.9'
+            numpy-version: '2.0.2'
+            torch-version: '2.4.0'
 
     steps:
       - name: Get system version for Linux
