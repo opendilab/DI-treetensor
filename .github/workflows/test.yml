@@ -30,6 +30,7 @@ jobs:
           - '1.10.0'
           - '1.13.0'
           - '2.0.1'
+          - '2.2.0'
           - '2.4.0'
         exclude:
           - python-version: '3.9'
@@ -92,6 +93,22 @@ jobs:
             numpy-version: '1.22.0'
           - python-version: '3.8'
             numpy-version: '2.0.2'
+          - numpy-version: '2.0.2'
+            torch-version: '1.10.0'
+          - numpy-version: '2.0.2'
+            torch-version: '1.13.0'
+          - numpy-version: '2.0.2'
+            torch-version: '2.0.1'
+          - python-version: '3.12'
+            numpy-version: '1.18.0'
+          - python-version: '3.12'
+            numpy-version: '1.22.0'
+          - python-version: '3.12'
+            numpy-version: '1.24.0'
+          - python-version: '3.12'
+            torch-version: '2.0.1'
+          - os: 'macos-latest'
+            numpy-version: '1.18.0'
 
     steps:
       - name: Get system version for Linux
