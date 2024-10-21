@@ -265,32 +265,32 @@ from treetensor.torch import Size
 __all__ = [&#39;t_i_tensor&#39;, &#39;t_shape&#39;, &#39;t_tensor&#39;]
 t_i_tensor = Tensor({
     &#39;x&#39;: {
-        &#39;b&#39;: torch.as_tensor([[9, -5, 7], [9, -3, 3]], dtype=torch.long)
+        &#39;b&#39;: torch.as_tensor([[1, -2, -3], [9, 5, 0]], dtype=torch.long)
     },
     &#39;a&#39;:
-    torch.as_tensor([[-5, 6, -4, 8], [8, -5, -5, 6], [8, -1, 1, -1]],
+    torch.as_tensor([[2, 5, 3, 1], [-4, -3, 9, -5], [7, 6, 4, -5]],
                     dtype=torch.long)
 })
 t_shape = Size({&#39;x&#39;: {&#39;b&#39;: torch.Size([2, 3])}, &#39;a&#39;: torch.Size([3, 4])})
 t_tensor = Tensor({
     &#39;b&#39;:
     torch.as_tensor([[
-        0.9967054128646851, -0.9288597702980042, 0.1473454236984253,
-        -0.8520274758338928
+        -0.6771437525749207, 0.6759194135665894, 0.055163294076919556,
+        -0.3675537109375
     ],
                      [
-                         1.2285726070404053, 0.10736799985170364,
-                         0.5680563449859619, -0.27578750252723694
+                         1.3639285564422607, -1.1286232471466064,
+                         1.8531461954116821, 0.35475650429725647
                      ],
                      [
-                         -0.9368847608566284, -0.013400075025856495,
-                         -1.1409753561019897, -0.17191758751869202
+                         -0.5053892135620117, 1.1922693252563477,
+                         0.5875821113586426, 1.1067378520965576
                      ]],
                     dtype=torch.float32),
     &#39;a&#39;:
     torch.as_tensor(
-        [[-0.9482820630073547, -0.6073705554008484, 0.27418264746665955],
-         [0.7517759799957275, 2.1986472606658936, -0.590807318687439]],
+        [[-1.4010660648345947, -0.28158828616142273, 0.545931875705719],
+         [0.1472681611776352, -0.5047093629837036, 0.8301571607589722]],
         dtype=torch.float32)
 })
 </pre></div></td></tr></table></div>
@@ -357,12 +357,13 @@ t_tensor = Tensor({
                         <dd><a href="../../../../v0.3.0/tutorials/plugins/index.html">v0.3.0</a></dd>
                         <dd><a href="../../../../v0.4.0/tutorials/plugins/index.html">v0.4.0</a></dd>
                         <dd><a href="../../../../v0.4.1/tutorials/plugins/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.5.0/tutorials/plugins/index.html">v0.5.0</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../main/tutorials/plugins/index.html">main</a></dd>
                         <dd><a href="../../../../dev/constraint/tutorials/plugins/index.html">dev/constraint</a></dd>
                         <dd><a href="../../../../dev/torch/tutorials/plugins/index.html">dev/torch</a></dd>
+                        <dd><a href="../../../../main/tutorials/plugins/index.html">main</a></dd>
                         <dd><a href="index.html">run/xdemos</a></dd>
                 </dl>
         </div>

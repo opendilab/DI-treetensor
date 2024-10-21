@@ -1,0 +1,98 @@
+equal
+==========
+
+.. currentmodule:: treetensor.numpy
+
+    
+Documentation
+------------------
+
+.. autofunction:: equal
+
+    
+.. admonition:: Numpy Version Related
+    :class: tip
+
+    This documentation is based on 
+    `numpy.equal <https://numpy.org/doc/1.24/reference/generated/numpy.equal.html>`_ 
+    in `numpy v1.24.4 <https://numpy.org/doc/1.24/>`_.
+    **Its arguments' arrangements depend on the version of numpy you installed**.
+    
+    If some arguments listed here are not working properly, please check your numpy's version 
+    with the following command and find its documentation.
+    
+    .. code-block:: shell
+        :linenos:
+    
+        python -c 'import numpy as np;print(np.__version__)'
+    
+    
+    
+    The arguments and keyword arguments supported in numpy v1.24.4 is listed below.
+    
+    
+
+Description From Numpy v1.24
+---------------------------------
+
+.. currentmodule:: numpy
+
+    
+.. function:: equal(x1, x2, /, out=None, *, where=True, casting='same_kind', order='K', dtype=None, subok=True[, signature, extobj])
+
+
+Return (x1 == x2) element-wise.
+
+Parameters
+~~~~~~~~~~
+x1, x2 \: array_like
+    Input arrays.
+    If ``x1.shape != x2.shape``, they must be broadcastable to a common
+    shape (which becomes the shape of the output).
+out \: ndarray, None, or tuple of ndarray and None, optional
+    A location into which the result is stored. If provided, it must have
+    a shape that the inputs broadcast to. If not provided or None,
+    a freshly-allocated array is returned. A tuple (possible only as a
+    keyword argument) must have length equal to the number of outputs.
+where \: array_like, optional
+    This condition is broadcast over the input. At locations where the
+    condition is True, the `out` array will be set to the ufunc result.
+    Elsewhere, the `out` array will retain its original value.
+    Note that if an uninitialized `out` array is created via the default
+    ``out=None``, locations within it where the condition is False will
+    remain uninitialized.
+**kwargs
+    For other keyword-only arguments, see the
+    :ref:`ufunc docs <ufuncs.kwargs>`.
+
+Returns
+~~~~~~~
+out \: ndarray or scalar
+    Output array, element-wise comparison of `x1` and `x2`.
+    Typically of type bool, unless ``dtype=object`` is passed.
+    This is a scalar if both `x1` and `x2` are scalars.
+
+See Also
+~~~~~~~~
+not_equal, greater_equal, less_equal, greater, less
+
+Examples
+~~~~~~~~
+>>> np.equal([0, 1, 3], np.arange(3))
+array([ True,  True, False])
+
+What is compared are values, not types. So an int (1) and an array of
+length one can evaluate as True:
+
+>>> np.equal(1, np.ones(1))
+array([ True])
+
+The ``==`` operator can be used as a shorthand for ``np.equal`` on
+ndarrays.
+
+>>> a = np.array([2, 4, 6])
+>>> b = np.array([2, 4, 2])
+>>> a == b
+array([ True,  True, False])
+
+

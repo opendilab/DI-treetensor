@@ -1,0 +1,33 @@
+neg\_
+==========
+
+.. currentmodule:: treetensor.torch
+
+    
+Documentation
+------------------
+
+.. autofunction:: neg_
+
+    
+.. admonition:: Torch Version Related
+    :class: tip
+
+    This documentation is based on
+    `torch.neg_ <https://pytorch.org/docs/2.4.1+cu121/generated/torch.neg_.html>`_
+    in `torch v2.4.1+cu121 <https://pytorch.org/docs/2.4.1+cu121/>`_.
+    **Its arguments' arrangements depend on the version of pytorch you installed**.
+    
+    If some arguments listed here are not working properly, please check your pytorch's version 
+    with the following command and find its documentation.
+    
+    .. code-block:: shell
+        :linenos:
+    
+        python -c 'import torch;print(torch.__version__)'
+    
+    
+    
+    
+
+
